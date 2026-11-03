@@ -27,6 +27,9 @@ public partial class Interactable : Area3D
     /// <summary>Mostra uma frase na tela (sem ir para o Diário): o resultado de descansar, acender um fogo...</summary>
     protected static void Announce(string key) => Examined?.Invoke(key);
 
+    /// <summary>Uma frase na tela vinda de outro lugar do mapa (uma passagem fechada, por exemplo).</summary>
+    public static void Say(string key) => Examined?.Invoke(key);
+
     public virtual void Examine()
     {
         GameRoot.Instance.Journal.Add(JournalKey);

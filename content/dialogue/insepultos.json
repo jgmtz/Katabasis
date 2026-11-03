@@ -1,0 +1,82 @@
+{
+  "id": "insepultos",
+  "_rascunho": "Proposta do Claude (31/out/2026, PENDENCIAS 75): falas de rascunho; Caronte e os insepultos sem arte (só a voz).",
+  "mode": "fixed",
+  "speaker_key": "personagem.insepultos.nome",
+  "start": [
+    "ja_ajudou",
+    "pedido"
+  ],
+  "nodes": [
+    {
+      "id": "ja_ajudou",
+      "when": {
+        "flag": "ajudou_insepultos"
+      },
+      "line_key": "dlg.insepultos.ja_ajudou"
+    },
+    {
+      "id": "pedido",
+      "line_key": "dlg.insepultos.pedido",
+      "options": [
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.insepultos.por_que",
+          "next": "por_que"
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.insepultos.terra",
+          "next": "terra"
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.insepultos.rito",
+          "requires": {
+            "origin": "pescador"
+          },
+          "next": "rito"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.insepultos.calar",
+          "next": "fim"
+        }
+      ],
+      "effects": [
+        {
+          "flag": "falou_com_insepultos"
+        }
+      ]
+    },
+    {
+      "id": "por_que",
+      "line_key": "dlg.insepultos.por_que.resposta",
+      "next": "pedido"
+    },
+    {
+      "id": "terra",
+      "line_key": "dlg.insepultos.terra.resposta",
+      "effects": [
+        {
+          "flag": "ajudou_insepultos"
+        },
+        {
+          "journal_key": "diario.insepultos.terra"
+        }
+      ]
+    },
+    {
+      "id": "rito",
+      "line_key": "dlg.insepultos.rito.resposta",
+      "effects": [
+        {
+          "flag": "ajudou_insepultos"
+        },
+        {
+          "journal_key": "diario.insepultos.rito"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "id": "asfodelos",
+  "name_key": "regiao.asfodelos",
+  "scene": "res://src/Lete.Game/Regions/Asfodelos.tscn",
+  "entry": "ChegadaAqueronte"
+}

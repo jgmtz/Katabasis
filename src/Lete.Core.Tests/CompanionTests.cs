@@ -51,6 +51,35 @@ public class CompanionTests
     }
 
     [Fact]
+    public void Meeting_ComesBeforeTheChoice_AndEachOneIsMetOnce()
+    {
+        Assert.False(_companions.CanChoose);
+        Assert.False(_companions.Meet("ninguem"));
+
+        Assert.True(_companions.Meet("ismena"));
+        Assert.False(_companions.Meet("ismena"));
+        Assert.True(_companions.Meet("aulo"));
+        Assert.Equal(new[] { "aulo", "ismena" }, _companions.Met.Select(c => c.Id));
+        Assert.True(_companions.CanChoose);
+        Assert.Equal(2, _events.OfType<CompanionMet>().Count());
+
+        _companions.Choose("ismena");
+        Assert.False(_companions.CanChoose);
+    }
+
+    [Fact]
+    public void MeetCompanion_IsADialogueEffect()
+    {
+        var graph = DialogueData.FromJson("""
+            {
+              "id": "encontro_aulo", "mode": "fixed", "speaker_key": "n", "shade": "aulo", "start": ["a"],
+              "nodes": [ { "id": "a", "line_key": "l", "effects": [ { "meet_companion": "aulo" } ] } ]
+            }
+            """);
+        Assert.Equal(new DialogueEffect[] { new MeetCompanion("aulo") }, graph.Nodes["a"].Effects);
+    }
+
+    [Fact]
     public void Approval_MissingViasAreTolerated()
     {
         Assert.Equal(Approval.Approve, _companions.ApprovalOf("aulo", Via.Fight));

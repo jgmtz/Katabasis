@@ -289,7 +289,7 @@ material = SubResource("Mat_agua")
 [node name="PesadaTeste1" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, -1, 0, -7)
 script = ExtResource("8_pesada")
-MemoryId = "pesada_teste_1"
+MemoryId = "o_convite"
 
 [node name="Reach" type="CollisionShape3D" parent="PesadaTeste1"]
 shape = SubResource("Shape_pesada")

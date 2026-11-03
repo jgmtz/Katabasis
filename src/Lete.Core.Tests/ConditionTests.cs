@@ -18,6 +18,7 @@ public class ConditionTests
         public MarkBand MarkBand { get; set; }
         public int Tide { get; set; }
         public int Bond { get; set; }
+        public int Obols { get; set; }
         public int FullRecollectionKinds { get; set; }
         public Via? TopVia { get; set; }
         public RecollectionKind? TopKind { get; set; }
@@ -72,6 +73,14 @@ public class ConditionTests
         var facts = new Facts { Origin = "veterano" };
         Assert.True(Eval("""{ "any": [ { "origin": "pescador" }, { "origin": "veterano" } ] }""", facts).Passed);
         Assert.False(Eval("""{ "not": { "origin": "veterano" } }""", facts).Passed);
+    }
+
+    [Fact]
+    public void ObolsMin_CountsTheObolsInTheBag()
+    {
+        Assert.False(Eval("""{ "obols_min": 1 }""", new Facts()).Passed);
+        Assert.True(Eval("""{ "obols_min": 1 }""", new Facts { Obols = 2 }).Passed);
+        Assert.False(Eval("""{ "obols_min": 3 }""", new Facts { Obols = 2 }).Passed);
     }
 
     [Fact]
@@ -177,6 +186,7 @@ public class ConditionTests
             ["shade_state"] = """{ "id": "a", "state": "spared" }""",
             ["companion"] = "\"aulo\"",
             ["bond_min"] = "1",
+            ["obols_min"] = "1",
             ["difficulty"] = "\"estige\"",
             ["profile"] = """{ "top_via": "free", "top_kind": "mourning" }""",
             ["item_owned"] = "\"a\"",
@@ -195,7 +205,7 @@ public class ConditionTests
     }
 
     [Fact]
-    public void WorldFacts_AnswersFromStateAndNamesMissingSystems()
+    public void WorldFacts_AnswersFromState()
     {
         var state = new WorldState { OriginId = "veterano", Mark = 5 };
         state.Flags.Add("viu_o_rio");
@@ -212,8 +222,9 @@ public class ConditionTests
             """);
         Assert.True(ConditionEvaluator.Evaluate(condition, facts).Passed);
 
-        var error = Assert.Throws<NotSupportedException>(() =>
-            ConditionEvaluator.Evaluate(ConditionParser.Parse("""{ "quest_stage": { "id": "q", "min": 1 } }"""), facts));
-        Assert.Contains("missões", error.Message);
+        var quest = ConditionParser.Parse("""{ "quest_stage": { "id": "q", "min": 1 } }""");
+        Assert.False(ConditionEvaluator.Evaluate(quest, facts).Passed);
+        state.Missions["q"] = new MissionState { Stage = 1 };
+        Assert.True(ConditionEvaluator.Evaluate(quest, facts).Passed);
     }
 }

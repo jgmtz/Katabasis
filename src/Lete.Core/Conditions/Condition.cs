@@ -147,6 +147,12 @@ public sealed record BondMin(int Min) : Predicate
     public override string Name => "bond_min";
 }
 
+/// <summary>Pelo menos <see cref="Min"/> óbolos na Bolsa (ex.: pagar Caronte; 31/out/2026).</summary>
+public sealed record ObolsMin(int Min) : Predicate
+{
+    public override string Name => "obols_min";
+}
+
 public sealed record DifficultyIs(string Mode) : Predicate
 {
     public override string Name => "difficulty";

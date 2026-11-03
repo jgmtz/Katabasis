@@ -1,0 +1,118 @@
+{
+  "id": "oleiro",
+  "_rascunho": "Capítulo 1 (Eco) da origem Artesão (HISTORIA 4.1: \"Um oleiro sem mãos pede reparo\"). A alternativa da origem (HISTORIA 4): sombras aceitam troca de trabalho no lugar de oferenda. Cena e falas de rascunho do Claude (31/out/2026, PENDENCIAS 79); sem arte (só a voz).",
+  "mode": "shade",
+  "speaker_key": "shade.oleiro.nome",
+  "shade": "oleiro",
+  "lucidity": {
+    "base": "vaga",
+    "raise": [
+      {
+        "to": "desperta",
+        "when": {
+          "origin": "artesao"
+        }
+      }
+    ]
+  },
+  "start": [
+    "desperto_artesao",
+    "desperto",
+    "vago"
+  ],
+  "nodes": [
+    {
+      "id": "vago",
+      "when": {
+        "shade_lucidity": "vaga"
+      },
+      "line_key": "dlg.oleiro.vago",
+      "options": [
+        {
+          "posture": "escutar",
+          "text_key": "dlg.oleiro.vago.escutar",
+          "next": "vago_escutar"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.oleiro.calar",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "vago_escutar",
+      "line_key": "dlg.oleiro.vago.escutar.resposta",
+      "next": "vago"
+    },
+    {
+      "id": "desperto_artesao",
+      "when": {
+        "all": [
+          {
+            "shade_lucidity": "desperta"
+          },
+          {
+            "origin": "artesao"
+          }
+        ]
+      },
+      "line_key": "dlg.oleiro.artesao",
+      "effects": [
+        {
+          "flag": "oleiro_reconheceu"
+        }
+      ],
+      "next": "pote"
+    },
+    {
+      "id": "desperto",
+      "when": {
+        "shade_lucidity": "desperta"
+      },
+      "line_key": "dlg.oleiro.desperto",
+      "next": "pote"
+    },
+    {
+      "id": "pote",
+      "line_key": "dlg.oleiro.pote",
+      "options": [
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.oleiro.maos",
+          "next": "maos"
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.oleiro.reparar",
+          "requires": {
+            "origin": "artesao"
+          },
+          "next": "reparo"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.oleiro.calar",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "maos",
+      "line_key": "dlg.oleiro.maos.resposta",
+      "next": "pote"
+    },
+    {
+      "id": "reparo",
+      "line_key": "dlg.oleiro.reparo",
+      "effects": [
+        {
+          "flag": "oleiro_reparado"
+        },
+        {
+          "journal_key": "diario.oleiro.reparo"
+        }
+      ]
+    }
+  ]
+}

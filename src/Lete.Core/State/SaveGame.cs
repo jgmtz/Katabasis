@@ -121,6 +121,14 @@ public static class SaveGame
                 }))),
             ["regioes"] = Array(state.VisitedRegions.OrderBy(r => r, StringComparer.Ordinal)),
             ["encontros"] = Array(state.Encounters.OrderBy(e => e, StringComparer.Ordinal)),
+            ["companheiros_conhecidos"] = Array(state.MetCompanions.OrderBy(c => c, StringComparer.Ordinal)),
+            ["missoes"] = new JsonObject(state.Missions
+                .OrderBy(p => p.Key, StringComparer.Ordinal)
+                .Select(p => KeyValuePair.Create(p.Key, (JsonNode?)new JsonObject
+                {
+                    ["etapa"] = p.Value.Stage,
+                    ["fechada"] = p.Value.Closed,
+                }))),
         };
         return json.ToJsonString(Indented);
     }
@@ -327,6 +335,19 @@ public static class SaveGame
 
         state.VisitedRegions.UnionWith(Strings(json, "regioes"));
         state.Encounters.UnionWith(Strings(json, "encontros"));
+        state.MetCompanions.UnionWith(Strings(json, "companheiros_conhecidos"));
+        if (json["missoes"] is JsonObject missions)
+        {
+            foreach (var (id, node) in missions)
+            {
+                var entry = node as JsonObject ?? throw new FormatException($"Missão '{id}' precisa ser um objeto.");
+                state.Missions[id] = new MissionState
+                {
+                    Stage = entry["etapa"]?.GetValue<int>() ?? 0,
+                    Closed = entry["fechada"]?.GetValue<bool>() ?? false,
+                };
+            }
+        }
         return state;
     }
 

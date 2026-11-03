@@ -8,7 +8,8 @@ namespace Lete.Game.UI;
 /// Trívia de Hécate (GDD 3.6 e 3.7), provisória: chegar a acende; ali se descansa e salva, ou se segue uma tocha acesa
 /// para outra Trívia (a Maré sobe um pouco). A cena faz o teleporte (<see cref="Traveled"/>). Com o companheiro, dá
 /// para conversar (uma vez por degrau da Maré) e partilhar uma oferenda com ele: as duas coisas aprofundam o vínculo
-/// (GDD 4.10).
+/// (GDD 4.10). Antes da escolha, com alguém já conhecido, a Trívia é onde se escolhe quem segue (proposta do Claude,
+/// 31/out/2026: na fatia, a escolha do fim do Ato II acontece aqui; não se desfaz).
 /// </summary>
 public partial class TriviaScreen : ChoiceScreen
 {
@@ -35,6 +36,11 @@ public partial class TriviaScreen : ChoiceScreen
 
         var choices = new System.Collections.Generic.List<Choice> { new(T("trivia.descansar"), Rest) };
         var companions = GameRoot.Instance.Companions;
+        if (companions.CanChoose)
+        {
+            choices.Add(new Choice(T("trivia.escolher"), ShowChoose));
+        }
+
         if (companions.Current is { } companion)
         {
             var name = T(companion.NameKey);
@@ -46,6 +52,23 @@ public partial class TriviaScreen : ChoiceScreen
         choices.Add(new Choice(T("ui.sair"), Close));
         ShowChoices(text, choices);
     }
+
+    /// <summary>Quem segue com você: os companheiros já conhecidos.</summary>
+    private void ShowChoose() => ShowChoices(T("trivia.escolher.quem"), GameRoot.Instance.Companions.Met
+        .Select(c => new Choice(T(c.NameKey), () => ShowConfirm(c.Id, c.NameKey)))
+        .Append(new Choice(T("ui.voltar"), () => ShowMenu(T("trivia.titulo"))))
+        .ToList());
+
+    /// <summary>A escolha não se desfaz (princípio 2): uma confirmação, sem caixa de alerta.</summary>
+    private void ShowConfirm(string id, string nameKey) => ShowChoices(string.Format(T("trivia.escolher.confirma"), T(nameKey)), new[]
+    {
+        new Choice(string.Format(T("trivia.escolher.sim"), T(nameKey)), () =>
+        {
+            GameRoot.Instance.Companions.Choose(id);
+            ShowMenu(string.Format(T("trivia.escolheu"), T(nameKey)));
+        }),
+        new Choice(T("ui.voltar"), ShowChoose),
+    });
 
     private void Talk() => ShowMenu(GameRoot.Instance.Companions.Talk() is { } line ? T(line) : T("trivia.titulo"));
 

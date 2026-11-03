@@ -111,6 +111,84 @@ public class RegionContentTests
         Assert.Contains(new Dialogue.SetFlag(flag), dialogue.Nodes.Values.SelectMany(n => n.Effects));
     }
 
+    private static readonly Regex GatedExit = new(
+        @"TargetRegion = ""([^""]*)""\s+TargetEntry = ""[^""]*""\s+RequiredPathKey = ""([^""]*)""\s+BlockedKey = ""([^""]*)""(?:\s+Milestone = ""([^""]*)"")?");
+
+    /// <summary>Formas de atravessar que dependem de algo fora da fatia (o favor de Hermes, a relíquia do ramo).</summary>
+    private static readonly HashSet<string> WaysOutsideTheSlice = new() { "favor_de_hermes", "ramo_dourado" };
+
+    [Fact]
+    public void TheAcheronCrossing_TheBoatNeedsTheKey_AndEveryWayOfTheSliceCanBeEarned()
+    {
+        var aqueronte = Regions()["aqueronte"];
+        var boat = GatedExit.Match(SceneText(aqueronte));
+        Assert.True(boat.Success, "A barca do Aqueronte precisa pedir uma chave do Caminho.");
+        Assert.Equal("asfodelos", boat.Groups[1].Value);
+        Assert.Equal("aqueronte", boat.Groups[2].Value);
+        Assert.Equal("aqueronte", boat.Groups[4].Value);
+
+        var key = Data.PathData.FromJson(File.ReadAllText(Path.Combine(Root, "content", "path", "aqueronte.json")));
+        var setFlags = Directory.GetFiles(Path.Combine(Root, "content", "dialogue"), "*.json")
+            .Select(f => Dialogue.DialogueData.FromJson(File.ReadAllText(f)))
+            .SelectMany(g => g.Nodes.Values.SelectMany(n => n.Effects))
+            .OfType<Dialogue.SetFlag>()
+            .Select(f => f.Flag)
+            .ToHashSet();
+        foreach (var way in key.Ways.Where(w => !WaysOutsideTheSlice.Contains(w.Id)))
+        {
+            // Cada forma é uma origem (vale sozinha) ou uma flag que alguma conversa liga.
+            Assert.True(way.Condition is Conditions.OriginIs || way.Condition is Conditions.FlagSet flag && setFlags.Contains(flag.Flag), way.Id);
+        }
+    }
+
+    private static readonly Regex TopNode = new(@"\[node name=""([^""]+)""[^\]]*parent=""\.""");
+
+    [Fact]
+    public void RegionScenes_HaveNoRepeatedNodeNames()
+    {
+        // Dois nós com o mesmo nome no mesmo pai: o Godot renomeia um e o recurso dele vaza ao fechar (a barca, 31/out).
+        foreach (var region in Regions().Values)
+        {
+            var names = TopNode.Matches(SceneText(region)).Select(m => m.Groups[1].Value).ToList();
+            Assert.True(names.Count == names.Distinct().Count(),
+                $"{region.Id}: {string.Join(", ", names.GroupBy(n => n).Where(g => g.Count() > 1).Select(g => g.Key))}");
+        }
+    }
+
+    private static IEnumerable<string> FlagsRead(Conditions.Condition? condition) => condition switch
+    {
+        Conditions.AllOf all => all.Items.SelectMany(FlagsRead),
+        Conditions.AnyOf any => any.Items.SelectMany(FlagsRead),
+        Conditions.NotOf not => FlagsRead(not.Inner),
+        Conditions.FlagSet flag => new[] { flag.Flag },
+        _ => Enumerable.Empty<string>(),
+    };
+
+    private static IEnumerable<T> Load<T>(string folder, Func<string, T> read) =>
+        Directory.GetFiles(Path.Combine(Root, "content", folder), "*.json").Select(f => read(File.ReadAllText(f)));
+
+    [Fact]
+    public void EveryFlagThatTheStoryWaitsFor_IsSetSomewhere()
+    {
+        // Uma Pesada, um encontro, a introdução de uma Trívia ou uma missão que esperam uma flag que ninguém liga
+        // nunca acontecem. Quem liga: um efeito de conversa ou a consequência de uma missão.
+        var missions = Load("missions", Data.MissionData.FromJson).ToList();
+        var set = Load("dialogue", Dialogue.DialogueData.FromJson)
+            .SelectMany(g => g.Nodes.Values.SelectMany(n => n.Effects))
+            .Concat(missions.SelectMany(m => m.Consequences))
+            .OfType<Dialogue.SetFlag>()
+            .Select(f => f.Flag)
+            .ToHashSet();
+        var read = Load("recollections", Data.RecollectionData.FromJson).Select(r => r.Heavy?.Gate)
+            .Concat(Load("encounters", WorldData.EncounterFromJson).Select(e => e.Requires))
+            .Concat(Load("trivias", WorldData.TriviaFromJson).Select(t => t.Intro?.When))
+            .Concat(missions.SelectMany(m => m.Stages.Select(s => s.When).Prepend(m.Hook)))
+            .SelectMany(FlagsRead)
+            .Distinct();
+
+        Assert.All(read, flag => Assert.Contains(flag, set));
+    }
+
     private static string FindRoot()
     {
         var dir = new DirectoryInfo(AppContext.BaseDirectory);

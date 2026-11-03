@@ -1,0 +1,128 @@
+{
+  "id": "caronte",
+  "_rascunho": "Proposta do Claude (31/out/2026, PENDENCIAS 75): falas de rascunho; Caronte e os insepultos sem arte (só a voz).",
+  "mode": "fixed",
+  "speaker_key": "personagem.caronte.nome",
+  "start": [
+    "pode_subir_insepultos",
+    "pode_subir",
+    "primeira",
+    "preco"
+  ],
+  "nodes": [
+    {
+      "id": "pode_subir_insepultos",
+      "when": {
+        "all": [
+          {
+            "path_key": "aqueronte"
+          },
+          {
+            "flag": "insepultos_em_paz"
+          },
+          {
+            "not": {
+              "flag": "pagou_caronte"
+            }
+          }
+        ]
+      },
+      "line_key": "dlg.caronte.pode_subir_insepultos"
+    },
+    {
+      "id": "pode_subir",
+      "when": {
+        "path_key": "aqueronte"
+      },
+      "line_key": "dlg.caronte.pode_subir"
+    },
+    {
+      "id": "primeira",
+      "when": {
+        "not": {
+          "flag": "caronte_falou"
+        }
+      },
+      "line_key": "dlg.caronte.primeira",
+      "effects": [
+        {
+          "flag": "caronte_falou"
+        },
+        {
+          "journal_key": "diario.caronte.outra_pessoa"
+        }
+      ],
+      "next": "preco"
+    },
+    {
+      "id": "preco",
+      "line_key": "dlg.caronte.preco",
+      "options": [
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.caronte.quem",
+          "next": "quem"
+        },
+        {
+          "posture": "escutar",
+          "text_key": "dlg.caronte.pagar",
+          "requires": {
+            "obols_min": 1
+          },
+          "hint_key": "dlg.caronte.pagar.dica",
+          "show_blocked": true,
+          "next": "pagou"
+        },
+        {
+          "posture": "escutar",
+          "text_key": "dlg.caronte.pescador",
+          "requires": {
+            "origin": "pescador"
+          },
+          "next": "pescador"
+        },
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.caronte.sem_pagar",
+          "next": "sem_pagar"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.caronte.calar",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "quem",
+      "line_key": "dlg.caronte.quem.resposta",
+      "next": "preco"
+    },
+    {
+      "id": "pagou",
+      "line_key": "dlg.caronte.pagou",
+      "effects": [
+        {
+          "pay_obols": 1
+        },
+        {
+          "flag": "pagou_caronte"
+        }
+      ]
+    },
+    {
+      "id": "pescador",
+      "line_key": "dlg.caronte.pescador.resposta"
+    },
+    {
+      "id": "sem_pagar",
+      "line_key": "dlg.caronte.sem_pagar.resposta",
+      "next": "preco",
+      "effects": [
+        {
+          "flag": "ouviu_dos_insepultos"
+        }
+      ]
+    }
+  ]
+}

@@ -83,6 +83,7 @@ public static class ConditionEvaluator
         ShadeIs p => f.ShadeIs(p.Shade, p.State),
         CompanionIs p => f.Companion == p.Companion,
         BondMin p => f.Bond >= p.Min,
+        ObolsMin p => f.Obols >= p.Min,
         DifficultyIs p => f.Difficulty == p.Mode,
         ProfileIs p => (p.TopVia is null || f.TopVia == p.TopVia) && (p.TopKind is null || f.TopKind == p.TopKind),
         ItemOwned p => f.OwnsItem(p.Item),

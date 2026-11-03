@@ -24,6 +24,14 @@ HEADER_EXT = [
     ('Script', 'res://src/Lete.Game/World/MapSprite.cs', '11_sprite'),
     ('Texture2D', 'res://art/sprites/sombras/remador/parado/remador_parado_frente.png', '12_remador'),
     ('Script', 'res://src/Lete.Game/World/OfferingAltar.cs', '13_altar'),
+    ('Script', 'res://src/Lete.Game/World/Talkable.cs', '14_conversa'),
+    ('Script', 'res://src/Lete.Game/World/MerchantStall.cs', '15_mercador'),
+    ('Script', 'res://src/Lete.Game/World/HeavyMemoryPlace.cs', '18_pesada'),
+    ('Script', 'res://src/Lete.Game/World/CompanionSpot.cs', '19_companheiro'),
+    ('Texture2D', 'res://art/sprites/companheiros/dimas_sim/parado/dimas_parado_frente.png', '20_dimas'),
+    ('Texture2D', 'res://art/sprites/companheiros/calias_sim/parado/calias_parado_frente.png', '21_calias'),
+    ('Texture2D', 'res://art/sprites/sombras/padeiro/parado/padeiro_parado_frente.png', '16_padeiro'),
+    ('Texture2D', 'res://art/sprites/sombras/mercador/parado/mercador_parado_frente.png', '17_coveiro'),
 ]
 
 
@@ -129,13 +137,71 @@ texture = ExtResource("{texture}")
 script = ExtResource("11_sprite")
 ''')
 
-    def exit(self, name, pos, size, region, entry):
+    def talkable(self, name, pos, dialogue, texture=None):
+        """Alguém com quem conversar (Talkable); sem textura, só a voz (Caronte e os insepultos no blockout)."""
+        self.node(f'''[node name="{name}" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {fmt(pos[0])}, {fmt(pos[1])}, {fmt(pos[2])})
+script = ExtResource("14_conversa")
+DialogueId = "{dialogue}"
+
+[node name="Reach" type="CollisionShape3D" parent="{name}"]
+shape = SubResource("Shape_alcance")
+''' + (f'''
+[node name="Sprite" type="Sprite3D" parent="{name}"]
+texture = ExtResource("{texture}")
+script = ExtResource("11_sprite")
+''' if texture else ''))
+
+    def heavy_place(self, name, pos, memory_id):
+        """Lugar onde uma Memória Pesada aflora (HeavyMemoryPlace)."""
+        self.node(f'''[node name="{name}" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {fmt(pos[0])}, {fmt(pos[1])}, {fmt(pos[2])})
+script = ExtResource("18_pesada")
+MemoryId = "{memory_id}"
+
+[node name="Reach" type="CollisionShape3D" parent="{name}"]
+shape = SubResource("Shape_alcance")
+''')
+
+    def companion(self, name, pos, companion_id, texture):
+        """Onde se conhece um companheiro (CompanionSpot): a conversa encontro_<id>; some depois de escolhido."""
+        self.node(f'''[node name="{name}" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {fmt(pos[0])}, {fmt(pos[1])}, {fmt(pos[2])})
+script = ExtResource("19_companheiro")
+DialogueId = "encontro_{companion_id}"
+CompanionId = "{companion_id}"
+
+[node name="Reach" type="CollisionShape3D" parent="{name}"]
+shape = SubResource("Shape_alcance")
+
+[node name="Sprite" type="Sprite3D" parent="{name}"]
+texture = ExtResource("{texture}")
+script = ExtResource("11_sprite")
+''')
+
+    def merchant(self, name, pos, merchant_id, texture):
+        self.node(f'''[node name="{name}" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {fmt(pos[0])}, {fmt(pos[1])}, {fmt(pos[2])})
+script = ExtResource("15_mercador")
+MerchantId = "{merchant_id}"
+
+[node name="Reach" type="CollisionShape3D" parent="{name}"]
+shape = SubResource("Shape_alcance")
+
+[node name="Sprite" type="Sprite3D" parent="{name}"]
+texture = ExtResource("{texture}")
+script = ExtResource("11_sprite")
+''')
+
+    def exit(self, name, pos, size, region, entry, path_key='', blocked='', milestone=''):
+        extra = ''.join(f'{k} = "{v}"\n' for k, v in
+                        (('RequiredPathKey', path_key), ('BlockedKey', blocked), ('Milestone', milestone)) if v)
         self.node(f'''[node name="{name}" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {fmt(pos[0])}, {fmt(pos[1])}, {fmt(pos[2])})
 script = ExtResource("8_saida")
 TargetRegion = "{region}"
 TargetEntry = "{entry}"
-
+{extra}
 [node name="Shape" type="CollisionShape3D" parent="{name}"]
 shape = SubResource("{self.box_shape(size)}")
 ''')
@@ -308,15 +374,80 @@ a.box('Pier', (2, 0.3, 4), (4, -0.15, -9), 'Mat_terracota', collide=False)
 a.box('Barca', (1.6, 0.5, 3), (6.2, -0.05, -10), 'Mat_terracota', collide=False)
 a.column('PosteCaronte', (4, 0, -6.6), height=2.6, radius=0.15)
 a.examinable('Margem', (-1, 0, -6), 'obj.aqueronte.margem')
-a.examinable('BarcaOlhar', (4, 0, -5.8), 'obj.aqueronte.barca')
-a.examinable('Insepultos', (-7, 0, -2), 'obj.aqueronte.insepultos')
+# Caronte (só a voz, sem arte ainda) e os insepultos: conversas (content/dialogue/caronte.json e insepultos.json).
+a.talkable('Caronte', (3.2, 0, -5.6), 'caronte')
+a.talkable('Insepultos', (-7, 0, -2), 'insepultos')
+# O afogado (capítulo 1 do Pescador: "um afogado pede para ser achado"), na água rasa da margem.
+a.talkable('Afogado', (-3.5, 0, -6.2), 'afogado')
+a.examinable('BarcaOlhar', (7.6, 0, -5.4), 'obj.aqueronte.barca')
+# O Convite (1ª Pesada) aflora diante da barca, depois de Caronte falar da "outra pessoa" (gate na Pesada).
+a.heavy_place('PesadaConvite', (5.8, 0, -4.2), 'o_convite')
+# A barca: com a chave do Aqueronte (óbolo, insepultos, origem Pescador...), leva a Asfódelos; é o 1º marco da Maré.
+a.exit('SubirNaBarca', (5.8, 1, -6.9), (1.6, 2, 0.8), 'asfodelos', 'ChegadaAqueronte',
+       path_key='aqueronte', blocked='obj.aqueronte.barca.fechada', milestone='aqueronte')
 a.light('LuzMargem', (0, 4, -2), '0.5, 0.55, 0.6, 1', 0.9, 14)
 a.exit('ParaTenaro', (0, 1, 7.9), (3, 2, 1.2), 'tenaro', 'SaidaAqueronte')
 a.markers({
     'ChegadaTenaro': (0, 0, 5),
-    'Caronte': (4, 0, -4.5),
+    'Caronte': (3.2, 0, -4.5),
     'Insepultos': (-6, 0, -1),
+    'Afogado': (-3.5, 0, -5),
     'AtravessarTenaro': (0, 0, 7.9),
+    # A volta de Asfódelos: na margem, diante da barca.
+    'ChegadaBarca': (5.8, 0, -2.6),
+    'PesadaConvite': (5.8, 0, -4.2),
+    # Em cima da barca: teleportar para ele tenta atravessar (com a chave, vai a Asfódelos).
+    'AtravessarBarca': (5.8, 0, -6.9),
 }, player=(0, 0, 5))
 a.write('Aqueronte.tscn')
+
+# ---- Asfódelos (parte da fatia: a margem, a grande Trívia, a Rua dos Ofícios e o Altar) ----
+# A barca chega pelo sul; a Trívia fica no centro; a Rua dos Ofícios a oeste (o Padeiro e o Coveiro); o Altar a leste.
+# Os três caminhos da Trívia (Luto, Tribunal, Guerreiros) ainda estão fechados (fora da fatia).
+f = Scene('Asfodelos', '0.5, 0.52, 0.5, 1', '0.42, 0.45, 0.4, 1', 0.75)
+f.box('Chao', (32, 1, 26), (0, -0.5, 0), 'Mat_piso')
+f.water('Aqueronte', (60, 0.04, 14), (0, -0.3, 20))
+f.blocker('MargemBarreira', (32, 2, 1), (0, 1, 13.5))
+f.box('Oeste', (1, 3, 27), (-16.5, 1.5, 0))
+f.box('Leste', (1, 0.5, 27), (16.5, 0.25, 0))
+f.box('Norte', (32, 3, 1), (0, 1.5, -13.5))
+f.box('Pier', (2, 0.3, 3), (0, -0.15, 12.5), 'Mat_terracota', collide=False)
+f.examinable('Planicie', (3, 0, 6), 'obj.asfodelos.planicie')
+f.exit('ParaAqueronte', (0, 1, 13), (2, 2, 0.8), 'aqueronte', 'ChegadaBarca')
+# A grande Trívia (liga a todas as acesas) e os três caminhos ainda fechados.
+f.trivia('Trivia', (0, 0, -8), 'trivia_asfodelos')
+f.examinable('CaminhoLuto', (-6, 0, -12.2), 'obj.asfodelos.caminho_luto')
+f.examinable('CaminhoTribunal', (0, 0, -13.2), 'obj.asfodelos.caminho_tribunal')
+f.examinable('CaminhoGuerreiros', (6, 0, -12.2), 'obj.asfodelos.caminho_guerreiros')
+# A Rua dos Ofícios: bancadas, o forno do Padeiro e a banca do Coveiro.
+f.box('Bancada1', (3, 0.9, 1.2), (-12, 0.45, -4), 'Mat_terracota')
+f.box('Forno', (2, 1.6, 2), (-13, 0.8, 1), 'Mat_terracota')
+f.box('Bancada2', (3, 0.9, 1.2), (-12, 0.45, 6))
+f.talkable('Padeiro', (-10.5, 0, 1.5), 'padeiro', texture='16_padeiro')
+f.merchant('Coveiro', (-10.5, 0, 6.5), 'coveiro', '17_coveiro')
+f.examinable('Oficios', (-9, 0, -4), 'obj.asfodelos.oficios')
+# O oleiro sem mãos (capítulo 1 do Artesão: "um oleiro sem mãos pede reparo"), na bancada da Rua.
+f.talkable('Oleiro', (-12, 0, -2.6), 'oleiro')
+# Os companheiros que se conhecem nesta parte (HISTORIA 5.2): Dimas na Rua dos Ofícios, Cálias no Altar. A Lia ainda
+# não tem lugar (PENDÊNCIA 41).
+f.companion('Dimas', (-13.5, 0, 4), 'dimas', '20_dimas')
+# O Altar das Oferendas: o que os vivos deixam (recolher respeita o limite por tipo).
+f.box('Altar', (3, 1, 2), (11, 0.5, -3), 'Mat_terracota')
+f.spring('AltarFarinha', (10.2, 0, -2), 'farinha', 2, 'obj.asfodelos.altar', 'ui.altar.recolheu')
+f.spring('AltarMel', (11.8, 0, -2), 'mel', 1, 'obj.asfodelos.altar', 'ui.altar.recolheu')
+f.companion('Calias', (14, 0, -0.5), 'calias', '21_calias')
+f.light('LuzAltar', (11, 2.5, -3), '0.95, 0.8, 0.55, 1', 0.9, 8)
+f.light('LuzRua', (-11, 2.5, 2), '0.9, 0.62, 0.38, 1', 0.8, 9)
+f.markers({
+    'ChegadaAqueronte': (0, 0, 10),
+    'Trivia': (1.5, 0, -8),
+    'Padeiro': (-9.5, 0, 2.5),
+    'Oleiro': (-11, 0, -1.6),
+    'Coveiro': (-9.5, 0, 7.5),
+    'Altar': (11, 0, -1),
+    'Dimas': (-12.5, 0, 5),
+    'Calias': (13, 0, 0.5),
+    'AtravessarAqueronte': (0, 0, 13),
+}, player=(0, 0, 10))
+f.write('Asfodelos.tscn')
 print('ok')

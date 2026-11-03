@@ -19,6 +19,9 @@ public interface IConditionFacts
     /// <summary>Degrau inteiro da Maré.</summary>
     int Tide { get; }
     int Bond { get; }
+
+    /// <summary>Óbolos na Bolsa.</summary>
+    int Obols { get; }
     int FullRecollectionKinds { get; }
     Via? TopVia { get; }
     RecollectionKind? TopKind { get; }

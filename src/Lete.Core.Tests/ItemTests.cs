@@ -114,13 +114,16 @@ public class ItemTests
     }
 
     [Fact]
-    public void AStageOfAMissingSystem_Waits()
+    public void AStageThatNeedsAMission_WaitsForIt()
     {
         _items.Acquire("lira");
         _items.Refresh();
-
         Assert.Equal(ItemStage.Worn, _items.StageOf("lira"));
-        Assert.Contains("lira.Recognized", _items.ConditionsWaitingForSystems);
+        Assert.Empty(_items.ConditionsWaitingForSystems);
+
+        _state.Missions["lira"] = new MissionState { Stage = 1 };
+        _items.Refresh();
+        Assert.Equal(ItemStage.Recognized, _items.StageOf("lira"));
     }
 
     [Fact]

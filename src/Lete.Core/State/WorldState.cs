@@ -23,6 +23,9 @@ public sealed class WorldState
     /// <summary>Vínculo com o companheiro (só cresce; ver <c>Systems.Companions</c>).</summary>
     public int CompanionBond { get; set; }
 
+    /// <summary>Companheiros já conhecidos (capítulo 0, o encontro): a escolha é entre eles.</summary>
+    public HashSet<string> MetCompanions { get; } = new(StringComparer.Ordinal);
+
     /// <summary>Quantas conversas de Trívia já teve com ele, e em que degrau da Maré foi a última.</summary>
     public int CompanionTalks { get; set; }
 
@@ -112,6 +115,9 @@ public sealed class WorldState
 
     /// <summary>Encontros do mapa já terminados (<c>content/encounters</c>; o Remador na descida de Tênaro).</summary>
     public HashSet<string> Encounters { get; } = new(StringComparer.Ordinal);
+
+    /// <summary>Missões começadas (<c>content/missions</c>): etapas cumpridas e se foram fechadas.</summary>
+    public Dictionary<string, MissionState> Missions { get; } = new(StringComparer.Ordinal);
 
     /// <summary>Entradas do Diário, como chaves de localização, na ordem em que foram escritas.</summary>
     public List<string> JournalEntries { get; } = new();

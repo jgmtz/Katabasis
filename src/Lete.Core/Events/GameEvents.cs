@@ -108,6 +108,17 @@ public sealed record FastTravelUsed(string FromTriviaId, string ToTriviaId);
 
 public sealed record RegionEntered(string RegionId);
 
+/// <summary>Uma missão apareceu (o gancho valeu); a frase vai para o Diário.</summary>
+public sealed record MissionStarted(string MissionId, string? JournalKey);
+
+/// <summary>Uma missão cumpriu mais uma etapa (<paramref name="Stage"/> = etapas cumpridas).</summary>
+public sealed record MissionAdvanced(string MissionId, int Stage, string? JournalKey);
+
+public sealed record MissionCompleted(string MissionId);
+
+/// <summary>A sombra da missão foi destruída em combate: a missão fecha sem se cumprir.</summary>
+public sealed record MissionClosed(string MissionId);
+
 /// <summary>Um encontro do mapa terminou (a lição do tutorial cumprida ou a luta acabada).</summary>
 public sealed record EncounterFinished(string EncounterId);
 
@@ -136,6 +147,9 @@ public sealed record ItemSetCompleted(string SetId, string StoryKey);
 
 /// <summary>Escolha irreversível do companheiro (um dos 6).</summary>
 public sealed record CompanionChosen(string CompanionId);
+
+/// <summary>O protagonista conheceu um companheiro (capítulo 0): a escolha, depois, é entre os conhecidos.</summary>
+public sealed record CompanionMet(string CompanionId);
 
 /// <summary>A origem foi escolhida na abertura (uma vez; dá, por exemplo, a forma "origem" de uma chave do Caminho).</summary>
 public sealed record OriginChosen(string OriginId);

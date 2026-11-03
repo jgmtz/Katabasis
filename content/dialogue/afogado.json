@@ -1,0 +1,115 @@
+{
+  "id": "afogado",
+  "_rascunho": "Capítulo 1 (Eco) da origem Pescador (HISTORIA 4.1: \"Um afogado pede para ser achado\"). A alternativa da origem (HISTORIA 4): afogados e insepultos falam sem oferenda. Cena e falas de rascunho do Claude (31/out/2026, PENDENCIAS 79); sem arte (só a voz).",
+  "mode": "shade",
+  "speaker_key": "shade.afogado.nome",
+  "shade": "afogado",
+  "lucidity": {
+    "base": "vaga",
+    "raise": [
+      {
+        "to": "desperta",
+        "when": {
+          "origin": "pescador"
+        }
+      }
+    ]
+  },
+  "start": [
+    "desperto_pescador",
+    "desperto",
+    "vago"
+  ],
+  "nodes": [
+    {
+      "id": "vago",
+      "when": {
+        "shade_lucidity": "vaga"
+      },
+      "line_key": "dlg.afogado.vago",
+      "options": [
+        {
+          "posture": "escutar",
+          "text_key": "dlg.afogado.vago.escutar",
+          "next": "vago_escutar"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.afogado.calar",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "vago_escutar",
+      "line_key": "dlg.afogado.vago.escutar.resposta",
+      "next": "vago"
+    },
+    {
+      "id": "desperto_pescador",
+      "when": {
+        "all": [
+          {
+            "shade_lucidity": "desperta"
+          },
+          {
+            "origin": "pescador"
+          }
+        ]
+      },
+      "line_key": "dlg.afogado.pescador",
+      "effects": [
+        {
+          "flag": "afogado_reconheceu"
+        }
+      ],
+      "next": "pedido"
+    },
+    {
+      "id": "desperto",
+      "when": {
+        "shade_lucidity": "desperta"
+      },
+      "line_key": "dlg.afogado.desperto",
+      "next": "pedido"
+    },
+    {
+      "id": "pedido",
+      "line_key": "dlg.afogado.pedido",
+      "options": [
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.afogado.onde",
+          "next": "onde"
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.afogado.prometer",
+          "next": "promessa"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.afogado.calar",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "onde",
+      "line_key": "dlg.afogado.onde.resposta",
+      "next": "pedido"
+    },
+    {
+      "id": "promessa",
+      "line_key": "dlg.afogado.promessa",
+      "effects": [
+        {
+          "flag": "afogado_prometido"
+        },
+        {
+          "journal_key": "diario.afogado.promessa"
+        }
+      ]
+    }
+  ]
+}

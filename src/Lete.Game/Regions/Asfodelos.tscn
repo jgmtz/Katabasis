@@ -1,0 +1,360 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/Lete.Game/World/CameraRig.cs" id="1_cam"]
+[ext_resource type="PackedScene" path="res://src/Lete.Game/World/Player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/Interactable.cs" id="3_inter"]
+[ext_resource type="Texture2D" path="res://art/tiles/piso_pedra.png" id="4_piso"]
+[ext_resource type="Texture2D" path="res://art/tiles/parede_pedra.png" id="5_parede"]
+[ext_resource type="Texture2D" path="res://art/tiles/terracota.png" id="6_terracota"]
+[ext_resource type="Texture2D" path="res://art/tiles/agua_lete.png" id="7_agua"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/RegionExit.cs" id="8_saida"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/TriviaRest.cs" id="9_trivia"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/ShadeEncounter.cs" id="10_encontro"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/MapSprite.cs" id="11_sprite"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/remador/parado/remador_parado_frente.png" id="12_remador"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/OfferingAltar.cs" id="13_altar"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/Talkable.cs" id="14_conversa"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/MerchantStall.cs" id="15_mercador"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/HeavyMemoryPlace.cs" id="18_pesada"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/CompanionSpot.cs" id="19_companheiro"]
+[ext_resource type="Texture2D" path="res://art/sprites/companheiros/dimas_sim/parado/dimas_parado_frente.png" id="20_dimas"]
+[ext_resource type="Texture2D" path="res://art/sprites/companheiros/calias_sim/parado/calias_parado_frente.png" id="21_calias"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/padeiro/parado/padeiro_parado_frente.png" id="16_padeiro"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/mercador/parado/mercador_parado_frente.png" id="17_coveiro"]
+
+[sub_resource type="Environment" id="Environment_regiao"]
+background_mode = 1
+background_color = Color(0.05, 0.047, 0.06, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.5, 0.52, 0.5, 1)
+ambient_light_energy = 0.55
+fog_enabled = true
+fog_light_color = Color(0.42, 0.45, 0.4, 1)
+fog_light_energy = 0.35
+fog_density = 0.004
+fog_sky_affect = 0.0
+fog_height = 0.4
+fog_height_density = 0.3
+
+[sub_resource type="StandardMaterial3D" id="Mat_piso"]
+albedo_texture = ExtResource("4_piso")
+roughness = 1.0
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="Mat_parede"]
+albedo_texture = ExtResource("5_parede")
+roughness = 1.0
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="Mat_terracota"]
+albedo_texture = ExtResource("6_terracota")
+roughness = 1.0
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="Mat_agua"]
+albedo_texture = ExtResource("7_agua")
+roughness = 1.0
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0
+
+[sub_resource type="SphereShape3D" id="Shape_alcance"]
+radius = 1.4
+
+[sub_resource type="BoxShape3D" id="Shape_box1"]
+size = Vector3(32, 2, 1)
+
+[sub_resource type="BoxShape3D" id="Shape_box2"]
+size = Vector3(2, 2, 0.8)
+
+[node name="Asfodelos" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_regiao")
+
+[node name="Moon" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.939693, 0, 0.34202, 0.280166, 0.573576, -0.769751, -0.196175, 0.819152, 0.538986, 0, 10, 0)
+light_color = Color(0.72, 0.8, 0.88, 1)
+light_energy = 0.75
+shadow_enabled = true
+directional_shadow_max_distance = 60.0
+
+[node name="Chao" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(32, 1, 26)
+material = SubResource("Mat_piso")
+
+[node name="Aqueronte" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 20)
+use_collision = false
+size = Vector3(60, 0.04, 14)
+material = SubResource("Mat_agua")
+
+[node name="MargemBarreira" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 13.5)
+
+[node name="Shape" type="CollisionShape3D" parent="MargemBarreira"]
+shape = SubResource("Shape_box1")
+
+[node name="Oeste" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.5, 1.5, 0)
+use_collision = true
+size = Vector3(1, 3, 27)
+material = SubResource("Mat_parede")
+
+[node name="Leste" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0.25, 0)
+use_collision = true
+size = Vector3(1, 0.5, 27)
+material = SubResource("Mat_parede")
+
+[node name="Norte" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -13.5)
+use_collision = true
+size = Vector3(32, 3, 1)
+material = SubResource("Mat_parede")
+
+[node name="Pier" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 12.5)
+use_collision = false
+size = Vector3(2, 0.3, 3)
+material = SubResource("Mat_terracota")
+
+[node name="Planicie" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 6)
+script = ExtResource("3_inter")
+JournalKey = "obj.asfodelos.planicie"
+
+[node name="Reach" type="CollisionShape3D" parent="Planicie"]
+shape = SubResource("Shape_alcance")
+
+[node name="ParaAqueronte" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 13)
+script = ExtResource("8_saida")
+TargetRegion = "aqueronte"
+TargetEntry = "ChegadaBarca"
+
+[node name="Shape" type="CollisionShape3D" parent="ParaAqueronte"]
+shape = SubResource("Shape_box2")
+
+[node name="TriviaColuna" type="CSGCylinder3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, -8)
+use_collision = true
+radius = 0.3
+height = 2.2
+sides = 8
+material = SubResource("Mat_parede")
+
+[node name="TriviaChama" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, -8)
+light_color = Color(1, 0.62, 0.3, 1)
+light_energy = 1.6
+omni_range = 7.0
+
+[node name="Trivia" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
+script = ExtResource("9_trivia")
+JournalKey = "obj.trivia.examinar"
+TriviaId = "trivia_asfodelos"
+
+[node name="Reach" type="CollisionShape3D" parent="Trivia"]
+shape = SubResource("Shape_alcance")
+
+[node name="CaminhoLuto" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -12.2)
+script = ExtResource("3_inter")
+JournalKey = "obj.asfodelos.caminho_luto"
+
+[node name="Reach" type="CollisionShape3D" parent="CaminhoLuto"]
+shape = SubResource("Shape_alcance")
+
+[node name="CaminhoTribunal" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -13.2)
+script = ExtResource("3_inter")
+JournalKey = "obj.asfodelos.caminho_tribunal"
+
+[node name="Reach" type="CollisionShape3D" parent="CaminhoTribunal"]
+shape = SubResource("Shape_alcance")
+
+[node name="CaminhoGuerreiros" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -12.2)
+script = ExtResource("3_inter")
+JournalKey = "obj.asfodelos.caminho_guerreiros"
+
+[node name="Reach" type="CollisionShape3D" parent="CaminhoGuerreiros"]
+shape = SubResource("Shape_alcance")
+
+[node name="Bancada1" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.45, -4)
+use_collision = true
+size = Vector3(3, 0.9, 1.2)
+material = SubResource("Mat_terracota")
+
+[node name="Forno" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0.8, 1)
+use_collision = true
+size = Vector3(2, 1.6, 2)
+material = SubResource("Mat_terracota")
+
+[node name="Bancada2" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.45, 6)
+use_collision = true
+size = Vector3(3, 0.9, 1.2)
+material = SubResource("Mat_parede")
+
+[node name="Padeiro" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 0, 1.5)
+script = ExtResource("14_conversa")
+DialogueId = "padeiro"
+
+[node name="Reach" type="CollisionShape3D" parent="Padeiro"]
+shape = SubResource("Shape_alcance")
+
+[node name="Sprite" type="Sprite3D" parent="Padeiro"]
+texture = ExtResource("16_padeiro")
+script = ExtResource("11_sprite")
+
+[node name="Coveiro" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 0, 6.5)
+script = ExtResource("15_mercador")
+MerchantId = "coveiro"
+
+[node name="Reach" type="CollisionShape3D" parent="Coveiro"]
+shape = SubResource("Shape_alcance")
+
+[node name="Sprite" type="Sprite3D" parent="Coveiro"]
+texture = ExtResource("17_coveiro")
+script = ExtResource("11_sprite")
+
+[node name="Oficios" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -4)
+script = ExtResource("3_inter")
+JournalKey = "obj.asfodelos.oficios"
+
+[node name="Reach" type="CollisionShape3D" parent="Oficios"]
+shape = SubResource("Shape_alcance")
+
+[node name="Oleiro" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -2.6)
+script = ExtResource("14_conversa")
+DialogueId = "oleiro"
+
+[node name="Reach" type="CollisionShape3D" parent="Oleiro"]
+shape = SubResource("Shape_alcance")
+
+[node name="Dimas" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5, 0, 4)
+script = ExtResource("19_companheiro")
+DialogueId = "encontro_dimas"
+CompanionId = "dimas"
+
+[node name="Reach" type="CollisionShape3D" parent="Dimas"]
+shape = SubResource("Shape_alcance")
+
+[node name="Sprite" type="Sprite3D" parent="Dimas"]
+texture = ExtResource("20_dimas")
+script = ExtResource("11_sprite")
+
+[node name="Altar" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0.5, -3)
+use_collision = true
+size = Vector3(3, 1, 2)
+material = SubResource("Mat_terracota")
+
+[node name="AltarFarinha" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2, 0, -2)
+script = ExtResource("13_altar")
+JournalKey = "obj.asfodelos.altar"
+Kind = "farinha"
+Amount = 2
+TakenKey = "ui.altar.recolheu"
+
+[node name="Reach" type="CollisionShape3D" parent="AltarFarinha"]
+shape = SubResource("Shape_alcance")
+
+[node name="AltarMel" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.8, 0, -2)
+script = ExtResource("13_altar")
+JournalKey = "obj.asfodelos.altar"
+Kind = "mel"
+Amount = 1
+TakenKey = "ui.altar.recolheu"
+
+[node name="Reach" type="CollisionShape3D" parent="AltarMel"]
+shape = SubResource("Shape_alcance")
+
+[node name="Calias" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, -0.5)
+script = ExtResource("19_companheiro")
+DialogueId = "encontro_calias"
+CompanionId = "calias"
+
+[node name="Reach" type="CollisionShape3D" parent="Calias"]
+shape = SubResource("Shape_alcance")
+
+[node name="Sprite" type="Sprite3D" parent="Calias"]
+texture = ExtResource("21_calias")
+script = ExtResource("11_sprite")
+
+[node name="LuzAltar" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 2.5, -3)
+light_color = Color(0.95, 0.8, 0.55, 1)
+light_energy = 0.9
+omni_range = 8
+
+[node name="LuzRua" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 2.5, 2)
+light_color = Color(0.9, 0.62, 0.38, 1)
+light_energy = 0.8
+omni_range = 9
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+
+[node name="CameraRig" type="Node3D" parent="." node_paths=PackedStringArray("Target")]
+script = ExtResource("1_cam")
+Target = NodePath("../Player")
+
+[node name="Pitch" type="Node3D" parent="CameraRig"]
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig/Pitch"]
+projection = 1
+current = true
+size = 10.0
+far = 100.0
+
+[node name="TeleportPoints" type="Node3D" parent="."]
+
+[node name="ChegadaAqueronte" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+
+[node name="Trivia" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, -8)
+
+[node name="Padeiro" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, 0, 2.5)
+
+[node name="Oleiro" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -1.6)
+
+[node name="Coveiro" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, 0, 7.5)
+
+[node name="Altar" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, -1)
+
+[node name="Dimas" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.5, 0, 5)
+
+[node name="Calias" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, 0.5)
+
+[node name="AtravessarAqueronte" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 13)

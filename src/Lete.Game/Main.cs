@@ -40,9 +40,11 @@ public partial class Main : Node
 
     /// <summary>
     /// Uma chegada pendente: a cena é recarregada e, ao abrir, vai para esta região (e salva, se for troca), no marcador
-    /// <c>Entry</c> ou, voltando de uma luta, em <c>Position</c>.
+    /// <c>Entry</c>, voltando de uma luta em <c>Position</c> ou, seguindo a tocha, junto da Trívia <c>TriviaId</c>;
+    /// <c>Milestone</c> é o marco da Maré da passagem cruzada (a barca de Caronte).
     /// </summary>
-    private sealed record Arrival(string Region, string? Entry, bool Save, Vector3? Position = null);
+    private sealed record Arrival(
+        string Region, string? Entry, bool Save, Vector3? Position = null, string? Milestone = null, string? TriviaId = null);
 
     private static Arrival? _arrival;
 
@@ -186,7 +188,12 @@ public partial class Main : Node
         var arrival = _arrival;
         _arrival = null;
         var state = GameRoot.Instance.State;
-        if (arrival is { Position: { } back })
+        if (arrival is { TriviaId: { } trivia })
+        {
+            // Viagem pela tocha a uma Trívia de outra região: chega junto dela.
+            ArriveAtTrivia(trivia);
+        }
+        else if (arrival is { Position: { } back })
         {
             // Volta de uma luta: onde estava, um pouco afastado da sombra.
             _player.TeleportTo(back);
@@ -204,6 +211,12 @@ public partial class Main : Node
         else
         {
             TeleportToMarker(region.Entry);
+        }
+
+        if (arrival is { Milestone: { } milestone })
+        {
+            // Cruzar o Aqueronte é o primeiro marco da Maré (GDD 2.4); conta antes de salvar a chegada.
+            GameRoot.Instance.Tide.Milestone(milestone);
         }
 
         if (arrival is { Save: true })
@@ -229,9 +242,9 @@ public partial class Main : Node
     }
 
     /// <summary>Passou por uma passagem: recarrega a cena na região de destino (e salva ao chegar).</summary>
-    private void GoToRegion(string regionId, string entry)
+    private void GoToRegion(string regionId, string entry, string? milestone)
     {
-        _arrival = new Arrival(regionId, entry, Save: true);
+        _arrival = new Arrival(regionId, entry, Save: true, Milestone: milestone);
         GetTree().CallDeferred(SceneTree.MethodName.ReloadCurrentScene);
     }
 
@@ -240,6 +253,13 @@ public partial class Main : Node
     {
         _arrival = new Arrival(RegionId, null, Save: false, returnPosition);
         EncounterTransit.Begin(GetTree(), GameRoot.Instance.Encounters.Definitions[encounterId]);
+    }
+
+    /// <summary>Debug: abre outra região na chegada padrão, sem salvar.</summary>
+    public void VisitRegion(string regionId)
+    {
+        _arrival = new Arrival(regionId, null, Save: false);
+        GetTree().CallDeferred(SceneTree.MethodName.ReloadCurrentScene);
     }
 
     /// <summary>Uma Memória Pesada aflora: o aviso aparece (o jogador ainda pode adiar).</summary>
@@ -300,6 +320,14 @@ public partial class Main : Node
     /// <summary>Viagem pela tocha: leva o jogador à Trívia de destino, se ela estiver nesta região.</summary>
     private void ArriveAtTrivia(string triviaId)
     {
+        if (GameRoot.Instance.Trivias.Definitions.TryGetValue(triviaId, out var definition) && definition.RegionId != RegionId)
+        {
+            // Outra região: a cena recarrega lá (trocar de região salva).
+            _arrival = new Arrival(definition.RegionId, null, Save: true, TriviaId: triviaId);
+            GetTree().CallDeferred(SceneTree.MethodName.ReloadCurrentScene);
+            return;
+        }
+
         if (GetTree().GetNodesInGroup(TriviaRest.Group).OfType<TriviaRest>().FirstOrDefault(t => t.TriviaId == triviaId) is { } target)
         {
             _player.TeleportTo(target.GlobalPosition + TriviaArrivalOffset);
@@ -460,6 +488,24 @@ public partial class Main : Node
             await WaitFrames(2);
         }
 
+        if (args.TryGetValue("flag", out var flags))
+        {
+            // Teste: liga flags do mundo (ex.: caronte_falou, para O Convite aflorar sem a conversa).
+            foreach (var flag in flags.Split(','))
+            {
+                GameRoot.Instance.State.Flags.Add(flag);
+            }
+        }
+
+        if (args.TryGetValue("conhecer", out var met))
+        {
+            // Teste: dá os companheiros por conhecidos (o capítulo 0), para a escolha na Trívia.
+            foreach (var id in met.Split(','))
+            {
+                GameRoot.Instance.Companions.Meet(id);
+            }
+        }
+
         if (args.TryGetValue("oferenda", out var offering))
         {
             // Teste: uma oferenda na Bolsa (ex.: a água que o Remador aceita, sem passar pela poça).
@@ -484,6 +530,15 @@ public partial class Main : Node
                 foreach (var step in talk.Split(','))
                 {
                     _dialogueScreen.Press(int.Parse(step));
+                }
+            }
+
+            // Examinou uma Trívia (e a conversa, se houve, terminou): --apertar aperta os botões da tela dela.
+            if (_trivia.IsOpen && !args.ContainsKey("trivia") && args.TryGetValue("apertar", out var triviaPresses))
+            {
+                foreach (var step in triviaPresses.Split(','))
+                {
+                    _trivia.Press(int.Parse(step));
                 }
             }
         }

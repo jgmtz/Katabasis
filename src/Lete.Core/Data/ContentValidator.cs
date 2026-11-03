@@ -46,6 +46,7 @@ public static class ContentValidator
         new ReferenceRule("encounters", "battle", "battle"),
         new ReferenceRule("encounters", "after", "encounters"),
         new ReferenceRule("trivias", "dialogue", "dialogue"),
+        new ReferenceRule("missions", "shade", "shades"),
     };
 
     private const string LocaleFolder = "locale";

@@ -69,12 +69,15 @@ public class PathTests
     }
 
     [Fact]
-    public void AWayOfAMissingSystem_IsSkippedAndListed()
+    public void AWayThatNeedsAMission_OpensWhenTheMissionReachesTheStage()
     {
         _path.Refresh();
-
         Assert.False(_path.Has("cerbero"));
-        Assert.Contains("cerbero.missao", _path.WaysWaitingForSystems);
+        Assert.Empty(_path.WaysWaitingForSystems);
+
+        _state.Missions["palacio"] = new MissionState { Stage = 1 };
+        _path.Refresh();
+        Assert.Equal("missao", _path.WayOf("cerbero"));
     }
 
     [Fact]

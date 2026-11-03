@@ -162,6 +162,14 @@ Ordem: 1 batalha frente 3/4 → 2 batalha costas 3/4 (anexar a 1) → depois de 
 - **Tecelã:** `CHARACTER: the shade of a weaver woman, standing. Pale ghostly blue-gray solid opaque figure, the lower body dissolving into pixel wisps. Long dress, hands raised in front of her pulling taut a few thin pale threads between her fingers, hair tied back, patient waiting expression. Dominant colors: pale gray-blue (#8FB3C9) and bone.`
 - **Padeiro:** `CHARACTER: the shade of a baker, stocky man, standing. Pale ghostly warm-gray solid opaque figure with faint ochre flour-dust tones, the lower body dissolving into pixel wisps. Apron, rolled sleeves, hands mid-kneading motion in front of his belly, a long wooden bread peel leaning on one shoulder, vague absent expression. Dominant colors: bone and pale ochre.`
 
+### Figuras da fatia ainda sem arte (M3, 31/out/2026; linhas do Claude para o João revisar antes de gerar)
+No jogo hoje são só voz (conversas sem sprite). Mesmo padrão das sombras: F + FL; Caronte é um "ser fixo" (não flutua: F + C).
+- **Caronte:** `CHARACTER: Charon, the ferryman of the dead, a very old gaunt man standing at the bow, bigger than a normal human. Dark weathered skin, deep-set eyes glowing faintly like embers, long unkempt gray beard, a stained dark-gray hooded cloak tied with rope, bare bony feet. Holds a long punting pole upright in both hands. Solid and heavy, not a ghost. Dominant colors: soot gray and dull ember orange in the eyes only.`
+- **O afogado (Aqueronte, capítulo 1 do Pescador):** `CHARACTER: the shade of a drowned fisherman lying half-submerged, propped on his elbows, looking up. Pale ghostly green-gray solid opaque figure, hair and short tunic clinging wet, a tangle of fishing net around one arm, water dripping from the chin, the lower body dissolving into pixel wisps. Dominant colors: pale Lethe teal and faded sea green.`
+- **O oleiro sem mãos (Asfódelos, capítulo 1 do Artesão):** `CHARACTER: the shade of an old potter, seated on a low stool, bent over a workbench. Pale ghostly clay-gray solid opaque figure, leather apron, both forearms ending in smooth stumps with no hands, a dry unfinished clay pot without a rim in front of him, patient sorrowful face. The lower body dissolving into pixel wisps. Dominant colors: bone and pale terracotta.`
+- **Os insepultos (Aqueronte):** `CHARACTER: a small group of three shades huddled together sitting on the sand, knees pulled up, faces turned up asking. Pale ghostly gray solid opaque figures, ragged cloth, no grave goods, sand on their shoulders, the lower bodies dissolving into pixel wisps. Dominant colors: ash gray and pale sand.`
+- **Hécate:** por decisão do João (31/out/2026) ela é **só a chama e a voz** por enquanto; a arte dela fica para depois (três rostos, três tochas, HISTORIA 7).
+
 ### Chefes (descrições a escrever antes de gerar; marcar "bigger than a normal human, imposing")
 Pendente: A Fome, Cérbero, O Campeão, O Sonho, As Fúrias, A Sombra do Esquecido, O Sem-Nome. O Claude escreve a linha CHARACTER de cada um quando o João pedir o kit dos chefes (usar `HISTORIA.md` seção 6).
 
@@ -193,6 +201,7 @@ art/sprites/        (saída do pixelizador, mesma estrutura)
 - [x] Lia (Retratista): batalha + mapa
 - [ ] Outros 5 protagonistas: batalha F/C + mapa F/C/PD
 - [ ] Sombras definidas (Remador, Tecelã, Padeiro) F/FL
+- [ ] Figuras da fatia sem arte (Caronte F/C; afogado, oleiro e insepultos F/FL): linhas na seção 5
 - [ ] Chefes (descrições a escrever)
 
 

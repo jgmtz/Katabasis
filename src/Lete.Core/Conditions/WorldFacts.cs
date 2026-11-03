@@ -6,8 +6,9 @@ using Lete.Core.Systems;
 namespace Lete.Core.Conditions;
 
 /// <summary>
-/// Responde às condições pelo <see cref="WorldState"/>. Os predicados de sistemas que ainda não existem (missões)
-/// lançam <see cref="NotSupportedException"/> dizendo qual sistema falta, em vez de responder errado em silêncio.
+/// Responde às condições pelo <see cref="WorldState"/>. Um predicado de um sistema que ainda não exista deve lançar
+/// <see cref="NotSupportedException"/> dizendo qual sistema falta, em vez de responder errado em silêncio (desde as
+/// missões, 31/out/2026, nenhum falta; quem avalia continua tratando o caso).
 /// </summary>
 public sealed class WorldFacts : IConditionFacts
 {
@@ -44,6 +45,7 @@ public sealed class WorldFacts : IConditionFacts
 
     public string? Difficulty => _state.Difficulty;
     public int Bond => _state.CompanionBond;
+    public int Obols => _state.Inventory.Obols;
     public Via? TopVia => _profile.TopVia;
     public RecollectionKind? TopKind => _profile.TopKind;
     public bool HasPathKey(string key) => _state.PathKeys.ContainsKey(key);
@@ -58,8 +60,5 @@ public sealed class WorldFacts : IConditionFacts
     public bool IsRecollectionKindFull(RecollectionKind kind) => _mosaic.IsKindFull(kind);
     public bool IsTriviaLit(string trivia) => _state.LitTrivias.Contains(trivia);
     public bool WasRegionVisited(string region) => _state.VisitedRegions.Contains(region);
-    public int? QuestStage(string quest) => Missing<int?>("quest_stage", "missões");
-
-    private static T Missing<T>(string predicate, string system) =>
-        throw new NotSupportedException($"O predicado '{predicate}' depende de {system}, que ainda não existe no estado (M2).");
+    public int? QuestStage(string quest) => _state.Missions.TryGetValue(quest, out var mission) ? mission.Stage : null;
 }

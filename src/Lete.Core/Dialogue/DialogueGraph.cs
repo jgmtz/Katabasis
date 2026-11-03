@@ -106,3 +106,9 @@ public sealed record BreakOath(string OathId) : DialogueEffect;
 
 /// <summary>A sombra oferece pão ou leito (cura leve, uma vez por degrau da Maré).</summary>
 public sealed record OfferHospitality(string ShadeId) : DialogueEffect;
+
+/// <summary>Paga óbolos da Bolsa (Caronte); a opção que paga pede <c>obols_min</c>.</summary>
+public sealed record PayObols(int Amount) : DialogueEffect;
+
+/// <summary>Conhece um companheiro (o capítulo 0, o encontro).</summary>
+public sealed record MeetCompanion(string CompanionId) : DialogueEffect;

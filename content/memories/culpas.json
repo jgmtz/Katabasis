@@ -1,0 +1,55 @@
+{
+  "id": "culpas",
+  "_rascunho": "As Culpas das Memórias Pesadas encaradas (GDD 2.2: muito fortes, custo alto de Lucidez). O Convite herdou o Traço e os números (_tbd) da Culpa de teste 1 (Claude, 31/out/2026).",
+  "memories": [
+    {
+      "id": "culpa_o_convite",
+      "kind": "family",
+      "name_key": "memoria.culpa_o_convite.nome",
+      "description_key": "memoria.culpa_o_convite.descricao",
+      "stroke": {
+        "steps": [
+          "down",
+          "down",
+          "up",
+          "up"
+        ],
+        "beat_seconds": {
+          "_tbd": true,
+          "value": 0.5
+        },
+        "zero_score_offset_seconds": {
+          "_tbd": true,
+          "value": 0.2
+        },
+        "lead_in_seconds": {
+          "_tbd": true,
+          "value": 0.9
+        }
+      },
+      "lucidity_cost": {
+        "_tbd": true,
+        "value": 30
+      },
+      "failed_cost_multiplier": {
+        "_tbd": true,
+        "value": 1.5
+      },
+      "effect": "strike",
+      "power": {
+        "perfect": {
+          "_tbd": true,
+          "value": 70
+        },
+        "good": {
+          "_tbd": true,
+          "value": 50
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 20
+        }
+      }
+    }
+  ]
+}

@@ -197,12 +197,18 @@ public partial class DebugPanel : CanvasLayer
         _recordState.AutowrapMode = TextServer.AutowrapMode.WordSmart;
         column.AddChild(_recordState);
         var recordRow = new HFlowContainer();
-        AddButton(recordRow, "debug.registro.regiao", () =>
+        foreach (var region in GameRoot.Instance.RegionDefinitions.Values.OrderBy(r => r.Id, StringComparer.Ordinal))
         {
-            // Troca de região de mentira (salva, como no jogo); a seguinte volta para a sala.
-            var root = GameRoot.Instance;
-            root.ChangeRegion(root.State.RegionId == _main.RegionId ? DebugRegion : _main.RegionId);
-        });
+            // Vai para a região, na chegada padrão, sem salvar (a troca de verdade, por uma passagem, salva).
+            var button = new Button { Text = string.Format(T("debug.registro.ir"), T(region.NameKey)) };
+            button.Pressed += () =>
+            {
+                SetOpen(false);
+                _main.VisitRegion(region.Id);
+            };
+            recordRow.AddChild(button);
+        }
+
         AddButton(recordRow, "debug.registro.fragmento", () =>
         {
             var root = GameRoot.Instance;
@@ -402,8 +408,6 @@ public partial class DebugPanel : CanvasLayer
     }
 
     /// <summary>Região de mentira para conferir o save ao trocar de região.</summary>
-    private const string DebugRegion = "regiao_debug";
-
     /// <summary>Região, modo, desfecho de cada sombra, partilhas, Ecos, espólios e fragmentos de origem.</summary>
     private void RefreshRecord()
     {
@@ -419,7 +423,9 @@ public partial class DebugPanel : CanvasLayer
             List(state.Echoes),
             List(state.Hoards.Where(p => !p.Value.IsEmpty).Select(p => string.Format(T("debug.registro.espolio"), p.Key, p.Value.Obols))),
             List(state.OriginFragments),
-            List(state.Encounters.OrderBy(e => e, StringComparer.Ordinal)));
+            List(state.Encounters.OrderBy(e => e, StringComparer.Ordinal)))
+            + "\n" + string.Format(T("debug.missoes"), List(state.Missions.OrderBy(p => p.Key, StringComparer.Ordinal)
+                .Select(p => p.Value.Closed ? $"{p.Key}={p.Value.Stage} ✗" : $"{p.Key}={p.Value.Stage}")));
     }
 
     private void AddButton(Container row, string key, Action action)

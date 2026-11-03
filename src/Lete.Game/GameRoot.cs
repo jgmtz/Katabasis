@@ -44,6 +44,7 @@ public partial class GameRoot : Node
     private const string CompanionsFolder = "res://content/companions";
     private const string RegionsFolder = "res://content/regions";
     private const string EncountersFolder = "res://content/encounters";
+    private const string MissionsFolder = "res://content/missions";
     private const string CompanionRulesPath = "res://content/rules/companheiro.json";
     private const string MosaicRulesPath = "res://content/rules/mosaico.json";
     private const string RecollectionsFolder = "res://content/recollections";
@@ -84,6 +85,7 @@ public partial class GameRoot : Node
     public ShadeRecord Shades { get; private set; } = null!;
     public Regions Regions { get; private set; } = null!;
     public Encounters Encounters { get; private set; } = null!;
+    public Missions Missions { get; private set; } = null!;
 
     /// <summary>As provisões do jogo (definições; as quantidades estão na Bolsa do estado).</summary>
     public System.Collections.Generic.IReadOnlyList<Lete.Core.Combat.ProvisionDefinition> Provisions { get; private set; } = null!;
@@ -109,6 +111,8 @@ public partial class GameRoot : Node
                 case SwearOath e: _root.Oaths.Swear(e.OathId); break;
                 case BreakOath e: _root.Oaths.Break(e.OathId); break;
                 case OfferHospitality e: _root.Healing.Hospitality(e.ShadeId); break;
+                case PayObols e: _root.State.Inventory.Obols -= Math.Min(e.Amount, _root.State.Inventory.Obols); break;
+                case MeetCompanion e: _root.Companions.Meet(e.CompanionId); break;
             }
         }
     }
@@ -150,6 +154,7 @@ public partial class GameRoot : Node
     private System.Collections.Generic.Dictionary<string, string> _originNames = null!;
     private System.Collections.Generic.IReadOnlyList<Origin> _origins = null!;
     private System.Collections.Generic.Dictionary<string, Encounter> _encounters = null!;
+    private System.Collections.Generic.Dictionary<string, Mission> _missions = null!;
 
     /// <summary>As regiões do Além (id → cena e chegada padrão).</summary>
     public System.Collections.Generic.IReadOnlyDictionary<string, RegionDefinition> RegionDefinitions { get; private set; } = null!;
@@ -199,6 +204,7 @@ public partial class GameRoot : Node
         _companions = LoadFolder(CompanionsFolder, CompanionData.FromJson, c => c.Id);
         RegionDefinitions = LoadFolder(RegionsFolder, WorldData.RegionFromJson, r => r.Id);
         _encounters = LoadFolder(EncountersFolder, WorldData.EncounterFromJson, e => e.Id);
+        _missions = LoadFolder(MissionsFolder, MissionData.FromJson, m => m.Id);
         _companionRules = CompanionData.RulesFromJson(FileAccess.GetFileAsString(CompanionRulesPath));
         _origins = OriginData.FromJson(FileAccess.GetFileAsString(OriginsPath));
         _originNames = _origins.ToDictionary(o => o.Id, o => o.NameKey, StringComparer.Ordinal);
@@ -290,6 +296,7 @@ public partial class GameRoot : Node
         Companions?.Dispose();
         OriginFragments?.Dispose();
         Shades?.Dispose();
+        Missions?.Dispose();
         Journal = new Journal(State, Events);
         Mark = new MarkTracker(State, Events, _markRules);
         Tide = new TideTracker(State, Events, _tideRules);
@@ -314,6 +321,8 @@ public partial class GameRoot : Node
         Tribunal = new Tribunal(State, Events, _trials, _tribunalRules, Mosaic);
         PathKeys = new PathKeys(State, Events, _pathKeys, () => Facts);
         PathKeys.Refresh();
+        Missions = new Missions(State, Events, _missions, () => Facts, new GameDialogueEffects(this));
+        Missions.Refresh();
         Items.Refresh();
     }
 

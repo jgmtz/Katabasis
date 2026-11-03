@@ -102,7 +102,7 @@ public class OathTests
 
         _oaths.Swear("do_campo");
         Assert.Equal(OathStatus.Active, _oaths.StatusOf("do_campo"));
-        Assert.Contains("do_campo.kept_when", _oaths.ConditionsWaitingForSystems);
+        Assert.Empty(_oaths.ConditionsWaitingForSystems);
     }
 
     [Fact]

@@ -149,6 +149,8 @@ public class WorldStateTests
         s.Hoards["remador"].Offerings["vinho"] = 1;
         s.VisitedRegions.Add("sala_teste");
         s.Encounters.Add("remador_boca");
+        s.MetCompanions.Add("dimas");
+        s.Missions["insepultos_do_aqueronte"] = new MissionState { Stage = 1, Closed = true };
         return s;
     }
 

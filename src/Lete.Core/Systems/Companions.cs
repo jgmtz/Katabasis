@@ -78,6 +78,28 @@ public sealed class Companions : IDisposable
     public Approval ApprovalOf(string id, Via via) =>
         Definitions.TryGetValue(id, out var companion) ? companion.ApprovalOf(via) : Approval.Tolerate;
 
+    /// <summary>Os companheiros já conhecidos (capítulo 0), na ordem do id.</summary>
+    public IReadOnlyList<Companion> Met => _state.MetCompanions
+        .Where(Definitions.ContainsKey)
+        .OrderBy(id => id, StringComparer.Ordinal)
+        .Select(id => Definitions[id])
+        .ToList();
+
+    /// <summary>Ainda não escolheu e já conhece alguém: a escolha pode acontecer.</summary>
+    public bool CanChoose => _state.CompanionId is null && Met.Count > 0;
+
+    /// <summary>Conhece o companheiro (o encontro, capítulo 0). Falso se já conhecia ou se o id não existe.</summary>
+    public bool Meet(string id)
+    {
+        if (!Definitions.ContainsKey(id) || !_state.MetCompanions.Add(id))
+        {
+            return false;
+        }
+
+        _events.Publish(new CompanionMet(id));
+        return true;
+    }
+
     /// <summary>Escolhe o companheiro: uma vez por partida. Falso se já há um ou se o id não existe.</summary>
     public bool Choose(string id)
     {

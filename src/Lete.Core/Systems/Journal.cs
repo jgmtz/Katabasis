@@ -6,7 +6,7 @@ namespace Lete.Core.Systems;
 /// <summary>
 /// Diário: guarda o que o jogador viu e ouviu, em frases soltas. Sem marcadores de objetivo.
 /// Examinar o mesmo objeto de novo não repete a frase. Também escreve o que outros sistemas anunciam (uma chave do
-/// Caminho obtida, a linha de história de um item que evoluiu, um conjunto reunido).
+/// Caminho obtida, a linha de história de um item que evoluiu, um conjunto reunido, os passos de uma missão).
 /// </summary>
 public sealed class Journal : IDisposable
 {
@@ -16,6 +16,8 @@ public sealed class Journal : IDisposable
     private readonly IDisposable _itemEvolved;
     private readonly IDisposable _setCompleted;
     private readonly IDisposable _fragments;
+    private readonly IDisposable _missionStarted;
+    private readonly IDisposable _missionAdvanced;
 
     public Journal(WorldState state, EventBus events)
     {
@@ -37,6 +39,20 @@ public sealed class Journal : IDisposable
                 Add(key);
             }
         });
+        _missionStarted = events.Subscribe<MissionStarted>(e =>
+        {
+            if (e.JournalKey is { } key)
+            {
+                Add(key);
+            }
+        });
+        _missionAdvanced = events.Subscribe<MissionAdvanced>(e =>
+        {
+            if (e.JournalKey is { } key)
+            {
+                Add(key);
+            }
+        });
     }
 
     public void Dispose()
@@ -45,6 +61,8 @@ public sealed class Journal : IDisposable
         _itemEvolved.Dispose();
         _setCompleted.Dispose();
         _fragments.Dispose();
+        _missionStarted.Dispose();
+        _missionAdvanced.Dispose();
     }
 
     public IReadOnlyList<string> Entries => _state.JournalEntries;

@@ -131,8 +131,12 @@ public static class DialogueData
 
     /// <summary>
     /// Efeito: um objeto de uma chave só (<c>journal_key</c>, <c>flag</c>, <c>origin_fragment</c>, <c>hear</c>,
-    /// <c>swear_oath</c>, <c>break_oath</c>, <c>hospitality</c>: true, que precisa de <c>shade</c> no diálogo).
+    /// <c>swear_oath</c>, <c>break_oath</c>, <c>hospitality</c>: true, que precisa de <c>shade</c> no diálogo, e
+    /// <c>pay_obols</c>: quantidade, e <c>meet_companion</c>: id do companheiro).
     /// </summary>
+    /// <summary>Um efeito fora de um diálogo (as consequências de uma missão), com o mesmo formato.</summary>
+    public static DialogueEffect EffectFromJson(JsonElement e, string at, string? shade = null) => Effect(at, shade, e);
+
     private static DialogueEffect Effect(string at, string? shade, JsonElement e)
     {
         var property = e.EnumerateObject().Single();
@@ -145,6 +149,10 @@ public static class DialogueData
             "swear_oath" => new SwearOath(property.Value.GetString()!),
             "break_oath" => new BreakOath(property.Value.GetString()!),
             "hospitality" => new OfferHospitality(shade ?? throw new FormatException($"{at}: 'hospitality' precisa de 'shade' no diálogo.")),
+            "pay_obols" => property.Value.GetInt32() is > 0 and var amount
+                ? new PayObols(amount)
+                : throw new FormatException($"{at}: 'pay_obols' precisa ser maior que zero."),
+            "meet_companion" => new MeetCompanion(property.Value.GetString()!),
             var other => throw new FormatException($"{at}: efeito '{other}' desconhecido."),
         };
     }

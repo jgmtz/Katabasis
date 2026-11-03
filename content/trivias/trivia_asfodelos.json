@@ -1,0 +1,8 @@
+{
+  "id": "trivia_asfodelos",
+  "_rascunho": "A grande Trívia de Asfódelos (GDD 3.6: liga a todas as acesas). Os três caminhos (Luto, Tribunal, Guerreiros) ficam fora da fatia.",
+  "region": "asfodelos",
+  "name_key": "trivia.asfodelos.nome",
+  "torches": [],
+  "hub": true
+}

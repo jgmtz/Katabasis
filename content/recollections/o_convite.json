@@ -1,0 +1,31 @@
+{
+  "id": "o_convite",
+  "_rascunho": "A primeira Memória Pesada (HISTORIA 1.2: foi ele quem levou essa pessoa ao Além). Lugar, condição e textos propostos pelo Claude (31/out/2026, PENDENCIAS 77): aflora na margem do Aqueronte, diante da barca, depois de Caronte dizer \"Já te levei antes. Com outra pessoa.\"; o texto não nomeia o papel da pessoa (muda por origem, HISTORIA 1.1).",
+  "kind": "family",
+  "scope": "heavy",
+  "order": 1,
+  "gate": {
+    "flag": "caronte_falou"
+  },
+  "title_key": "pesada.o_convite.titulo",
+  "skill": "culpa_o_convite",
+  "warning_key": "pesada.o_convite.aviso",
+  "surface_key": "pesada.o_convite.aflora",
+  "stages": {
+    "full": {
+      "text_key": "pesada.o_convite.verdade"
+    }
+  },
+  "leave": {
+    "text_key": "pesada.o_convite.deixar",
+    "lucidity_max": {
+      "_tbd": true,
+      "value": 10
+    },
+    "protections": 1
+  },
+  "mosaic_position": {
+    "x": 0,
+    "y": 8
+  }
+}

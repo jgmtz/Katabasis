@@ -1,0 +1,87 @@
+{
+  "id": "encontro_calias",
+  "_rascunho": "Capítulo 0, o encontro (HISTORIA 5.3: reage ao jeito de lutar do protagonista, pelo Perfil recente; aprovação da 5.1). Lugar da HISTORIA 5.2; falas de rascunho do Claude (31/out/2026, PENDENCIAS 78).",
+  "mode": "fixed",
+  "speaker_key": "personagem.calias.nome",
+  "shade": "calias",
+  "start": [
+    "de_novo",
+    "aprova",
+    "reprova",
+    "neutro"
+  ],
+  "nodes": [
+    {
+      "id": "de_novo",
+      "when": {
+        "flag": "conheceu_calias"
+      },
+      "line_key": "dlg.calias.encontro.de_novo"
+    },
+    {
+      "id": "aprova",
+      "when": {
+        "any": [
+          {
+            "profile": {
+              "top_via": "absorb"
+            }
+          },
+          {
+            "profile": {
+              "top_via": "witness"
+            }
+          }
+        ]
+      },
+      "line_key": "dlg.calias.encontro.aprova",
+      "next": "apresenta"
+    },
+    {
+      "id": "reprova",
+      "when": {
+        "profile": {
+          "top_via": "spare"
+        }
+      },
+      "line_key": "dlg.calias.encontro.reprova",
+      "next": "apresenta"
+    },
+    {
+      "id": "neutro",
+      "line_key": "dlg.calias.encontro.neutro",
+      "next": "apresenta"
+    },
+    {
+      "id": "apresenta",
+      "line_key": "dlg.calias.encontro.apresenta",
+      "effects": [
+        {
+          "meet_companion": "calias"
+        },
+        {
+          "flag": "conheceu_calias"
+        },
+        {
+          "journal_key": "diario.calias.encontro"
+        }
+      ],
+      "options": [
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.calias.encontro.pergunta",
+          "next": "resposta"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.calias.encontro.calar",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "resposta",
+      "line_key": "dlg.calias.encontro.resposta"
+    }
+  ]
+}
