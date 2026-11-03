@@ -92,6 +92,68 @@ public sealed record WavesPattern(
     public int GapRow(int column) => Rows <= 1 ? -1 : column * 2 % Rows;
 }
 
+/// <summary>De onde entra a mordida de uma cabeça no quadro da Esquiva.</summary>
+public enum DodgeSide
+{
+    Left,
+    Right,
+    Top,
+}
+
+/// <summary>
+/// "As três cabeças atacam por três lados do quadro" (Cérbero, HISTORIA 6): a cada <see cref="SpawnInterval"/>, uma
+/// cabeça morde, em rodízio: uma fileira de dentes atravessa o quadro a partir do lado dela, com um vão que muda de
+/// lugar. Com menos cabeças acordadas (<see cref="Sides"/>), menos lados: a da esquerda se acalma primeiro, depois a da
+/// direita, e a do meio (de cima) fica por último.
+/// </summary>
+public sealed record SidesPattern(DodgeSettings Box, float SpawnInterval, float Speed, float Spacing, int Sides) : IDodgePattern
+{
+    private static readonly DodgeSide[] Order = { DodgeSide.Left, DodgeSide.Right, DodgeSide.Top };
+
+    public IDodgePattern Slowed(float factor) => this with { Speed = Speed / factor, SpawnInterval = SpawnInterval * factor };
+
+    /// <summary>Os lados que ainda mordem (as cabeças acordadas), na ordem do rodízio.</summary>
+    public IReadOnlyList<DodgeSide> ActiveSides => Order.Skip(Order.Length - Math.Clamp(Sides, 1, Order.Length)).ToList();
+
+    /// <summary>De que lado vem a mordida número <paramref name="bite"/> (contando do 0).</summary>
+    public DodgeSide SideOf(int bite) => ActiveSides[bite % ActiveSides.Count];
+
+    public IEnumerable<Vector2> BulletsAt(float seconds)
+    {
+        var r = Box.BulletRadius;
+        var last = (int)MathF.Floor(seconds / SpawnInterval);
+        for (var bite = 0; bite <= last; bite++)
+        {
+            var travelled = Speed * (seconds - bite * SpawnInterval) - r;
+            var side = SideOf(bite);
+            var across = side == DodgeSide.Top ? Box.BoxWidth : Box.BoxHeight;
+            var along = side == DodgeSide.Top ? Box.BoxHeight : Box.BoxWidth;
+            if (travelled > along + r)
+            {
+                continue;
+            }
+
+            var teeth = Math.Max(2, (int)(across / Spacing));
+            var gap = bite * 2 % teeth;
+            for (var tooth = 0; tooth < teeth; tooth++)
+            {
+                if (tooth == gap)
+                {
+                    continue;
+                }
+
+                var offset = (tooth + 0.5f) * across / teeth;
+                yield return side switch
+                {
+                    DodgeSide.Left => new Vector2(travelled, offset),
+                    DodgeSide.Right => new Vector2(Box.BoxWidth - travelled, offset),
+                    _ => new Vector2(offset, travelled),
+                };
+            }
+        }
+    }
+}
+
 /// <summary>
 /// Saída do quadro (Fugir): um retângulo em frações do quadro (0 a 1). Chegar nela termina a Esquiva com sucesso.
 /// </summary>

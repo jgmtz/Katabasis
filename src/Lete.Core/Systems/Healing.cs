@@ -34,8 +34,14 @@ public sealed class Healing
     }
 
     /// <summary>A fonte ainda cura neste degrau da Maré.</summary>
-    public bool CanUse(string sourceId) =>
-        !_vitals.HealUses.TryGetValue(sourceId, out var step) || step < _tideStep();
+    public bool CanUse(string sourceId) => IsReady(_vitals, sourceId, _tideStep());
+
+    /// <summary>A fonte ainda não curou no degrau <paramref name="tideStep"/> (as condições também perguntam).</summary>
+    public static bool IsReady(VitalsState vitals, string sourceId, int tideStep) =>
+        !vitals.HealUses.TryGetValue(sourceId, out var step) || step < tideStep;
+
+    /// <summary>O id da fonte de cura da hospitalidade de uma sombra.</summary>
+    public static string HospitalitySource(string shadeId) => $"hospitalidade:{shadeId}";
 
     /// <summary>
     /// Acende o Fogo do Lar <paramref name="fireId"/> com a primeira oferenda que o jogador tiver. Falso se já curou
@@ -56,7 +62,7 @@ public sealed class Healing
     /// <summary>Hospitalidade da sombra <paramref name="shadeId"/> (pão ou leito). Falso se já curou neste degrau.</summary>
     public bool Hospitality(string shadeId)
     {
-        var source = $"hospitalidade:{shadeId}";
+        var source = HospitalitySource(shadeId);
         if (!CanUse(source))
         {
             return false;

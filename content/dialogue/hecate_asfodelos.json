@@ -1,0 +1,98 @@
+{
+  "id": "hecate_asfodelos",
+  "_rascunho": "Hécate na grande Trívia de Asfódelos (03/nov/2026, PENDENCIAS 83): só a chama e a voz, como em Tênaro; a primeira fala muda conforme o jogador encarou ou deixou as Pesadas (o Perfil, GDD 2.2) ou disse a Caronte que prefere não saber. Falas de rascunho.",
+  "mode": "fixed",
+  "speaker_key": "personagem.hecate.nome",
+  "start": [
+    "encarou",
+    "deixou",
+    "nao_saber",
+    "inicio"
+  ],
+  "nodes": [
+    {
+      "id": "encarou",
+      "when": {
+        "profile": {
+          "heavy": "face"
+        }
+      },
+      "line_key": "dlg.hecate_asfodelos.encarou",
+      "effects": [
+        {
+          "flag": "hecate_asfodelos_falou"
+        }
+      ],
+      "next": "encruzilhada"
+    },
+    {
+      "id": "deixou",
+      "when": {
+        "profile": {
+          "heavy": "leave"
+        }
+      },
+      "line_key": "dlg.hecate_asfodelos.deixou",
+      "effects": [
+        {
+          "flag": "hecate_asfodelos_falou"
+        }
+      ],
+      "next": "encruzilhada"
+    },
+    {
+      "id": "nao_saber",
+      "when": {
+        "flag": "preferiu_nao_saber"
+      },
+      "line_key": "dlg.hecate_asfodelos.nao_saber",
+      "effects": [
+        {
+          "flag": "hecate_asfodelos_falou"
+        }
+      ],
+      "next": "encruzilhada"
+    },
+    {
+      "id": "inicio",
+      "line_key": "dlg.hecate_asfodelos.inicio",
+      "effects": [
+        {
+          "flag": "hecate_asfodelos_falou"
+        }
+      ],
+      "next": "encruzilhada"
+    },
+    {
+      "id": "encruzilhada",
+      "line_key": "dlg.hecate_asfodelos.encruzilhada",
+      "options": [
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.hecate_asfodelos.caminhos",
+          "next": "caminhos"
+        },
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.hecate_asfodelos.quem",
+          "next": "quem"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.hecate_asfodelos.calar",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "caminhos",
+      "line_key": "dlg.hecate_asfodelos.caminhos.resposta",
+      "next": "encruzilhada"
+    },
+    {
+      "id": "quem",
+      "line_key": "dlg.hecate_asfodelos.quem.resposta",
+      "next": "encruzilhada"
+    }
+  ]
+}

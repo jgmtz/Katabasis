@@ -1,7 +1,7 @@
 # GDD — Projeto Lete (título provisório)
 
 > Documento de design de jogo, versão 0.1 (23/out/2026).
-> Fonte: decisões tomadas por João Guilherme Matzenbacher em conversa com Claude.
+> Fonte: decisões tomadas por João Guilherme Matzenbacher.
 > **Números de balanceamento ficam para o fim** (ver `PENDENCIAS.md`). Onde este documento diz "TBD", o valor não foi decidido e não deve ser inventado como definitivo.
 > Termos do jogo estão em português. O mapeamento para nomes de código em inglês está em `ARQUITETURA.md`, seção Glossário.
 
@@ -338,7 +338,7 @@ A derrota tem custo real, nunca é um "game over" seco:
 - Segunda leitura da luta: comenta a sombra à sua maneira (um diz "ele só quer descansar", outro "ele tem nome"). Ambos podem estar certos ou errados.
 - **Apoios:** Postura (Aulo), Lamento (Ismena), Surrupio (Dimas), Brasa (Septímia), Canto (Cálias); o da **Lia** (sexta companheira, 26/out/2026) está pendente. Ver `HISTORIA.md`.
 - O vínculo cresce ao partilhar oferendas com ele, lutar juntos e conversar nas Trívias.
-- **Regras fechadas (João, 30/out/2026):** o vínculo é um número que **só cresce** (0 a 10, `_tbd`); **por faixas**: abaixo da faixa alta o apoio vem a cada 2 turnos, na faixa alta a cada turno. A **ação do turno** conta pela via dela (Atacar = Combater; Escutar, Libertar e Oferenda = Libertar; Absorver e Eco = Absorver; Presenciar; Poupar; Fugir; Deixar-se vencer; Memória e Bolsa não são via): se ele a reprova, o próximo apoio sai **relutante** (metade, `_tbd`) e ele comenta **uma vez por luta**. Os **cinco apoios** funcionam, e o da Lia é proposta do Claude (Esboço, ver `HISTORIA.md` 5.2). Implementado em `Lete.Core/Systems/Companions.cs`; números em `content/rules/companheiro.json`.
+- **Regras fechadas (João, 30/out/2026):** o vínculo é um número que **só cresce** (0 a 10, `_tbd`); **por faixas**: abaixo da faixa alta o apoio vem a cada 2 turnos, na faixa alta a cada turno. A **ação do turno** conta pela via dela (Atacar = Combater; Escutar, Libertar e Oferenda = Libertar; Absorver e Eco = Absorver; Presenciar; Poupar; Fugir; Deixar-se vencer; Memória e Bolsa não são via): se ele a reprova, o próximo apoio sai **relutante** (metade, `_tbd`) e ele comenta **uma vez por luta**. Os **cinco apoios** funcionam, e o da Lia é proposta (Esboço, ver `HISTORIA.md` 5.2). Implementado em `Lete.Core/Systems/Companions.cs`; números em `content/rules/companheiro.json`.
 
 ### 4.11 Chefes
 
@@ -489,7 +489,7 @@ Teclado e mouse **e** controle desde o M0. Um esquema único: direcionais/analó
 
 ## 9. Começo do jogo: o protagonista-sombra (decisão do João, 26/out/2026)
 
-> Substitui as versões anteriores ("Criação do personagem" e, depois, os 6 protagonistas fixos de 25/out). Fonte: `docs/PROTAGONISTA_SOMBRA.md`. O que está marcado *(proposta)* foi sugerido pelo Claude e aceito pelo João, com detalhes ainda abertos.
+> Substitui as versões anteriores ("Criação do personagem" e, depois, os 6 protagonistas fixos de 25/out). Fonte: `docs/PROTAGONISTA_SOMBRA.md`. O que está marcado *(proposta)* foi proposto e aceito pelo João, com detalhes ainda abertos.
 
 O protagonista é uma **sombra sem aparência**: corpo de silhueta escura, o rosto uma mancha lisa, sem traços (o Lete tirou dele o próprio rosto). Só há **dois corpos**, masculino e feminino; o gênero se lê pela silhueta. **Não há criador de personagem**, nem cor de pele, cabelo, olhos ou estilo de cabelo.
 
@@ -529,7 +529,7 @@ O protagonista é uma **sombra sem aparência**: corpo de silhueta escura, o ros
 - **Texto:** fonte pixel (Pixelify Sans) com contorno escuro e sombra de 1 pixel da arte; títulos em ouro, corpo em marfim.
 - **Transições:** fade curto na cor do fundo (azul-noite).
 - **Proporções:** a base é 1920×1080; em telas mais estreitas (16:10, 4:3) a tela lógica cresce na vertical (`stretch/aspect = expand`) e o HUD se posiciona por frações da tela (dados em `content/battle/hud_layouts.json` e `battle_hud_estilo.tres`).
-- Propostas do Claude que ainda dependem de aprovação: ver `PENDENCIAS.md` 24 a 26.
+- Propostas que ainda dependem de aprovação: ver `PENDENCIAS.md` 24 a 26.
 
 **Conteúdo total estimado (por partida e no jogo):** sombras ~40 a 60 (nomeadas 15 a 20, comuns reutilizando 6 corpos-base), Lembranças ~45, itens ~65, juramentos 8 a 10, julgamentos 4 a 6, missões 15 a 20, 6 chefes (+1 opcional), 5 origens, 5 companheiros, ~15 regiões. Ordem de grandeza de arte: 1.500 a 2.000 quadros (ver `ARTE.md`).
 
@@ -547,4 +547,4 @@ O jogo é grande para uma pessoa só. Ordem de construção: **fatias verticais*
 
 ## 12. Publicação
 
-Nome definitivo, capa, página do itch.io, trailer e demo ficam para perto do fim. **Conferir as regras de divulgação de arte gerada por IA** na plataforma onde publicar, já que conceitos são gerados com Gemini.
+Nome definitivo, capa, página do itch.io, trailer e demo ficam para perto do fim. **Conferir as regras de divulgação de arte feita com geradores de imagem** na plataforma onde publicar, já que conceitos são gerados com Gemini.

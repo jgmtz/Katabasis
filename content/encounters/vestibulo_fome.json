@@ -1,0 +1,22 @@
+{
+  "id": "vestibulo_fome",
+  "_rascunho": "A Fome no estreito do Vestíbulo, no caminho para o Aqueronte (05/nov/2026, PENDENCIAS 86). Luta inteira, derrota com custo; sem Poupar (ela não vai embora sozinha).",
+  "shade": "fome",
+  "region": "vestibulo",
+  "battle": "fome",
+  "hecate_key": "encontro.vestibulo_fome.nota",
+  "actions": [
+    "atacar",
+    "memoria",
+    "aproximar",
+    "escutar",
+    "libertar",
+    "oferenda",
+    "presenciar",
+    "ceder",
+    "absorver",
+    "eco",
+    "bolsa",
+    "fugir"
+  ]
+}

@@ -32,12 +32,22 @@ public sealed class ShadeListening
     private readonly string _murmurKey;
     private readonly ShadeUnderstanding _understanding;
     private readonly Dictionary<ListenEntry, int> _progress = new();
+    private readonly Func<bool>? _nameReachable;
+    private readonly string? _nameMissingKey;
 
-    public ShadeListening(IReadOnlyList<ListenEntry> entries, string murmurKey, ShadeUnderstanding understanding)
+    /// <param name="nameReachable">
+    /// O nome espalhado (a Sem-Nome, decisão do João de 06/nov/2026): enquanto devolver falso, a escuta do nome só ouve
+    /// <paramref name="nameMissingKey"/>, sem avançar; os pedaços do nome se acham pela região.
+    /// </param>
+    public ShadeListening(
+        IReadOnlyList<ListenEntry> entries, string murmurKey, ShadeUnderstanding understanding,
+        Func<bool>? nameReachable = null, string? nameMissingKey = null)
     {
         _entries = entries;
         _murmurKey = murmurKey;
         _understanding = understanding;
+        _nameReachable = nameReachable;
+        _nameMissingKey = nameMissingKey;
     }
 
     public ListenResult Listen(int cycleStep, GestureGrade grade)
@@ -46,6 +56,11 @@ public sealed class ShadeListening
         if (entry is null || grade == GestureGrade.Failed)
         {
             return new ListenResult(_murmurKey, null, Partial: false);
+        }
+
+        if (entry.Reveals == ListenReveal.Name && _nameReachable is { } reachable && !reachable())
+        {
+            return new ListenResult(_nameMissingKey ?? _murmurKey, null, Partial: true);
         }
 
         var before = _progress.GetValueOrDefault(entry);

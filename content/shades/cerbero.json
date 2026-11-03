@@ -1,0 +1,274 @@
+{
+  "id": "cerbero",
+  "_rascunho": "Chefe-guardião da entrada da Planície (HISTORIA 6: três cabeças; uma se acalma com mel; a última só aceita oferenda ou o nome). Regras, falas e números (03/nov/2026, PENDENCIAS 81); arte provisória pixelizada dos originais do João.",
+  "kind": "guardian",
+  "name_known": true,
+  "region": "asfodelos",
+  "resolve": {
+    "_tbd": true,
+    "value": 160
+  },
+  "murmur_key": "shade.cerbero.murmurio",
+  "attacks": [
+    {
+      "kind": "pattern",
+      "gesture": "esquiva_tres_cabecas",
+      "caption_key": "shade.cerbero.gesto.tres",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 10
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 22
+        }
+      }
+    },
+    {
+      "kind": "direct",
+      "gesture": "aparo_rapido",
+      "caption_key": "shade.cerbero.gesto.esquerda",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 9
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 20
+        }
+      },
+      "head": 1
+    },
+    {
+      "kind": "direct",
+      "gesture": "aparo_rapido",
+      "caption_key": "shade.cerbero.gesto.direita",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 9
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 20
+        }
+      },
+      "head": 2
+    },
+    {
+      "kind": "direct",
+      "gesture": "aparo_basico",
+      "caption_key": "shade.cerbero.gesto.meio",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 10
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 22
+        }
+      },
+      "head": 3
+    }
+  ],
+  "heads": {
+    "count": 3,
+    "calm_offering": "mel",
+    "calmed_key": "shade.cerbero.cabeca.calma",
+    "last_key": "shade.cerbero.cabeca.ultima",
+    "all_calm_key": "shade.cerbero.cabeca.todas",
+    "art_by_awake": [
+      "cerbero_f1",
+      "cerbero_f2",
+      "cerbero_f3"
+    ]
+  },
+  "listen": [
+    {
+      "cycle_step": 0,
+      "reveals": "clue",
+      "text_key": "shade.cerbero.escuta.pista",
+      "partial_key": "shade.cerbero.escuta.pista.metade"
+    },
+    {
+      "cycle_step": 3,
+      "reveals": "fixation",
+      "text_key": "shade.cerbero.escuta.fixacao",
+      "partial_key": "shade.cerbero.escuta.fixacao.metade"
+    }
+  ],
+  "fixation": {
+    "id": "dever",
+    "options": [
+      {
+        "id": "fome",
+        "label_key": "shade.comum.fixacao.fome",
+        "wrong_key": "shade.cerbero.corrige.fome"
+      },
+      {
+        "id": "medo",
+        "label_key": "shade.comum.fixacao.medo",
+        "wrong_key": "shade.cerbero.corrige.medo"
+      },
+      {
+        "id": "dever",
+        "label_key": "shade.cerbero.fixacao.dever"
+      }
+    ]
+  },
+  "absorb": {
+    "resolve_fraction_max": {
+      "_tbd": true,
+      "value": 0.25
+    },
+    "weak_fill_factor": {
+      "_tbd": true,
+      "value": 0.7
+    },
+    "mark_gain": {
+      "perfect": {
+        "_tbd": true,
+        "value": 3
+      },
+      "good": {
+        "_tbd": true,
+        "value": 3
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 4
+      }
+    }
+  },
+  "echo": {
+    "id": "eco_latido",
+    "name_key": "shade.cerbero.eco.nome",
+    "description_key": "shade.cerbero.eco.descricao",
+    "gesture": "eco_latido",
+    "resolve_damage": {
+      "perfect": {
+        "_tbd": true,
+        "value": 55
+      },
+      "good": {
+        "_tbd": true,
+        "value": 38
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 15
+      }
+    },
+    "mark_on_use": {
+      "_tbd": true,
+      "value": 2
+    }
+  },
+  "liberation": {
+    "peace": {
+      "_tbd": true,
+      "value": 100
+    },
+    "peace_gain": {
+      "perfect": {
+        "_tbd": true,
+        "value": 45
+      },
+      "good": {
+        "_tbd": true,
+        "value": 30
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 12
+      }
+    },
+    "lucidity_cost": {
+      "_tbd": true,
+      "value": 15
+    },
+    "enraged_damage_multiplier": {
+      "_tbd": true,
+      "value": 1.5
+    },
+    "progress_key": "shade.cerbero.libertar.progresso",
+    "freed_key": "shade.cerbero.libertar.parte"
+  },
+  "voices": [
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.7
+      },
+      "text_key": "shade.cerbero.voz.1"
+    },
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.4
+      },
+      "text_key": "shade.cerbero.voz.2"
+    },
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.15
+      },
+      "text_key": "shade.cerbero.voz.3"
+    }
+  ],
+  "phases": [],
+  "story_keys": [
+    "shade.cerbero.historia.1",
+    "shade.cerbero.historia.2",
+    "shade.cerbero.historia.3"
+  ],
+  "flee_clue_key": "shade.cerbero.fuga",
+  "yield": {
+    "lucidity_cost": {
+      "_tbd": true,
+      "value": 10
+    },
+    "text_keys": [
+      "shade.cerbero.ceder.1",
+      "shade.cerbero.ceder.2"
+    ]
+  },
+  "defeat_clue_keys": [
+    "shade.cerbero.hecate.1",
+    "shade.cerbero.hecate.2"
+  ],
+  "spare_key": "shade.cerbero.poupar",
+  "offering": {
+    "accepts": "mel",
+    "accept_key": "shade.cerbero.cabeca.calma",
+    "refuse_key": "shade.cerbero.oferenda.recusa"
+  },
+  "companion_readings": {
+    "aulo": "shade.cerbero.leitura.aulo",
+    "ismena": "shade.cerbero.leitura.ismena",
+    "dimas": "shade.cerbero.leitura.dimas",
+    "septimia": "shade.cerbero.leitura.septimia",
+    "calias": "shade.cerbero.leitura.calias",
+    "lia": "shade.cerbero.leitura.lia"
+  }
+}

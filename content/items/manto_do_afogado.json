@@ -1,6 +1,6 @@
 {
   "id": "manto_do_afogado",
-  "_rascunho": "Item de TESTE a partir do exemplo do GDD 6.2 (Claude, 30/out/2026). Textos e números são rascunho; a missão do dono ainda não existe, então a flag faz o papel dela.",
+  "_rascunho": "Item de TESTE a partir do exemplo do GDD 6.2 (30/out/2026). Textos e números são rascunho; a missão do dono ainda não existe, então a flag faz o papel dela.",
   "category": "garment",
   "name_key": "item.manto_do_afogado.nome",
   "story_key": "item.manto_do_afogado.historia",

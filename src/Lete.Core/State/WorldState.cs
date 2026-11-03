@@ -61,6 +61,9 @@ public sealed class WorldState
     /// <summary>Trívias acesas (ligadas à rede de viagem).</summary>
     public HashSet<string> LitTrivias { get; } = new(StringComparer.Ordinal);
 
+    /// <summary>A última Trívia onde o jogador esteve (descansou ou acendeu): onde ele acorda depois de uma derrota.</summary>
+    public string? LastTriviaId { get; set; }
+
     /// <summary>Julgamentos feitos (id → destino da sombra) e quantos perjúrios houve no Tribunal.</summary>
     public Dictionary<string, Lete.Core.World.ShadeDestination> Trials { get; } = new(StringComparer.Ordinal);
 
@@ -112,6 +115,12 @@ public sealed class WorldState
 
     /// <summary>Regiões já visitadas (condição <c>region_visited</c>).</summary>
     public HashSet<string> VisitedRegions { get; } = new(StringComparer.Ordinal);
+
+    /// <summary>Pesadas que o companheiro já comentou na conversa da Trívia (uma vez cada; ver <c>Systems.Companions</c>).</summary>
+    public HashSet<string> CompanionHeavyComments { get; } = new(StringComparer.Ordinal);
+
+    /// <summary>Atalhos físicos já abertos (portões, cordas, escadas; ver <c>Systems.Shortcuts</c>).</summary>
+    public HashSet<string> OpenShortcuts { get; } = new(StringComparer.Ordinal);
 
     /// <summary>Encontros do mapa já terminados (<c>content/encounters</c>; o Remador na descida de Tênaro).</summary>
     public HashSet<string> Encounters { get; } = new(StringComparer.Ordinal);

@@ -1,0 +1,352 @@
+{
+  "id": "fome",
+  "_rascunho": "A Fome, chefe do Vestíbulo (Ato I; HISTORIA 6). Decidido (João, 03/nov/2026): personificação sem nome, imune a Libertar, e Suportar = Presenciar (aguentar o ciclo inteiro até ela passar). Para revisar (05/nov/2026, PENDENCIAS 86): três fases pela Firmeza, com a arte do João (f1, f2, f3); golpes dos gestos que já existem; pode ser combatida ou absorvida; aceita farinha. Falas e números provisórios.",
+  "kind": "personification",
+  "name_known": true,
+  "region": "vestibulo",
+  "resolve": {
+    "_tbd": true,
+    "value": 180
+  },
+  "murmur_key": "shade.comum.murmurio",
+  "attacks": [
+    {
+      "kind": "direct",
+      "gesture": "aparo_basico",
+      "caption_key": "shade.fome.gesto.1",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 10
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 22
+        }
+      }
+    },
+    {
+      "kind": "pattern",
+      "gesture": "esquiva_ondas",
+      "caption_key": "shade.fome.gesto.2",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 10
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 22
+        }
+      }
+    },
+    {
+      "kind": "direct",
+      "gesture": "aparo_rapido",
+      "caption_key": "shade.fome.gesto.3",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 11
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 24
+        }
+      }
+    }
+  ],
+  "listen": [
+    {
+      "cycle_step": 0,
+      "reveals": "clue",
+      "text_key": "shade.fome.escuta.pista",
+      "partial_key": "shade.fome.escuta.pista.metade"
+    },
+    {
+      "cycle_step": 1,
+      "reveals": "fixation",
+      "text_key": "shade.fome.escuta.fixacao",
+      "partial_key": "shade.fome.escuta.fixacao.metade"
+    }
+  ],
+  "fixation": {
+    "id": "fome",
+    "options": [
+      {
+        "id": "saudade",
+        "label_key": "shade.comum.fixacao.saudade",
+        "wrong_key": "shade.comum.corrige.saudade"
+      },
+      {
+        "id": "medo",
+        "label_key": "shade.comum.fixacao.medo",
+        "wrong_key": "shade.comum.corrige.medo"
+      },
+      {
+        "id": "fome",
+        "label_key": "shade.comum.fixacao.fome"
+      },
+      {
+        "id": "culpa",
+        "label_key": "shade.comum.fixacao.culpa",
+        "wrong_key": "shade.comum.corrige.culpa"
+      }
+    ]
+  },
+  "absorb": {
+    "resolve_fraction_max": {
+      "_tbd": true,
+      "value": 0.3
+    },
+    "weak_fill_factor": {
+      "_tbd": true,
+      "value": 0.6
+    },
+    "mark_gain": {
+      "perfect": {
+        "_tbd": true,
+        "value": 1
+      },
+      "good": {
+        "_tbd": true,
+        "value": 1
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 2
+      }
+    }
+  },
+  "echo": {
+    "id": "eco_fome",
+    "name_key": "shade.fome.eco.nome",
+    "description_key": "shade.fome.eco.descricao",
+    "gesture": "eco_torcer",
+    "resolve_damage": {
+      "perfect": {
+        "_tbd": true,
+        "value": 40
+      },
+      "good": {
+        "_tbd": true,
+        "value": 26
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 10
+      }
+    },
+    "mark_on_use": {
+      "_tbd": true,
+      "value": 1
+    }
+  },
+  "liberation": {
+    "peace": {
+      "_tbd": true,
+      "value": 70
+    },
+    "peace_gain": {
+      "perfect": {
+        "_tbd": true,
+        "value": 50
+      },
+      "good": {
+        "_tbd": true,
+        "value": 35
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 15
+      }
+    },
+    "lucidity_cost": {
+      "_tbd": true,
+      "value": 10
+    },
+    "enraged_damage_multiplier": {
+      "_tbd": true,
+      "value": 1.5
+    },
+    "progress_key": "shade.comum.libertar.progresso",
+    "freed_key": "shade.fome.libertar.parte"
+  },
+  "voices": [
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.5
+      },
+      "text_key": "shade.fome.voz.1"
+    },
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.2
+      },
+      "text_key": "shade.fome.voz.2"
+    }
+  ],
+  "phases": [
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.66
+      },
+      "caption_key": "shade.fome.fase2",
+      "art": "fome_f2",
+      "attacks": [
+        {
+          "kind": "pattern",
+          "gesture": "esquiva_redemoinho",
+          "caption_key": "shade.fome.gesto.4",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 12
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 26
+            }
+          }
+        },
+        {
+          "kind": "direct",
+          "gesture": "aparo_rapido",
+          "caption_key": "shade.fome.gesto.5",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 12
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 26
+            }
+          }
+        }
+      ]
+    },
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.33
+      },
+      "caption_key": "shade.fome.fase3",
+      "art": "fome_f3",
+      "attacks": [
+        {
+          "kind": "pattern",
+          "gesture": "esquiva_ondas",
+          "caption_key": "shade.fome.gesto.6",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 13
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 28
+            }
+          }
+        },
+        {
+          "kind": "direct",
+          "gesture": "aparo_basico",
+          "caption_key": "shade.fome.gesto.7",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 13
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 28
+            }
+          }
+        },
+        {
+          "kind": "pattern",
+          "gesture": "esquiva_redemoinho",
+          "caption_key": "shade.fome.gesto.4",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 13
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 28
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "story_keys": [
+    "shade.fome.historia.1",
+    "shade.fome.historia.2"
+  ],
+  "flee_clue_key": "shade.fome.fuga",
+  "yield": {
+    "lucidity_cost": {
+      "_tbd": true,
+      "value": 10
+    },
+    "text_keys": [
+      "shade.fome.ceder"
+    ]
+  },
+  "defeat_clue_keys": [
+    "shade.fome.hecate",
+    "shade.fome.hecate.2"
+  ],
+  "spare_key": "shade.fome.poupar",
+  "offering": {
+    "accepts": "farinha",
+    "accept_key": "shade.fome.oferenda.aceita",
+    "refuse_key": "shade.fome.oferenda.recusa"
+  },
+  "companion_readings": {
+    "aulo": "shade.fome.leitura.aulo",
+    "ismena": "shade.fome.leitura.ismena",
+    "dimas": "shade.fome.leitura.dimas",
+    "septimia": "shade.fome.leitura.septimia",
+    "calias": "shade.fome.leitura.calias",
+    "lia": "shade.fome.leitura.lia"
+  }
+}

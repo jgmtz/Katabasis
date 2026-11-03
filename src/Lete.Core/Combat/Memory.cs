@@ -23,6 +23,17 @@ public enum MemoryEffectKind
     Guard,
     Slow,
     Focus,
+
+    /// <summary>
+    /// O Chamado (a Culpa de O Convite, 05/nov/2026): a sombra para para ouvir e perde golpes inteiros (a força é quantos).
+    /// </summary>
+    Hush,
+
+    /// <summary>
+    /// Saber (a Culpa de O Plano, 06/nov/2026): você sabia desde o início; a força 2 revela o nome e a fixação da sombra,
+    /// 1 só a fixação, 0 nada.
+    /// </summary>
+    Reveal,
 }
 
 /// <summary>

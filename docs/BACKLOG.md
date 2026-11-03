@@ -63,45 +63,45 @@
 **Objetivo:** 1h a 1h30 jogáveis. **Pronto quando** é possível jogar do prólogo até parte de Asfódelos com origem e companheiro funcionando de ponta a ponta.
 
 - [x] Prólogo em **Cabo Tênaro** (criação, descida, Tabuinha, Remador-tutorial). *(30/out: **regiões de verdade**: `content/regions` + cenas em `src/Lete.Game/Regions/`, o `Main` carrega a região pelo id, passagens (`RegionExit`) trocam de região e salvam ao chegar, carregar um save abre a região dele; blockout de **Tênaro** (boca da gruta, corredor, câmara do rio com a primeira Trívia) e da **margem do Aqueronte**; a abertura termina na boca da gruta e dá a **Tabuinha Rasurada**. Faltam: os encontros do Remador-tutorial (do mapa para a luta e de volta) e Hécate na Trívia)* *(31/out: **Remador-tutorial**: `content/encounters` + `ShadeEncounter` no mapa; chegar perto abre a luta e, no fim, volta ao mapa no mesmo lugar; 4 encontros em sequência, uma coisa por luta (Anel; Escutar; Oferenda e Presenciar, com a água da poça; a luta inteira na câmara), menu só com o que já foi ensinado, linha de Hécate na legenda, derrota sem custo; encontros terminados no save (`encontros`). Falta: Hécate na Trívia)* *(31/out: **Hécate na primeira Trívia**: a primeira vez, a Trívia de Tênaro abre a conversa dela (`content/dialogue/hecate_tenaro.json`, só a chama e a voz) com o aviso da romã antes das perguntas; o Remador da câmara (onde Absorver aparece) só vem depois. Prólogo pronto em blocos; textos e posições para revisar nas PENDÊNCIAS 72 a 74, arte no item de arte abaixo)*
-- [ ] **Aqueronte** (Caronte, óbolo e alternativas de travessia) e **parte de Asfódelos** (Trívia, Rua dos Ofícios, Altar). *(31/out, proposta do Claude para revisar, PENDÊNCIA 75: Caronte e os insepultos como conversas; pagar o óbolo (`obols_min`, `pay_obols`), ajudar os insepultos ou ser Pescador dão a chave do Aqueronte; a barca só leva com a chave, conta o 1º marco da Maré e salva; Asfódelos em blocos com a grande Trívia, a Rua dos Ofícios (Padeiro e Coveiro) e o Altar; viagem pela tocha entre regiões. Faltam: arte de Caronte e do Aqueronte, o favor de Hermes, e o João revisar)*
-- [ ] **1 a 2 origens** completas até o capítulo cabível + **1 companheiro** (Aulo sugerido). *(31/out, Claude, PENDÊNCIA 78: conhecer um companheiro (capítulo 0, reage ao Perfil) e escolher entre os conhecidos na Trívia, sem desfazer; Dimas na Rua dos Ofícios e Cálias no Altar. Capítulo 1 (Eco) das origens como missões: o afogado do Aqueronte reconhece o Pescador, o oleiro sem mãos da Rua dos Ofícios reconhece o Artesão (PENDÊNCIA 79). Falta: o lugar da Lia (PENDÊNCIA 41))*
-- [ ] Primeira **Memória Pesada** (O Convite); hospitalidade e uma missão curta; um mercador (O Coveiro). *(31/out, Claude: **sistema de missões** (gancho, etapas, consequências, fechar em combate, `quest_stage`, save) e a missão curta dos **insepultos do Aqueronte**; o **Coveiro** está na Rua dos Ofícios de Asfódelos. **O Convite** aflora no Aqueronte, diante da barca, depois da fala de Caronte (textos de rascunho, PENDÊNCIA 77). Falta: a hospitalidade (PENDÊNCIA 76))*
+- [ ] **Aqueronte** (Caronte, óbolo e alternativas de travessia) e **parte de Asfódelos** (Trívia, Rua dos Ofícios, Altar). *(31/out, proposta para revisar, PENDÊNCIA 75: Caronte e os insepultos como conversas; pagar o óbolo (`obols_min`, `pay_obols`), ajudar os insepultos ou ser Pescador dão a chave do Aqueronte; a barca só leva com a chave, conta o 1º marco da Maré e salva; Asfódelos em blocos com a grande Trívia, a Rua dos Ofícios (Padeiro e Coveiro) e o Altar; viagem pela tocha entre regiões. Faltam: arte de Caronte e do Aqueronte, o favor de Hermes, e o João revisar)*
+- [ ] **1 a 2 origens** completas até o capítulo cabível + **1 companheiro** (Aulo sugerido). *(31/out, PENDÊNCIA 78: conhecer um companheiro (capítulo 0, reage ao Perfil) e escolher entre os conhecidos na Trívia, sem desfazer; Dimas na Rua dos Ofícios e Cálias no Altar. Capítulo 1 (Eco) das origens como missões: o afogado do Aqueronte reconhece o Pescador, o oleiro sem mãos da Rua dos Ofícios reconhece o Artesão (PENDÊNCIA 79). Falta: o lugar da Lia (PENDÊNCIA 41))* *(03/nov: a **Lia** se conhece no mercado da Planície (decisão do João), PENDÊNCIA 80)*
+- [ ] Primeira **Memória Pesada** (O Convite); hospitalidade e uma missão curta; um mercador (O Coveiro). *(31/out: **sistema de missões** (gancho, etapas, consequências, fechar em combate, `quest_stage`, save) e a missão curta dos **insepultos do Aqueronte**; o **Coveiro** está na Rua dos Ofícios de Asfódelos. **O Convite** aflora no Aqueronte, diante da barca, depois da fala de Caronte (textos de rascunho, PENDÊNCIA 77). Falta: a hospitalidade (PENDÊNCIA 76))* *(03/nov: **hospitalidade** pela missão cumprida (decisão do João): a missão do **Padeiro** (levar o pão à esposa, que espera na margem do Aqueronte) e o oleiro depois do reparo; e a **Planície** com 3 sombras comuns que vagam e notam o jogador (soldado, lavadeira, pastor), luta inteira com derrota de verdade (acorda na última Trívia), e o mercado com o Mercador; PENDÊNCIA 80)*
 - [ ] Arte real do conjunto (protagonista, companheiro, algumas sombras, uma região) no tamanho de sprite decidido no M0.
 - [ ] Rodada de teste do jogo com outras pessoas (sensação dos gestos, clareza das vias, ritmo).
 
 **Herdado do M2 (o que a fatia usa):**
-- [ ] Pesadas: a cena no sistema de diálogo, as falas de Hécate/companheiro que reagem, o efeito no Perfil e o "prefiro não saber".
+- [ ] Pesadas: a cena no sistema de diálogo, as falas de Hécate/companheiro que reagem, o efeito no Perfil e o "prefiro não saber". *(03/nov: o Perfil lê para onde pendem as Pesadas (`profile.heavy`), "prefiro não saber" com Caronte e Hécate na grande Trívia reagindo; PENDÊNCIA 83. Faltam: a cena no sistema de diálogo e a fala do companheiro; 05/nov: a fala do companheiro, na conversa da Trívia, e O Convite por origem, PENDÊNCIA 85. A cena no sistema de diálogo foi para o M4, com as outras 5 Pesadas: decisão do João, 06/nov/2026; 06/nov: a 2ª, O Plano, no Tribunal, com a Culpa "Saber", PENDÊNCIA 90)*
 - [ ] Mosaico: as Pesadas desenhadas, a arte das pedras e as percepções/névoa.
-- [ ] Maré: a tabela da primeira região. Caminho: as cenas que ligam as flags do Aqueronte (óbolo, Hermes, insepultos) e a passagem no mapa.
-- [ ] Diálogo: a arte da caixa, os bancos curtos das sombras comuns e as cenas durante a luta.
-- [ ] Companheiro: a cena de escolha, o capítulo 0 e a segunda leitura da sombra na luta; retrato.
-- [ ] Viagem: a passagem de cena entre regiões (salvar ao trocar já funciona) e os atalhos físicos.
-- [ ] Os leitores do Perfil que a fatia mostra (mercador, companheiro, reação de NPCs).
+- [ ] Maré: a tabela da primeira região *(05/nov: Tênaro, nas três camadas, PENDÊNCIA 85)*. Caminho: as cenas que ligam as flags do Aqueronte (óbolo, Hermes, insepultos) e a passagem no mapa.
+- [ ] Diálogo: a arte da caixa, os bancos curtos das sombras comuns e as cenas durante a luta. *(03/nov: o banco curto das sombras comuns na luta, `shade.comum.*`)*
+- [ ] Companheiro: a cena de escolha, o capítulo 0 e a segunda leitura da sombra na luta; retrato. *(31/out: escolha na Trívia e capítulo 0; 03/nov: a segunda leitura, no primeiro apoio de cada luta (PENDÊNCIA 82). Falta: o retrato)*
+- [x] Viagem: a passagem de cena entre regiões (salvar ao trocar já funciona) e os atalhos físicos. *(31/out: a passagem e a viagem pela tocha entre regiões; 03/nov: os atalhos físicos (`Systems/Shortcuts`), com a corda de Tênaro, da câmara do rio à boca da gruta; PENDÊNCIA 82)*
+- [x] Os leitores do Perfil que a fatia mostra (mercador, companheiro, reação de NPCs). *(companheiros no encontro, Hécate pelas Pesadas e, em 05/nov, os mercadores pela via mais usada; PENDÊNCIA 85)*
 
 ## M4 — Expansão
 
 **Objetivo:** uma região por vez, **cada região fechada antes da seguinte**, na ordem do mapa (Ato I → IV). A cada região: layout, sombras (nomeadas + comuns), regra de combate da região, Lembranças, itens, mercador, Trívia, missões, chefe/encontros, trilha e efeitos.
 
-- [ ] Ato I: Tênaro, Vestíbulo (A Fome), Aqueronte.
-- [ ] Ato II: Asfódelos completo (+ Poço das Sem-Nome), Cérbero, Campos do Luto, Tribunal, Campo dos Guerreiros (O Campeão); escolha de companheiro (Maré 2).
+- [ ] Ato I: Tênaro, Vestíbulo (A Fome), Aqueronte. *(06/nov: o **Vestíbulo** entre Tênaro e o Aqueronte, com o olmo e as personificações para examinar, e **A Fome** no estreito: personificação (Libertar fechado, Suportar), três fases com a arte do João; PENDÊNCIA 86. Faltam: a arte e as lutas do Medo, da Doença e da Guerra, e a tabela da Maré do Vestíbulo e do Aqueronte)*
+- [ ] Ato II: Asfódelos completo (+ Poço das Sem-Nome), Cérbero, Campos do Luto, Tribunal, Campo dos Guerreiros (O Campeão); escolha de companheiro (Maré 2). *(06/nov, PENDÊNCIA 89: os três caminhos da Trívia abrem no degrau 2 da Maré para os Campos do Luto, o Tribunal e o Campo dos Guerreiros, em blocos, cada um com Trívia e o companheiro que se conhece lá (Ismena, Septímia, Aulo); o Poço das Sem-Nome com o nome espalhado e a Sem-Nome; o Campeão com o duelo de honra. Faltam: sombras de luta no Luto e no Tribunal, as Pesadas do Ato II (O Plano, no Tribunal), a arte das regiões)* *(03/nov, adiantado: **Cérbero** na entrada da Planície, com a regra das três cabeças (o mel acalma uma por vez), a Esquiva das três cabeças e a arte provisória pixelizada dos originais do João; PENDÊNCIA 81)*
 - [ ] Ato III: Estige (juramento obrigatório), Palácio, Hipno e Tânato (O Sonho), Mnemósine (secreta).
 - [ ] Ato IV: Tártaro (As Fúrias), Elísios, Vale do Lete (A Sombra do Esquecido), Portões e finais compostos, epílogo.
 - [ ] Origens restantes e companheiros restantes (seguindo o **plano de cortes**).
 
-**Herdado do M2 (conteúdo das outras regiões):** as outras 5 Pesadas e as Culpas; os ~65 itens, os efeitos especiais (anel duplo, névoa), a lição das relíquias e as missões que evoluem os itens; a cena do Estige, o anel no braço, `giver`/`conflicts_with` e os outros juramentos; o retrato-mosaico; as tabelas da Maré por região; o Perfil no final; capítulos 1 a 4 dos companheiros; arte de costas do Dimas; os espíritos novos (PENDÊNCIA 43).
+**Herdado do M2 (conteúdo das outras regiões):** as outras 5 Pesadas e as Culpas, e a cena das Pesadas no sistema de diálogo (saiu do M3 em 06/nov/2026); os ~65 itens, os efeitos especiais (anel duplo, névoa), a lição das relíquias e as missões que evoluem os itens; a cena do Estige, o anel no braço, `giver`/`conflicts_with` e os outros juramentos; o retrato-mosaico; as tabelas da Maré por região; o Perfil no final; capítulos 1 a 4 dos companheiros; arte de costas do Dimas; os espíritos novos (PENDÊNCIA 43).
 
 ## M5 — Acabamento
 
 - [ ] Os **3 modos de dificuldade** (Estige primeiro; Tártaro por último), balanceamento de números (só agora).
 - [ ] Tutorial refinado, acessibilidade, remapeamento, opções de idioma.
 - [ ] Áudio completo, créditos, polimento visual.
-- [ ] Nome definitivo, capa, página do **itch.io**, trailer, demo; checar regras de arte gerada por IA.
+- [ ] Nome definitivo, capa, página do **itch.io**, trailer, demo; checar regras de arte feita com geradores de imagem.
 - [ ] Versão pública.
 
 ---
 
-## Para o Claude Code: ordem de trabalho inicial
+## Ordem de trabalho inicial
 
-1. Ler `CLAUDE.md` e todos os documentos de `docs/`.
+1. Ler todos os documentos de `docs/`.
 2. Antes de implementar, **fazer as perguntas de esclarecimento necessárias** (preferência do João) e confirmar o plano do M0.
 3. Montar a estrutura do M0 e entregar em pequenos passos verificáveis.

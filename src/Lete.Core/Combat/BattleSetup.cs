@@ -81,11 +81,16 @@ public sealed record IdleAnimation(int Frames, float Fps, IReadOnlyDictionary<st
 /// <summary>Uma versão de arte para comparar (liso, pixel_128, pixel_160).</summary>
 public sealed record BattleArtStyle(string Id, string Folder, bool Smooth);
 
+/// <summary>
+/// Uma luta: posições, quem luta, as versões de arte e o enquadramento (<paramref name="Framing"/>, id de
+/// <see cref="BattleFraming"/>; as lutas de chefe usam o "chefe").
+/// </summary>
 public sealed record BattleSetup(
     BattleLayout Layout,
     IReadOnlyList<BattleActorArt> Party,
     IReadOnlyList<BattleActorArt> Enemies,
-    IReadOnlyList<BattleArtStyle> Styles)
+    IReadOnlyList<BattleArtStyle> Styles,
+    string Framing = BattleFraming.Normal)
 {
     /// <summary>
     /// O protagonista fica sempre na posição do grupo mais à direita da tela (decisão do João, 25/out/2026).

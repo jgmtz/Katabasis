@@ -1,0 +1,8 @@
+{
+  "id": "planicie_soldado",
+  "_rascunho": "Sombra comum da Planície: vaga repetindo o gesto e nota quem entra no raio dela (decisão do João, 03/nov/2026). Luta inteira, derrota com custo.",
+  "shade": "soldado",
+  "region": "asfodelos",
+  "battle": "planicie_soldado",
+  "hecate_key": "encontro.planicie_soldado.nota"
+}

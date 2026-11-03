@@ -138,6 +138,22 @@ public class WorldTests
         Assert.Contains(new TriviaLit("guerreiros"), _events);
     }
 
+    [Fact]
+    public void Trivias_RememberTheLastOneVisited_ToWakeThereAfterADefeat()
+    {
+        var trivias = NewTrivias();
+        Assert.Null(trivias.WakeTrivia);
+        trivias.Light("luto");
+        trivias.Light("asfodelos");
+        Assert.Equal("asfodelos", trivias.WakeTrivia);
+
+        // Voltar a uma já acesa (abrir a tela dela) também conta; viajar pela tocha também.
+        trivias.Light("luto");
+        Assert.Equal("luto", trivias.WakeTrivia);
+        trivias.Travel("luto", "asfodelos");
+        Assert.Equal("asfodelos", trivias.WakeTrivia);
+    }
+
     // ---- Tribunal ----
 
     private Tribunal NewTribunal() => new(_state, _bus, new Dictionary<string, Trial>

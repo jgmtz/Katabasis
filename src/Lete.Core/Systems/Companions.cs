@@ -117,7 +117,11 @@ public sealed class Companions : IDisposable
     /// <summary>Dá para conversar com ele na Trívia (uma vez por degrau da Maré).</summary>
     public bool CanTalk => Current is not null && (_state.CompanionTalkStep is not { } step || step < _tide.Step);
 
-    /// <summary>Conversa na Trívia: devolve a fala (as conversas seguem em ordem; a última se repete) e aprofunda o vínculo.</summary>
+    /// <summary>
+    /// Conversa na Trívia: devolve a fala e aprofunda o vínculo. Se há uma Pesada decidida que ele ainda não comentou,
+    /// a conversa é sobre ela (uma vez por Pesada, na ordem em que foram decididas); senão, as conversas seguem em ordem
+    /// e a última se repete.
+    /// </summary>
     public string? Talk()
     {
         if (!CanTalk || Current is not { } companion)
@@ -125,8 +129,22 @@ public sealed class Companions : IDisposable
             return null;
         }
 
-        var line = companion.TalkKeys[Math.Min(_state.CompanionTalks, companion.TalkKeys.Count - 1)];
-        _state.CompanionTalks++;
+        var heavy = _state.HeavyMemories
+            .Where(p => !_state.CompanionHeavyComments.Contains(p.Key) && companion.HeavyKeyFor(p.Value) is not null)
+            .Select(p => (Id: p.Key, Key: companion.HeavyKeyFor(p.Value)))
+            .FirstOrDefault();
+        string line;
+        if (heavy.Key is { } heavyKey)
+        {
+            _state.CompanionHeavyComments.Add(heavy.Id);
+            line = heavyKey;
+        }
+        else
+        {
+            line = companion.TalkKeys[Math.Min(_state.CompanionTalks, companion.TalkKeys.Count - 1)];
+            _state.CompanionTalks++;
+        }
+
         _state.CompanionTalkStep = _tide.Step;
         _events.Publish(new CompanionTalked(companion.Id));
         Gain(true, BondSource.TriviaTalk);

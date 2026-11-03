@@ -26,6 +26,9 @@ public interface IConditionFacts
     Via? TopVia { get; }
     RecollectionKind? TopKind { get; }
 
+    /// <summary>Para onde pendem as Pesadas decididas: mais encaradas (Face) ou mais deixadas (Leave); nulo no empate.</summary>
+    HeavyMemoryChoice? HeavyLean { get; }
+
     /// <summary>Lucidez da sombra do diálogo atual; nula fora de um diálogo.</summary>
     string? ShadeLucidity { get; }
 
@@ -42,6 +45,9 @@ public interface IConditionFacts
     bool IsRecollectionKindFull(RecollectionKind kind);
     bool IsTriviaLit(string trivia);
     bool WasRegionVisited(string region);
+
+    /// <summary>A sombra ainda não hospedou neste degrau da Maré.</summary>
+    bool CanHost(string shade);
 
     /// <summary>Estágio atual da missão (índice em <c>stages</c>); nulo se ela ainda não apareceu.</summary>
     int? QuestStage(string quest);

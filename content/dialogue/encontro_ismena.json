@@ -1,0 +1,87 @@
+{
+  "id": "encontro_ismena",
+  "_rascunho": "Capítulo 0, o encontro (HISTORIA 5.3: reage ao Perfil recente, pela aprovação da 5.1), no lugar da HISTORIA 5.2. Falas de rascunho (06/nov/2026, PENDENCIAS 89).",
+  "mode": "fixed",
+  "speaker_key": "personagem.ismena.nome",
+  "shade": "ismena",
+  "start": [
+    "de_novo",
+    "aprova",
+    "reprova",
+    "neutro"
+  ],
+  "nodes": [
+    {
+      "id": "de_novo",
+      "when": {
+        "flag": "conheceu_ismena"
+      },
+      "line_key": "dlg.ismena.encontro.de_novo"
+    },
+    {
+      "id": "aprova",
+      "when": {
+        "any": [
+          {
+            "profile": {
+              "top_via": "free"
+            }
+          },
+          {
+            "profile": {
+              "top_via": "witness"
+            }
+          }
+        ]
+      },
+      "line_key": "dlg.ismena.encontro.aprova",
+      "next": "apresenta"
+    },
+    {
+      "id": "reprova",
+      "when": {
+        "profile": {
+          "top_via": "fight"
+        }
+      },
+      "line_key": "dlg.ismena.encontro.reprova",
+      "next": "apresenta"
+    },
+    {
+      "id": "neutro",
+      "line_key": "dlg.ismena.encontro.neutro",
+      "next": "apresenta"
+    },
+    {
+      "id": "apresenta",
+      "line_key": "dlg.ismena.encontro.apresenta",
+      "effects": [
+        {
+          "meet_companion": "ismena"
+        },
+        {
+          "flag": "conheceu_ismena"
+        },
+        {
+          "journal_key": "diario.ismena.encontro"
+        }
+      ],
+      "options": [
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.ismena.encontro.pergunta",
+          "next": "resposta"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.ismena.encontro.calar",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "resposta",
+      "line_key": "dlg.ismena.encontro.resposta"
+    }
+  ]
+}

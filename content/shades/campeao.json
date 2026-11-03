@@ -1,0 +1,361 @@
+{
+  "id": "campeao",
+  "_rascunho": "O Campeão, chefe do Campo dos Guerreiros (HISTORIA 6: duelo de honra de um herói esquecido). Decidido (João, 06/nov/2026): vencer com honra é vencer só com as armas do duelo (Atacar e as defesas); Memória, Eco, oferenda ou provisão é desonra e tira a bênção; Presenciar o duelo é a outra saída. Proposta (PENDENCIAS 89): três fases com a arte do João, falas e números provisórios; a bênção é uma flag e uma linha do Diário (o efeito fica para depois).",
+  "region": "guerreiros",
+  "resolve": {
+    "_tbd": true,
+    "value": 190
+  },
+  "murmur_key": "shade.comum.murmurio",
+  "attacks": [
+    {
+      "kind": "direct",
+      "gesture": "aparo_basico",
+      "caption_key": "shade.campeao.gesto.1",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 10
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 22
+        }
+      }
+    },
+    {
+      "kind": "pattern",
+      "gesture": "esquiva_ondas",
+      "caption_key": "shade.campeao.gesto.2",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 10
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 22
+        }
+      }
+    },
+    {
+      "kind": "direct",
+      "gesture": "aparo_rapido",
+      "caption_key": "shade.campeao.gesto.3",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 11
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 24
+        }
+      }
+    }
+  ],
+  "listen": [
+    {
+      "cycle_step": 0,
+      "reveals": "name",
+      "text_key": "shade.campeao.escuta.nome",
+      "partial_key": "shade.campeao.escuta.nome.metade"
+    },
+    {
+      "cycle_step": 1,
+      "reveals": "fixation",
+      "text_key": "shade.campeao.escuta.fixacao",
+      "partial_key": "shade.campeao.escuta.fixacao.metade"
+    }
+  ],
+  "fixation": {
+    "id": "medo",
+    "options": [
+      {
+        "id": "saudade",
+        "label_key": "shade.comum.fixacao.saudade",
+        "wrong_key": "shade.comum.corrige.saudade"
+      },
+      {
+        "id": "medo",
+        "label_key": "shade.comum.fixacao.medo"
+      },
+      {
+        "id": "fome",
+        "label_key": "shade.comum.fixacao.fome",
+        "wrong_key": "shade.comum.corrige.fome"
+      },
+      {
+        "id": "culpa",
+        "label_key": "shade.comum.fixacao.culpa",
+        "wrong_key": "shade.comum.corrige.culpa"
+      }
+    ]
+  },
+  "absorb": {
+    "resolve_fraction_max": {
+      "_tbd": true,
+      "value": 0.3
+    },
+    "weak_fill_factor": {
+      "_tbd": true,
+      "value": 0.6
+    },
+    "mark_gain": {
+      "perfect": {
+        "_tbd": true,
+        "value": 1
+      },
+      "good": {
+        "_tbd": true,
+        "value": 1
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 2
+      }
+    }
+  },
+  "echo": {
+    "id": "eco_campeao",
+    "name_key": "shade.campeao.eco.nome",
+    "description_key": "shade.campeao.eco.descricao",
+    "gesture": "eco_espada",
+    "resolve_damage": {
+      "perfect": {
+        "_tbd": true,
+        "value": 40
+      },
+      "good": {
+        "_tbd": true,
+        "value": 26
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 10
+      }
+    },
+    "mark_on_use": {
+      "_tbd": true,
+      "value": 1
+    }
+  },
+  "liberation": {
+    "peace": {
+      "_tbd": true,
+      "value": 70
+    },
+    "peace_gain": {
+      "perfect": {
+        "_tbd": true,
+        "value": 50
+      },
+      "good": {
+        "_tbd": true,
+        "value": 35
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 15
+      }
+    },
+    "lucidity_cost": {
+      "_tbd": true,
+      "value": 10
+    },
+    "enraged_damage_multiplier": {
+      "_tbd": true,
+      "value": 1.5
+    },
+    "progress_key": "shade.comum.libertar.progresso",
+    "freed_key": "shade.campeao.libertar.parte"
+  },
+  "voices": [
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.5
+      },
+      "text_key": "shade.campeao.voz.1"
+    },
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.2
+      },
+      "text_key": "shade.campeao.voz.2"
+    }
+  ],
+  "phases": [
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.66
+      },
+      "caption_key": "shade.campeao.fase2",
+      "art": "campeao_f2",
+      "attacks": [
+        {
+          "kind": "pattern",
+          "gesture": "esquiva_redemoinho",
+          "caption_key": "shade.campeao.gesto.4",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 12
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 26
+            }
+          }
+        },
+        {
+          "kind": "direct",
+          "gesture": "aparo_rapido",
+          "caption_key": "shade.campeao.gesto.5",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 12
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 26
+            }
+          }
+        }
+      ]
+    },
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.33
+      },
+      "caption_key": "shade.campeao.fase3",
+      "art": "campeao_f3",
+      "attacks": [
+        {
+          "kind": "pattern",
+          "gesture": "esquiva_ondas",
+          "caption_key": "shade.campeao.gesto.6",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 13
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 28
+            }
+          }
+        },
+        {
+          "kind": "direct",
+          "gesture": "aparo_basico",
+          "caption_key": "shade.campeao.gesto.7",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 13
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 28
+            }
+          }
+        },
+        {
+          "kind": "pattern",
+          "gesture": "esquiva_redemoinho",
+          "caption_key": "shade.campeao.gesto.4",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 13
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 28
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "story_keys": [
+    "shade.campeao.historia.1",
+    "shade.campeao.historia.2"
+  ],
+  "flee_clue_key": "shade.campeao.fuga",
+  "yield": {
+    "lucidity_cost": {
+      "_tbd": true,
+      "value": 10
+    },
+    "text_keys": [
+      "shade.campeao.ceder"
+    ]
+  },
+  "defeat_clue_keys": [
+    "shade.campeao.hecate",
+    "shade.campeao.hecate.2"
+  ],
+  "spare_key": "shade.campeao.poupar",
+  "offering": {
+    "accepts": "vinho",
+    "accept_key": "shade.campeao.oferenda.aceita",
+    "refuse_key": "shade.campeao.oferenda.recusa"
+  },
+  "companion_readings": {
+    "aulo": "shade.campeao.leitura.aulo",
+    "ismena": "shade.campeao.leitura.ismena",
+    "dimas": "shade.campeao.leitura.dimas",
+    "septimia": "shade.campeao.leitura.septimia",
+    "calias": "shade.campeao.leitura.calias",
+    "lia": "shade.campeao.leitura.lia"
+  },
+  "honor": {
+    "forbidden": [
+      "memoria",
+      "eco",
+      "oferenda",
+      "provisao"
+    ],
+    "dishonor_key": "shade.campeao.desonra",
+    "blessing_flag": "bencao_campeao",
+    "blessing_key": "diario.campeao.bencao"
+  }
+}

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 montar_ciclo_pernas.py
-Conserta o ciclo de andar gerado por IA: monta um ciclo de 4 quadros em que as
+Conserta o ciclo de andar gerado no Gemini: monta um ciclo de 4 quadros em que as
 pernas ALTERNAM de verdade, usando UM tronco fixo (parte de cima) e pernas tiradas
 de dois quadros bons (um de contato e um de passagem), espelhando-as para o lado oposto.
 

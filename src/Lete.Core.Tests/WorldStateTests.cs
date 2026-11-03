@@ -124,6 +124,9 @@ public class WorldStateTests
         s.Profile.Recent.Add(new ProfileEncounter(Via.Free, new[] { RecollectionKind.Craft }));
         s.Merchants["coveiro/oferenda:mel"] = new MerchantSale(2, 1);
         s.LitTrivias.Add("trivia_sala");
+        s.LastTriviaId = "trivia_sala";
+        s.OpenShortcuts.Add("corda_tenaro");
+        s.CompanionHeavyComments.Add("o_convite");
         s.Trials["julgamento_padeiro"] = ShadeDestination.Asphodel;
         s.Items.Owned["remo_do_afogado"] = (int)ItemStage.Recognized;
         s.Items.Equipped[EquipSlot.Instrument] = "remo_do_afogado";

@@ -4,5 +4,13 @@
   "region": "asfodelos",
   "name_key": "trivia.asfodelos.nome",
   "torches": [],
-  "hub": true
+  "hub": true,
+  "intro": {
+    "dialogue": "hecate_asfodelos",
+    "when": {
+      "not": {
+        "flag": "hecate_asfodelos_falou"
+      }
+    }
+  }
 }

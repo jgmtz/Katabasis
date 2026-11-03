@@ -1,6 +1,6 @@
 {
   "id": "origens",
-  "_nota": "As 4 origens do protagonista-sombra (decisão de 26/out/2026, docs/PROTAGONISTA_SOMBRA.md), na ordem das cartas da escolha. 'companions': os 3 companheiros ligados a cada origem (cada companheiro tem um par de origens; só dá história, nunca poder). Textos de 'quem foi' em rascunho (PENDENCIAS 48). 'spirits': os 2 espíritos nomeados de cada origem (PROTAGONISTA_SOMBRA 5). 'fragments': um fragmento por pessoa ligada (decisão do João, 30/out/2026), textos de rascunho do Claude.",
+  "_nota": "As 4 origens do protagonista-sombra (decisão de 26/out/2026, docs/PROTAGONISTA_SOMBRA.md), na ordem das cartas da escolha. 'companions': os 3 companheiros ligados a cada origem (cada companheiro tem um par de origens; só dá história, nunca poder). Textos de 'quem foi' em rascunho (PENDENCIAS 48). 'spirits': os 2 espíritos nomeados de cada origem (PROTAGONISTA_SOMBRA 5). 'fragments': um fragmento por pessoa ligada (decisão do João, 30/out/2026), textos de rascunho.",
   "origins": [
     {
       "id": "pescador",

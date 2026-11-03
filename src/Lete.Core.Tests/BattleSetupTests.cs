@@ -72,4 +72,27 @@ public class BattleSetupTests
         Assert.True(cast["aulo"].FrontFacesRight);
         Assert.False(cast["lia"].FrontFacesRight);
     }
+
+    [Fact]
+    public void Facing_PartyLooksRight_ShadesLookLeft()
+    {
+        var cast = CastData.FromJson("""
+            { "cast": [
+              { "id": "a", "name_key": "a", "kind": "companion", "height": 1, "battle_front": "a_f", "battle_back": "a_c",
+                "front_faces": "right", "back_faces": "left" },
+              { "id": "b", "name_key": "b", "kind": "shade", "height": 1, "battle_front": "b_f" }
+            ] }
+            """);
+
+        // A arte de frente de "a" olha para a direita: no grupo, fica; no lugar das sombras, espelha.
+        Assert.False(cast["a"].AsActor(back: false, partySide: true).FlipH);
+        Assert.True(cast["a"].AsActor(back: false, partySide: false).FlipH);
+        // A de costas olha para a esquerda: no grupo, espelha.
+        Assert.True(cast["a"].AsActor(back: true).FlipH);
+        // A de frente de "b" olha para a esquerda, o normal: no lugar das sombras, fica.
+        Assert.False(cast["b"].AsActor(back: false).FlipH);
+        Assert.Throws<FormatException>(() => CastData.FromJson("""
+            { "cast": [ { "id": "c", "name_key": "c", "kind": "shade", "height": 1, "battle_front": "c", "back_faces": "up" } ] }
+            """));
+    }
 }

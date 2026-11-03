@@ -23,6 +23,7 @@ public class ConditionTests
         public Via? TopVia { get; set; }
         public RecollectionKind? TopKind { get; set; }
         public string? ShadeLucidity { get; set; }
+        public HeavyMemoryChoice? HeavyLean { get; set; }
         public HashSet<string> Flags { get; } = new();
         public Dictionary<string, (RecollectionStage Stage, RecollectionCertainty Certainty)> Recollections { get; } = new();
         public Dictionary<string, HeavyMemoryState> Heavy { get; } = new();
@@ -42,6 +43,8 @@ public class ConditionTests
         public bool IsTriviaLit(string trivia) => false;
         public bool WasRegionVisited(string region) => false;
         public int? QuestStage(string quest) => Quests.TryGetValue(quest, out var stage) ? stage : null;
+        public HashSet<string> Hosted { get; } = new();
+        public bool CanHost(string shade) => !Hosted.Contains(shade);
     }
 
     private static ConditionResult Eval(string json, Facts facts) =>
@@ -81,6 +84,15 @@ public class ConditionTests
         Assert.False(Eval("""{ "obols_min": 1 }""", new Facts()).Passed);
         Assert.True(Eval("""{ "obols_min": 1 }""", new Facts { Obols = 2 }).Passed);
         Assert.False(Eval("""{ "obols_min": 3 }""", new Facts { Obols = 2 }).Passed);
+    }
+
+    [Fact]
+    public void HospitalityReady_AsksIfTheShadeStillHostsThisTideStep()
+    {
+        var facts = new Facts();
+        Assert.True(Eval("""{ "hospitality_ready": "padeiro" }""", facts).Passed);
+        facts.Hosted.Add("padeiro");
+        Assert.False(Eval("""{ "hospitality_ready": "padeiro" }""", facts).Passed);
     }
 
     [Fact]
@@ -149,6 +161,46 @@ public class ConditionTests
         Assert.Throws<ConditionException>(() => ConditionParser.Parse("""{ "profile": { "top_via": "libertar" } }"""));
     }
 
+    [Fact]
+    public void Merchant_GreetsByTheProfile_ElseTheStandardGreeting()
+    {
+        var merchant = World.WorldData.MerchantFromJson("""
+            { "id": "m", "name_key": "n", "greeting_key": "padrao",
+              "greetings": [
+                { "when": { "profile": { "top_via": "absorb" } }, "key": "absorve" },
+                { "when": { "profile": { "top_via": "free" } }, "key": "liberta" }
+              ],
+              "stock": [ { "offering": "mel", "price": 1, "count": 1 } ] }
+            """);
+        var facts = new Facts();
+        Assert.Equal("padrao", merchant.GreetingFor(facts));
+        facts.TopVia = Via.Free;
+        Assert.Equal("liberta", merchant.GreetingFor(facts));
+        facts.TopVia = Via.Absorb;
+        Assert.Equal("absorve", merchant.GreetingFor(facts));
+    }
+
+    [Fact]
+    public void Profile_ReadsWhereTheHeavyMemoriesLean()
+    {
+        var facts = new Facts();
+        Assert.False(Eval("""{ "profile": { "heavy": "face" } }""", facts).Passed);
+        facts.HeavyLean = HeavyMemoryChoice.Leave;
+        Assert.True(Eval("""{ "profile": { "heavy": "leave" } }""", facts).Passed);
+        Assert.False(Eval("""{ "profile": { "heavy": "face" } }""", facts).Passed);
+
+        // Pelo estado: mais encaradas que deixadas pende para encarar; empate é neutro.
+        var state = new WorldState();
+        var world = new WorldFacts(state, new MarkRules(MidFrom: 4, HighFrom: 8, FacedToReturnFace: 4),
+            new Mosaic(state, new Events.EventBus(), new Dictionary<string, Recollection>(), MosaicTests.Rules),
+            new Profile(state, new Events.EventBus(), ProfileTests.Rules));
+        Assert.Null(world.HeavyLean);
+        state.HeavyMemories["o_convite"] = HeavyMemoryChoice.Face;
+        Assert.Equal(HeavyMemoryChoice.Face, world.HeavyLean);
+        state.HeavyMemories["o_plano"] = HeavyMemoryChoice.Leave;
+        Assert.Null(world.HeavyLean);
+    }
+
     [Theory]
     [InlineData("""{ "voar": true }""", "condition.voar")]
     [InlineData("""{ "origin": "a", "flag": "b" }""", "condition")]
@@ -187,6 +239,7 @@ public class ConditionTests
             ["companion"] = "\"aulo\"",
             ["bond_min"] = "1",
             ["obols_min"] = "1",
+            ["hospitality_ready"] = "\"padeiro\"",
             ["difficulty"] = "\"estige\"",
             ["profile"] = """{ "top_via": "free", "top_kind": "mourning" }""",
             ["item_owned"] = "\"a\"",

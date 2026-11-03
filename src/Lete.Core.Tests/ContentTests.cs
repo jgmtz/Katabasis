@@ -83,7 +83,7 @@ public class ContentTests
                 }
             }
 
-            foreach (var res in new[] { member.Portrait, member.MapFolder, member.Reflection }.OfType<string>())
+            foreach (var res in new[] { member.Portrait, member.MapFolder, member.Reflection, member.DialoguePortrait }.OfType<string>())
             {
                 if (!File.Exists(FromRes(res)) && !Directory.Exists(FromRes(res)))
                 {
@@ -106,6 +106,15 @@ public class ContentTests
         Assert.Empty(missing);
         Assert.Equal(2, Cast.Values.Count(m => m.Selectable));
         Assert.Single(Cast.Values, m => m.Selectable && m.Gender == "f");
+    }
+
+    [Theory]
+    [MemberData(nameof(BattleFiles))]
+    public void Battle_FramingExists(string file)
+    {
+        var framings = BattleData.FramingsFromJson(File.ReadAllText(Content("rules", "enquadramento_batalha.json")));
+        var setup = BattleData.FromJson(File.ReadAllText(Content("battle", file)), Cast);
+        Assert.True(framings.ContainsKey(setup.Framing), $"{file}: enquadramento '{setup.Framing}' não existe.");
     }
 
     [Fact]

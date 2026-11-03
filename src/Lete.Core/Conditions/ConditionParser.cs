@@ -20,6 +20,7 @@ public static class ConditionParser
         "origin", "gender", "recollection", "recollection_kind_full", "recollection_kind_full_count", "heavy_memory", "mark_band", "tide_min",
         "flag", "path_key", "oath_active", "oath_broken", "offering_shared", "shade_state", "companion", "bond_min",
         "difficulty", "profile", "item_owned", "trivia_lit", "region_visited", "quest_stage", "shade_lucidity", "obols_min",
+        "hospitality_ready",
     };
 
     public static Condition Parse(string json, string path = "condition")
@@ -141,6 +142,7 @@ public static class ConditionParser
         "companion" => new CompanionIs(Id(value, at)),
         "bond_min" => new BondMin(Count(value, at)),
         "obols_min" => new ObolsMin(Count(value, at)),
+        "hospitality_ready" => new HospitalityReady(Id(value, at)),
         "difficulty" => new DifficultyIs(Id(value, at)),
         "profile" => ParseProfile(value, at),
         "item_owned" => new ItemOwned(Id(value, at)),
@@ -171,9 +173,10 @@ public static class ConditionParser
         RequireObject(value, at);
         var profile = new ProfileIs(
             OptionalEnum<Via>(value, at, "top_via"),
-            OptionalEnum<RecollectionKind>(value, at, "top_kind"));
-        return profile.TopVia is null && profile.TopKind is null
-            ? throw Error(at, "precisa de 'top_via' e/ou 'top_kind'.")
+            OptionalEnum<RecollectionKind>(value, at, "top_kind"),
+            OptionalEnum<HeavyMemoryChoice>(value, at, "heavy"));
+        return profile.TopVia is null && profile.TopKind is null && profile.Heavy is null
+            ? throw Error(at, "precisa de 'top_via', 'top_kind' e/ou 'heavy'.")
             : profile;
     }
 

@@ -10,6 +10,9 @@ namespace Lete.Game.World;
 /// </summary>
 public partial class Player : WalkingCharacter
 {
+    /// <summary>Grupo do jogador no mapa (quem precisa achá-lo, como as sombras que vagam).</summary>
+    public const string Group = "player";
+
     private readonly List<Interactable> _nearby = new();
 
     public event Action? NearbyChanged;
@@ -32,6 +35,12 @@ public partial class Player : WalkingCharacter
         {
             NearbyChanged?.Invoke();
         }
+    }
+
+    public override void _Ready()
+    {
+        base._Ready();
+        AddToGroup(Group);
     }
 
     public override void _Process(double delta)

@@ -21,6 +21,24 @@
 [ext_resource type="Texture2D" path="res://art/sprites/companheiros/calias_sim/parado/calias_parado_frente.png" id="21_calias"]
 [ext_resource type="Texture2D" path="res://art/sprites/sombras/padeiro/parado/padeiro_parado_frente.png" id="16_padeiro"]
 [ext_resource type="Texture2D" path="res://art/sprites/sombras/mercador/parado/mercador_parado_frente.png" id="17_coveiro"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/WanderingShade.cs" id="22_vagante"]
+[ext_resource type="Texture2D" path="res://art/sprites/companheiros/lia_sim/parado/lia_parado_frente.png" id="23_lia"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/camponesa/parado/camponesa_parado_frente.png" id="24_camponesa"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/cerbero/parado/cerbero_parado_frente.png" id="25_cerbero"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/PhysicalShortcut.cs" id="26_atalho"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/caronte/parado_3q/64px/caronte_parado_3q_esq.png" id="27_caronte"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/insepultos/parado_3q/64px/insepultos_parado_3q_esq.png" id="28_insepultos"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/afogado/parado_3q/64px/afogado_parado_3q_esq.png" id="29_afogado"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/oleiro/parado_3q/64px/oleiro_parado_3q_esq.png" id="30_oleiro"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/esposa_padeiro/parado_3q/64px/esposa_padeiro_parado_3q_esq.png" id="31_esposa"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/mercador_planicie/parado_3q/64px/mercador_planicie_parado_3q_esq.png" id="32_mercador_planicie"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/fome/parado_3q/64px/fome_parado_3q_esq.png" id="33_fome"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/TribunalSeat.cs" id="34_tribunal"]
+[ext_resource type="Texture2D" path="res://art/sprites/companheiros/aulo_sim/parado/aulo_parado_frente.png" id="35_aulo"]
+[ext_resource type="Texture2D" path="res://art/sprites/companheiros/ismena_sim/parado/ismena_parado_frente.png" id="36_ismena"]
+[ext_resource type="Texture2D" path="res://art/sprites/companheiros/septimia_sim/parado/septimia_parado_frente.png" id="37_septimia"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/campeao/parado_3q/64px/campeao_parado_3q_esq.png" id="38_campeao"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/sem_nome/parado_3q/64px/sem_nome_parado_3q_esq.png" id="39_sem_nome"]
 
 [sub_resource type="Environment" id="Environment_regiao"]
 background_mode = 1
@@ -281,6 +299,20 @@ TriviaId = "trivia_tenaro"
 [node name="Reach" type="CollisionShape3D" parent="Trivia"]
 shape = SubResource("Shape_alcance")
 
+[node name="RioMare1" type="CSGBox3D" parent="." groups=["pixel_surface", "mare"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.025, -39.25)
+use_collision = false
+size = Vector3(14, 0.05, 4.5)
+material = SubResource("Mat_agua")
+metadata/mare_min = 1
+
+[node name="PocaMare1" type="CSGBox3D" parent="." groups=["pixel_surface", "mare"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.025, -12.5)
+use_collision = false
+size = Vector3(2.6, 0.05, 2.6)
+material = SubResource("Mat_agua")
+metadata/mare_min = 1
+
 [node name="LuzCamara" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 3, -35)
 light_color = Color(0.35, 0.55, 0.6, 1)
@@ -335,14 +367,68 @@ shape = SubResource("Shape_alcance")
 texture = ExtResource("12_remador")
 script = ExtResource("11_sprite")
 
-[node name="ParaAqueronte" type="Area3D" parent="."]
+[node name="SombraCarpideira" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -7)
+script = ExtResource("22_vagante")
+EncounterId = "tenaro_carpideira"
+SpriteFolder = "res://art/sprites/sombras/carpideira"
+SpritePrefix = "carpideira"
+WanderOffset = Vector3(-2, 0, -3)
+NoticeRadius = 4
+
+[node name="Reach" type="CollisionShape3D" parent="SombraCarpideira"]
+shape = SubResource("Shape_alcance")
+
+[node name="ParaVestibulo" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 1, -43.6)
 script = ExtResource("8_saida")
-TargetRegion = "aqueronte"
+TargetRegion = "vestibulo"
 TargetEntry = "ChegadaTenaro"
 
-[node name="Shape" type="CollisionShape3D" parent="ParaAqueronte"]
+[node name="Shape" type="CollisionShape3D" parent="ParaVestibulo"]
 shape = SubResource("Shape_box2")
+
+[node name="CordaCamara" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -28)
+script = ExtResource("26_atalho")
+ShortcutId = "corda_tenaro"
+Destination = "CordaBocaPe"
+Inside = true
+ClosedKey = "obj.tenaro.corda.camara.fechado"
+OpenedKey = "obj.tenaro.corda.camara.aberto"
+UseKey = "obj.tenaro.corda.camara.usar"
+
+[node name="Reach" type="CollisionShape3D" parent="CordaCamara"]
+shape = SubResource("Shape_alcance")
+
+[node name="CordaBoca" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -1.2)
+script = ExtResource("26_atalho")
+ShortcutId = "corda_tenaro"
+Destination = "CordaCamaraPe"
+Inside = false
+ClosedKey = "obj.tenaro.corda.boca.fechado"
+OpenedKey = "obj.tenaro.corda.boca.aberto"
+UseKey = "obj.tenaro.corda.boca.usar"
+
+[node name="Reach" type="CollisionShape3D" parent="CordaBoca"]
+shape = SubResource("Shape_alcance")
+
+[node name="Fenda" type="CSGCylinder3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.6, 0.3, -1.9)
+use_collision = true
+radius = 0.25
+height = 0.6
+sides = 8
+material = SubResource("Mat_parede")
+
+[node name="Argola" type="CSGCylinder3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0.25, -28.6)
+use_collision = true
+radius = 0.12
+height = 0.5
+sides = 8
+material = SubResource("Mat_parede")
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
@@ -376,10 +462,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -30)
 [node name="Trivia" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, -30.5)
 
-[node name="SaidaAqueronte" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+[node name="SaidaVestibulo" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0, -40.5)
 
-[node name="AtravessarAqueronte" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+[node name="CordaCamara" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, -29)
+
+[node name="CordaCamaraPe" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.8, 0, -29.2)
+
+[node name="CordaBoca" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4, 0, -0.2)
+
+[node name="CordaBocaPe" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0.6)
+
+[node name="AtravessarVestibulo" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0, -43.6)
 
 [node name="RemadorBoca" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
@@ -393,3 +491,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -24)
 
 [node name="RemadorCamara" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -36)
+
+[node name="Carpideira" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -7)

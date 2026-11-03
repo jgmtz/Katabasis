@@ -1,4 +1,4 @@
-# M0 — Primeiro teste: andar com WASD (tarefa para o Claude Code)
+# M0 — Primeiro teste: andar com WASD
 
 Objetivo: abrir no Godot 4 .NET uma cena com **chão branco**, **câmera ortográfica diagonal** e um personagem em pixel art **andando nas 4 direções com WASD** (e analógico). É a primeira fatia do M0 (`docs/BACKLOG.md`). Decisões do João (24/out/2026): câmera 3D diagonal; personagens de teste **Aulo e Ismena**; Godot 4 (.NET) e SDK do .NET já instalados no PC dele.
 
@@ -10,7 +10,7 @@ Objetivo: abrir no Godot 4 .NET uma cena com **chão branco**, **câmera ortogr�
 5. **Entrada por ações do Input Map** (nunca teclas fixas): `move_up`, `move_down`, `move_left`, `move_right` ligadas a **W/A/S/D, setas e analógico esquerdo**; `switch_character` (Tab / botão do controle). Movimento **relativo à tela** (W = para cima na tela, que é o sprite de costas; S = frente; A = esquerda; D = direita). Em diagonal, normalizar a velocidade e manter a animação da direção horizontal (ou a última tecla pressionada). Velocidade em campo exportado (placeholder, ver regra dos números mágicos).
 6. **Animação**: andar 12 quadros a 8 fps por direção; parado = imagem de `parado/`. Ao soltar as teclas volta ao parado da última direção. Trocar de personagem (Aulo ↔ Ismena) com `switch_character`.
 7. **Lógica de movimento testável**: um pequeno `MovementInput`/`Facing` em `Lete.Core` (direção a partir do vetor de entrada, normalização, última direção) com testes xUnit. A camada Godot só lê a entrada e aplica.
-8. Atualizar `CLAUDE.md` (seção "Comandos": como abrir, rodar e testar) e marcar no `docs/BACKLOG.md` o que foi feito.
+8. Registrar os comandos (como abrir, rodar e testar) e marcar no `docs/BACKLOG.md` o que foi feito.
 
 ## Sprites (já prontos, copiar para `src/Lete.Game/assets/sprites/<personagem>/`)
 - Aulo: `art/sprites/companheiros/aulo_sim/andar_56px/{frente,costas,esquerda,direita}/aulo_<dir>_01..12.png` e `.../aulo_sim/parado/aulo_parado_<dir>.png`.

@@ -15,7 +15,7 @@ public static partial class LocaleValidator
     [GeneratedRegex(@"^\d+$")]
     private static partial Regex Placeholder();
 
-    /// <summary>Problemas de um idioma: <c>chave: mensagem</c>.</summary>
+    /// <summary>Problemas de um idioma: <c>chave: mensagem</c> (inclui a marcação de origem que cita chave inexistente).</summary>
     public static IEnumerable<string> Validate(IReadOnlyDictionary<string, string> strings)
     {
         foreach (var (key, text) in strings.OrderBy(p => p.Key, StringComparer.Ordinal))
@@ -23,6 +23,11 @@ public static partial class LocaleValidator
             foreach (var problem in Problems(text))
             {
                 yield return $"{key}: {problem}";
+            }
+
+            foreach (var cited in OriginMarkup.Keys(text).Where(k => !strings.ContainsKey(k)))
+            {
+                yield return $"{key}: a marcação de origem cita '{cited}', que não existe (é a forma padrão)";
             }
         }
     }
@@ -45,7 +50,7 @@ public static partial class LocaleValidator
         foreach (Match match in Braces().Matches(text))
         {
             var inside = match.Groups[1].Value;
-            if (Placeholder().IsMatch(inside))
+            if (Placeholder().IsMatch(inside) || inside.StartsWith(OriginMarkup.Prefix, StringComparison.Ordinal))
             {
                 continue;
             }

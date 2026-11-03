@@ -1,0 +1,31 @@
+{
+  "id": "o_plano",
+  "_rascunho": "A segunda Memória Pesada (HISTORIA 1.2: sabia desde o início que só uma pessoa sairia; Ato II, Tribunal). Lugar, condição e textos propostos (06/nov/2026, PENDENCIAS 90): aflora junto da pedra do Tribunal, depois de conhecer Septímia (a lei diz que só um sai); a pessoa e uma frase mudam por origem (a marcação {origem:...}, como em O Convite). Ocupa o lugar da Pesada de teste 2 (que foi para sobras/).",
+  "kind": "craft",
+  "scope": "heavy",
+  "order": 2,
+  "gate": {
+    "flag": "conheceu_septimia"
+  },
+  "title_key": "pesada.o_plano.titulo",
+  "skill": "culpa_o_plano",
+  "warning_key": "pesada.o_plano.aviso",
+  "surface_key": "pesada.o_plano.aflora",
+  "stages": {
+    "full": {
+      "text_key": "pesada.o_plano.verdade"
+    }
+  },
+  "leave": {
+    "text_key": "pesada.o_plano.deixar",
+    "lucidity_max": {
+      "_tbd": true,
+      "value": 10
+    },
+    "protections": 1
+  },
+  "mosaic_position": {
+    "x": 4,
+    "y": 8
+  }
+}

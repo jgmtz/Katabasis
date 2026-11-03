@@ -1,0 +1,7 @@
+{
+  "id": "luto",
+  "_nota": "Os Campos do Luto (Ato II, HISTORIA 2): bosque de murtas onde ficam os que morreram de amor e de saudade; Ismena se conhece aqui. Blockout (06/nov/2026, PENDENCIAS 89); abre pelos caminhos da grande Trívia de Asfódelos no segundo degrau da Maré.",
+  "name_key": "regiao.luto.nome",
+  "scene": "res://src/Lete.Game/Regions/Luto.tscn",
+  "entry": "ChegadaAsfodelos"
+}

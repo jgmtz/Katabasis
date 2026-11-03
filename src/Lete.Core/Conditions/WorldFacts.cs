@@ -39,6 +39,16 @@ public sealed class WorldFacts : IConditionFacts
 
     public bool HasFlag(string flag) => _state.Flags.Contains(flag);
 
+    public HeavyMemoryChoice? HeavyLean
+    {
+        get
+        {
+            var faced = _state.HeavyMemories.Values.Count(c => c == HeavyMemoryChoice.Face);
+            var left = _state.HeavyMemories.Count - faced;
+            return faced > left ? HeavyMemoryChoice.Face : left > faced ? HeavyMemoryChoice.Leave : null;
+        }
+    }
+
     public HeavyMemoryState HeavyMemory(string id) => _state.HeavyMemories.TryGetValue(id, out var choice)
         ? choice == HeavyMemoryChoice.Face ? HeavyMemoryState.Face : HeavyMemoryState.Leave
         : HeavyMemoryState.Pending;
@@ -60,5 +70,6 @@ public sealed class WorldFacts : IConditionFacts
     public bool IsRecollectionKindFull(RecollectionKind kind) => _mosaic.IsKindFull(kind);
     public bool IsTriviaLit(string trivia) => _state.LitTrivias.Contains(trivia);
     public bool WasRegionVisited(string region) => _state.VisitedRegions.Contains(region);
+    public bool CanHost(string shade) => Healing.IsReady(_state.Vitals, Healing.HospitalitySource(shade), Tide);
     public int? QuestStage(string quest) => _state.Missions.TryGetValue(quest, out var mission) ? mission.Stage : null;
 }

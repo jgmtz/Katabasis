@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Lete.Core.Combat;
 using Lete.Core.Conditions;
+using Lete.Core.State;
 using Lete.Core.Systems;
 
 namespace Lete.Core.Data;
@@ -43,7 +44,17 @@ public static class CompanionData
             String(root, "reluctant_key"),
             root.TryGetProperty("talk_keys", out var talks)
                 ? talks.EnumerateArray().Select(t => t.GetString() ?? "").ToList()
-                : new List<string>());
+                : new List<string>(),
+            root.TryGetProperty("heavy_keys", out var heavy)
+                ? heavy.EnumerateObject().Where(p => !p.Name.StartsWith('_')).ToDictionary(
+                    p => p.Name switch
+                    {
+                        "face" => HeavyMemoryChoice.Face,
+                        "leave" => HeavyMemoryChoice.Leave,
+                        var other => throw new FormatException($"Companheiro '{id}': heavy_keys.{other} (use face ou leave)."),
+                    },
+                    p => p.Value.GetString() ?? "")
+                : null);
         var errors = companion.Validate().ToList();
         return errors.Count == 0 ? companion : throw new FormatException($"Companheiro '{id}': {string.Join(" ", errors)}");
     }

@@ -138,6 +138,34 @@ public class CompanionTests
     }
 
     [Fact]
+    public void TriviaTalk_FirstComments_EachDecidedHeavyMemory_Once()
+    {
+        var companions = new Companions(_state, _bus, new Dictionary<string, Companion>
+        {
+            ["aulo"] = Aulo with
+            {
+                HeavyKeys = new Dictionary<HeavyMemoryChoice, string>
+                {
+                    [HeavyMemoryChoice.Face] = "pesada.encarou",
+                    [HeavyMemoryChoice.Leave] = "pesada.deixou",
+                },
+            },
+        }, Rules, _tide);
+        _state.HeavyMemories["o_convite"] = HeavyMemoryChoice.Face;
+        companions.Choose("aulo");
+
+        Assert.Equal("pesada.encarou", companions.Talk());
+        _state.HeavyMemories["o_plano"] = HeavyMemoryChoice.Leave;
+        _tide.Milestone("outro");
+        Assert.Equal("pesada.deixou", companions.Talk());
+        // As Pesadas comentadas não tomam o lugar das conversas, que começam do início.
+        _tide.Milestone("mais_um");
+        Assert.Equal("conversa.1", companions.Talk());
+        Assert.Equal(new[] { "o_convite", "o_plano" }, _state.CompanionHeavyComments.Order());
+        Assert.Equal(3, companions.Bond);
+    }
+
+    [Fact]
     public void Save_KeepsBondAndTalks()
     {
         _companions.Choose("aulo");

@@ -41,10 +41,12 @@ public partial class Main : Node
     /// <summary>
     /// Uma chegada pendente: a cena é recarregada e, ao abrir, vai para esta região (e salva, se for troca), no marcador
     /// <c>Entry</c>, voltando de uma luta em <c>Position</c> ou, seguindo a tocha, junto da Trívia <c>TriviaId</c>;
-    /// <c>Milestone</c> é o marco da Maré da passagem cruzada (a barca de Caronte).
+    /// <c>Milestone</c> é o marco da Maré da passagem cruzada (a barca de Caronte); <c>Woke</c>: acordou na Trívia
+    /// depois de uma derrota (descansou nela, então salva mesmo sem trocar de região).
     /// </summary>
     private sealed record Arrival(
-        string Region, string? Entry, bool Save, Vector3? Position = null, string? Milestone = null, string? TriviaId = null);
+        string Region, string? Entry, bool Save, Vector3? Position = null, string? Milestone = null, string? TriviaId = null,
+        bool Woke = false);
 
     private static Arrival? _arrival;
 
@@ -67,6 +69,13 @@ public partial class Main : Node
     private TrialScreen _trial = null!;
     private DebugPanel _debug = null!;
     private IDisposable? _markSubscription;
+    private IDisposable? _tideSubscription;
+    private Lete.Core.World.RegionDefinition? _region;
+
+    /// <summary>Grupo dos nós da cena que aparecem pela Maré: do degrau <see cref="TideMinMeta"/> ao <see cref="TideMaxMeta"/> (metadados).</summary>
+    public const string TideGroup = "mare";
+    public const string TideMinMeta = "mare_min";
+    public const string TideMaxMeta = "mare_max";
 
     /// <summary>A Trívia cuja tela abre quando a conversa de Hécate (a introdução dela) terminar.</summary>
     private string? _triviaAfterIntro;
@@ -77,6 +86,13 @@ public partial class Main : Node
     public override void _Ready()
     {
         _container = GetNode<SubViewportContainer>("ViewportContainer");
+        if (EncounterTransit.TakeWakeTrivia() is { } wake
+            && GameRoot.Instance.Trivias.Definitions.TryGetValue(wake, out var wakeTrivia))
+        {
+            // Derrotado numa luta do mapa: acorda na última Trívia (GDD 4.9), que salva como uma chegada.
+            _arrival = new Arrival(wakeTrivia.RegionId, null, Save: true, TriviaId: wake, Woke: true);
+        }
+
         var region = LoadRegion();
         _player = _world.GetNode<Player>("Player");
         if (GameRoot.Instance.State.ProtagonistId is { } chosen)
@@ -119,9 +135,11 @@ public partial class Main : Node
         GameRoot.Instance.Saving += OnSaving;
         RegionExit.Crossed += GoToRegion;
         ShadeEncounter.Started += GoToBattle;
+        PhysicalShortcut.Used += TeleportToMarker;
         PlaceOnArrival(region);
         _player.CharacterChanged += ApplyMarkLook;
         _markSubscription = GameRoot.Instance.Events.Subscribe<MarkIncreased>(_ => ApplyMarkLook());
+        _tideSubscription = GameRoot.Instance.Events.Subscribe<TideStepReached>(_ => ApplyTide());
         ApplyMarkLook();
 
         ApplyPixelSettings();
@@ -152,7 +170,9 @@ public partial class Main : Node
         TribunalSeat.Opened -= OpenTrial;
         RegionExit.Crossed -= GoToRegion;
         ShadeEncounter.Started -= GoToBattle;
+        PhysicalShortcut.Used -= TeleportToMarker;
         _markSubscription?.Dispose();
+        _tideSubscription?.Dispose();
     }
 
     /// <summary>
@@ -219,13 +239,57 @@ public partial class Main : Node
             GameRoot.Instance.Tide.Milestone(milestone);
         }
 
-        if (arrival is { Save: true })
+        _region = region;
+        ApplyTide();
+
+        if (arrival is { Woke: true } && !GameRoot.Instance.ChangeRegion(RegionId))
+        {
+            // Acordou na Trívia da mesma região: é um descanso nela, que salva (a derrota não se desfaz recarregando).
+            GD.Print($"[save] acordou na Trívia: {GameRoot.Instance.Save()}");
+        }
+        else if (arrival is { Save: true })
         {
             GameRoot.Instance.ChangeRegion(RegionId);
         }
         else
         {
             GameRoot.Instance.Regions.Enter(RegionId);
+        }
+    }
+
+    /// <summary>
+    /// A tabela da Maré da região (GDD 2.6; PENDENCIAS 85): os nós do grupo <see cref="TideGroup"/> aparecem pelo degrau
+    /// e, com a Maré num degrau da tabela, o Diário ganha a frase dele (uma vez). As sombras novas vêm dos encontros
+    /// (<c>tide_min</c>) e a teimosia, da luta.
+    /// </summary>
+    private void ApplyTide()
+    {
+        if (_region is null)
+        {
+            return;
+        }
+
+        var step = GameRoot.Instance.Tide.Step;
+        foreach (var node in GetTree().GetNodesInGroup(TideGroup).OfType<Node3D>())
+        {
+            // Entre o degrau mínimo e o máximo: aparece. Uma área (passagem, coisa para examinar) só funciona visível; a
+            // névoa que fecha um caminho (mare_max) para de bloquear quando some.
+            var active = step >= node.GetMeta(TideMinMeta, 0).AsInt32() && step <= node.GetMeta(TideMaxMeta, int.MaxValue).AsInt32();
+            node.Visible = active;
+            if (node is Area3D area)
+            {
+                area.Monitoring = active;
+                area.Monitorable = active;
+            }
+            else if (node is CsgShape3D csg)
+            {
+                csg.UseCollision = active;
+            }
+        }
+
+        if (_region.LayerAt(step) is { } layer)
+        {
+            GameRoot.Instance.Journal.Add(layer.ArrivalKey);
         }
     }
 
@@ -408,7 +472,7 @@ public partial class Main : Node
         var density = new PixelDensity(SpriteHeightPx, CharacterHeightMeters, CharacterScreenHeightPx, viewportHeight);
 
         _player.PixelSize = density.PixelSize;
-        foreach (var sprite in GetTree().GetNodesInGroup(MapSprite.Group).OfType<Sprite3D>())
+        foreach (var sprite in GetTree().GetNodesInGroup(MapSprite.Group).OfType<SpriteBase3D>())
         {
             sprite.PixelSize = density.PixelSize;
         }
@@ -488,6 +552,24 @@ public partial class Main : Node
             await WaitFrames(2);
         }
 
+        if (args.TryGetValue("atalhos", out var shortcuts))
+        {
+            // Teste: abre atalhos físicos (ex.: corda_tenaro), como se o jogador tivesse aberto por dentro.
+            foreach (var id in shortcuts.Split(','))
+            {
+                GameRoot.Instance.Shortcuts.Open(id);
+            }
+        }
+
+        if (args.TryGetValue("mare", out var tide) && int.TryParse(tide, out var tideStep))
+        {
+            // Teste: sobe a Maré até o degrau pedido, por marcos de teste (a tabela da região reage na hora).
+            while (GameRoot.Instance.Tide.Step < tideStep)
+            {
+                GameRoot.Instance.Tide.Milestone($"marco_teste_{GameRoot.Instance.Tide.Step + 1}");
+            }
+        }
+
         if (args.TryGetValue("flag", out var flags))
         {
             // Teste: liga flags do mundo (ex.: caronte_falou, para O Convite aflorar sem a conversa).
@@ -508,8 +590,11 @@ public partial class Main : Node
 
         if (args.TryGetValue("oferenda", out var offering))
         {
-            // Teste: uma oferenda na Bolsa (ex.: a água que o Remador aceita, sem passar pela poça).
-            GameRoot.Instance.Offerings.Pick(offering, 1);
+            // Teste: oferendas na Bolsa, uma por item da lista (ex.: a água que o Remador aceita; mel,mel,mel para Cérbero).
+            foreach (var kind in offering.Split(','))
+            {
+                GameRoot.Instance.Offerings.Pick(kind, 1);
+            }
         }
 
         if (args.TryGetValue("teleport", out var pointName) &&

@@ -1,0 +1,375 @@
+{
+  "id": "sem_nome",
+  "_rascunho": "A Sem-Nome, chefe opcional do Poço das Sem-Nome (HISTORIA 6: o mais difícil de libertar, recompensa rara). Decidido (João, 06/nov/2026): o nome dela está espalhado pelo Poço; só com os quatro pedaços a Escuta revela o nome e Libertar abre. Proposta (PENDENCIAS 89): três fases com a arte do João, gestos que já existem, falas e números provisórios.",
+  "region": "asfodelos",
+  "resolve": {
+    "_tbd": true,
+    "value": 200
+  },
+  "murmur_key": "shade.comum.murmurio",
+  "attacks": [
+    {
+      "kind": "direct",
+      "gesture": "aparo_basico",
+      "caption_key": "shade.sem_nome.gesto.1",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 10
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 22
+        }
+      }
+    },
+    {
+      "kind": "pattern",
+      "gesture": "esquiva_ondas",
+      "caption_key": "shade.sem_nome.gesto.2",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 10
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 22
+        }
+      }
+    },
+    {
+      "kind": "direct",
+      "gesture": "aparo_rapido",
+      "caption_key": "shade.sem_nome.gesto.3",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 11
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 24
+        }
+      }
+    }
+  ],
+  "listen": [
+    {
+      "cycle_step": 0,
+      "reveals": "clue",
+      "text_key": "shade.sem_nome.escuta.pista",
+      "partial_key": "shade.sem_nome.escuta.pista.metade"
+    },
+    {
+      "cycle_step": 1,
+      "reveals": "name",
+      "text_key": "shade.sem_nome.escuta.nome",
+      "partial_key": "shade.sem_nome.escuta.nome.metade"
+    },
+    {
+      "cycle_step": 2,
+      "reveals": "fixation",
+      "text_key": "shade.sem_nome.escuta.fixacao",
+      "partial_key": "shade.sem_nome.escuta.fixacao.metade"
+    }
+  ],
+  "fixation": {
+    "id": "saudade",
+    "options": [
+      {
+        "id": "saudade",
+        "label_key": "shade.comum.fixacao.saudade"
+      },
+      {
+        "id": "medo",
+        "label_key": "shade.comum.fixacao.medo",
+        "wrong_key": "shade.comum.corrige.medo"
+      },
+      {
+        "id": "fome",
+        "label_key": "shade.comum.fixacao.fome",
+        "wrong_key": "shade.comum.corrige.fome"
+      },
+      {
+        "id": "culpa",
+        "label_key": "shade.comum.fixacao.culpa",
+        "wrong_key": "shade.comum.corrige.culpa"
+      }
+    ]
+  },
+  "absorb": {
+    "resolve_fraction_max": {
+      "_tbd": true,
+      "value": 0.3
+    },
+    "weak_fill_factor": {
+      "_tbd": true,
+      "value": 0.6
+    },
+    "mark_gain": {
+      "perfect": {
+        "_tbd": true,
+        "value": 1
+      },
+      "good": {
+        "_tbd": true,
+        "value": 1
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 2
+      }
+    }
+  },
+  "echo": {
+    "id": "eco_sem_nome",
+    "name_key": "shade.sem_nome.eco.nome",
+    "description_key": "shade.sem_nome.eco.descricao",
+    "gesture": "eco_cajado",
+    "resolve_damage": {
+      "perfect": {
+        "_tbd": true,
+        "value": 40
+      },
+      "good": {
+        "_tbd": true,
+        "value": 26
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 10
+      }
+    },
+    "mark_on_use": {
+      "_tbd": true,
+      "value": 1
+    }
+  },
+  "liberation": {
+    "peace": {
+      "_tbd": true,
+      "value": 120
+    },
+    "peace_gain": {
+      "perfect": {
+        "_tbd": true,
+        "value": 50
+      },
+      "good": {
+        "_tbd": true,
+        "value": 35
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 15
+      }
+    },
+    "lucidity_cost": {
+      "_tbd": true,
+      "value": 10
+    },
+    "enraged_damage_multiplier": {
+      "_tbd": true,
+      "value": 1.5
+    },
+    "progress_key": "shade.comum.libertar.progresso",
+    "freed_key": "shade.sem_nome.libertar.parte"
+  },
+  "voices": [
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.5
+      },
+      "text_key": "shade.sem_nome.voz.1"
+    },
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.2
+      },
+      "text_key": "shade.sem_nome.voz.2"
+    }
+  ],
+  "phases": [
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.66
+      },
+      "caption_key": "shade.sem_nome.fase2",
+      "art": "sem_nome_f2",
+      "attacks": [
+        {
+          "kind": "pattern",
+          "gesture": "esquiva_redemoinho",
+          "caption_key": "shade.sem_nome.gesto.4",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 12
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 26
+            }
+          }
+        },
+        {
+          "kind": "direct",
+          "gesture": "aparo_rapido",
+          "caption_key": "shade.sem_nome.gesto.5",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 12
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 26
+            }
+          }
+        }
+      ]
+    },
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.33
+      },
+      "caption_key": "shade.sem_nome.fase3",
+      "art": "sem_nome_f3",
+      "attacks": [
+        {
+          "kind": "pattern",
+          "gesture": "esquiva_ondas",
+          "caption_key": "shade.sem_nome.gesto.6",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 13
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 28
+            }
+          }
+        },
+        {
+          "kind": "direct",
+          "gesture": "aparo_basico",
+          "caption_key": "shade.sem_nome.gesto.7",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 13
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 28
+            }
+          }
+        },
+        {
+          "kind": "pattern",
+          "gesture": "esquiva_redemoinho",
+          "caption_key": "shade.sem_nome.gesto.4",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 13
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 28
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "story_keys": [
+    "shade.sem_nome.historia.1",
+    "shade.sem_nome.historia.2"
+  ],
+  "flee_clue_key": "shade.sem_nome.fuga",
+  "yield": {
+    "lucidity_cost": {
+      "_tbd": true,
+      "value": 10
+    },
+    "text_keys": [
+      "shade.sem_nome.ceder"
+    ]
+  },
+  "defeat_clue_keys": [
+    "shade.sem_nome.hecate",
+    "shade.sem_nome.hecate.2"
+  ],
+  "spare_key": "shade.sem_nome.poupar",
+  "offering": {
+    "accepts": "mel",
+    "accept_key": "shade.sem_nome.oferenda.aceita",
+    "refuse_key": "shade.sem_nome.oferenda.recusa"
+  },
+  "companion_readings": {
+    "aulo": "shade.sem_nome.leitura.aulo",
+    "ismena": "shade.sem_nome.leitura.ismena",
+    "dimas": "shade.sem_nome.leitura.dimas",
+    "septimia": "shade.sem_nome.leitura.septimia",
+    "calias": "shade.sem_nome.leitura.calias",
+    "lia": "shade.sem_nome.leitura.lia"
+  },
+  "name_scattered": {
+    "requires": {
+      "all": [
+        {
+          "flag": "sem_nome_pedaco_1"
+        },
+        {
+          "flag": "sem_nome_pedaco_2"
+        },
+        {
+          "flag": "sem_nome_pedaco_3"
+        },
+        {
+          "flag": "sem_nome_pedaco_4"
+        }
+      ]
+    },
+    "missing_key": "shade.sem_nome.escuta.sem_nome"
+  }
+}

@@ -297,7 +297,7 @@ shape = SubResource("Shape_pesada")
 [node name="PesadaTeste2" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, -0, 1, -7, 0, -7)
 script = ExtResource("8_pesada")
-MemoryId = "pesada_teste_2"
+MemoryId = "o_plano"
 
 [node name="Reach" type="CollisionShape3D" parent="PesadaTeste2"]
 shape = SubResource("Shape_pesada")

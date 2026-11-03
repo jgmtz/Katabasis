@@ -28,7 +28,8 @@ Usadas em diálogos, revelação de névoa, estoque de mercadores, missões, eve
 - **Implementado (29/out/2026, `Lete.Core/Conditions`):** um predicado é um objeto com **uma chave só** (o nome) e, se for o caso, `"soft": true` (ex.: `{ "flag": "x", "soft": true }`; não vale dentro de `not`). Formatos:
   - texto (id): `origin`, `gender` (`m`/`f`), `flag`, `path_key`, `oath_active`, `oath_broken`, `companion`, `difficulty`, `item_owned`, `trivia_lit`, `region_visited`, `shade_lucidity` (só em diálogo);
   - número inteiro: `tide_min`, `bond_min`, `obols_min` (óbolos na Bolsa; 31/out/2026, para pagar Caronte);
-  - objeto: `recollection` {`id`, `min_stage`?: fragment/recalled/full, `state`?: certain/uncertain/false}, `recollection_kind_full_count` {`min`}, `heavy_memory` {`id`, `state`: face/leave/pending}, `mark_band` {`min`? e/ou `max`?: low/mid/high}, `offering_shared` {`shade`, `kind`?}, `shade_state` {`id`, `state`: freed/destroyed/spared/seen/absorbed/fled/yielded}, `profile` {`top_via`?: fight/free/absorb/witness/spare/flee/yield e/ou `top_kind`?: tipo de Lembrança; lê o Perfil **recente** e falha quando ele está neutro}, `quest_stage` {`id`, `min`: índice em `stages`}.
+  - `hospitality_ready` (id da sombra; 03/nov/2026): a sombra ainda hospeda neste degrau da Maré (pão ou leito, uma vez por degrau); a opção que hospeda usa o efeito `hospitality`;
+  - objeto: `recollection` {`id`, `min_stage`?: fragment/recalled/full, `state`?: certain/uncertain/false}, `recollection_kind_full_count` {`min`}, `heavy_memory` {`id`, `state`: face/leave/pending}, `mark_band` {`min`? e/ou `max`?: low/mid/high}, `offering_shared` {`shade`, `kind`?}, `shade_state` {`id`, `state`: freed/destroyed/spared/seen/absorbed/fled/yielded}, `profile` {`top_via`?: fight/free/absorb/witness/spare/flee/yield e/ou `top_kind`?: tipo de Lembrança; lê o Perfil **recente** e falha quando ele está neutro; e/ou `heavy`?: face/leave, para onde pendem as Pesadas decididas, falha no empate (03/nov/2026)}, `quest_stage` {`id`, `min`: índice em `stages`}.
   - `NearMiss` = a condição falha, mas passaria se um único predicado `soft` que falhou fosse cumprido. O resultado diz qual foi.
   - Campos que guardam condição: `requires`, `when`, `gate`, `hook`, `condition`.
 
@@ -40,6 +41,7 @@ Usadas em diálogos, revelação de névoa, estoque de mercadores, missões, eve
 {
   "id": "tecela_do_luto",
   "kind": "named",                       // named | common | personification | guardian | boss
+  "name_known": false,                   // true nas sombras comuns: o nome (o do ofício) já se sabe e nenhuma escuta revela o nome
   "region": "campos_do_luto",
   "gesture_cycle": {                     // o que ela repete em vida, também usado na Esquiva
     "text_key": "shade.tecela.gesture",
@@ -54,7 +56,7 @@ Usadas em diálogos, revelação de névoa, estoque de mercadores, missões, eve
   "murmur_key": "shade.tecela.murmurio", // o que se ouve num Escutar falho ou num golpe sem fala
   "listen": [                            // Escutar: o que ela murmura em cada golpe do ciclo (contando do 0)
     { "cycle_step": 1, "reveals": "name", "text_key": "shade.tecela.nome_ouvido", "partial_key": "shade.tecela.nome_metade" }
-  ],                                     // reveals: clue | name | fixation (exatamente um name e um fixation)
+  ],                                     // reveals: clue | name | fixation (exatamente um name e um fixation; sem name com name_known)
   "voices": [ { "resolve_fraction_below": "_tbd", "text_key": "shade.tecela.voz1" } ],   // falas conforme a Firmeza cai
   "phases": [ { "resolve_fraction_below": "_tbd", "caption_key": "shade.tecela.fase2", "reveals": "fixation",
                 "attacks": [ /* ciclo novo, no formato de "attacks" */ ] } ],
@@ -102,6 +104,10 @@ Usadas em diálogos, revelação de névoa, estoque de mercadores, missões, eve
 
 Sombras **comuns** referenciam um `base_body` (um dos 6 corpos-base) e um conjunto reciclado de 4 a 5 gestos genéricos.
 
+**Segunda leitura** (GDD 4.10, 03/nov/2026): o campo opcional `companion_readings` (id do companheiro → chave da fala) é o que ele diz da sombra no primeiro apoio de cada luta.
+
+**Guardião de cabeças** (Cérbero, 03/nov/2026): o campo `heads` (`count`, `calm_offering`, `calmed_key`, `last_key`, `all_calm_key` e `art_by_awake`, uma arte de batalha para cada número de cabeças acordadas) e, em cada golpe de `attacks`, o campo opcional `head` (de 1 a `count`; sem ele, o golpe é de todas). A oferenda `calm_offering` acalma uma cabeça por vez (a 1 primeiro); os golpes dela saem do ciclo; com a última acordada, Aproximar só tem Oferenda e Libertar; a última acalmada termina a luta como libertar. O padrão de Esquiva `cabecas` (`spawn_interval`, `speed`, `spacing`, `sides`) morde pelos lados das cabeças acordadas. As escutas contam pelo golpe do ciclo original (`cycle_step` no `attacks` do arquivo), mesmo depois de o ciclo encolher.
+
 ---
 
 ## 3. Lembrança (`content/recollections/<id>.json`)
@@ -138,6 +144,30 @@ Sombras **comuns** referenciam um `base_body` (um dos 6 corpos-base) e um conjun
 **Implementado (30/out/2026, `Lete.Core/Systems/HeavyMemories.cs`):** no lugar de `choice`, a Pesada traz `order` (1, 2, 3... sem buracos), `gate` (opcional), `warning_key` (aviso de Hécate ou do companheiro), `surface_key` (o aflorar), `stages.full.text_key` (a verdade, mostrada ao Encarar), `skill` na raiz (a **Culpa**, dada só ao Encarar; Memória normal de `content/memories`, forte e cara) e `leave` {`text_key` (a fala ao Deixar), `lucidity_max`, `protections`} (a **Leveza**). Sem `sources` nem `full_by`: encarada, é plena; deixada, a pedra fica escura e coberta. `profile_effect` fica para o Perfil. O lugar onde aflora é um nó `HeavyMemoryPlace` (Area3D, `MemoryId`) na cena da região.
 
 **Batalha (`content/battle/<id>.json`), participante:** além de `id`, `art`, `height`, `flip_h`, `tint`, `portrait` e `name_key`, pode ter `idle_frames` (`frames`, `fps`, `by_style`: id da versão de arte → caminho dos quadros sem o número, ex. `.../remador_flutuar_` + `01.png`); versões sem quadros usam a imagem única com o balanço por código.
+
+**Batalha, enquadramento (05/nov/2026):** `framing` (opcional, padrão `normal`) cita um enquadramento de `content/rules/enquadramento_batalha.json` (`framings`: `id`, `screen_height_px` = altura na tela, em 1080p, de quem tem altura 1 no elenco; `letterbox` = faixa de cinema em cima e embaixo, fração da tela, cada uma, até 0,2; `fit_margin` = folga até a borda). As lutas de chefe usam `chefe` (faixas de cinema, câmera aberta: 320 px por unidade, e os chefes com altura 2 no elenco, o Cérbero 1,6). Se a arte de alguém sair do quadro ou entrar nas faixas, a câmera se afasta até caber. As posições do layout são para a câmera do enquadramento: o grupo na frente, embaixo, e a sombra bem mais ao fundo (os pés dela bem acima dos do grupo na tela).
+
+**Região, tabela da Maré (05/nov/2026):** `tide` (opcional): [{`step` (degrau, a partir de 1, em ordem), `arrival_key` (frase do Diário ao chegar com a Maré nesse degrau), `stubborn` (Firmeza a mais das sombras da região, fração; não diminui)}]; vale a camada do maior degrau alcançado (o último é o piso). Os nós da cena no grupo `mare`, com o metadado `mare_min`, aparecem a partir desse degrau. As sombras novas vêm dos encontros com `requires` `tide_min`.
+
+**Idioma, marcação de origem (05/nov/2026):** `{origem:chave}` vira o texto de `chave.<origem>` (ex.: `pesada.o_convite.pessoa.pescador`) ou, sem variação, o de `chave` (que precisa existir). Resolve antes da marcação de gênero.
+
+**Companheiro, Pesadas (05/nov/2026):** `heavy_keys` {`face`, `leave`}: o que ele diz na conversa da Trívia de uma Pesada decidida (uma vez por Pesada, antes das conversas; save `pesadas_comentadas`).
+
+**Mercador, saudações (05/nov/2026):** `greetings` [{`when` (condição), `key`}]: a primeira que vale substitui `greeting_key` (ex.: pelo Perfil, `profile.top_via`).
+
+**Memória, efeito `reveal` (06/nov/2026):** Saber (a Culpa de O Plano): força 2 revela o nome e a fixação da sombra, 1 só a fixação.
+
+**Memória, efeito `hush` (05/nov/2026):** o Chamado (a Culpa de O Convite): a força é quantos golpes inteiros a sombra perde (o ciclo dela não anda).
+
+**Sombra, nome espalhado e duelo de honra (06/nov/2026):** `name_scattered` {`requires` (condição: os pedaços achados), `missing_key` (o que a Escuta do nome ouve antes)}: a Escuta não revela o nome, nem a oferenda certa, enquanto a condição não vale (a Sem-Nome). `honor` {`forbidden` (prefixos das escolhas proibidas: `memoria`, `eco`, `oferenda`, `provisao`), `dishonor_key`, `blessing_flag`, `blessing_key`}: o duelo de honra (o Campeão); destruído sem nenhuma escolha proibida, liga a flag e escreve a linha no Diário.
+
+**Coisa para examinar, flag (06/nov/2026):** a cena pode dar `Flag` a um examinável (`Interactable`): examinar liga essa flag do mundo (os pedaços do nome no Poço).
+
+**Nós da Maré, degrau máximo (06/nov/2026):** além de `mare_min`, o metadado `mare_max`: o nó some depois desse degrau (a névoa que fecha um caminho). Áreas do grupo `mare` só funcionam visíveis.
+
+**Sombra, personificação e arte por fase (06/nov/2026):** `kind: personification` (o Medo, a Fome): sem nome de pessoa, Libertar aparece fechado e Presenciar vira Suportar (mesma regra). Cada fase (`phases`) pode ter `art`: a arte de batalha que entra nela (`fome_f2`, `fome_f3`).
+
+**Elenco, para onde olha (05/nov/2026):** `front_faces` (left, o padrão, ou right) e `back_faces` (right, o padrão, ou left) dizem para onde olha a arte de frente e a de costas. Na luta, o grupo olha para a direita e as sombras para a esquerda; quem olha para o outro lado sai espelhado (com os quadros do flutuar).
 
 **Bolsa (30/out/2026):** a Bolsa está no save (`bolsa` {`obolos`, `oferendas`, `provisoes`}), com Fôlego e Lucidez gastos (`vitais` {`folego_gasto`, `lucidez_gasta`, `curas`: fonte → degrau da Maré}). Regras: `content/rules/oferendas.json` (`kinds`, `capacity` por tipo, `blood`), `content/rules/cura.json` (`hearth_breath`, `hospitality_breath`); a Marca de cada oferenda em `marca.json` (`offering_mark`). Provisões definidas em `content/items/provisoes.json`; `bolsa_teste.json` agora só tem quantidades (`obols`, `offerings`, `provisions` id → quantidade) e enche a Bolsa no teste de batalha e no F1. Conversa com sombra: `lucidity.share_effects` (efeitos de partilhar a oferenda certa) e o efeito de nó `hospitality: true`.
 
@@ -252,7 +282,7 @@ Posturas: `escutar`, `perguntar`, `pressionar`, `consolar`, `calar` (`calar` sem
 }
 ```
 
-`battle` é a configuração do palco (`content/battle`); `actions` lista as opções do menu que aparecem (sem o campo, todas; as de dentro de Aproximar pedem `aproximar`); `lesson` é o que o jogador precisa fazer, uma vez cada, para a sombra recuar (opções do menu, `aparar` ou `esquivar`; sem o campo, é a luta inteira); `withdraw_key` é obrigatório com lição; `needs_offering` pede `wait_key` (a fala no mapa sem a oferenda). O encontro aparece depois de `after` e enquanto vale `requires` (condição; o Remador da câmara pede a flag do aviso de Hécate). O nó `ShadeEncounter` da cena da região diz o `EncounterId`; o teste `RegionContentTests` confere que cada encontro está uma vez na cena da sua região e que a batalha é com a sombra dele.
+`battle` é a configuração do palco (`content/battle`); `actions` lista as opções do menu que aparecem (sem o campo, todas; as de dentro de Aproximar pedem `aproximar`); `lesson` é o que o jogador precisa fazer, uma vez cada, para a sombra recuar (opções do menu, `aparar` ou `esquivar`; sem o campo, é a luta inteira); `withdraw_key` é obrigatório com lição; `needs_offering` pede `wait_key` (a fala no mapa sem a oferenda). O encontro aparece depois de `after` e enquanto vale `requires` (condição; o Remador da câmara pede a flag do aviso de Hécate). Sem lição e sem `free_defeat`, é uma luta de verdade (as sombras comuns da Planície, `planicie_<sombra>`, 03/nov/2026): a derrota acorda o jogador na última Trívia (`ultima_trivia` no save) e salva. O nó `ShadeEncounter` da cena da região (ou `WanderingShade`, a sombra que vaga e nota quem entra no raio dela) diz o `EncounterId`; o teste `RegionContentTests` confere que cada encontro está uma vez na cena da sua região e que a batalha é com a sombra dele.
 
 ## 7. Modo de dificuldade (`content/difficulty/<modo>.json`)
 

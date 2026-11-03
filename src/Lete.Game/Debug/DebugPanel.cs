@@ -425,7 +425,9 @@ public partial class DebugPanel : CanvasLayer
             List(state.OriginFragments),
             List(state.Encounters.OrderBy(e => e, StringComparer.Ordinal)))
             + "\n" + string.Format(T("debug.missoes"), List(state.Missions.OrderBy(p => p.Key, StringComparer.Ordinal)
-                .Select(p => p.Value.Closed ? $"{p.Key}={p.Value.Stage} ✗" : $"{p.Key}={p.Value.Stage}")));
+                .Select(p => p.Value.Closed ? $"{p.Key}={p.Value.Stage} ✗" : $"{p.Key}={p.Value.Stage}")))
+            + "\n" + string.Format(T("debug.registro.trivia_atalhos"), state.LastTriviaId ?? "-",
+                List(state.OpenShortcuts.OrderBy(s => s, StringComparer.Ordinal)));
     }
 
     private void AddButton(Container row, string key, Action action)

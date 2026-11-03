@@ -1,0 +1,94 @@
+{
+  "id": "esposa_padeiro",
+  "_rascunho": "03/nov/2026 (PENDENCIAS 80): a missão do Padeiro (GDD 5.3: levar pão à sombra da esposa, em outra região). Lugar decidido a pedido do João: ela não atravessou e espera na margem do Aqueronte. O cheiro do pão dele a desperta (sem oferenda).",
+  "mode": "shade",
+  "speaker_key": "shade.esposa_padeiro.nome",
+  "shade": "esposa_padeiro",
+  "lucidity": {
+    "base": "vaga",
+    "raise": [
+      {
+        "to": "desperta",
+        "when": {
+          "flag": "levando_pao_padeiro"
+        }
+      }
+    ]
+  },
+  "start": [
+    "ja_recebeu",
+    "desperta",
+    "vaga"
+  ],
+  "nodes": [
+    {
+      "id": "ja_recebeu",
+      "when": {
+        "flag": "esposa_recebeu_pao"
+      },
+      "line_key": "dlg.esposa.ja_recebeu"
+    },
+    {
+      "id": "vaga",
+      "when": {
+        "shade_lucidity": "vaga"
+      },
+      "line_key": "dlg.esposa.vaga",
+      "options": [
+        {
+          "posture": "escutar",
+          "text_key": "dlg.esposa.vaga.escutar",
+          "next": "vaga_escutar"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.esposa.calar",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "vaga_escutar",
+      "line_key": "dlg.esposa.vaga.escutar.resposta",
+      "next": "vaga"
+    },
+    {
+      "id": "desperta",
+      "line_key": "dlg.esposa.desperta",
+      "options": [
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.esposa.porque",
+          "next": "porque"
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.esposa.dar",
+          "next": "entrega"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.esposa.calar",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "porque",
+      "line_key": "dlg.esposa.porque.resposta",
+      "next": "desperta"
+    },
+    {
+      "id": "entrega",
+      "line_key": "dlg.esposa.entrega",
+      "effects": [
+        {
+          "flag": "esposa_recebeu_pao"
+        },
+        {
+          "journal_key": "diario.esposa.entrega"
+        }
+      ]
+    }
+  ]
+}

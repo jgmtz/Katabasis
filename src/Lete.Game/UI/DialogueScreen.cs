@@ -10,11 +10,19 @@ namespace Lete.Game.UI;
 /// escolhidas antes aparecem esmaecidas; bloqueadas, em cinza com a dica vaga no lugar do texto; o rótulo entre
 /// colchetes vem do que a opção exige (origem, Memória, Marca, oferenda). O comentário do companheiro aparece antes das
 /// opções, com Concordar, Discordar ou Ignorar. Nó sem opções: Continuar. Com uma sombra, "Oferenda" escolhe o tipo e
-/// Dar ou Partilhar (decisão do João, 30/out/2026); depois a conversa recomeça, já com a lucidez nova.
+/// Dar ou Partilhar (decisão do João, 30/out/2026); depois a conversa recomeça, já com a lucidez nova. Quem fala e tem
+/// busto no elenco (<c>dialogue_portrait</c>, os companheiros) aparece à esquerda, em escala inteira (caixa provisória no
+/// tema barro e ouro, 06/nov/2026, até a arte da caixa).
 /// </summary>
 public partial class DialogueScreen : CanvasLayer
 {
     [Export] public Vector2 PanelSize { get; set; } = new(1200, 520);
+
+    /// <summary>Quantos pixels de tela por pixel do busto (128 px × 2 = 256 px na tela de 1080p).</summary>
+    [Export] public int PortraitScale { get; set; } = 2;
+
+    private static System.Collections.Generic.IReadOnlyDictionary<string, Lete.Core.Combat.CastMember>? _cast;
+    private TextureRect _portrait = null!;
 
     private PanelContainer _panel = null!;
     private Label _speaker = null!;
@@ -37,9 +45,21 @@ public partial class DialogueScreen : CanvasLayer
         _panel.OffsetTop -= 40;
         _panel.OffsetBottom -= 40;
 
-        var column = new VBoxContainer();
+        var row = new HBoxContainer();
+        row.AddThemeConstantOverride("separation", 24);
+        _panel.AddChild(row);
+        _portrait = new TextureRect
+        {
+            StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
+            ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+            TextureFilter = CanvasItem.TextureFilterEnum.Nearest,
+            SizeFlagsVertical = Control.SizeFlags.ShrinkBegin,
+            Visible = false,
+        };
+        row.AddChild(_portrait);
+        var column = new VBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
         column.AddThemeConstantOverride("separation", 20);
-        _panel.AddChild(column);
+        row.AddChild(column);
         _speaker = UiStyle.MakeLabel("", UiStyle.TitleFontSize);
         column.AddChild(_speaker);
         _line = UiStyle.MakeLabel("");
@@ -56,9 +76,23 @@ public partial class DialogueScreen : CanvasLayer
     {
         _runner = GameRoot.Instance.Dialogues.Open(dialogueId);
         _speaker.Text = T(_runner.Graph.SpeakerKey);
+        ShowPortrait(_runner.Graph.SpeakerKey);
         _panel.Visible = true;
         OpenChanged?.Invoke();
         ShowNode();
+    }
+
+    /// <summary>O busto de quem fala, se o elenco tiver (pelo nome: a <c>speaker_key</c> é a <c>name_key</c> dele).</summary>
+    private void ShowPortrait(string speakerKey)
+    {
+        _cast ??= Lete.Core.Data.CastData.FromJson(FileAccess.GetFileAsString(Combat.BattleStage.CastPath));
+        var path = _cast.Values.FirstOrDefault(m => m.NameKey == speakerKey)?.DialoguePortrait;
+        _portrait.Visible = path is not null;
+        if (path is not null)
+        {
+            _portrait.Texture = GD.Load<Texture2D>(path);
+            _portrait.CustomMinimumSize = _portrait.Texture.GetSize() * PortraitScale;
+        }
     }
 
     /// <summary>

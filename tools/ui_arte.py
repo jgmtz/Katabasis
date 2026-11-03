@@ -4,7 +4,7 @@ Uso: python tools/ui_arte.py
 
 Tudo é pixel art pequeno, desenhado aqui como grades de letras (cada letra é uma cor da paleta).
 As cores vêm de src/Lete.Game/UI/ui_paleta.tres: mude a paleta lá e rode de novo.
-Os desenhos são PROVISÓRIOS (feitos pelo Claude, 25/out/2026); o João pode trocar qualquer arquivo
+Os desenhos são PROVISÓRIOS (25/out/2026); o João pode trocar qualquer arquivo
 por um definitivo de mesmo nome e tamanho sem mexer no código.
 """
 

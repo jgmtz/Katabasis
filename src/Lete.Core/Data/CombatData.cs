@@ -48,7 +48,8 @@ public static class CombatData
                 },
                 String(a, "gesture"),
                 String(a, "caption_key"),
-                ReadGradeValues(a, "breath_damage")))
+                ReadGradeValues(a, "breath_damage"),
+                a.TryGetProperty("head", out var head) ? head.GetInt32() : null))
             .ToList();
     }
 

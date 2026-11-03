@@ -1,0 +1,22 @@
+{
+  "id": "asfodelos_sem_nome",
+  "_rascunho": "A Sem-Nome à beira do Poço (06/nov/2026, PENDENCIAS 89). Opcional; luta inteira, derrota com custo.",
+  "shade": "sem_nome",
+  "region": "asfodelos",
+  "battle": "sem_nome",
+  "hecate_key": "encontro.asfodelos_sem_nome.nota",
+  "actions": [
+    "atacar",
+    "memoria",
+    "aproximar",
+    "escutar",
+    "libertar",
+    "oferenda",
+    "presenciar",
+    "ceder",
+    "absorver",
+    "eco",
+    "bolsa",
+    "fugir"
+  ]
+}

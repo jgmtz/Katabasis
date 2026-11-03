@@ -24,5 +24,10 @@
   "talk_keys": [
     "companheiro.dimas.conversa.1",
     "companheiro.dimas.conversa.2"
-  ]
+  ],
+  "_heavy": "A fala sobre uma Pesada decidida, na primeira conversa da Trívia depois dela (decisão do João, 03/nov/2026: curta, à maneira do apoio dele). Rascunho, 05/nov/2026 (PENDENCIAS 85).",
+  "heavy_keys": {
+    "face": "companheiro.dimas.pesada.encarou",
+    "leave": "companheiro.dimas.pesada.deixou"
+  }
 }

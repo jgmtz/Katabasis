@@ -1,6 +1,6 @@
 {
   "id": "padeiro",
-  "_rascunho": "Conversa de TESTE do Padeiro (Rua dos Ofícios), a partir do exemplo do GDD 5.2 (Claude, 30/out/2026). Falas em rascunho; o comentário do companheiro só tem Aulo e Lia por enquanto. A Lembrança usada é a de teste (maos_no_barro).",
+  "_rascunho": "Conversa de TESTE do Padeiro (Rua dos Ofícios), a partir do exemplo do GDD 5.2 (30/out/2026). Falas em rascunho; o comentário do companheiro só tem Aulo e Lia por enquanto. A Lembrança usada é a de teste (maos_no_barro). A missão do pão (pedido, notícia da esposa, hospitalidade depois de cumprida) é de 03/nov/2026 (PENDENCIAS 80).",
   "mode": "shade",
   "speaker_key": "shade.padeiro.nome",
   "shade": "padeiro",
@@ -11,9 +11,18 @@
       {
         "journal_key": "diario.padeiro.partilha"
       }
+    ],
+    "raise": [
+      {
+        "to": "desperta",
+        "when": {
+          "flag": "esposa_recebeu_pao"
+        }
+      }
     ]
   },
   "start": [
+    "em_paz",
     "desperto_inicio",
     "vago_inicio"
   ],
@@ -109,6 +118,40 @@
           "next": "desperto_frase"
         },
         {
+          "posture": "perguntar",
+          "text_key": "dlg.padeiro.onde",
+          "requires": {
+            "all": [
+              {
+                "flag": "padeiro_falou_da_mulher"
+              },
+              {
+                "not": {
+                  "flag": "levando_pao_padeiro"
+                }
+              }
+            ]
+          },
+          "next": "onde"
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.padeiro.noticia",
+          "requires": {
+            "all": [
+              {
+                "flag": "esposa_recebeu_pao"
+              },
+              {
+                "not": {
+                  "flag": "padeiro_soube"
+                }
+              }
+            ]
+          },
+          "next": "noticia"
+        },
+        {
           "posture": "calar",
           "text_key": "dlg.padeiro.desperto.calar",
           "next": "fim"
@@ -122,6 +165,9 @@
       "effects": [
         {
           "journal_key": "diario.padeiro.mulher"
+        },
+        {
+          "flag": "padeiro_falou_da_mulher"
         }
       ],
       "comment": {
@@ -150,6 +196,80 @@
       "effects": [
         {
           "journal_key": "diario.padeiro.frase"
+        }
+      ]
+    },
+    {
+      "id": "onde",
+      "line_key": "dlg.padeiro.onde.resposta",
+      "options": [
+        {
+          "posture": "consolar",
+          "text_key": "dlg.padeiro.levar",
+          "next": "pedido"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.padeiro.desperto.calar",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "pedido",
+      "line_key": "dlg.padeiro.pedido",
+      "effects": [
+        {
+          "flag": "levando_pao_padeiro"
+        },
+        {
+          "journal_key": "diario.padeiro.pedido"
+        }
+      ]
+    },
+    {
+      "id": "noticia",
+      "line_key": "dlg.padeiro.noticia.resposta",
+      "next": "em_paz",
+      "effects": [
+        {
+          "flag": "padeiro_soube"
+        },
+        {
+          "journal_key": "diario.padeiro.noticia"
+        }
+      ]
+    },
+    {
+      "id": "em_paz",
+      "when": {
+        "flag": "padeiro_em_paz"
+      },
+      "line_key": "dlg.padeiro.em_paz",
+      "options": [
+        {
+          "posture": "escutar",
+          "text_key": "dlg.padeiro.aceitar_pao",
+          "requires": {
+            "hospitality_ready": "padeiro"
+          },
+          "hint_key": "dlg.padeiro.aceitar_pao.dica",
+          "show_blocked": true,
+          "next": "pao"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.padeiro.desperto.calar",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "pao",
+      "line_key": "dlg.padeiro.pao",
+      "effects": [
+        {
+          "hospitality": true
         }
       ]
     }

@@ -90,7 +90,7 @@ public class RegionContentTests
         Assert.All(placed, p => Assert.Contains(p.Id, encounters.Keys));
         // A descida de Tênaro: quatro encontros com o Remador, cada um depois do anterior, e o último é a luta inteira.
         var chain = new List<Encounter>();
-        for (var next = encounters.Values.Single(e => e.RegionId == "tenaro" && e.After is null); next is not null;
+        for (var next = encounters.Values.Single(e => e.RegionId == "tenaro" && e.ShadeId == "remador" && e.After is null); next is not null;
              next = encounters.Values.SingleOrDefault(e => e.After == next.Id))
         {
             chain.Add(next);

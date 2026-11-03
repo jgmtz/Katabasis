@@ -32,6 +32,28 @@ HEADER_EXT = [
     ('Texture2D', 'res://art/sprites/companheiros/calias_sim/parado/calias_parado_frente.png', '21_calias'),
     ('Texture2D', 'res://art/sprites/sombras/padeiro/parado/padeiro_parado_frente.png', '16_padeiro'),
     ('Texture2D', 'res://art/sprites/sombras/mercador/parado/mercador_parado_frente.png', '17_coveiro'),
+    ('Script', 'res://src/Lete.Game/World/WanderingShade.cs', '22_vagante'),
+    ('Texture2D', 'res://art/sprites/companheiros/lia_sim/parado/lia_parado_frente.png', '23_lia'),
+    ('Texture2D', 'res://art/sprites/sombras/camponesa/parado/camponesa_parado_frente.png', '24_camponesa'),
+    ('Texture2D', 'res://art/sprites/sombras/cerbero/parado/cerbero_parado_frente.png', '25_cerbero'),
+    ('Script', 'res://src/Lete.Game/World/PhysicalShortcut.cs', '26_atalho'),
+    # Figuras da fatia em 3/4 (entrega de 05/nov/2026): a imagem parada de 64 px (a escala do mapa); a animação parada vem
+    # dos quadros de idle_3q (MapSprite.IdleFramesPrefix).
+    ('Texture2D', 'res://art/sprites/sombras/caronte/parado_3q/64px/caronte_parado_3q_esq.png', '27_caronte'),
+    ('Texture2D', 'res://art/sprites/sombras/insepultos/parado_3q/64px/insepultos_parado_3q_esq.png', '28_insepultos'),
+    ('Texture2D', 'res://art/sprites/sombras/afogado/parado_3q/64px/afogado_parado_3q_esq.png', '29_afogado'),
+    ('Texture2D', 'res://art/sprites/sombras/oleiro/parado_3q/64px/oleiro_parado_3q_esq.png', '30_oleiro'),
+    # Aprovadas pelo João em 05/nov/2026: a esposa do Padeiro e o Mercador da Planície com corpo próprio.
+    ('Texture2D', 'res://art/sprites/sombras/esposa_padeiro/parado_3q/64px/esposa_padeiro_parado_3q_esq.png', '31_esposa'),
+    ('Texture2D', 'res://art/sprites/sombras/mercador_planicie/parado_3q/64px/mercador_planicie_parado_3q_esq.png', '32_mercador_planicie'),
+    ('Texture2D', 'res://art/sprites/sombras/fome/parado_3q/64px/fome_parado_3q_esq.png', '33_fome'),
+    # Ato II (06/nov/2026): o Tribunal, os companheiros que se conhecem nas regiões novas e os chefes.
+    ('Script', 'res://src/Lete.Game/World/TribunalSeat.cs', '34_tribunal'),
+    ('Texture2D', 'res://art/sprites/companheiros/aulo_sim/parado/aulo_parado_frente.png', '35_aulo'),
+    ('Texture2D', 'res://art/sprites/companheiros/ismena_sim/parado/ismena_parado_frente.png', '36_ismena'),
+    ('Texture2D', 'res://art/sprites/companheiros/septimia_sim/parado/septimia_parado_frente.png', '37_septimia'),
+    ('Texture2D', 'res://art/sprites/sombras/campeao/parado_3q/64px/campeao_parado_3q_esq.png', '38_campeao'),
+    ('Texture2D', 'res://art/sprites/sombras/sem_nome/parado_3q/64px/sem_nome_parado_3q_esq.png', '39_sem_nome'),
 ]
 
 
@@ -50,13 +72,16 @@ class Scene:
     def node(self, text):
         self.nodes.append(text)
 
-    def box(self, name, size, pos, mat='Mat_parede', collide=True, parent='.'):
-        self.node(f'''[node name="{name}" type="CSGBox3D" parent="{parent}" groups=["pixel_surface"]]
+    def box(self, name, size, pos, mat='Mat_parede', collide=True, parent='.', tide_min=None):
+        # tide_min: o nó só aparece com a Maré nesse degrau ou acima (grupo "mare", lido pelo Main ao carregar a região).
+        groups = '["pixel_surface"]' if tide_min is None else '["pixel_surface", "mare"]'
+        tide = '' if tide_min is None else f'metadata/mare_min = {tide_min}\n'
+        self.node(f'''[node name="{name}" type="CSGBox3D" parent="{parent}" groups={groups}]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {fmt(pos[0])}, {fmt(pos[1])}, {fmt(pos[2])})
 use_collision = {'true' if collide else 'false'}
 size = Vector3({fmt(size[0])}, {fmt(size[1])}, {fmt(size[2])})
 material = SubResource("{mat}")
-''')
+{tide}''')
 
     def blocker(self, name, size, pos):
         """Parede invisível (a água não se atravessa)."""
@@ -95,15 +120,37 @@ light_energy = {fmt(energy)}
 omni_range = {fmt(rng)}
 ''')
 
-    def water(self, name, size, pos):
-        self.box(name, size, pos, mat='Mat_agua', collide=False)
+    def water(self, name, size, pos, tide_min=None):
+        self.box(name, size, pos, mat='Mat_agua', collide=False, tide_min=tide_min)
 
-    def examinable(self, name, pos, key):
+    def tide(self, tide_min=None, tide_max=None):
+        """O último nó só aparece (e só funciona, se for uma área) entre esses degraus da Maré (grupo "mare")."""
+        header, rest = self.nodes[-1].split('\n', 1)
+        if 'groups=[' in header:
+            header = header.replace('groups=[', 'groups=["mare", ', 1)
+        else:
+            header = header[:-1] + ' groups=["mare"]]'
+        meta = ''.join(f'metadata/{k} = {v}\n' for k, v in (('mare_min', tide_min), ('mare_max', tide_max)) if v is not None)
+        self.nodes[-1] = header + '\n' + meta + rest
+
+    def tribunal(self, name, pos, trial_id):
+        """A pedra do Tribunal (TribunalSeat): abre o julgamento (content/trials)."""
+        self.node(f'''[node name="{name}" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {fmt(pos[0])}, {fmt(pos[1])}, {fmt(pos[2])})
+script = ExtResource("34_tribunal")
+TrialId = "{trial_id}"
+
+[node name="Reach" type="CollisionShape3D" parent="{name}"]
+shape = SubResource("Shape_alcance")
+''')
+
+    def examinable(self, name, pos, key, flag=None):
+        flag_line = f'Flag = "{flag}"\n' if flag else ''
         self.node(f'''[node name="{name}" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {fmt(pos[0])}, {fmt(pos[1])}, {fmt(pos[2])})
 script = ExtResource("3_inter")
 JournalKey = "{key}"
-
+{flag_line}
 [node name="Reach" type="CollisionShape3D" parent="{name}"]
 shape = SubResource("Shape_alcance")
 ''')
@@ -137,8 +184,42 @@ texture = ExtResource("{texture}")
 script = ExtResource("11_sprite")
 ''')
 
-    def talkable(self, name, pos, dialogue, texture=None):
-        """Alguém com quem conversar (Talkable); sem textura, só a voz (Caronte e os insepultos no blockout)."""
+    def wanderer(self, name, pos, encounter_id, shade, offset, notice=4.0):
+        """Sombra comum que vaga (WanderingShade): anda até pos+offset e volta; nota quem entra no raio, à frente."""
+        self.node(f'''[node name="{name}" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {fmt(pos[0])}, {fmt(pos[1])}, {fmt(pos[2])})
+script = ExtResource("22_vagante")
+EncounterId = "{encounter_id}"
+SpriteFolder = "res://art/sprites/sombras/{shade}"
+SpritePrefix = "{shade}"
+WanderOffset = Vector3({fmt(offset[0])}, {fmt(offset[1])}, {fmt(offset[2])})
+NoticeRadius = {fmt(notice)}
+
+[node name="Reach" type="CollisionShape3D" parent="{name}"]
+shape = SubResource("Shape_alcance")
+''')
+
+    def shortcut(self, name, pos, shortcut_id, destination, inside, keys):
+        """Ponta de um atalho físico (PhysicalShortcut): a de dentro abre; aberto, leva ao marcador da outra ponta."""
+        self.node(f'''[node name="{name}" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {fmt(pos[0])}, {fmt(pos[1])}, {fmt(pos[2])})
+script = ExtResource("26_atalho")
+ShortcutId = "{shortcut_id}"
+Destination = "{destination}"
+Inside = {'true' if inside else 'false'}
+ClosedKey = "{keys}.fechado"
+OpenedKey = "{keys}.aberto"
+UseKey = "{keys}.usar"
+
+[node name="Reach" type="CollisionShape3D" parent="{name}"]
+shape = SubResource("Shape_alcance")
+''')
+
+    def talkable(self, name, pos, dialogue, texture=None, idle=None):
+        """Alguém com quem conversar (Talkable); sem textura, só a voz. idle: a figura em 3/4 (pasta da sombra) com a
+        animação parada de 64 px, olhando para a esquerda."""
+        idle_line = (f'IdleFramesPrefix = "res://art/sprites/sombras/{idle}/idle_3q/64px/esq/{idle}_idle_3q_esq_"\n'
+                     if idle else '')
         self.node(f'''[node name="{name}" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {fmt(pos[0])}, {fmt(pos[1])}, {fmt(pos[2])})
 script = ExtResource("14_conversa")
@@ -150,7 +231,7 @@ shape = SubResource("Shape_alcance")
 [node name="Sprite" type="Sprite3D" parent="{name}"]
 texture = ExtResource("{texture}")
 script = ExtResource("11_sprite")
-''' if texture else ''))
+{idle_line}''' if texture else ''))
 
     def heavy_place(self, name, pos, memory_id):
         """Lugar onde uma Memória Pesada aflora (HeavyMemoryPlace)."""
@@ -179,7 +260,9 @@ texture = ExtResource("{texture}")
 script = ExtResource("11_sprite")
 ''')
 
-    def merchant(self, name, pos, merchant_id, texture):
+    def merchant(self, name, pos, merchant_id, texture, idle=None):
+        idle_line = (f'IdleFramesPrefix = "res://art/sprites/sombras/{idle}/idle_3q/64px/esq/{idle}_idle_3q_esq_"\n'
+                     if idle else '')
         self.node(f'''[node name="{name}" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {fmt(pos[0])}, {fmt(pos[1])}, {fmt(pos[2])})
 script = ExtResource("15_mercador")
@@ -191,7 +274,7 @@ shape = SubResource("Shape_alcance")
 [node name="Sprite" type="Sprite3D" parent="{name}"]
 texture = ExtResource("{texture}")
 script = ExtResource("11_sprite")
-''')
+{idle_line}''')
 
     def exit(self, name, pos, size, region, entry, path_key='', blocked='', milestone=''):
         extra = ''.join(f'{k} = "{v}"\n' for k, v in
@@ -337,29 +420,91 @@ t.box('CamaraNorteB', (1, 4, 1), (8.5, 2, -43))
 t.water('RioSubterraneo', (12, 0.04, 3), (-3, 0.02, -38.5))
 t.blocker('RioBarreira', (12, 2, 3), (-3, 1, -38.5))
 t.trivia('Trivia', (-5, 0, -30.5), 'trivia_tenaro')
+# A tabela da Maré de Tênaro (05/nov/2026, PENDENCIAS 85): com o degrau 1, o rio passa da margem e a poça cresce.
+t.water('RioMare1', (14, 0.05, 4.5), (-3, 0.025, -39.25), tide_min=1)
+t.water('PocaMare1', (2.6, 0.05, 2.6), (1.6, 0.025, -12.5), tide_min=1)
 t.light('LuzCamara', (2, 3, -35), '0.35, 0.55, 0.6, 1', 1.0, 12)
 # O Remador-tutorial, uma coisa por luta (decisão do João, 30-31/out/2026): cada encontro aparece depois do anterior.
 t.encounter('RemadorBoca', (0, 0, -3), 'remador_boca')
 t.encounter('RemadorPoca', (-0.8, 0, -16), 'remador_poca')
 t.encounter('RemadorMarcas', (0.5, 0, -24), 'remador_marcas')
 t.encounter('RemadorCamara', (3, 0, -36), 'remador_camara')
-t.exit('ParaAqueronte', (6.5, 1, -43.6), (3, 2, 1.2), 'aqueronte', 'ChegadaTenaro')
+# A camada das sombras da Maré: a carpideira vaga na descida a partir do degrau 1 (o encontro pede tide_min 1).
+t.wanderer('SombraCarpideira', (1, 0, -7), 'tenaro_carpideira', 'carpideira', (-2, 0, -3))
+t.exit('ParaVestibulo', (6.5, 1, -43.6), (3, 2, 1.2), 'vestibulo', 'ChegadaTenaro')
+# Atalho físico (GDD 3.6; 03/nov/2026): uma corda velha enrolada na câmara do rio; jogada pela fenda (por dentro), liga a
+# câmara à saliência da boca da gruta, nos dois sentidos, sem custar Maré.
+t.shortcut('CordaCamara', (8, 0, -28), 'corda_tenaro', 'CordaBocaPe', True, 'obj.tenaro.corda.camara')
+t.shortcut('CordaBoca', (6, 0, -1.2), 'corda_tenaro', 'CordaCamaraPe', False, 'obj.tenaro.corda.boca')
+t.column('Fenda', (6.6, 0, -1.9), height=0.6, radius=0.25)
+t.column('Argola', (8.5, 0, -28.6), height=0.5, radius=0.12)
 t.markers({
     'Entrada': (0, 0, 6),
     'Gruta': (0, 0, -5),
     'Poca': (0, 0, -12.5),
     'Camara': (2, 0, -30),
     'Trivia': (-3.5, 0, -30.5),
-    'SaidaAqueronte': (6.5, 0, -40.5),
+    'SaidaVestibulo': (6.5, 0, -40.5),
+    'CordaCamara': (7.5, 0, -29),
+    'CordaCamaraPe': (6.8, 0, -29.2),
+    'CordaBoca': (5.4, 0, -0.2),
+    'CordaBocaPe': (5, 0, 0.6),
     # Dentro da passagem: teleportar para ele atravessa (conferência e debug).
-    'AtravessarAqueronte': (6.5, 0, -43.6),
+    'AtravessarVestibulo': (6.5, 0, -43.6),
     # Em cima dos encontros: teleportar para eles começa a luta (se o encontro estiver disponível).
     'RemadorBoca': (0, 0, -3),
     'RemadorPoca': (-0.8, 0, -16),
     'RemadorMarcas': (0.5, 0, -24),
     'RemadorCamara': (3, 0, -36),
+    'Carpideira': (1, 0, -7),
 }, player=(0, 0, 6))
 t.write('Tenaro.tscn')
+
+# ---- O Vestíbulo ----
+# Ato I (HISTORIA 2 e 7.1, 05/nov/2026, PENDENCIAS 86): entre a câmara do rio de Tênaro (sul, z positivo) e a margem
+# do Aqueronte (norte). Um salão sem teto com o olmo dos sonhos vãos e as personificações paradas na névoa (Medo, Doença,
+# Guerra, só para examinar até terem arte); no estreito do norte, a Fome, chefe do Ato I, no caminho para o rio.
+v = Scene('Vestibulo', '0.4, 0.42, 0.48, 1', '0.33, 0.35, 0.4, 1', 0.5)
+v.box('ChaoSalao', (16, 1, 31), (0, -0.5, 0), 'Mat_piso')
+v.box('Oeste', (1, 4.5, 31), (-8.5, 2.25, 0))
+v.box('Leste', (1, 0.5, 31), (8.5, 0.25, 0))
+v.box('SulA', (6.5, 0.5, 1), (-4.75, 0.25, 15.5))
+v.box('SulB', (6.5, 0.5, 1), (4.75, 0.25, 15.5))
+v.box('NorteA', (6.5, 4.5, 1), (-4.75, 2.25, -15.5))
+v.box('NorteB', (6.5, 4.5, 1), (4.75, 2.25, -15.5))
+# O estreito: dois paredões deixam uma passagem de 3 m, onde a Fome espera.
+v.box('EstreitoOeste', (6.5, 3, 2), (-4.75, 1.5, -9))
+v.box('EstreitoLeste', (6.5, 1, 2), (4.75, 0.5, -9))
+v.column('Olmo', (-4, 0, 4), height=4.5, radius=1.2)
+v.examinable('OlmoOlhar', (-2.4, 0, 4.6), 'obj.vestibulo.olmo')
+v.examinable('Entrada', (0, 0, 11.5), 'obj.vestibulo.entrada')
+v.column('FormaMedo', (5, 0, 8), height=1.1, radius=0.45)
+v.examinable('Medo', (4, 0, 7.2), 'obj.vestibulo.medo')
+v.box('FormaDoenca', (1.8, 0.4, 0.8), (5, 0.2, 0), 'Mat_parede', collide=True)
+v.examinable('Doenca', (3.6, 0, 0.4), 'obj.vestibulo.doenca')
+v.column('FormaGuerra', (-5, 0, -4), height=2, radius=0.5)
+v.examinable('Guerra', (-3.8, 0, -3.4), 'obj.vestibulo.guerra')
+v.encounter('Fome', (0, 0, -9), 'vestibulo_fome', texture='33_fome')
+# Tabela da Maré (06/nov/2026, PENDENCIAS 89): com o degrau 1, mais formas paradas na névoa e um soldado que foge.
+v.column('FormaMare1', (-5.5, 0, 9), height=1.4, radius=0.4)
+v.tide(tide_min=1)
+v.column('FormaMare2', (5.5, 0, -4.5), height=1.7, radius=0.45)
+v.tide(tide_min=2)
+v.wanderer('SombraFugitivo', (2, 0, 4), 'vestibulo_fugitivo', 'soldado', (-4, 0, 0))
+v.light('LuzSalao', (0, 4, 2), '0.45, 0.45, 0.55, 1', 0.8, 16)
+v.exit('ParaTenaro', (0, 1, 15.4), (3, 2, 1.2), 'tenaro', 'SaidaVestibulo')
+v.exit('ParaAqueronte', (0, 1, -15.4), (3, 2, 1.2), 'aqueronte', 'ChegadaVestibulo')
+v.markers({
+    'ChegadaTenaro': (0, 0, 12.5),
+    'SaidaAqueronte': (0, 0, -12.5),
+    'Olmo': (-2, 0, 5.5),
+    # Em cima do encontro: teleportar para ele começa a luta com a Fome.
+    'Fome': (0, 0, -9),
+    'Fugitivo': (2, 0, 4),
+    'AtravessarTenaro': (0, 0, 15.4),
+    'AtravessarAqueronte': (0, 0, -15.4),
+}, player=(0, 0, 12.5))
+v.write('Vestibulo.tscn')
 
 # ---- Margem do Aqueronte ----
 a = Scene('Aqueronte', '0.42, 0.46, 0.52, 1', '0.36, 0.42, 0.46, 1', 0.6)
@@ -375,24 +520,32 @@ a.box('Barca', (1.6, 0.5, 3), (6.2, -0.05, -10), 'Mat_terracota', collide=False)
 a.column('PosteCaronte', (4, 0, -6.6), height=2.6, radius=0.15)
 a.examinable('Margem', (-1, 0, -6), 'obj.aqueronte.margem')
 # Caronte (só a voz, sem arte ainda) e os insepultos: conversas (content/dialogue/caronte.json e insepultos.json).
-a.talkable('Caronte', (3.2, 0, -5.6), 'caronte')
-a.talkable('Insepultos', (-7, 0, -2), 'insepultos')
+a.talkable('Caronte', (3.2, 0, -5.6), 'caronte', texture='27_caronte', idle='caronte')
+a.talkable('Insepultos', (-7, 0, -2), 'insepultos', texture='28_insepultos', idle='insepultos')
 # O afogado (capítulo 1 do Pescador: "um afogado pede para ser achado"), na água rasa da margem.
-a.talkable('Afogado', (-3.5, 0, -6.2), 'afogado')
+a.talkable('Afogado', (-3.5, 0, -6.2), 'afogado', texture='29_afogado', idle='afogado')
+# A esposa do Padeiro (a missão dele, 03/nov/2026): não atravessou; espera na margem, do lado de cá.
+a.talkable('Esposa', (-8, 0, 4.5), 'esposa_padeiro', texture='31_esposa', idle='esposa_padeiro')
 a.examinable('BarcaOlhar', (7.6, 0, -5.4), 'obj.aqueronte.barca')
+# Tabela da Maré (06/nov/2026, PENDENCIAS 89): o rio sobe na margem e traz uma afogada.
+a.water('MargemMare1', (20, 0.05, 1.6), (0, 0.025, -6.5), tide_min=1)
+a.water('MargemMare2', (20, 0.05, 1.4), (0, 0.03, -5.2), tide_min=2)
+a.wanderer('SombraAfogada', (-5, 0, 1), 'aqueronte_afogada', 'lavadeira', (4, 0, 0))
 # O Convite (1ª Pesada) aflora diante da barca, depois de Caronte falar da "outra pessoa" (gate na Pesada).
 a.heavy_place('PesadaConvite', (5.8, 0, -4.2), 'o_convite')
 # A barca: com a chave do Aqueronte (óbolo, insepultos, origem Pescador...), leva a Asfódelos; é o 1º marco da Maré.
 a.exit('SubirNaBarca', (5.8, 1, -6.9), (1.6, 2, 0.8), 'asfodelos', 'ChegadaAqueronte',
        path_key='aqueronte', blocked='obj.aqueronte.barca.fechada', milestone='aqueronte')
 a.light('LuzMargem', (0, 4, -2), '0.5, 0.55, 0.6, 1', 0.9, 14)
-a.exit('ParaTenaro', (0, 1, 7.9), (3, 2, 1.2), 'tenaro', 'SaidaAqueronte')
+a.exit('ParaVestibulo', (0, 1, 7.9), (3, 2, 1.2), 'vestibulo', 'SaidaAqueronte')
 a.markers({
-    'ChegadaTenaro': (0, 0, 5),
+    'ChegadaVestibulo': (0, 0, 5),
     'Caronte': (3.2, 0, -4.5),
     'Insepultos': (-6, 0, -1),
     'Afogado': (-3.5, 0, -5),
-    'AtravessarTenaro': (0, 0, 7.9),
+    'Esposa': (-7, 0, 3.5),
+    'Afogada': (-5, 0, 1),
+    'AtravessarVestibulo': (0, 0, 7.9),
     # A volta de Asfódelos: na margem, diante da barca.
     'ChegadaBarca': (5.8, 0, -2.6),
     'PesadaConvite': (5.8, 0, -4.2),
@@ -401,24 +554,80 @@ a.markers({
 }, player=(0, 0, 5))
 a.write('Aqueronte.tscn')
 
-# ---- Asfódelos (parte da fatia: a margem, a grande Trívia, a Rua dos Ofícios e o Altar) ----
-# A barca chega pelo sul; a Trívia fica no centro; a Rua dos Ofícios a oeste (o Padeiro e o Coveiro); o Altar a leste.
+# ---- Asfódelos (parte da fatia: a margem, a grande Trívia, a Rua dos Ofícios, o Altar e a Planície) ----
+# A barca chega pelo sul; a Trívia fica no centro; a Rua dos Ofícios a oeste (o Padeiro e o Coveiro); o Altar a leste e,
+# depois dele, a Planície (campo aberto com as sombras comuns) e o mercado no fundo, onde está a Lia (03/nov/2026).
 # Os três caminhos da Trívia (Luto, Tribunal, Guerreiros) ainda estão fechados (fora da fatia).
 f = Scene('Asfodelos', '0.5, 0.52, 0.5, 1', '0.42, 0.45, 0.4, 1', 0.75)
 f.box('Chao', (32, 1, 26), (0, -0.5, 0), 'Mat_piso')
-f.water('Aqueronte', (60, 0.04, 14), (0, -0.3, 20))
-f.blocker('MargemBarreira', (32, 2, 1), (0, 1, 13.5))
-f.box('Oeste', (1, 3, 27), (-16.5, 1.5, 0))
-f.box('Leste', (1, 0.5, 27), (16.5, 0.25, 0))
-f.box('Norte', (32, 3, 1), (0, 1.5, -13.5))
+f.box('ChaoPlanicie', (34, 1, 26), (33, -0.5, 0), 'Mat_piso')
+f.water('Aqueronte', (100, 0.04, 14), (17, -0.3, 20))
+f.blocker('MargemBarreira', (66, 2, 1), (17, 1, 13.5))
+# A oeste da Rua dos Ofícios, por uma brecha no muro, o Poço das Sem-Nome (Ato II, 06/nov/2026).
+f.box('OesteA', (1, 3, 5.5), (-16.5, 1.5, -10.75))
+f.box('OesteB', (1, 3, 18.5), (-16.5, 1.5, 4.25))
+f.box('ChaoPoco', (16, 1, 26), (-25, -0.5, 0), 'Mat_piso')
+f.box('PocoOeste', (1, 3, 27), (-33.5, 1.5, 0))
+f.box('PocoNorte', (17, 3, 1), (-25, 1.5, -13.5))
+f.blocker('PocoSul', (17, 2, 1), (-25, 1, 13.5))
+f.box('Leste', (1, 0.5, 27), (50.5, 0.25, 0))
+f.box('Norte', (66, 3, 1), (17, 1.5, -13.5))
 f.box('Pier', (2, 0.3, 3), (0, -0.15, 12.5), 'Mat_terracota', collide=False)
-f.examinable('Planicie', (3, 0, 6), 'obj.asfodelos.planicie')
+f.examinable('Planicie', (19, 0, 4), 'obj.asfodelos.planicie')
+# A entrada da Planície: um muro baixo com uma passagem, e Cérbero nela (HISTORIA 6; 03/nov/2026). Acalmado, libertado,
+# presenciado, absorvido ou desfeito, a passagem fica livre.
+f.box('MuroPlanicieNorte', (1, 1, 16), (17, 0.5, -5))
+f.box('MuroPlanicieSul', (1, 1, 7), (17, 0.5, 9.5))
+f.encounter('Cerbero', (17, 0, 4.5), 'cerbero', texture='25_cerbero')
+# A Planície: três sombras comuns vagando, repetindo o gesto; a luta começa quando uma nota o jogador.
+f.column('PedraPlanicie1', (22, 0, 8), height=1.2, radius=0.6)
+f.column('PedraPlanicie2', (30, 0, -10), height=1.6, radius=0.7)
+f.column('PedraPlanicie3', (36, 0, 8.5), height=1.0, radius=0.5)
+f.wanderer('SombraSoldado', (22, 0, -6), 'planicie_soldado', 'soldado', (6, 0, 0))
+f.wanderer('SombraLavadeira', (27, 0, 6), 'planicie_lavadeira', 'lavadeira', (0, 0, -5))
+f.wanderer('SombraPastor', (33, 0, -2), 'planicie_pastor', 'pastor', (4, 0, 4))
+# Cérbero combatido até o fim (destruído ou absorvido): a Planície fica agitada, e uma camponesa vaga perto do muro (05/nov/2026).
+f.wanderer('SombraCamponesa', (21, 0, 1), 'planicie_camponesa', 'camponesa', (3, 0, 4))
+# O mercado no fundo da Planície: bancas, o Mercador (vinho e leite, que o Altar não tem) e a Lia, que desenha rostos.
+f.box('Banca1', (2.5, 0.9, 1.2), (42, 0.45, -8), 'Mat_terracota')
+f.box('Banca2', (2.5, 0.9, 1.2), (46.5, 0.45, -8), 'Mat_terracota')
+f.box('Banca3', (1.2, 0.9, 2.5), (48, 0.45, -3), 'Mat_terracota')
+f.examinable('Mercado', (44, 0, -5.5), 'obj.asfodelos.mercado')
+f.merchant('Mercador', (42, 0, -6.6), 'mercador', '32_mercador_planicie', idle='mercador_planicie')
+f.companion('Lia', (46.5, 0, 2.5), 'lia', '23_lia')
+f.light('LuzMercado', (44, 2.5, -4), '0.9, 0.7, 0.45, 1', 0.8, 10)
 f.exit('ParaAqueronte', (0, 1, 13), (2, 2, 0.8), 'aqueronte', 'ChegadaBarca')
 # A grande Trívia (liga a todas as acesas) e os três caminhos ainda fechados.
 f.trivia('Trivia', (0, 0, -8), 'trivia_asfodelos')
+# Os três caminhos: fechados pela névoa até o segundo degrau da Maré (escolher o companheiro; decisão do João, 06/nov/2026).
 f.examinable('CaminhoLuto', (-6, 0, -12.2), 'obj.asfodelos.caminho_luto')
-f.examinable('CaminhoTribunal', (0, 0, -13.2), 'obj.asfodelos.caminho_tribunal')
+f.tide(tide_max=1)
+f.examinable('CaminhoTribunal', (0, 0, -12.2), 'obj.asfodelos.caminho_tribunal')
+f.tide(tide_max=1)
 f.examinable('CaminhoGuerreiros', (6, 0, -12.2), 'obj.asfodelos.caminho_guerreiros')
+f.tide(tide_max=1)
+for nome, x in (('NevoaLuto', -6), ('NevoaTribunal', 0), ('NevoaGuerreiros', 6)):
+    f.box(nome, (3, 2.2, 0.6), (x, 1.1, -12.9), 'Mat_agua', collide=False)
+    f.tide(tide_max=1)
+f.exit('ParaLuto', (-6, 1, -12.6), (2.6, 2, 1), 'luto', 'ChegadaAsfodelos')
+f.tide(tide_min=2)
+f.exit('ParaTribunal', (0, 1, -12.6), (2.6, 2, 1), 'tribunal', 'ChegadaAsfodelos')
+f.tide(tide_min=2)
+f.exit('ParaGuerreiros', (6, 1, -12.6), (2.6, 2, 1), 'guerreiros', 'ChegadaAsfodelos')
+f.tide(tide_min=2)
+# A viúva chega com o segundo degrau da Maré e procura entre as bancas da Rua dos Ofícios.
+f.wanderer('SombraViuva', (-7, 0, -1), 'asfodelos_viuva', 'carpideira', (0, 0, 6))
+# O Poço das Sem-Nome: o poço escuro, as inscrições com os pedaços do nome dela (decisão do João, 06/nov/2026: o nome
+# está espalhado; só com os quatro a Escuta revela o nome) e a Sem-Nome, chefe opcional, à beira do poço.
+f.water('Poco', (5, 0.04, 5), (-26, 0.02, 1))
+f.blocker('PocoBarreira', (5, 2, 5), (-26, 1, 1))
+f.examinable('PocoOlhar', (-22.5, 0, 1), 'obj.poco.entrada')
+f.examinable('Inscricao1', (-30, 0, -9), 'obj.poco.nome.1', flag='sem_nome_pedaco_1')
+f.examinable('Inscricao2', (-31, 0, 8), 'obj.poco.nome.2', flag='sem_nome_pedaco_2')
+f.examinable('Inscricao3', (-19.5, 0, 10.5), 'obj.poco.nome.3', flag='sem_nome_pedaco_3')
+f.examinable('Inscricao4', (-21, 0, -10.5), 'obj.poco.nome.4', flag='sem_nome_pedaco_4')
+f.encounter('SemNome', (-26, 0, -3.5), 'asfodelos_sem_nome', texture='39_sem_nome')
+f.light('LuzPoco', (-26, 3, 0), '0.5, 0.55, 0.65, 1', 0.6, 12)
 # A Rua dos Ofícios: bancadas, o forno do Padeiro e a banca do Coveiro.
 f.box('Bancada1', (3, 0.9, 1.2), (-12, 0.45, -4), 'Mat_terracota')
 f.box('Forno', (2, 1.6, 2), (-13, 0.8, 1), 'Mat_terracota')
@@ -427,9 +636,9 @@ f.talkable('Padeiro', (-10.5, 0, 1.5), 'padeiro', texture='16_padeiro')
 f.merchant('Coveiro', (-10.5, 0, 6.5), 'coveiro', '17_coveiro')
 f.examinable('Oficios', (-9, 0, -4), 'obj.asfodelos.oficios')
 # O oleiro sem mãos (capítulo 1 do Artesão: "um oleiro sem mãos pede reparo"), na bancada da Rua.
-f.talkable('Oleiro', (-12, 0, -2.6), 'oleiro')
-# Os companheiros que se conhecem nesta parte (HISTORIA 5.2): Dimas na Rua dos Ofícios, Cálias no Altar. A Lia ainda
-# não tem lugar (PENDÊNCIA 41).
+f.talkable('Oleiro', (-12, 0, -2.6), 'oleiro', texture='30_oleiro', idle='oleiro')
+# Os companheiros que se conhecem nesta parte (HISTORIA 5.2): Dimas na Rua dos Ofícios, Cálias no Altar; a Lia no
+# mercado da Planície (decisão do João, 03/nov/2026: longe dos outros, numa área de mercado).
 f.companion('Dimas', (-13.5, 0, 4), 'dimas', '20_dimas')
 # O Altar das Oferendas: o que os vivos deixam (recolher respeita o limite por tipo).
 f.box('Altar', (3, 1, 2), (11, 0.5, -3), 'Mat_terracota')
@@ -447,7 +656,82 @@ f.markers({
     'Altar': (11, 0, -1),
     'Dimas': (-12.5, 0, 5),
     'Calias': (13, 0, 0.5),
+    'Planicie': (18, 0, 0),
+    'EntradaPlanicie': (14.5, 0, 4.5),
+    'Cerbero': (17, 0, 4.5),
+    'Soldado': (22, 0, -6),
+    'Lavadeira': (27, 0, 6),
+    'Pastor': (33, 0, -2),
+    'Camponesa': (21, 0, 1),
+    'Mercado': (44, 0, -4),
+    'Mercador': (42, 0, -5.4),
+    'Lia': (45.5, 0, 3.4),
     'AtravessarAqueronte': (0, 0, 13),
+    'Viuva': (-7, 0, -1),
+    'Poco': (-20, 0, -6.5),
+    'SemNome': (-26, 0, -3.5),
+    'Inscricao1': (-29.5, 0, -8),
+    'SaidaLuto': (-6, 0, -10.5),
+    'SaidaTribunal': (0, 0, -10.5),
+    'SaidaGuerreiros': (6, 0, -10.5),
+    'AtravessarLuto': (-6, 0, -12.6),
+    'AtravessarTribunal': (0, 0, -12.6),
+    'AtravessarGuerreiros': (6, 0, -12.6),
 }, player=(0, 0, 10))
 f.write('Asfodelos.tscn')
+
+# ---- Ato II: os três caminhos da Trívia de Asfódelos (06/nov/2026, PENDENCIAS 89; blocos para revisar) ----
+# Cada região tem a sua Trívia, o companheiro que se conhece lá (HISTORIA 5.2) e a volta para Asfódelos ao sul.
+def ato2(name, ambient, fog, moon, back):
+    r = Scene(name, ambient, fog, moon)
+    r.box('Chao', (22, 1, 26), (0, -0.5, 0), 'Mat_piso')
+    r.box('Oeste', (1, 3.5, 27), (-11.5, 1.75, 0))
+    r.box('Leste', (1, 0.5, 27), (11.5, 0.25, 0))
+    r.box('Norte', (23, 3.5, 1), (0, 1.75, -13.5))
+    r.box('SulA', (9.5, 0.5, 1), (-6.75, 0.25, 13.5))
+    r.box('SulB', (9.5, 0.5, 1), (6.75, 0.25, 13.5))
+    r.exit('ParaAsfodelos', (0, 1, 13.4), (3, 2, 1.2), 'asfodelos', back)
+    return r
+
+# Campos do Luto: bosque de murtas, os que morreram de amor e de saudade; Ismena se conhece aqui.
+l = ato2('Luto', '0.42, 0.46, 0.5, 1', '0.36, 0.4, 0.46, 1', 0.55, 'SaidaLuto')
+for i, (x, z) in enumerate(((-7, -6), (-4, 4), (6, -8), (7, 3), (-8, 8), (2, -2))):
+    l.column(f'Murta{i + 1}', (x, 0, z), height=2.2, radius=0.5)
+l.examinable('Murtas', (-2.5, 0, 5), 'obj.luto.murtas')
+l.examinable('Choro', (5, 0, -5.5), 'obj.luto.choro')
+l.companion('Ismena', (3, 0, 6), 'ismena', '36_ismena')
+l.wanderer('SombraNoiva', (-3, 0, -4), 'luto_noiva', 'camponesa', (4, 0, 0))
+l.trivia('Trivia', (-6, 0, -10), 'trivia_luto')
+l.markers({'ChegadaAsfodelos': (0, 0, 10.5), 'Trivia': (-4.5, 0, -10), 'Ismena': (3.5, 0, 7), 'Noiva': (-3, 0, -4),
+           'AtravessarAsfodelos': (0, 0, 13.4)}, player=(0, 0, 10.5))
+l.write('Luto.tscn')
+
+# O Tribunal: a pedra onde as sombras são julgadas; Septímia se conhece aqui.
+tr = ato2('Tribunal', '0.48, 0.46, 0.44, 1', '0.4, 0.38, 0.36, 1', 0.6, 'SaidaTribunal')
+tr.box('Estrado', (8, 0.6, 4), (0, 0.3, -9), 'Mat_terracota')
+for i, x in enumerate((-6, -2, 2, 6)):
+    tr.column(f'Coluna{i + 1}', (x, 0, -4), height=3.2, radius=0.45)
+tr.tribunal('Pedra', (0, 0, -6.5), 'julgamento_padeiro')
+# O Plano (2ª Pesada) aflora junto da pedra, depois de conhecer Septímia (06/nov/2026).
+tr.heavy_place('PesadaPlano', (2.5, 0, -5), 'o_plano')
+tr.examinable('Juizes', (-3, 0, -7), 'obj.tribunal.juizes')
+tr.companion('Septimia', (-6, 0, 4), 'septimia', '37_septimia')
+tr.wanderer('SombraPerjuro', (5, 0, 0), 'tribunal_perjuro', 'mercador', (-3, 0, 3))
+tr.trivia('Trivia', (7, 0, 6), 'trivia_tribunal')
+tr.markers({'ChegadaAsfodelos': (0, 0, 10.5), 'Pedra': (0, 0, -5.5), 'Trivia': (5.5, 0, 6), 'Septimia': (-5.5, 0, 5), 'Perjuro': (5, 0, 0), 'PesadaPlano': (2.5, 0, -4),
+            'AtravessarAsfodelos': (0, 0, 13.4)}, player=(0, 0, 10.5))
+tr.write('Tribunal.tscn')
+
+# O Campo dos Guerreiros: armas fincadas no chão e o Campeão no fundo; Aulo se conhece aqui.
+g = ato2('Guerreiros', '0.5, 0.48, 0.46, 1', '0.42, 0.4, 0.38, 1', 0.7, 'SaidaGuerreiros')
+for i, (x, z) in enumerate(((-8, 2), (-5, -3), (4, 5), (8, -2), (-2, 8), (6, 9))):
+    g.column(f'Lanca{i + 1}', (x, 0, z), height=1.6, radius=0.1)
+g.examinable('Armas', (-4, 0, 1), 'obj.guerreiros.armas')
+g.box('Arena', (8, 0.1, 6), (0, 0.05, -8), 'Mat_terracota', collide=False)
+g.encounter('Campeao', (0, 0, -8), 'guerreiros_campeao', texture='38_campeao')
+g.companion('Aulo', (-6, 0, 6), 'aulo', '35_aulo')
+g.trivia('Trivia', (7, 0, 7), 'trivia_guerreiros')
+g.markers({'ChegadaAsfodelos': (0, 0, 10.5), 'Campeao': (0, 0, -8), 'Trivia': (5.5, 0, 7), 'Aulo': (-5.5, 0, 7),
+           'AtravessarAsfodelos': (0, 0, 13.4)}, player=(0, 0, 10.5))
+g.write('Guerreiros.tscn')
 print('ok')

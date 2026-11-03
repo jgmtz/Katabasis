@@ -20,5 +20,10 @@
   "talk_keys": [
     "companheiro.aulo.conversa.1",
     "companheiro.aulo.conversa.2"
-  ]
+  ],
+  "_heavy": "A fala sobre uma Pesada decidida, na primeira conversa da Trívia depois dela (decisão do João, 03/nov/2026: curta, à maneira do apoio dele). Rascunho, 05/nov/2026 (PENDENCIAS 85).",
+  "heavy_keys": {
+    "face": "companheiro.aulo.pesada.encarou",
+    "leave": "companheiro.aulo.pesada.deixou"
+  }
 }

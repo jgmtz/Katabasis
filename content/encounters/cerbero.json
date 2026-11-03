@@ -1,0 +1,22 @@
+{
+  "id": "cerbero",
+  "_rascunho": "Guardião da entrada da Planície (03/nov/2026, PENDENCIAS 81): sem Poupar (quem passa é o jogador; ele não vai a lugar nenhum).",
+  "shade": "cerbero",
+  "region": "asfodelos",
+  "battle": "cerbero",
+  "actions": [
+    "atacar",
+    "memoria",
+    "aproximar",
+    "escutar",
+    "libertar",
+    "oferenda",
+    "presenciar",
+    "ceder",
+    "absorver",
+    "eco",
+    "bolsa",
+    "fugir"
+  ],
+  "hecate_key": "encontro.cerbero.hecate"
+}

@@ -34,6 +34,28 @@ public class BattleFlowTests
     }
 
     [Fact]
+    public void Hush_SkipsWholeShadeTurns_WithoutMovingTheCycle()
+    {
+        var flow = NewFlow();
+        flow.Hush(2);
+        flow.Hush(1);
+        Assert.Equal(2, flow.HushedTurns);
+
+        flow.EndPlayerAction();
+        flow.EndShadeTurn();
+        Assert.Equal(1, flow.HushedTurns);
+        Assert.Equal(0, flow.NextShadeAttackIndex);
+
+        flow.EndPlayerAction();
+        flow.EndShadeTurn();
+        flow.EndPlayerAction();
+        flow.EndShadeTurn();
+        // Dois turnos calados, depois o primeiro golpe de verdade: o ciclo andou só um.
+        Assert.Equal(0, flow.HushedTurns);
+        Assert.Equal(1, flow.NextShadeAttackIndex);
+    }
+
+    [Fact]
     public void Companion_SupportsEverySecondRound_UntilEndOfShadeTurn()
     {
         var flow = NewFlow(new CompanionSupport("aulo", "postura", SupportEffect.WidenDefense, 2, 0.15f));

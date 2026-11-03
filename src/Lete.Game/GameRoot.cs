@@ -85,6 +85,7 @@ public partial class GameRoot : Node
     public ShadeRecord Shades { get; private set; } = null!;
     public Regions Regions { get; private set; } = null!;
     public Encounters Encounters { get; private set; } = null!;
+    public Shortcuts Shortcuts { get; private set; } = null!;
     public Missions Missions { get; private set; } = null!;
 
     /// <summary>As provisões do jogo (definições; as quantidades estão na Bolsa do estado).</summary>
@@ -234,7 +235,7 @@ public partial class GameRoot : Node
     }
 
     /// <summary>Texto da chave, já com o gênero do protagonista resolvido.</summary>
-    public string Text(string key) => Localizer.Get(key, State.Gender);
+    public string Text(string key) => Localizer.Get(key, State.Gender, State.OriginId);
 
     public bool HasSave => FileAccess.FileExists(SavePath);
 
@@ -304,6 +305,7 @@ public partial class GameRoot : Node
         Shades = new ShadeRecord(State, Events);
         Regions = new Regions(State, Events);
         Encounters = new Encounters(State, Events, _encounters, () => Facts);
+        Shortcuts = new Shortcuts(State, Events);
         Mosaic = new Mosaic(State, Events, _recollections, _mosaicRules);
         HeavyMemories = new HeavyMemories(State, Events, _recollections.Values);
         OriginFragments = new OriginFragments(State, Events, _origins,

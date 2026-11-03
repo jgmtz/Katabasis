@@ -31,8 +31,13 @@ public sealed class Localizer
 
     public IEnumerable<string> Keys => _fallback is null ? _strings.Keys : _strings.Keys.Union(_fallback.Keys);
 
-    public string Get(string key, Gender gender) =>
-        _strings.TryGetValue(key, out var text) ? GenderMarkup.Resolve(text, gender)
-        : _fallback is not null ? _fallback.Get(key, gender)
-        : $"[{key}]";
+    /// <summary>
+    /// O texto da chave, com a marcação de origem (<see cref="OriginMarkup"/>, pela <paramref name="originId"/>) e a de
+    /// gênero resolvidas.
+    /// </summary>
+    public string Get(string key, Gender gender, string? originId = null) =>
+        Raw(key) is { } text ? GenderMarkup.Resolve(OriginMarkup.Resolve(text, originId, Raw), gender) : $"[{key}]";
+
+    private string? Raw(string key) =>
+        _strings.TryGetValue(key, out var text) ? text : _fallback?.Raw(key);
 }

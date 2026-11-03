@@ -40,7 +40,14 @@ public static class CastData
                 var other => throw new FormatException($"'front_faces' = '{other}' desconhecido (use left ou right)."),
             },
             Optional(m, "reflection"),
-            Optional(m, "inventory_folder"))).ToList();
+            Optional(m, "inventory_folder"),
+            Optional(m, "back_faces") switch
+            {
+                null or "right" => true,
+                "left" => false,
+                var other => throw new FormatException($"'back_faces' = '{other}' desconhecido (use left ou right)."),
+            },
+            Optional(m, "dialogue_portrait"))).ToList();
 
         var errors = new List<string>();
         foreach (var group in members.GroupBy(m => m.Id).Where(g => g.Count() > 1))

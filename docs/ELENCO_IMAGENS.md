@@ -2,7 +2,7 @@
 
 > Versão 0.1 (23/out/2026). Registro mestre: **quem** precisa de **quais imagens**, com o estilo e os prompts.
 > **Decisão (23/out/2026): estilo REALISTA, sprite de 96 px de altura** (Aulo realista aprovado pelo João). Pipeline: `pixelizar.py` / `folha_para_quadros.py` com `--cores 28`.
-> Chamada no chat: o João diz **"kit gemini"** (ou "kit do <personagem>") e o Claude entrega, para o que for pedido, os prompts prontos para copiar, na ordem certa, em blocos de código.
+> Atalho: pedindo **"kit gemini"** (ou "kit do <personagem>"), saem, para o que for pedido, os prompts prontos para copiar, na ordem certa, em blocos de código.
 
 ---
 
@@ -45,7 +45,7 @@ Substitui os 6 protagonistas fixos. Por corpo (M e F): mapa **frente, costas e p
 
 A **Lia** passou a ser a sexta companheira (a arte dela já está pronta e continua valendo).
 
-**Prontos (30/out/2026):** os 5 espíritos nomeados novos (A Âncora, O Sacristão, A Oferente, O Desertor, O Trombeteiro) e os 6 corpos comuns de sombras (Soldado caído, Lavadeira, Pastor, Carpideira, Mercador, Camponesa): batalha 3/4 em `art/sprites/batalha/pixel_160/<slug>_34.png`, andar e parado de 56 px e flutuar de batalha (6 quadros, 160) em `art/sprites/sombras/<slug>/`, originais em `art/concept/gemini/sombras/`, GIFs e tiras em `art/concept/conferencia/sombras/<slug>/`; registrados no elenco. Gerados por `tools/proc_sombra.sh` (caminhos fixos de outra máquina, `/home/claude/lete-projeto`: ajustar `R` antes de rodar aqui).
+**Prontos (30/out/2026):** os 5 espíritos nomeados novos (A Âncora, O Sacristão, A Oferente, O Desertor, O Trombeteiro) e os 6 corpos comuns de sombras (Soldado caído, Lavadeira, Pastor, Carpideira, Mercador, Camponesa): batalha 3/4 em `art/sprites/batalha/pixel_160/<slug>_34.png`, andar e parado de 56 px e flutuar de batalha (6 quadros, 160) em `art/sprites/sombras/<slug>/`, originais em `art/concept/gemini/sombras/`, GIFs e tiras em `art/concept/conferencia/sombras/<slug>/`; registrados no elenco. Gerados por `tools/proc_sombra.sh` (caminhos fixos de outra máquina, `/home/<usuario>/lete-projeto`: ajustar `R` antes de rodar aqui).
 
 ### 3.3 Sombras — F + FL (+ AT depois)
 Pedir **opacas** (translucidez entra por shader). Sem vista de costas (no jogo aparecem de frente).
@@ -133,7 +133,7 @@ Image 1 is the exact reference: same character, same size, same camera angle (3/
 - Oposta do contato (usar a pose 1 recortada): `[POSE]` = `LEFT leg stretched forward (toward the right), heel on the ground; RIGHT leg stretched far back, only the toe touching the ground, heel lifted`.
 - Oposta da passagem (usar a pose 2 recortada): `[POSE]` = `LEFT leg straight and planted under the body; RIGHT leg lifted off the ground, knee bent about 70 degrees, passing the left knee`.
 
-**Plano B (1 pose por geração, anexar F + guia):** `Same character as image 1, one single figure, pixel art, flat magenta background. Pose from image 2: [colar o texto de UM dos 4 quadros acima]. Keep the same size and the same ground line.` Repetir 4 vezes e o Claude junta as imagens numa folha.
+**Plano B (1 pose por geração, anexar F + guia):** `Same character as image 1, one single figure, pixel art, flat magenta background. Pose from image 2: [colar o texto de UM dos 4 quadros acima]. Keep the same size and the same ground line.` Repetir 4 vezes e juntar as imagens numa folha.
 
 ## 5. Linhas CHARACTER (colar depois do BASE REALISTA)
 
@@ -155,14 +155,14 @@ Linha comum: `Ordinary neutral face, short plain dark-brown hair, [GENDER], aver
 ### Lia, a Retratista (**sexta companheira** desde 26/out; arte pronta)
 Ordem: 1 batalha frente 3/4 → 2 batalha costas 3/4 (anexar a 1) → depois de aprovar: F e C simétricas, perfis e parado. Batalha (assimétrica): tábua com um retrato pela metade e pincel fino. Mapa (simétrico): sem itens, sem bolsa. Pernas visíveis do joelho para baixo (rig do Dimas, a confirmar).
 - **Lia:** `CHARACTER: Lia, a portrait painter, adult woman. Soft rounded face, fair skin with a few freckles, light blue eyes, arched brown eyebrows, open warm smile. Long wavy dark-brown hair tied back with a linen band (taenia), one small gold hoop earring. Knee-length linen tunic in faded saffron (#C99A3B, desaturated) with rolled-up sleeves and paint stains (no pink or magenta stains). Leather-and-linen apron in lapis blue (#4A6A8A) with straps crossed on the back and tied in a bow. Leather pouch on her RIGHT hip, strap over her LEFT shoulder. Sandals. Dominant colors: faded saffron and lapis blue.`
-  > Linha montada pelo Claude a partir da descrição de aparência em `LIA_PROPOSTA.md` (a `LIA_FICHA.md` citada nos prompts não veio no pacote). Os blocos de prompt da conversa com o Gemini continuam valendo; se divergirem, valem eles.
+  > Linha montada a partir da descrição de aparência em `LIA_PROPOSTA.md` (a `LIA_FICHA.md` citada nos prompts não veio no pacote). Os blocos de prompt da conversa com o Gemini continuam valendo; se divergirem, valem eles.
 
 ### Sombras (opacas; só F e FL)
 - **Remador:** `CHARACTER: the shade (ghost) of a drowned oarsman, standing. Pale ghostly gray-teal body drawn as a solid opaque figure (no real transparency), the lower legs dissolving into pixelated wisps and fading to nothing at the bottom. Torn short tunic, a long wooden oar held in both hands like a staff, water-stained, hollow dark eyes, resigned posture. Dominant colors: pale Lethe teal and gray.`
 - **Tecelã:** `CHARACTER: the shade of a weaver woman, standing. Pale ghostly blue-gray solid opaque figure, the lower body dissolving into pixel wisps. Long dress, hands raised in front of her pulling taut a few thin pale threads between her fingers, hair tied back, patient waiting expression. Dominant colors: pale gray-blue (#8FB3C9) and bone.`
 - **Padeiro:** `CHARACTER: the shade of a baker, stocky man, standing. Pale ghostly warm-gray solid opaque figure with faint ochre flour-dust tones, the lower body dissolving into pixel wisps. Apron, rolled sleeves, hands mid-kneading motion in front of his belly, a long wooden bread peel leaning on one shoulder, vague absent expression. Dominant colors: bone and pale ochre.`
 
-### Figuras da fatia ainda sem arte (M3, 31/out/2026; linhas do Claude para o João revisar antes de gerar)
+### Figuras da fatia ainda sem arte (M3, 31/out/2026; linhas para o João revisar antes de gerar)
 No jogo hoje são só voz (conversas sem sprite). Mesmo padrão das sombras: F + FL; Caronte é um "ser fixo" (não flutua: F + C).
 - **Caronte:** `CHARACTER: Charon, the ferryman of the dead, a very old gaunt man standing at the bow, bigger than a normal human. Dark weathered skin, deep-set eyes glowing faintly like embers, long unkempt gray beard, a stained dark-gray hooded cloak tied with rope, bare bony feet. Holds a long punting pole upright in both hands. Solid and heavy, not a ghost. Dominant colors: soot gray and dull ember orange in the eyes only.`
 - **O afogado (Aqueronte, capítulo 1 do Pescador):** `CHARACTER: the shade of a drowned fisherman lying half-submerged, propped on his elbows, looking up. Pale ghostly green-gray solid opaque figure, hair and short tunic clinging wet, a tangle of fishing net around one arm, water dripping from the chin, the lower body dissolving into pixel wisps. Dominant colors: pale Lethe teal and faded sea green.`
@@ -171,7 +171,8 @@ No jogo hoje são só voz (conversas sem sprite). Mesmo padrão das sombras: F +
 - **Hécate:** por decisão do João (31/out/2026) ela é **só a chama e a voz** por enquanto; a arte dela fica para depois (três rostos, três tochas, HISTORIA 7).
 
 ### Chefes (descrições a escrever antes de gerar; marcar "bigger than a normal human, imposing")
-Pendente: A Fome, Cérbero, O Campeão, O Sonho, As Fúrias, A Sombra do Esquecido, O Sem-Nome. O Claude escreve a linha CHARACTER de cada um quando o João pedir o kit dos chefes (usar `HISTORIA.md` seção 6).
+Pendente: A Fome, O Campeão, O Sonho, As Fúrias, A Sombra do Esquecido, O Sem-Nome.
+- **Cérbero:** originais do João em `art/concept/gemini/chefes/cerbero` (f1, f2, f3 e mapa, 03/nov/2026). Há uma versão **provisória** no jogo: `pixelizar.py --alturas 128 --cores 28`, espelhada (olha para o grupo), em `art/sprites/batalha/pixel_160/cerbero_f1..f3.png` (uma por número de cabeças acordadas) e o mapa com `sprite_andar.py --altura 64` em `art/sprites/sombras/cerbero/parado/`. Ver PENDÊNCIA 81. A linha CHARACTER de cada um fica para quando o João pedir o kit dos chefes (usar `HISTORIA.md` seção 6).
 
 ## 6. Depois de gerar (pixelizar)
 
@@ -272,3 +273,15 @@ Use the attached image as the exact reference: same character, outfit, colors, p
 **Tecelã (25/out, sombra FECHADA, mapa + batalha):** conceito em `art/concept/gemini/sombras/` (`tecela_batalha_original.png` = do Gemini; `tecela_batalha.png` = ESPELHADA; `tecela_batalha_fios_k2/k3.png` = cópias com os fios recoloridos e engrossados só para a pixelização; `tecela_sim/sim_f/c/pd.png` = vistas simétricas do mapa, sem fios, sem naveta e sem trouxa). Mesmo método do Remador (`tools/andar_sombra.py`, `--canvas 1024x1024` porque a arte é em retrato). **Fios finos de 1 px (lição):** a cor lilás clara do fio some na redução (parece o fundo magenta e tem 1 px). Recolorir o fio para azul-gelo (196,212,232) e dilatá-lo antes de pixelizar: 5 px (k=2) para 160 px de altura e 7 px (k=3) para 128 px dão 1 px final. Sprites: mapa em `art/sprites/sombras/tecela/andar_56px/` (+ `parado/`), batalha em `art/sprites/batalha/{liso,pixel_128,pixel_160}/tecela_34.png` e flutuar em `batalha_flutuar_{128,160}/`.
 
 **Padeiro (25/out, sombra FECHADA, mapa + batalha):** conceito em `art/concept/gemini/sombras/` (`padeiro_batalha_original.png` = do Gemini; `padeiro_batalha.png` = ESPELHADA; `padeiro_batalha_limpo.png` = espelhada com os pixels rosados dos fiapos trocados por ocre claro, é a que foi pixelizada; `padeiro_sim/sim_f/c/pd.png` = vistas simétricas do mapa, sem pá, massa, saco nem pano). Mesmo método das outras sombras (`tools/andar_sombra.py`, `--canvas 1024x1024`). **Correções à mão (lições):** (1) o Gemini devolveu a frente em 3/4 duas vezes; só saiu de frente quando o prompt dizia que a imagem anexa estava em 3/4 e mandava girar o corpo, e as pernas saíram retas só com um prompt de edição próprio; (2) costas: o polegar de mãos soltas aponta para a frente e fica escondido, então os dois polegares foram apagados à mão em `sim_c.png` (o Gemini copiava as mãos da frente); (3) fiapos rosados parecem fundo magenta: recolorir para ocre claro antes de pixelizar. Sprites: mapa em `art/sprites/sombras/padeiro/andar_56px/` (+ `parado/`), batalha em `art/sprites/batalha/pixel_160/padeiro_34.png` e flutuar em `batalha_flutuar_160/` (as versões lisa e de 128 px estão em `../sobras/`).
+
+## Chefes e personificações: arte pixelizada (03/nov/2026)
+Entrega `../entregas/2026-11-03_chefes_13-27` (já copiada para `art/sprites/`; LEIA-ME e TAREFA dentro). Batalha (já espelhada): `art/sprites/batalha/pixel_160/` (a lisa e a de 128 px foram para `../sobras/`) com `campeao_f1..f3`, `sonho_f1..f3`, `sem_nome_f1..f3`, `fome_f1..f3`, `furias_alecto|megera|tisifone`. Mapa em 3/4: `art/sprites/sombras/<slug>/{parado_3q,idle_3q}/` (64, 96 e 128 px, esq/dir; a lisa foi para `../sobras/`) para cerbero, campeao, sonho, sem_nome, fome e as três Fúrias. Registrados em `elenco.json` (05/nov, f1 em `battle_front`, altura `_tbd`) e no ciclo do teste de elenco (`content/battle/teste_elenco.json`); ainda não ligados a nenhuma luta. A Fome vem do desenho do João.
+
+## Retratos e Caronte de costas (05/nov/2026, 23:34)
+Entrega `../entregas/2026-11-05_retratos-e-costas_23-34`. Bustos dos seis companheiros em `art/sprites/retratos/{pixel_96,pixel_128}/<nome>_retrato.png` (512 px lisos em `../sobras/`), ainda sem uso: esperam a caixa de diálogo e a escolha do tamanho (PENDÊNCIA 87). Caronte de costas em `art/sprites/batalha/pixel_160/caronte_34_costas.png`, ligado como `battle_back` no elenco. Faltam: Hécate (só a chama e a voz), a caixa de diálogo e as pedras do Mosaico.
+
+## Figuras da fatia: mapa em 3/4 (05/nov/2026)
+Entrega `../entregas/2026-11-05_figuras-fatia-mapa_22-42`: `art/sprites/sombras/<slug>/{parado_3q,idle_3q}/` em 64, 96 e 128 px (a lisa foi para `../sobras/`); `map_folder` no elenco. No mapa vale a de **64 px** (os humanos têm 56): Caronte, o afogado e os insepultos (Aqueronte) e o oleiro (Asfódelos) usam a imagem parada olhando para a esquerda e os 4 quadros de `idle_3q` (`MapSprite.IdleFramesPrefix`). A esposa (Aqueronte) e o Mercador da Planície também, desde que o João aprovou a aparência (05/nov/2026).
+
+## Figuras da fatia: originais gerados (03/nov/2026)
+Em `art/concept/gemini/sombras/`, 3/4 olhando para a direita, fundo magenta. **Processados em 05/nov** (entrega `../entregas/2026-11-05_figuras-fatia_21-31`): limpos, espelhados e pixelizados em `art/sprites/batalha/pixel_160/<slug>_34.png`, no `elenco.json` (altura `_tbd`, sem `map_folder` até haver arte de mapa) e no ciclo do teste de elenco; o jogo ainda usa os corpos antigos para a esposa e o Mercador (trocar depois da aprovação). Originais: `caronte_batalha_original.jpeg` (cajado encosta na borda de baixo), `afogado_batalha_original.jpeg`, `oleiro_batalha_original.jpeg` (com banco e bancada), `insepultos_batalha_original.jpeg` (3 adultos: velho, mulher, jovem; a 1ª versão com um menino foi recusada pelo Gemini), `esposa_padeiro_batalha_original.jpeg` (4:3, figura pequena), `mercador_planicie_batalha_original.jpeg` (corpo novo do Mercador da Planície). Linhas da esposa e do Mercador: propostas (PENDENCIAS). Faltam: Caronte de costas, versões de mapa (F e FL), Hécate (só chama e voz).

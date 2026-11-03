@@ -1,0 +1,236 @@
+{
+  "id": "carpideira",
+  "_rascunho": "Sombra comum de Tênaro que chega com a Maré (05/nov/2026, PENDENCIAS 85): aparece na descida depois que o jogador cruza o Aqueronte (degrau 1). Molde das sombras comuns da Planície (lista curta de fixações, nome do ofício já sabido, gestos genéricos). Falas e números para revisar.",
+  "kind": "common",
+  "name_known": true,
+  "region": "tenaro",
+  "resolve": {
+    "_tbd": true,
+    "value": 70
+  },
+  "murmur_key": "shade.comum.murmurio",
+  "attacks": [
+    {
+      "kind": "direct",
+      "gesture": "aparo_basico",
+      "caption_key": "shade.carpideira.gesto.1",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 8
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 18
+        }
+      }
+    },
+    {
+      "kind": "pattern",
+      "gesture": "esquiva_ondas",
+      "caption_key": "shade.carpideira.gesto.2",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 9
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 20
+        }
+      }
+    },
+    {
+      "kind": "direct",
+      "gesture": "aparo_rapido",
+      "caption_key": "shade.carpideira.gesto.3",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 9
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 20
+        }
+      }
+    }
+  ],
+  "listen": [
+    {
+      "cycle_step": 0,
+      "reveals": "clue",
+      "text_key": "shade.carpideira.escuta.pista",
+      "partial_key": "shade.carpideira.escuta.pista.metade"
+    },
+    {
+      "cycle_step": 1,
+      "reveals": "fixation",
+      "text_key": "shade.carpideira.escuta.fixacao",
+      "partial_key": "shade.carpideira.escuta.fixacao.metade"
+    }
+  ],
+  "fixation": {
+    "id": "culpa",
+    "options": [
+      {
+        "id": "saudade",
+        "label_key": "shade.comum.fixacao.saudade",
+        "wrong_key": "shade.comum.corrige.saudade"
+      },
+      {
+        "id": "medo",
+        "label_key": "shade.comum.fixacao.medo",
+        "wrong_key": "shade.comum.corrige.medo"
+      },
+      {
+        "id": "fome",
+        "label_key": "shade.comum.fixacao.fome",
+        "wrong_key": "shade.comum.corrige.fome"
+      },
+      {
+        "id": "culpa",
+        "label_key": "shade.comum.fixacao.culpa"
+      }
+    ]
+  },
+  "absorb": {
+    "resolve_fraction_max": {
+      "_tbd": true,
+      "value": 0.3
+    },
+    "weak_fill_factor": {
+      "_tbd": true,
+      "value": 0.6
+    },
+    "mark_gain": {
+      "perfect": {
+        "_tbd": true,
+        "value": 1
+      },
+      "good": {
+        "_tbd": true,
+        "value": 1
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 2
+      }
+    }
+  },
+  "echo": {
+    "id": "eco_lamento",
+    "name_key": "shade.carpideira.eco.nome",
+    "description_key": "shade.carpideira.eco.descricao",
+    "gesture": "eco_torcer",
+    "resolve_damage": {
+      "perfect": {
+        "_tbd": true,
+        "value": 40
+      },
+      "good": {
+        "_tbd": true,
+        "value": 26
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 10
+      }
+    },
+    "mark_on_use": {
+      "_tbd": true,
+      "value": 1
+    }
+  },
+  "liberation": {
+    "peace": {
+      "_tbd": true,
+      "value": 70
+    },
+    "peace_gain": {
+      "perfect": {
+        "_tbd": true,
+        "value": 50
+      },
+      "good": {
+        "_tbd": true,
+        "value": 35
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 15
+      }
+    },
+    "lucidity_cost": {
+      "_tbd": true,
+      "value": 10
+    },
+    "enraged_damage_multiplier": {
+      "_tbd": true,
+      "value": 1.5
+    },
+    "progress_key": "shade.comum.libertar.progresso",
+    "freed_key": "shade.carpideira.libertar.parte"
+  },
+  "voices": [
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.6
+      },
+      "text_key": "shade.carpideira.voz.1"
+    },
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.3
+      },
+      "text_key": "shade.comum.voz.fim"
+    }
+  ],
+  "phases": [],
+  "story_keys": [
+    "shade.carpideira.historia.1",
+    "shade.carpideira.historia.2"
+  ],
+  "flee_clue_key": "shade.carpideira.fuga",
+  "yield": {
+    "lucidity_cost": {
+      "_tbd": true,
+      "value": 10
+    },
+    "text_keys": [
+      "shade.comum.ceder.1",
+      "shade.carpideira.ceder"
+    ]
+  },
+  "defeat_clue_keys": [
+    "shade.carpideira.hecate"
+  ],
+  "spare_key": "shade.carpideira.poupar",
+  "offering": {
+    "accepts": "agua",
+    "accept_key": "shade.carpideira.oferenda.aceita",
+    "refuse_key": "shade.comum.oferenda.recusa"
+  },
+  "companion_readings": {
+    "aulo": "shade.carpideira.leitura.aulo",
+    "ismena": "shade.carpideira.leitura.ismena",
+    "dimas": "shade.carpideira.leitura.dimas",
+    "septimia": "shade.carpideira.leitura.septimia",
+    "calias": "shade.carpideira.leitura.calias",
+    "lia": "shade.carpideira.leitura.lia"
+  }
+}

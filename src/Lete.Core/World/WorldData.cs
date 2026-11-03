@@ -38,7 +38,11 @@ public static class WorldData
             throw new FormatException($"Mercador '{id}': preço negativo, quantidade zero ou entrada repetida.");
         }
 
-        return new Merchant(id, String(root, "name_key"), String(root, "greeting_key"), stock);
+        var greetings = root.TryGetProperty("greetings", out var list)
+            ? list.EnumerateArray().Select((g, i) => new MerchantGreeting(
+                Conditions.ConditionParser.Parse(g.GetProperty("when"), $"merchants/{id}.greetings[{i}].when"), String(g, "key"))).ToList()
+            : null;
+        return new Merchant(id, String(root, "name_key"), String(root, "greeting_key"), stock, greetings);
     }
 
     public static MerchantRules MerchantRulesFromJson(string json)
@@ -106,15 +110,27 @@ public static class WorldData
         return new TribunalRules((int)TbdNumber.Read(doc.RootElement, "defend_bonus"), (int)TbdNumber.Read(doc.RootElement, "accuse_bonus"));
     }
 
-    /// <summary>Região: <c>id</c>, <c>name_key</c>, <c>scene</c> (caminho <c>res://</c> da cena) e <c>entry</c> (marcador de chegada padrão).</summary>
+    /// <summary>
+    /// Região: <c>id</c>, <c>name_key</c>, <c>scene</c> (caminho <c>res://</c> da cena), <c>entry</c> (marcador de chegada
+    /// padrão) e, opcional, <c>tide</c>: a tabela da Maré [{<c>step</c>, <c>arrival_key</c>, <c>stubborn</c>}].
+    /// </summary>
     public static RegionDefinition RegionFromJson(string json)
     {
         using var doc = JsonDocument.Parse(json);
         var root = doc.RootElement;
-        var region = new RegionDefinition(String(root, "id"), String(root, "name_key"), String(root, "scene"), String(root, "entry"));
-        return region.Scene.StartsWith("res://", StringComparison.Ordinal) && region.Scene.EndsWith(".tscn", StringComparison.Ordinal)
-            ? region
-            : throw new FormatException($"Região '{region.Id}': 'scene' precisa ser um caminho res://...tscn.");
+        var tide = root.TryGetProperty("tide", out var layers)
+            ? layers.EnumerateArray()
+                .Select(l => new TideLayer((int)TbdNumber.Read(l, "step"), String(l, "arrival_key"), TbdNumber.Read(l, "stubborn")))
+                .ToList()
+            : null;
+        var region = new RegionDefinition(String(root, "id"), String(root, "name_key"), String(root, "scene"), String(root, "entry"), tide);
+        var errors = region.ValidateTide().ToList();
+        if (!region.Scene.StartsWith("res://", StringComparison.Ordinal) || !region.Scene.EndsWith(".tscn", StringComparison.Ordinal))
+        {
+            errors.Add($"Região '{region.Id}': 'scene' precisa ser um caminho res://...tscn.");
+        }
+
+        return errors.Count == 0 ? region : throw new FormatException(string.Join(" ", errors));
     }
 
     /// <summary>

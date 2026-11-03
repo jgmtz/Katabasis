@@ -103,6 +103,24 @@ public class ListenAndFreeTests
     }
 
     [Fact]
+    public void Listen_ScatteredName_OnlyAfterThePiecesAreFound()
+    {
+        var understanding = new ShadeUnderstanding();
+        var found = false;
+        var listening = new ShadeListening(Entries, "murmurio", understanding, () => found, "sem_nome");
+
+        var before = listening.Listen(1, GestureGrade.Perfect);
+        Assert.Equal("sem_nome", before.TextKey);
+        Assert.False(understanding.NameRevealed);
+        // A fixação não depende do nome.
+        Assert.Equal(ListenReveal.Fixation, listening.Listen(2, GestureGrade.Perfect).Revealed);
+
+        found = true;
+        Assert.Equal(ListenReveal.Name, listening.Listen(1, GestureGrade.Perfect).Revealed);
+        Assert.True(understanding.IsComplete);
+    }
+
+    [Fact]
     public void Listen_DependsOnCycleStepAndGrade()
     {
         var understanding = new ShadeUnderstanding();
@@ -212,6 +230,23 @@ public class ListenAndFreeTests
             """;
         var error = Assert.Throws<FormatException>(() => ShadeData.ListeningFromJson(json));
         Assert.Contains("fora do ciclo", error.Message);
+    }
+
+    [Fact]
+    public void Data_CommonShadeKnowsTheNameAndNeedsNoNameListening()
+    {
+        const string known = """
+            { "name_known": true, "attacks": [ {}, {} ], "murmur_key": "m",
+              "listen": [ { "cycle_step": 0, "reveals": "clue", "text_key": "a", "partial_key": "b" },
+                          { "cycle_step": 1, "reveals": "fixation", "text_key": "a", "partial_key": "b" } ] }
+            """;
+        Assert.True(ShadeData.NameKnownFromJson(known));
+        Assert.Equal(2, ShadeData.ListeningFromJson(known).Entries.Count);
+
+        // Sem name_known, falta a escuta do nome; com ele, sobra.
+        Assert.Throws<FormatException>(() => ShadeData.ListeningFromJson(known.Replace("\"name_known\": true,", "")));
+        var withName = known.Replace("\"reveals\": \"clue\"", "\"reveals\": \"name\"");
+        Assert.Contains("name_known", Assert.Throws<FormatException>(() => ShadeData.ListeningFromJson(withName)).Message);
     }
 
     private static string RepoRoot()

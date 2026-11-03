@@ -1,0 +1,30 @@
+{
+  "id": "enquadramento_batalha",
+  "_nota": "Enquadramento das lutas (BattleFraming). screen_height_px: altura na tela (1080p) de quem tem altura 1 no elenco; 640 = 160 × 4 (o render encolhe até 1 pixel da arte = 1 pixel). letterbox: faixa de cinema em cima e embaixo (fração da tela, cada uma). fit_margin: folga mínima até a borda; se alguém sair do quadro, a câmera se afasta até caber. Chefes (decisão do João, 05/nov/2026): faixas de cinema, câmera aberta e chefes com o dobro da altura dos humanos; 320 = 160 × 2 mantém a escala inteira.",
+  "framings": [
+    {
+      "id": "normal",
+      "screen_height_px": 640,
+      "letterbox": 0,
+      "fit_margin": {
+        "_tbd": true,
+        "value": 0.01
+      }
+    },
+    {
+      "id": "chefe",
+      "screen_height_px": {
+        "_tbd": true,
+        "value": 320
+      },
+      "letterbox": {
+        "_tbd": true,
+        "value": 0.09
+      },
+      "fit_margin": {
+        "_tbd": true,
+        "value": 0.02
+      }
+    }
+  ]
+}

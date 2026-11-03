@@ -1,6 +1,6 @@
 {
   "id": "o_convite",
-  "_rascunho": "A primeira Memória Pesada (HISTORIA 1.2: foi ele quem levou essa pessoa ao Além). Lugar, condição e textos propostos pelo Claude (31/out/2026, PENDENCIAS 77): aflora na margem do Aqueronte, diante da barca, depois de Caronte dizer \"Já te levei antes. Com outra pessoa.\"; o texto não nomeia o papel da pessoa (muda por origem, HISTORIA 1.1).",
+  "_rascunho": "A primeira Memória Pesada (HISTORIA 1.2: foi ele quem levou essa pessoa ao Além). Lugar, condição e textos propostos (31/out/2026, PENDENCIAS 77): aflora na margem do Aqueronte, diante da barca, depois de Caronte dizer \"Já te levei antes. Com outra pessoa.\"; o texto não nomeia o papel da pessoa (muda por origem, HISTORIA 1.1). Por origem (decisão do João, 03/nov/2026: um substantivo e uma frase): a verdade usa a marcação {origem:...} (pesada.o_convite.pessoa.<origem> e .frase.<origem>, 05/nov/2026, PENDENCIAS 85).",
   "kind": "family",
   "scope": "heavy",
   "order": 1,

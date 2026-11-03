@@ -3,5 +3,24 @@
   "_nota": "Ato I (HISTORIA 7.1): a margem do Aqueronte, Caronte e os insepultos. Blockout.",
   "name_key": "regiao.aqueronte.nome",
   "scene": "res://src/Lete.Game/Regions/Aqueronte.tscn",
-  "entry": "ChegadaTenaro"
+  "entry": "ChegadaVestibulo",
+  "_mare": "Tabela da Maré (decisão do João, 06/nov/2026: no molde de Tênaro; rascunho, PENDENCIAS 89): o mundo (a frase do Diário e os nós do grupo \"mare\"), as sombras (uma comum nova) e a teimosia das que ficaram sem resolver.",
+  "tide": [
+    {
+      "step": 1,
+      "arrival_key": "mare.aqueronte.1",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.15
+      }
+    },
+    {
+      "step": 2,
+      "arrival_key": "mare.aqueronte.2",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.25
+      }
+    }
+  ]
 }

@@ -1,0 +1,61 @@
+{
+  "id": "planicie_camponesa",
+  "_nota": "Sombra comum da Planície. O primeiro lugar do grupo é o do companheiro escolhido; antes da escolha, o palco tira esse lugar e a protagonista luta sozinha.",
+  "layout": {
+    "party": [
+      {
+        "x": -1.2,
+        "y": -1.0
+      },
+      {
+        "x": -0.6,
+        "y": -1.15
+      }
+    ],
+    "enemy": [
+      {
+        "x": 0.85,
+        "y": -0.5
+      }
+    ],
+    "depth_scale": {
+      "_tbd": true,
+      "value": 0.0
+    }
+  },
+  "protagonist": {
+    "id": "sombra_f",
+    "breath": {
+      "_tbd": true,
+      "value": 100
+    },
+    "lucidity": {
+      "_tbd": true,
+      "value": 60
+    }
+  },
+  "shade": "camponesa",
+  "party": [
+    {
+      "id": "aulo",
+      "pose": "back"
+    },
+    {
+      "id": "sombra_f",
+      "pose": "back"
+    }
+  ],
+  "enemy": [
+    {
+      "id": "camponesa",
+      "pose": "front"
+    }
+  ],
+  "styles": [
+    {
+      "id": "pixel_160",
+      "folder": "pixel_160",
+      "filter": "nearest"
+    }
+  ]
+}

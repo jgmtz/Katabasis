@@ -1,6 +1,6 @@
 {
   "id": "julgamento_padeiro",
-  "_rascunho": "Julgamento de TESTE do Padeiro (GDD 7.2), com as frases do Diário da conversa dele e a Lembrança de teste. Pesos, mínimos e textos em rascunho (Claude, 30/out/2026).",
+  "_rascunho": "Julgamento de TESTE do Padeiro (GDD 7.2), com as frases do Diário da conversa dele e a Lembrança de teste. Pesos, mínimos e textos em rascunho (30/out/2026).",
   "judge_key": "juiz.minos.nome",
   "shade": "padeiro",
   "intro_key": "julgamento.padeiro.abertura",

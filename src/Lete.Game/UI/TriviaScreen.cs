@@ -8,7 +8,7 @@ namespace Lete.Game.UI;
 /// Trívia de Hécate (GDD 3.6 e 3.7), provisória: chegar a acende; ali se descansa e salva, ou se segue uma tocha acesa
 /// para outra Trívia (a Maré sobe um pouco). A cena faz o teleporte (<see cref="Traveled"/>). Com o companheiro, dá
 /// para conversar (uma vez por degrau da Maré) e partilhar uma oferenda com ele: as duas coisas aprofundam o vínculo
-/// (GDD 4.10). Antes da escolha, com alguém já conhecido, a Trívia é onde se escolhe quem segue (proposta do Claude,
+/// (GDD 4.10). Antes da escolha, com alguém já conhecido, a Trívia é onde se escolhe quem segue (proposta,
 /// 31/out/2026: na fatia, a escolha do fim do Ato II acontece aqui; não se desfaz).
 /// </summary>
 public partial class TriviaScreen : ChoiceScreen

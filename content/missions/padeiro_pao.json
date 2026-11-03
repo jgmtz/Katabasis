@@ -1,0 +1,28 @@
+{
+  "id": "padeiro_pao",
+  "_rascunho": "03/nov/2026 (PENDENCIAS 80): missão de oferenda (GDD 5.3: o Padeiro só abre se partilhar farinha; pede que leve pão à esposa, em outra região). A esposa espera na margem do Aqueronte. Cumprida, o Padeiro hospeda (pão, uma vez por degrau da Maré). Sem luta com o Padeiro na fatia (só conversa), a missão não se fecha em combate.",
+  "type": "offering",
+  "hook": {
+    "flag": "levando_pao_padeiro"
+  },
+  "stages": [
+    {
+      "when": {
+        "flag": "esposa_recebeu_pao"
+      }
+    },
+    {
+      "when": {
+        "flag": "padeiro_soube"
+      }
+    }
+  ],
+  "consequences": [
+    {
+      "flag": "padeiro_em_paz"
+    },
+    {
+      "journal_key": "diario.padeiro.em_paz"
+    }
+  ]
+}

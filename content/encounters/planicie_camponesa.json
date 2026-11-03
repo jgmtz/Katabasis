@@ -1,0 +1,24 @@
+{
+  "id": "planicie_camponesa",
+  "_rascunho": "Cérbero combatido (destruído ou absorvido): a Planície fica mais agitada e uma camponesa vaga, assustada (05/nov/2026, PENDENCIAS 85).",
+  "shade": "camponesa",
+  "region": "asfodelos",
+  "battle": "planicie_camponesa",
+  "hecate_key": "encontro.planicie_camponesa.nota",
+  "requires": {
+    "any": [
+      {
+        "shade_state": {
+          "id": "cerbero",
+          "state": "destroyed"
+        }
+      },
+      {
+        "shade_state": {
+          "id": "cerbero",
+          "state": "absorbed"
+        }
+      }
+    ]
+  }
+}

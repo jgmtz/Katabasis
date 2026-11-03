@@ -1,0 +1,237 @@
+{
+  "id": "lavadeira",
+  "_rascunho": "Sombra comum da Planície de Asfódelos (03/nov/2026; decisão do João: fixação de uma lista curta, nome do ofício já sabido, gestos genéricos e falas de um banco curto `shade.comum.*`). Falas e números para revisar (PENDENCIAS 80).",
+  "kind": "common",
+  "name_known": true,
+  "region": "asfodelos",
+  "resolve": {
+    "_tbd": true,
+    "value": 70
+  },
+  "murmur_key": "shade.comum.murmurio",
+  "attacks": [
+    {
+      "kind": "pattern",
+      "gesture": "esquiva_redemoinho",
+      "caption_key": "shade.lavadeira.gesto.1",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 9
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 20
+        }
+      }
+    },
+    {
+      "kind": "direct",
+      "gesture": "aparo_basico",
+      "caption_key": "shade.lavadeira.gesto.2",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 7
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 16
+        }
+      }
+    },
+    {
+      "kind": "pattern",
+      "gesture": "esquiva_ondas",
+      "caption_key": "shade.lavadeira.gesto.3",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 8
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 18
+        }
+      }
+    }
+  ],
+  "listen": [
+    {
+      "cycle_step": 0,
+      "reveals": "clue",
+      "text_key": "shade.lavadeira.escuta.pista",
+      "partial_key": "shade.lavadeira.escuta.pista.metade"
+    },
+    {
+      "cycle_step": 1,
+      "reveals": "fixation",
+      "text_key": "shade.lavadeira.escuta.fixacao",
+      "partial_key": "shade.lavadeira.escuta.fixacao.metade"
+    }
+  ],
+  "fixation": {
+    "id": "saudade",
+    "options": [
+      {
+        "id": "saudade",
+        "label_key": "shade.comum.fixacao.saudade"
+      },
+      {
+        "id": "medo",
+        "label_key": "shade.comum.fixacao.medo",
+        "wrong_key": "shade.comum.corrige.medo"
+      },
+      {
+        "id": "fome",
+        "label_key": "shade.comum.fixacao.fome",
+        "wrong_key": "shade.comum.corrige.fome"
+      },
+      {
+        "id": "culpa",
+        "label_key": "shade.comum.fixacao.culpa",
+        "wrong_key": "shade.comum.corrige.culpa"
+      }
+    ]
+  },
+  "absorb": {
+    "resolve_fraction_max": {
+      "_tbd": true,
+      "value": 0.3
+    },
+    "weak_fill_factor": {
+      "_tbd": true,
+      "value": 0.6
+    },
+    "mark_gain": {
+      "perfect": {
+        "_tbd": true,
+        "value": 1
+      },
+      "good": {
+        "_tbd": true,
+        "value": 1
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 2
+      }
+    }
+  },
+  "echo": {
+    "id": "eco_torcer",
+    "name_key": "shade.lavadeira.eco.nome",
+    "description_key": "shade.lavadeira.eco.descricao",
+    "gesture": "eco_torcer",
+    "resolve_damage": {
+      "perfect": {
+        "_tbd": true,
+        "value": 40
+      },
+      "good": {
+        "_tbd": true,
+        "value": 26
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 10
+      }
+    },
+    "mark_on_use": {
+      "_tbd": true,
+      "value": 1
+    }
+  },
+  "liberation": {
+    "peace": {
+      "_tbd": true,
+      "value": 70
+    },
+    "peace_gain": {
+      "perfect": {
+        "_tbd": true,
+        "value": 50
+      },
+      "good": {
+        "_tbd": true,
+        "value": 35
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 15
+      }
+    },
+    "lucidity_cost": {
+      "_tbd": true,
+      "value": 10
+    },
+    "enraged_damage_multiplier": {
+      "_tbd": true,
+      "value": 1.5
+    },
+    "progress_key": "shade.comum.libertar.progresso",
+    "freed_key": "shade.lavadeira.libertar.parte"
+  },
+  "voices": [
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.6
+      },
+      "text_key": "shade.lavadeira.voz.1"
+    },
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.3
+      },
+      "text_key": "shade.comum.voz.fim"
+    }
+  ],
+  "phases": [],
+  "story_keys": [
+    "shade.lavadeira.historia.1",
+    "shade.lavadeira.historia.2"
+  ],
+  "flee_clue_key": "shade.lavadeira.fuga",
+  "yield": {
+    "lucidity_cost": {
+      "_tbd": true,
+      "value": 10
+    },
+    "text_keys": [
+      "shade.comum.ceder.1",
+      "shade.lavadeira.ceder"
+    ]
+  },
+  "defeat_clue_keys": [
+    "shade.lavadeira.hecate",
+    "shade.comum.hecate"
+  ],
+  "spare_key": "shade.comum.poupar",
+  "offering": {
+    "accepts": "agua",
+    "accept_key": "shade.lavadeira.oferenda.aceita",
+    "refuse_key": "shade.comum.oferenda.recusa"
+  },
+  "companion_readings": {
+    "aulo": "shade.lavadeira.leitura.aulo",
+    "ismena": "shade.lavadeira.leitura.ismena",
+    "dimas": "shade.lavadeira.leitura.dimas",
+    "septimia": "shade.lavadeira.leitura.septimia",
+    "calias": "shade.lavadeira.leitura.calias",
+    "lia": "shade.lavadeira.leitura.lia"
+  }
+}

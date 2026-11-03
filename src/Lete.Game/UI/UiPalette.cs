@@ -6,7 +6,7 @@ namespace Lete.Game.UI;
 /// Paleta única da interface, identidade greco-romana de barro e ouro (GDD 10, ARTE.md 3). Todas as telas
 /// leem daqui (por <see cref="UiStyle"/>), e a arte da UI em <c>art/ui/</c> é gerada com estas mesmas cores
 /// por <c>tools/ui_arte.py</c>. Regras: nenhuma barra em vermelho; o perigo usa terracota, nunca vermelho forte
-/// (a romã é o único, CLAUDE.md princípio 8); o azul-lápis é só da Lucidez e da água.
+/// (a romã é o único); o azul-lápis é só da Lucidez e da água.
 /// </summary>
 [GlobalClass]
 public partial class UiPalette : Resource

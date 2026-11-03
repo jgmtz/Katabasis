@@ -64,7 +64,7 @@ Paleta curta e terrosa, com um acento por região, que lembra as figuras em vaso
 | Água do Lete | `#4E7F86` | Água, névoa, esquecimento |
 | Ouro | `#C8A24A` | Relíquias, brilho, Elísios |
 
-**Interface (25/out/2026):** a UI tem paleta própria de barro e ouro (`GDD.md` 10), derivada desta: barro `#7A3E2B`, terracota clara `#B8664A`, ouro envelhecido `#C9A24B` (substitui o ouro apagado `#A99572` da UI), ouro escuro `#8C6B2A`, marfim `#E9DFC7` (substitui o osso no texto), azul-noite `#1E2430`. Fonte única: `src/Lete.Game/UI/ui_paleta.tres`; a arte da UI (`art/ui/`) é gerada dela por `python tools/ui_arte.py` (desenhos provisórios do Claude; o João pode trocar qualquer arquivo por um definitivo de mesmo nome e tamanho).
+**Interface (25/out/2026):** a UI tem paleta própria de barro e ouro (`GDD.md` 10), derivada desta: barro `#7A3E2B`, terracota clara `#B8664A`, ouro envelhecido `#C9A24B` (substitui o ouro apagado `#A99572` da UI), ouro escuro `#8C6B2A`, marfim `#E9DFC7` (substitui o osso no texto), azul-noite `#1E2430`. Fonte única: `src/Lete.Game/UI/ui_paleta.tres`; a arte da UI (`art/ui/`) é gerada dela por `python tools/ui_arte.py` (desenhos provisórios; o João pode trocar qualquer arquivo por um definitivo de mesmo nome e tamanho).
 
 **Regra:** a romã é o único vermelho forte, para que a Marca sempre se destaque. **Cuidado:** o Veterano e Aulo usam "vermelho desbotado"; mantê-lo dessaturado (mais terracota que romã) para não competir com a Marca. **Acento por região** (exemplos): azul-gelo do Cocito, laranja do Flegetonte, dourado de Elísios; os demais são TBD.
 
@@ -154,8 +154,8 @@ Descrições dos dois personagens do primeiro teste:
 ### 7.3 Economizar o limite do Gemini básico
 Uma geração por personagem; usar a primeira imagem aprovada como referência de estilo nas seguintes ("same style as this image"); guardar os prompts em arquivo de texto; variações por paleta e editor, não por nova geração. A cota diária exata do plano do João não foi verificada.
 
-### 7.4 Transparência sobre IA
-Os conceitos são gerados com IA e depois refeitos/limpos à mão. **Conferir as regras de divulgação de arte gerada por IA do itch.io** (ou de onde publicar) antes de publicar.
+### 7.4 Transparência sobre a arte gerada
+Os conceitos são gerados no Gemini e depois refeitos/limpos à mão. **Conferir as regras de divulgação de arte feita com geradores de imagem do itch.io** (ou de onde publicar) antes de publicar.
 
 ### 7.5 Folhas de animação (`tools/folha_para_quadros.py`)
 

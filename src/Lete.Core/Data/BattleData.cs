@@ -21,8 +21,8 @@ public static class BattleData
                 ReadPositions(layout, "party"),
                 ReadPositions(layout, "enemy"),
                 layout.TryGetProperty("depth_scale", out _) ? TbdNumber.Read(layout, "depth_scale") : 0f),
-            ReadActors(root, "party", cast),
-            ReadActors(root, "enemy", cast),
+            ReadActors(root, "party", cast, partySide: true),
+            ReadActors(root, "enemy", cast, partySide: false),
             Required(root, "styles").EnumerateArray()
                 .Select(s => new BattleArtStyle(
                     String(s, "id"),
@@ -33,7 +33,8 @@ public static class BattleData
                         "nearest" => false,
                         var other => throw new FormatException($"Filtro '{other}' desconhecido (use linear ou nearest)."),
                     }))
-                .ToList());
+                .ToList(),
+            root.TryGetProperty("framing", out var framing) ? framing.GetString() ?? BattleFraming.Normal : BattleFraming.Normal);
 
         var errors = setup.Layout.Validate().ToList();
         if (setup.Party.Count > setup.Layout.Party.Count || setup.Enemies.Count > setup.Layout.Enemies.Count)
@@ -49,14 +50,36 @@ public static class BattleData
         return setup;
     }
 
+    /// <summary>Os enquadramentos (<c>content/rules/enquadramento_batalha.json</c>), pelo id; precisa ter o "normal".</summary>
+    public static IReadOnlyDictionary<string, BattleFraming> FramingsFromJson(string json)
+    {
+        using var doc = JsonDocument.Parse(json);
+        var framings = Required(doc.RootElement, "framings").EnumerateArray()
+            .Select(f => new BattleFraming(
+                String(f, "id"),
+                TbdNumber.Read(f, "screen_height_px"),
+                TbdNumber.Read(f, "letterbox"),
+                TbdNumber.Read(f, "fit_margin")))
+            .ToDictionary(f => f.Id);
+
+        var errors = framings.Values.SelectMany(f => f.Validate()).ToList();
+        if (!framings.ContainsKey(BattleFraming.Normal))
+        {
+            errors.Add($"Falta o enquadramento '{BattleFraming.Normal}'.");
+        }
+
+        return errors.Count == 0 ? framings : throw new FormatException(string.Join(" ", errors));
+    }
+
     private static List<Vector2> ReadPositions(JsonElement layout, string property) =>
         Required(layout, property).EnumerateArray()
             .Select(p => new Vector2(TbdNumber.Read(p, "x"), TbdNumber.Read(p, "y")))
             .ToList();
 
-    private static List<BattleActorArt> ReadActors(JsonElement root, string property, IReadOnlyDictionary<string, CastMember>? cast) =>
+    private static List<BattleActorArt> ReadActors(
+        JsonElement root, string property, IReadOnlyDictionary<string, CastMember>? cast, bool partySide) =>
         Required(root, property).EnumerateArray()
-            .Select(a => a.TryGetProperty("pose", out var pose) ? FromCast(a, pose, cast) : new BattleActorArt(
+            .Select(a => a.TryGetProperty("pose", out var pose) ? FromCast(a, pose, cast, partySide) : new BattleActorArt(
                 String(a, "id"),
                 String(a, "art"),
                 TbdNumber.Read(a, "height"),
@@ -67,7 +90,8 @@ public static class BattleData
                 a.TryGetProperty("idle_frames", out var idle) ? ReadIdle(idle) : null))
             .ToList();
 
-    private static BattleActorArt FromCast(JsonElement entry, JsonElement pose, IReadOnlyDictionary<string, CastMember>? cast)
+    private static BattleActorArt FromCast(
+        JsonElement entry, JsonElement pose, IReadOnlyDictionary<string, CastMember>? cast, bool partySide)
     {
         var id = String(entry, "id");
         if (cast is null || !cast.TryGetValue(id, out var member))
@@ -77,8 +101,8 @@ public static class BattleData
 
         return pose.GetString() switch
         {
-            "back" => member.AsActor(back: true),
-            "front" => member.AsActor(back: false),
+            "back" => member.AsActor(back: true, partySide),
+            "front" => member.AsActor(back: false, partySide),
             var other => throw new FormatException($"Pose '{other}' desconhecida (use back ou front)."),
         };
     }

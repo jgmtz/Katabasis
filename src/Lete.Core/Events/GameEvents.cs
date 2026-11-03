@@ -108,6 +108,9 @@ public sealed record FastTravelUsed(string FromTriviaId, string ToTriviaId);
 
 public sealed record RegionEntered(string RegionId);
 
+/// <summary>Um atalho físico foi aberto pelo lado de dentro (GDD 3.6).</summary>
+public sealed record ShortcutOpened(string ShortcutId);
+
 /// <summary>Uma missão apareceu (o gancho valeu); a frase vai para o Diário.</summary>
 public sealed record MissionStarted(string MissionId, string? JournalKey);
 

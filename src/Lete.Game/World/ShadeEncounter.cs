@@ -39,7 +39,24 @@ public partial class ShadeEncounter : Interactable
 
     private void OnBodyEntered(Node3D body)
     {
-        if (body is not Player player || _started || !GameRoot.Instance.Encounters.IsAvailable(EncounterId))
+        if (body is Player player && CanEngage(player))
+        {
+            Engage(player);
+        }
+    }
+
+    /// <summary>A luta vai começar (antes de trocar de cena).</summary>
+    protected virtual void OnEngaged()
+    {
+    }
+
+    /// <summary>Encostar na sombra abre o encontro (as que vagam pedem mais, ver <see cref="WanderingShade"/>).</summary>
+    protected virtual bool CanEngage(Player player) => true;
+
+    /// <summary>Começa a luta (ou, faltando a oferenda que o encontro pede, só a fala de espera).</summary>
+    protected void Engage(Player player)
+    {
+        if (_started || !GameRoot.Instance.Encounters.IsAvailable(EncounterId))
         {
             return;
         }
@@ -51,6 +68,7 @@ public partial class ShadeEncounter : Interactable
         }
 
         _started = true;
+        OnEngaged();
         var away = player.GlobalPosition - GlobalPosition;
         away.Y = 0f;
         var direction = away.LengthSquared() > 0f ? away.Normalized() : Vector3.Back;

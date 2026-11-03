@@ -1,4 +1,5 @@
 using Lete.Core.Combat;
+using Lete.Core.State;
 
 namespace Lete.Core.Systems;
 
@@ -46,8 +47,16 @@ public sealed record Companion(
     int FoundObols,
     IReadOnlyDictionary<Via, Approval> Approvals,
     string ReluctantKey,
-    IReadOnlyList<string> TalkKeys)
+    IReadOnlyList<string> TalkKeys,
+    IReadOnlyDictionary<HeavyMemoryChoice, string>? HeavyKeys = null)
 {
+    /// <summary>
+    /// O que ele diz, na conversa da Trívia, de uma Pesada que o jogador encarou ou deixou (<c>heavy_keys</c>; decisão do
+    /// João, 03/nov/2026: curta, à maneira do apoio de cada um). Nulo se não tiver fala para essa escolha.
+    /// </summary>
+    public string? HeavyKeyFor(HeavyMemoryChoice choice) =>
+        HeavyKeys is not null && HeavyKeys.TryGetValue(choice, out var key) ? key : null;
+
     public Approval ApprovalOf(Via via) => Approvals.TryGetValue(via, out var approval) ? approval : Approval.Tolerate;
 
     public IEnumerable<string> Validate()

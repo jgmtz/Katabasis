@@ -10,7 +10,7 @@
     }
   },
   "approval": {
-    "_proposta": "Claude, 30/out/2026 (PENDÊNCIA 41)",
+    "_proposta": "30/out/2026 (PENDÊNCIA 41)",
     "fight": "tolerate",
     "free": "approve",
     "absorb": "reprove",
@@ -18,8 +18,15 @@
     "spare": "tolerate"
   },
   "reluctant_key": "companheiro.lia.relutante",
+  "_capitulos": "Versão reduzida (decisão do João, 03/nov/2026): 3 capítulos e a oferta no portão. O capítulo 1 (Vínculo: por que ela está ali) é a segunda conversa da Trívia; os capítulos 2 e 3 entram no M4 (HISTORIA 5.2 e 5.3). Rascunho, 05/nov/2026 (PENDENCIAS 85).",
   "talk_keys": [
     "companheiro.lia.conversa.1",
+    "companheiro.lia.capitulo.1",
     "companheiro.lia.conversa.2"
-  ]
+  ],
+  "_heavy": "A fala sobre uma Pesada decidida, na primeira conversa da Trívia depois dela (decisão do João, 03/nov/2026: curta, à maneira do apoio dele). Rascunho, 05/nov/2026 (PENDENCIAS 85).",
+  "heavy_keys": {
+    "face": "companheiro.lia.pesada.encarou",
+    "leave": "companheiro.lia.pesada.deixou"
+  }
 }

@@ -112,6 +112,12 @@ public static class GestureData
                 TbdNumber.Read(p, "amplitude"),
                 TbdNumber.Read(p, "frequency"),
                 TbdNumber.Read(p, "row_phase_step")),
+            "cabecas" => new SidesPattern(
+                settings,
+                TbdNumber.Read(p, "spawn_interval"),
+                TbdNumber.Read(p, "speed"),
+                TbdNumber.Read(p, "spacing"),
+                (int)TbdNumber.Read(p, "sides")),
             var other => throw new FormatException($"Padrão de esquiva '{other}' desconhecido."),
         };
 

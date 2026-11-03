@@ -84,8 +84,10 @@ public static class ConditionEvaluator
         CompanionIs p => f.Companion == p.Companion,
         BondMin p => f.Bond >= p.Min,
         ObolsMin p => f.Obols >= p.Min,
+        HospitalityReady p => f.CanHost(p.Shade),
         DifficultyIs p => f.Difficulty == p.Mode,
-        ProfileIs p => (p.TopVia is null || f.TopVia == p.TopVia) && (p.TopKind is null || f.TopKind == p.TopKind),
+        ProfileIs p => (p.TopVia is null || f.TopVia == p.TopVia) && (p.TopKind is null || f.TopKind == p.TopKind)
+            && (p.Heavy is null || f.HeavyLean == p.Heavy),
         ItemOwned p => f.OwnsItem(p.Item),
         TriviaIsLit p => f.IsTriviaLit(p.Trivia),
         RegionVisited p => f.WasRegionVisited(p.Region),

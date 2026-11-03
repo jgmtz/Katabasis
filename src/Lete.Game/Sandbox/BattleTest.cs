@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using Lete.Core.Data;
 using Lete.Game.Combat;
@@ -21,6 +22,14 @@ public partial class BattleTest : BattleStage
     {
         base._Ready();
         _cycle = CastData.CycleFromJson(FileAccess.GetFileAsString(SetupPath));
+
+        // -- --elenco=<id>: começa mostrando essa pessoa do ciclo (para conferir uma por uma).
+        if (System.Array.Find(OS.GetCmdlineUserArgs(), x => x.StartsWith("--elenco=")) is { } arg
+            && _cycle.ToList().IndexOf(arg["--elenco=".Length..]) is var index and >= 0)
+        {
+            _current = index - 1;
+            ShowNext();
+        }
 
         if (System.Array.IndexOf(OS.GetCmdlineUserArgs(), "--demo") >= 0)
         {
@@ -72,10 +81,10 @@ public partial class BattleTest : BattleStage
         var member = Cast[_cycle[_current]];
         if (member.BackArt is not null)
         {
-            Replace(enemy: false, 0, member.AsActor(back: true));
+            Replace(enemy: false, 0, member.AsActor(back: true, partySide: true));
         }
 
-        Replace(enemy: true, 0, member.AsActor(back: false));
+        Replace(enemy: true, 0, member.AsActor(back: false, partySide: false));
         GD.Print($"Elenco: {member.Id}");
     }
 

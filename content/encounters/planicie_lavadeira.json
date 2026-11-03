@@ -1,0 +1,8 @@
+{
+  "id": "planicie_lavadeira",
+  "_rascunho": "Sombra comum da Planície: vaga repetindo o gesto e nota quem entra no raio dela (decisão do João, 03/nov/2026). Luta inteira, derrota com custo.",
+  "shade": "lavadeira",
+  "region": "asfodelos",
+  "battle": "planicie_lavadeira",
+  "hecate_key": "encontro.planicie_lavadeira.nota"
+}

@@ -91,7 +91,19 @@ public partial class BattleHud : Control
         var size = _shadePanel.GetCombinedMinimumSize();
         var position = new Vector2(head.X - size.X / 2f, head.Y - size.Y - Style.ShadeIndicatorGap).Round();
         var screen = GetViewportRect().Size;
-        _shadePanel.Position = position.Clamp(Vector2.Zero, screen - size);
+        position = position.Clamp(Vector2.Zero, screen - size);
+
+        // Um chefe alto põe a cabeça perto da legenda: os indicadores desviam para a direita dela (ou para baixo).
+        var caption = new Rect2(_captionBand.Position, _captionBand.Size);
+        if (new Rect2(position, size).Intersects(caption))
+        {
+            var right = caption.End.X + Style.ShadeIndicatorGap;
+            position = right + size.X <= screen.X
+                ? new Vector2(right, position.Y)
+                : new Vector2(position.X, caption.End.Y + Style.ShadeIndicatorGap);
+        }
+
+        _shadePanel.Position = position;
         _shadePanel.Size = size;
 
         // Coroa de louro sobre o personagem que age.

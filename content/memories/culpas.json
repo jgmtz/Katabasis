@@ -1,6 +1,6 @@
 {
   "id": "culpas",
-  "_rascunho": "As Culpas das Memórias Pesadas encaradas (GDD 2.2: muito fortes, custo alto de Lucidez). O Convite herdou o Traço e os números (_tbd) da Culpa de teste 1 (Claude, 31/out/2026).",
+  "_rascunho": "As Culpas das Memórias Pesadas encaradas (GDD 2.2: muito fortes, custo alto de Lucidez). O Convite herdou o Traço e os números (_tbd) da Culpa de teste 1 (31/out/2026). Efeito próprio (decisão do João, 03/nov/2026: efeito distinto por Culpa; proposta, 05/nov/2026, PENDENCIAS 85): o Chamado, a sombra para para ouvir e perde golpes inteiros (perfeito 2, bom 1, falho 0). O Plano (06/nov/2026, PENDENCIAS 90): efeito próprio, Saber (reveal): você sabia desde o início; revela o nome e a fixação da sombra (perfeito), só a fixação (bom) ou nada (falho).",
   "memories": [
     {
       "id": "culpa_o_convite",
@@ -35,19 +35,68 @@
         "_tbd": true,
         "value": 1.5
       },
-      "effect": "strike",
+      "effect": "hush",
       "power": {
         "perfect": {
           "_tbd": true,
-          "value": 70
+          "value": 2
         },
         "good": {
           "_tbd": true,
-          "value": 50
+          "value": 1
         },
         "failed": {
           "_tbd": true,
-          "value": 20
+          "value": 0
+        }
+      }
+    },
+    {
+      "id": "culpa_o_plano",
+      "kind": "craft",
+      "name_key": "memoria.culpa_o_plano.nome",
+      "description_key": "memoria.culpa_o_plano.descricao",
+      "stroke": {
+        "steps": [
+          "left",
+          "up",
+          "right",
+          "down"
+        ],
+        "beat_seconds": {
+          "_tbd": true,
+          "value": 0.5
+        },
+        "zero_score_offset_seconds": {
+          "_tbd": true,
+          "value": 0.2
+        },
+        "lead_in_seconds": {
+          "_tbd": true,
+          "value": 0.9
+        }
+      },
+      "lucidity_cost": {
+        "_tbd": true,
+        "value": 30
+      },
+      "failed_cost_multiplier": {
+        "_tbd": true,
+        "value": 1.5
+      },
+      "effect": "reveal",
+      "power": {
+        "perfect": {
+          "_tbd": true,
+          "value": 2
+        },
+        "good": {
+          "_tbd": true,
+          "value": 1
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 0
         }
       }
     }

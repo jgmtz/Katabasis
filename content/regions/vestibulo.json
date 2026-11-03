@@ -1,0 +1,26 @@
+{
+  "id": "vestibulo",
+  "_nota": "Ato I (HISTORIA 2 e 7.1): entre a câmara do rio de Tênaro e a margem do Aqueronte, o Vestíbulo das personificações (Medo, Fome, Doença, Guerra) e o olmo dos sonhos vãos. Blockout (05/nov/2026, PENDENCIAS 86).",
+  "name_key": "regiao.vestibulo.nome",
+  "scene": "res://src/Lete.Game/Regions/Vestibulo.tscn",
+  "entry": "ChegadaTenaro",
+  "_mare": "Tabela da Maré (decisão do João, 06/nov/2026: no molde de Tênaro; rascunho, PENDENCIAS 89): o mundo (a frase do Diário e os nós do grupo \"mare\"), as sombras (uma comum nova) e a teimosia das que ficaram sem resolver.",
+  "tide": [
+    {
+      "step": 1,
+      "arrival_key": "mare.vestibulo.1",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.15
+      }
+    },
+    {
+      "step": 2,
+      "arrival_key": "mare.vestibulo.2",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.25
+      }
+    }
+  ]
+}

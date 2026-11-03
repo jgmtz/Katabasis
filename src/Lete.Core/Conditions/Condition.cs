@@ -153,6 +153,15 @@ public sealed record ObolsMin(int Min) : Predicate
     public override string Name => "obols_min";
 }
 
+/// <summary>
+/// A sombra <see cref="Shade"/> ainda hospeda neste degrau da Maré (pão ou leito, GDD 4.8; uma vez por degrau). Não diz
+/// se ela hospeda: isso vem das outras condições da opção (a missão dela cumprida, 03/nov/2026).
+/// </summary>
+public sealed record HospitalityReady(string Shade) : Predicate
+{
+    public override string Name => "hospitality_ready";
+}
+
 public sealed record DifficultyIs(string Mode) : Predicate
 {
     public override string Name => "difficulty";
@@ -160,7 +169,11 @@ public sealed record DifficultyIs(string Mode) : Predicate
 }
 
 /// <summary>Perfil do jogador (recente): a via mais usada e/ou o tipo de Memória predominante.</summary>
-public sealed record ProfileIs(Via? TopVia, RecollectionKind? TopKind) : Predicate
+/// <summary>
+/// O Perfil: a via e o tipo de Memória mais usados no recente e, desde 03/nov/2026, para onde pendem as Pesadas decididas
+/// (<see cref="Heavy"/>: mais encaradas que deixadas, ou o contrário; GDD 2.2, o jogo infere a "vontade de voltar").
+/// </summary>
+public sealed record ProfileIs(Via? TopVia, RecollectionKind? TopKind, HeavyMemoryChoice? Heavy = null) : Predicate
 {
     public override string Name => "profile";
 }

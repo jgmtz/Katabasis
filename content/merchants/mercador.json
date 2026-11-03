@@ -1,0 +1,79 @@
+{
+  "id": "mercador",
+  "_rascunho": "03/nov/2026 (PENDENCIAS 80): o mercador do mercado da Planície, neutro (vende o que o Altar não dá: vinho e leite). Preços e quantidades provisórios. Usa a arte do corpo comum \"Mercador\", a mesma do Coveiro por enquanto.",
+  "name_key": "mercador.mercador.nome",
+  "greeting_key": "mercador.mercador.saudacao",
+  "_greetings": "Saudações que leem o Perfil recente (a via mais usada; GDD 2.5, os mercadores leem o Perfil). Rascunho, 05/nov/2026 (PENDENCIAS 85).",
+  "greetings": [
+    {
+      "when": {
+        "profile": {
+          "top_via": "absorb"
+        }
+      },
+      "key": "mercador.mercador.saudacao.absorb"
+    },
+    {
+      "when": {
+        "profile": {
+          "top_via": "free"
+        }
+      },
+      "key": "mercador.mercador.saudacao.free"
+    },
+    {
+      "when": {
+        "profile": {
+          "top_via": "fight"
+        }
+      },
+      "key": "mercador.mercador.saudacao.fight"
+    }
+  ],
+  "stock": [
+    {
+      "offering": "vinho",
+      "price": {
+        "_tbd": true,
+        "value": 2
+      },
+      "count": {
+        "_tbd": true,
+        "value": 2
+      }
+    },
+    {
+      "offering": "leite",
+      "price": {
+        "_tbd": true,
+        "value": 2
+      },
+      "count": {
+        "_tbd": true,
+        "value": 2
+      }
+    },
+    {
+      "offering": "mel",
+      "price": {
+        "_tbd": true,
+        "value": 2
+      },
+      "count": {
+        "_tbd": true,
+        "value": 1
+      }
+    },
+    {
+      "provision": "pao",
+      "price": {
+        "_tbd": true,
+        "value": 3
+      },
+      "count": {
+        "_tbd": true,
+        "value": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "id": "teste_chefes",
+  "_nota": "Teste dos chefes no enquadramento de chefe (faixas de cinema, câmera aberta; 05/nov/2026). Abrir a cena BattleTest com -- --setup=teste_chefes: Tab passa pelos chefes, H testa as animações. O grupo fica onde fica na luta do Cérbero (content/battle/cerbero.json); a sombra, ao fundo, com os pés bem acima dos do grupo (o Cérbero, mais baixo, fica um pouco mais ao fundo na luta dele).",
+  "framing": "chefe",
+  "layout": {
+    "party": [
+      {
+        "x": -2.46,
+        "y": -2.28
+      },
+      {
+        "x": -1.68,
+        "y": -2.24
+      }
+    ],
+    "enemy": [
+      {
+        "x": 1.08,
+        "y": -1.25
+      }
+    ]
+  },
+  "party": [
+    {
+      "id": "aulo",
+      "pose": "back"
+    },
+    {
+      "id": "sombra_f",
+      "pose": "back"
+    }
+  ],
+  "enemy": [
+    {
+      "id": "cerbero",
+      "pose": "front"
+    }
+  ],
+  "styles": [
+    {
+      "id": "pixel_160",
+      "folder": "pixel_160",
+      "filter": "nearest"
+    }
+  ],
+  "cast_cycle": [
+    "cerbero",
+    "fome",
+    "sem_nome",
+    "campeao",
+    "sonho",
+    "furias_alecto",
+    "furias_megera",
+    "furias_tisifone"
+  ]
+}

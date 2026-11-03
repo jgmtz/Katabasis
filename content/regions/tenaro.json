@@ -3,5 +3,24 @@
   "_nota": "Prólogo/Ato I (HISTORIA 2 e 7.1): a boca da gruta, a descida e a câmara do rio com a primeira Trívia. Blockout (decisão do João, 30/out/2026: blocos agora, arte depois).",
   "name_key": "regiao.tenaro.nome",
   "scene": "res://src/Lete.Game/Regions/Tenaro.tscn",
-  "entry": "Entrada"
+  "entry": "Entrada",
+  "_mare": "Tabela da Maré (05/nov/2026, PENDENCIAS 85; três camadas por degrau, decisão do João de 03/nov): o mundo (a frase do Diário ao chegar e os nós do grupo \"mare\" da cena: o rio e a poça sobem), as sombras (a carpideira, encontro com tide_min 1) e o efeito mecânico (as sombras deixadas sem resolver voltam com mais Firmeza; o último degrau é o piso).",
+  "tide": [
+    {
+      "step": 1,
+      "arrival_key": "mare.tenaro.1",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.15
+      }
+    },
+    {
+      "step": 2,
+      "arrival_key": "mare.tenaro.2",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.25
+      }
+    }
+  ]
 }

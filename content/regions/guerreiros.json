@@ -1,0 +1,7 @@
+{
+  "id": "guerreiros",
+  "_nota": "O Campo dos Guerreiros (Ato II): armas fincadas e o Campeão, chefe do duelo de honra; Aulo se conhece aqui. Blockout (06/nov/2026, PENDENCIAS 89); abre pelos caminhos da grande Trívia de Asfódelos no segundo degrau da Maré.",
+  "name_key": "regiao.guerreiros.nome",
+  "scene": "res://src/Lete.Game/Regions/Guerreiros.tscn",
+  "entry": "ChegadaAsfodelos"
+}

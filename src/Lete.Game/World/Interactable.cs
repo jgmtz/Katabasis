@@ -12,6 +12,9 @@ public partial class Interactable : Area3D
     /// <summary>Chave de localização da frase que vai para o Diário.</summary>
     [Export] public string JournalKey { get; set; } = "";
 
+    /// <summary>Flag do mundo que examinar liga (ex.: um pedaço do nome da Sem-Nome achado no Poço); vazio, nenhuma.</summary>
+    [Export] public string Flag { get; set; } = "";
+
     /// <summary>Chave do aviso que aparece perto dele ("Examinar").</summary>
     public virtual string PromptKey => "ui.prompt.examinar";
 
@@ -32,6 +35,11 @@ public partial class Interactable : Area3D
 
     public virtual void Examine()
     {
+        if (Flag != "")
+        {
+            GameRoot.Instance.State.Flags.Add(Flag);
+        }
+
         GameRoot.Instance.Journal.Add(JournalKey);
         Examined?.Invoke(JournalKey);
     }

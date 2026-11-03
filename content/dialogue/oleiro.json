@@ -1,6 +1,6 @@
 {
   "id": "oleiro",
-  "_rascunho": "Capítulo 1 (Eco) da origem Artesão (HISTORIA 4.1: \"Um oleiro sem mãos pede reparo\"). A alternativa da origem (HISTORIA 4): sombras aceitam troca de trabalho no lugar de oferenda. Cena e falas de rascunho do Claude (31/out/2026, PENDENCIAS 79); sem arte (só a voz).",
+  "_rascunho": "Capítulo 1 (Eco) da origem Artesão (HISTORIA 4.1: \"Um oleiro sem mãos pede reparo\"). A alternativa da origem (HISTORIA 4): sombras aceitam troca de trabalho no lugar de oferenda. Cena e falas de rascunho (31/out/2026, PENDENCIAS 79); sem arte (só a voz). Hospitalidade depois do reparo (03/nov/2026, PENDENCIAS 80).",
   "mode": "shade",
   "speaker_key": "shade.oleiro.nome",
   "shade": "oleiro",
@@ -16,11 +16,36 @@
     ]
   },
   "start": [
+    "reparado",
     "desperto_artesao",
     "desperto",
     "vago"
   ],
   "nodes": [
+    {
+      "id": "reparado",
+      "when": {
+        "flag": "oleiro_reparado"
+      },
+      "line_key": "dlg.oleiro.reparado",
+      "options": [
+        {
+          "posture": "escutar",
+          "text_key": "dlg.oleiro.descansar",
+          "requires": {
+            "hospitality_ready": "oleiro"
+          },
+          "hint_key": "dlg.oleiro.descansar.dica",
+          "show_blocked": true,
+          "next": "leito"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.oleiro.calar",
+          "next": "fim"
+        }
+      ]
+    },
     {
       "id": "vago",
       "when": {
@@ -111,6 +136,15 @@
         },
         {
           "journal_key": "diario.oleiro.reparo"
+        }
+      ]
+    },
+    {
+      "id": "leito",
+      "line_key": "dlg.oleiro.leito",
+      "effects": [
+        {
+          "hospitality": true
         }
       ]
     }

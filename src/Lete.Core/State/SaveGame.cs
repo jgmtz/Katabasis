@@ -64,6 +64,7 @@ public static class SaveGame
                 .OrderBy(p => p.Key, StringComparer.Ordinal)
                 .Select(p => KeyValuePair.Create(p.Key, (JsonNode?)new JsonArray(p.Value.Sold, p.Value.Step)))),
             ["trivias_acesas"] = Array(state.LitTrivias.OrderBy(t => t, StringComparer.Ordinal)),
+            ["ultima_trivia"] = state.LastTriviaId,
             ["julgamentos"] = new JsonObject(state.Trials
                 .OrderBy(p => p.Key, StringComparer.Ordinal)
                 .Select(p => KeyValuePair.Create(p.Key, (JsonNode?)ConditionParser.SnakeCase(p.Value)))),
@@ -121,6 +122,8 @@ public static class SaveGame
                 }))),
             ["regioes"] = Array(state.VisitedRegions.OrderBy(r => r, StringComparer.Ordinal)),
             ["encontros"] = Array(state.Encounters.OrderBy(e => e, StringComparer.Ordinal)),
+            ["atalhos"] = Array(state.OpenShortcuts.OrderBy(s => s, StringComparer.Ordinal)),
+            ["pesadas_comentadas"] = Array(state.CompanionHeavyComments.OrderBy(s => s, StringComparer.Ordinal)),
             ["companheiros_conhecidos"] = Array(state.MetCompanions.OrderBy(c => c, StringComparer.Ordinal)),
             ["missoes"] = new JsonObject(state.Missions
                 .OrderBy(p => p.Key, StringComparer.Ordinal)
@@ -242,6 +245,7 @@ public static class SaveGame
         }
 
         state.LitTrivias.UnionWith(Strings(json, "trivias_acesas"));
+        state.LastTriviaId = Text(json, "ultima_trivia");
         if (json["julgamentos"] is JsonObject trials)
         {
             foreach (var (id, destination) in trials)
@@ -335,6 +339,8 @@ public static class SaveGame
 
         state.VisitedRegions.UnionWith(Strings(json, "regioes"));
         state.Encounters.UnionWith(Strings(json, "encontros"));
+        state.OpenShortcuts.UnionWith(Strings(json, "atalhos"));
+        state.CompanionHeavyComments.UnionWith(Strings(json, "pesadas_comentadas"));
         state.MetCompanions.UnionWith(Strings(json, "companheiros_conhecidos"));
         if (json["missoes"] is JsonObject missions)
         {

@@ -1,0 +1,7 @@
+{
+  "id": "tribunal",
+  "_nota": "O Tribunal (Ato II): a pedra onde as sombras são julgadas (o julgamento do Padeiro, do M2); Septímia se conhece aqui. Blockout (06/nov/2026, PENDENCIAS 89); abre pelos caminhos da grande Trívia de Asfódelos no segundo degrau da Maré.",
+  "name_key": "regiao.tribunal.nome",
+  "scene": "res://src/Lete.Game/Regions/Tribunal.tscn",
+  "entry": "ChegadaAsfodelos"
+}

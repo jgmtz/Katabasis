@@ -7,6 +7,7 @@ using Lete.Core.Combat.Gestures;
 using Lete.Core.Data;
 using Lete.Core.Events;
 using Lete.Core.Presentation;
+using Lete.Core.Recollections;
 using Lete.Core.State;
 using Lete.Core.Systems;
 using Lete.Core.World;
@@ -96,9 +97,24 @@ public partial class BattleAttackTest : Node
     private LiberationRules _liberationRules = null!;
     private AbsorbRules _absorbRules = null!;
     private string _shadeId = "";
+    private bool _nameKnown;
+    private bool _personification;
+    private DuelHonor? _honor;
+    private bool _dishonored;
+    private bool _dishonorToSay;
+    private (Lete.Core.Conditions.Condition Requires, string MissingKey)? _nameScattered;
+
+    /// <summary>O nome dela já pode ser ouvido (sem nome espalhado, sempre; com, só depois de achar os pedaços).</summary>
+    private bool NameReachable => _nameScattered is not { } scattered
+        || Lete.Core.Conditions.ConditionEvaluator.Passes(scattered.Requires, GameRoot.Instance.Facts);
+    private HeadsRules? _headsRules;
+    private IReadOnlyDictionary<string, string> _readings = new Dictionary<string, string>();
+    private bool _readingSaid;
+    private GuardianHeads? _heads;
     private MemoryBook _memories = null!;
     private IReadOnlyList<MemorySkill> _allMemories = null!;
     private HashSet<string> _guiltIds = new();
+    private Dictionary<string, RecollectionStage> _memoryStages = new();
     private ShadeStory _story = null!;
     private ShadeNarration _narration = null!;
     private HoldTiming _witnessHold = null!;
@@ -286,11 +302,26 @@ public partial class BattleAttackTest : Node
             ?? throw new System.FormatException("A batalha precisa do campo 'shade'.");
         var shade = FileAccess.GetFileAsString($"{ShadesFolder}/{_shadeId}.json");
         _shadeMaxResolve = CombatData.ShadeResolveFromJson(shade);
+        if (_encounter is not null
+            && GameRoot.Instance.RegionDefinitions.TryGetValue(_encounter.RegionId, out var region)
+            && region.LayerAt(GameRoot.Instance.Tide.Step) is { Stubborn: > 0f } tide)
+        {
+            // A Maré subiu desde que o jogador passou por aqui: a sombra que ficou sem resolver volta mais teimosa.
+            _shadeMaxResolve *= 1f + tide.Stubborn;
+            GD.Print($"[debug] Maré {GameRoot.Instance.Tide.Step}: Firmeza {_shadeMaxResolve} (+{tide.Stubborn:P0}).");
+        }
+
         _shadeAttacks = CombatData.ShadeAttacksFromJson(shade);
         (_listenEntries, _murmurKey) = ShadeData.ListeningFromJson(shade);
         _liberationRules = ShadeData.LiberationFromJson(shade);
         _absorbRules = ShadeData.AbsorbFromJson(shade);
         _story = ShadeData.StoryFromJson(shade);
+        _nameKnown = ShadeData.NameKnownFromJson(shade);
+        _personification = ShadeData.PersonificationFromJson(shade);
+        _nameScattered = ShadeData.NameScatteredFromJson(shade);
+        _honor = ShadeData.HonorFromJson(shade);
+        _headsRules = ShadeData.HeadsFromJson(shade);
+        _readings = ShadeData.ReadingsFromJson(shade);
         foreach (var gesture in _story.Phases.SelectMany(p => p.Attacks).Select(a => a.Gesture).Distinct())
         {
             _gestures[gesture] = FileAccess.GetFileAsString($"{GesturesFolder}/{gesture}.json");
@@ -348,13 +379,27 @@ public partial class BattleAttackTest : Node
             _gestures[gesture] = FileAccess.GetFileAsString($"{GesturesFolder}/{gesture}.json");
         }
 
-        // Encolhe o render até 1 pixel da arte = 1 pixel renderizado (640 px na tela ÷ 160 px da arte = 4).
+        // Encolhe o render até 1 pixel da arte = 1 pixel renderizado (640 px na tela ÷ 160 px da arte = 4; nas lutas de
+        // chefe, com a câmera aberta, 320 ÷ 160 = 2). O HUD foi desenhado para o encolhimento das lutas normais: quando
+        // o da luta é outro, o 2D do SubViewport fica no tamanho lógico de sempre e é esticado (a câmera projeta nele).
         var art = GD.Load<Texture2D>($"{_stage.ArtRoot}/{_stage.Setup.Styles[_stage.Style].Folder}/{_stage.Party[0].Art.Art}.png");
-        var shrink = Mathf.Max(1, Mathf.RoundToInt(_stage.ScreenHeightPx * _stage.Party[0].Art.Height / art.GetHeight()));
+        int ShrinkFor(float screenHeightPx) =>
+            Mathf.Max(1, Mathf.RoundToInt(screenHeightPx * _stage.Party[0].Art.Height / art.GetHeight()));
+        var shrink = ShrinkFor(_stage.ScreenHeightPx);
+        var hudShrink = ShrinkFor(_stage.HudScreenHeightPx);
         container.StretchShrink = shrink;
+        if (hudShrink != shrink)
+        {
+            var viewport = container.GetNode<SubViewport>("SubViewport");
+            viewport.Size2DOverrideStretch = true;
+            void Fit2D() => viewport.Size2DOverride = new Vector2I(
+                Mathf.RoundToInt(container.Size.X / hudShrink), Mathf.RoundToInt(container.Size.Y / hudShrink));
+            Fit2D();
+            container.Resized += Fit2D;
+        }
 
-        _ring.CircleRadius = Mathf.Round(RingScreenRadiusPx / shrink);
-        _ring.LineWidth = Mathf.Max(1f, Mathf.Round(RingScreenLineWidthPx / shrink));
+        _ring.CircleRadius = Mathf.Round(RingScreenRadiusPx / hudShrink);
+        _ring.LineWidth = Mathf.Max(1f, Mathf.Round(RingScreenLineWidthPx / hudShrink));
         foreach (var gesture in new Control[] { _ring, _dodge, _hold, _drag, _stroke })
         {
             gesture.Visible = false;
@@ -362,10 +407,12 @@ public partial class BattleAttackTest : Node
 
         _turnRing = new TurnRing { Tuning = _stage.Tuning };
         _stage.AddChild(_turnRing);
+        // Já sob a protagonista: na apresentação do encontro, antes do primeiro turno, ele não fica solto no meio do palco.
+        _turnRing.MoveUnder(Protagonist);
 
         _hud.Track(_stage.Camera, Shade);
 
-        _menu.DescriptionChanged += key => _hud.SetDescription(T(key));
+        _menu.DescriptionChanged += text => _hud.SetDescription(text);
         _menu.ActionChosen += OnActionChosen;
         _menu.BackRequested += GoBack;
         _menu.Relaid += () => _hud.PlacePortrait(_menu.BoxRect);
@@ -379,10 +426,13 @@ public partial class BattleAttackTest : Node
 
         if (_encounter is not null)
         {
-            // --licao joga a lição; --licao=falhar não apara nem esquiva (para ver a derrota sem custo).
+            // --licao joga a lição; --licao=falhar não apara nem esquiva (para ver a derrota); --licao=suportar e =atacar
+            // aguentam o ciclo ou só atacam; --licao=acalmar dá a
+            // oferenda que acalma cada cabeça de um guardião (Cérbero).
             if (System.Array.Find(OS.GetCmdlineUserArgs(), a => a.StartsWith("--licao")) is { } lesson)
             {
-                RunDemo(lesson.EndsWith("=falhar") ? "licao_falhar" : "licao");
+                RunDemo(lesson.EndsWith("=falhar") ? "licao_falhar" : lesson.EndsWith("=acalmar") ? "acalmar"
+                    : lesson.EndsWith("=suportar") ? "suportar" : lesson.EndsWith("=atacar") ? "atacar" : "licao");
             }
 
             // O --shot do mapa sai quando ele voltar; aqui, só com --shot-at.
@@ -482,11 +532,22 @@ public partial class BattleAttackTest : Node
     private void NewBattle()
     {
         _understanding = new ShadeUnderstanding();
+        _dishonored = false;
+        _dishonorToSay = false;
+        if (_nameKnown)
+        {
+            // Sombra comum: o nome é o do ofício e já se sabe (decisão do João, 03/nov/2026).
+            _understanding.RevealName();
+        }
+
         _lesson = _encounter is { IsLesson: true } ? new EncounterLesson(_encounter.Lesson) : null;
-        _listening = new ShadeListening(_listenEntries, _murmurKey, _understanding);
+        _listening = new ShadeListening(_listenEntries, _murmurKey, _understanding, () => NameReachable, _nameScattered?.MissingKey);
+        _heads = _headsRules is null ? null : new GuardianHeads(_headsRules, _shadeAttacks);
+        ApplyHeadsArt();
         // O intervalo do apoio depende do vínculo, que cresce entre uma luta e outra.
         _support = _companionId is null ? null : GameRoot.Instance.Companions.Support(_companionId);
         _reluctanceSaid = false;
+        _readingSaid = false;
         _flow = new BattleFlow(
             Breath(),
             // A Leveza das Pesadas deixadas aumenta a Lucidez máxima (GDD 2.2).
@@ -521,6 +582,7 @@ public partial class BattleAttackTest : Node
         // encarada. Recomeçar a luta é descansar na Trívia: nada fica esquecido e as proteções da Leveza voltam.
         var combatMemories = GameRoot.Instance.Mosaic.CombatMemories(_allMemories);
         _guiltIds = combatMemories.Where(m => m.Guilt).Select(m => m.Skill.Id).ToHashSet();
+        _memoryStages = combatMemories.Where(m => !m.Guilt).ToDictionary(m => m.Skill.Id, m => m.Stage);
         _memories = new MemoryBook(
             combatMemories.Select(m => m.Skill).ToList(), GameRoot.Instance.HeavyMemories.Lightness.Protections);
         GD.Print($"[debug] Memórias: {string.Join(", ", combatMemories.Select(m => m.Guilt ? $"{m.Skill.Id} (Culpa)" : m.Skill.Id))}; " +
@@ -599,6 +661,11 @@ public partial class BattleAttackTest : Node
         {
             ShowWitnessPage();
         }
+        else if (System.Array.IndexOf(OS.GetCmdlineUserArgs(), "--pagina=memoria") >= 0)
+        {
+            // Teste: abre direto a página das Memórias (para conferir o estágio de cada uma).
+            ShowMemoryPage();
+        }
         else
         {
             ShowMainPage();
@@ -637,6 +704,12 @@ public partial class BattleAttackTest : Node
             else if (phase.Reveals == ListenReveal.Name)
             {
                 _understanding.RevealName();
+            }
+
+            if (phase.Art is { } art)
+            {
+                // Os chefes mudam de arte a cada fase (f1, f2, f3).
+                _stage.Replace(enemy: true, 0, _stage.Enemies[0].Art with { Art = art });
             }
 
             RefreshShadeKnowledge();
@@ -689,23 +762,34 @@ public partial class BattleAttackTest : Node
     private void ShowApproachPage(string? focus = null)
     {
         _page = MenuPage.Approach;
+        // A última cabeça de um guardião só aceita oferenda ou o nome (Libertar).
+        bool Accepts(string id) => _heads is not { IsLast: true } || id is OfferingId or FreeId or BackId;
         var freeDescription = !_understanding.IsComplete ? "combate.acao.libertar.indisponivel"
             : !Liberation.CanAttempt(_understanding, _flow.Lucidity) ? "combate.acao.libertar.sem_lucidez"
             : OathWarning(Via.Free, "combate.acao.libertar.descricao");
         _menu.ShowPage(Taught(new[]
         {
             new MenuEntry(ListenId, "combate.acao.escutar", "combate.acao.escutar.descricao"),
-            new MenuEntry(FreeId, "combate.acao.libertar", freeDescription, Available: Liberation.CanAttempt(_understanding, _flow.Lucidity)),
+            // A personificação não tem nome de pessoa: Libertar aparece, mas não funciona nela (GDD 4.5: mostra a via fechada).
+            _personification
+                ? new MenuEntry(FreeId, "combate.acao.libertar", "combate.acao.libertar.sem_nome", Available: false)
+                : new MenuEntry(FreeId, "combate.acao.libertar", freeDescription, Available: Liberation.CanAttempt(_understanding, _flow.Lucidity)),
             new MenuEntry(OfferingId, "combate.acao.oferenda",
                 Bag.HasAnyOffering ? "combate.acao.oferenda.descricao" : "combate.acao.oferenda.vazia", Available: Bag.HasAnyOffering),
-            new MenuEntry(WitnessId, "combate.acao.presenciar", OathWarning(Via.Witness, "combate.acao.presenciar.descricao")),
+            new MenuEntry(WitnessId, Witness("combate.acao.presenciar"), OathWarning(Via.Witness, Witness("combate.acao.presenciar.descricao"))),
             new MenuEntry(SpareId, "combate.acao.poupar", OathWarning(Via.Spare, "combate.acao.poupar.descricao")),
             new MenuEntry(YieldId, "combate.acao.ceder",
                 _flow.Lucidity.Current >= _story.YieldLucidityCost ? OathWarning(Via.Yield, "combate.acao.ceder.descricao") : "combate.acao.ceder.sem_lucidez",
                 Available: _flow.Lucidity.Current >= _story.YieldLucidityCost),
             new MenuEntry(BackId, "combate.acao.voltar", "combate.acao.voltar.descricao", SeparatorBefore: true),
-        }), focus);
+        }.Where(e => Accepts(e.Id))), focus);
     }
+
+    /// <summary>
+    /// Diante de uma personificação, Presenciar é Suportar (decisão do João, 03/nov/2026): a mesma regra, aguentar o
+    /// ciclo inteiro dela, com os textos de <c>suportar</c> no lugar dos de <c>presenciar</c>.
+    /// </summary>
+    private string Witness(string key) => _personification ? key.Replace("presenciar", "suportar") : key;
 
     /// <summary>Escolha da fixação: as opções que a sombra ainda não corrigiu.</summary>
     private void ShowFixationPage()
@@ -730,11 +814,21 @@ public partial class BattleAttackTest : Node
                     : !_memories.CanUse(s.Id, _flow.Lucidity) ? "combate.memoria.sem_lucidez"
                     : s.DescriptionKey,
                 Available: _memories.CanUse(s.Id, _flow.Lucidity),
-                Guilt: _guiltIds.Contains(s.Id)))
+                Guilt: _guiltIds.Contains(s.Id),
+                // O estágio da Lembrança (decisão do João, 03/nov/2026): marca curta no nome e o nome dele na descrição.
+                TagKey: _memoryStages.TryGetValue(s.Id, out var stage) ? $"combate.memoria.estagio.{StageId(stage)}.marca" : null,
+                DescriptionPrefixKey: _memoryStages.TryGetValue(s.Id, out var named) ? $"combate.memoria.estagio.{StageId(named)}" : null))
             .Append(new MenuEntry(BackId, "combate.acao.voltar", "combate.acao.voltar.descricao", SeparatorBefore: true))
             .ToList();
         _menu.ShowPage(entries);
     }
+
+    private static string StageId(RecollectionStage stage) => stage switch
+    {
+        RecollectionStage.Fragment => "fragmento",
+        RecollectionStage.Recalled => "recordacao",
+        _ => "plena",
+    };
 
     /// <summary>As oferendas da bolsa (só os tipos que ainda tem).</summary>
     private void ShowOfferingPage()
@@ -764,8 +858,8 @@ public partial class BattleAttackTest : Node
         _page = MenuPage.Witness;
         _menu.ShowPage(new[]
         {
-            new MenuEntry(KeepWitnessingId, "combate.presenciar.continuar", "combate.presenciar.continuar.descricao"),
-            new MenuEntry(StopWitnessingId, "combate.presenciar.parar", "combate.presenciar.parar.descricao", SeparatorBefore: true),
+            new MenuEntry(KeepWitnessingId, Witness("combate.presenciar.continuar"), Witness("combate.presenciar.continuar.descricao")),
+            new MenuEntry(StopWitnessingId, Witness("combate.presenciar.parar"), Witness("combate.presenciar.parar.descricao"), SeparatorBefore: true),
         });
     }
 
@@ -818,6 +912,12 @@ public partial class BattleAttackTest : Node
         }
 
         Learn(id);
+        if (_honor is { } honor && !_dishonored && honor.IsDishonorable(id))
+        {
+            // O duelo de honra: ele nota e diz no começo da vez dele.
+            _dishonored = true;
+            _dishonorToSay = true;
+        }
 
         switch (id)
         {
@@ -940,12 +1040,20 @@ public partial class BattleAttackTest : Node
         _hud.SetGestureActive(true, T("combate.gesto.escutar"));
         var grade = Windows.Widened(_flow.SupportPower(SupportEffect.WidenListen)).Grade(await RunHold(_listenHold));
 
-        var heard = _listening.Listen(_flow.NextShadeAttackIndex, grade);
+        var heard = _listening.Listen(ListenStep, grade);
         RefreshShadeKnowledge();
         await ShowLine(T(heard.TextKey), LineSeconds);
         await Judge(Via.Free);
         _playerAction?.TrySetResult();
     }
+
+    /// <summary>
+    /// Em que golpe do ciclo original a sombra está (as escutas contam por ele); um golpe que não é do ciclo original (a
+    /// fase 2 do Remador) conta pela posição no ciclo atual.
+    /// </summary>
+    private int ListenStep => _shadeAttacks.ToList().IndexOf(_flow.NextShadeAttack) is >= 0 and var original
+        ? original
+        : _flow.NextShadeAttackIndex;
 
     /// <summary>Libertar acreditando na fixação escolhida: gasta Lucidez; a errada enfurece a sombra.</summary>
     private async void DoFree(string fixation)
@@ -990,6 +1098,25 @@ public partial class BattleAttackTest : Node
                 _flow.Breath.Restore(use.Power);
                 _hud.SetBreath(_flow.Breath.Fraction);
                 await ShowLine(T("combate.memoria.efeito.heal"), LineSeconds);
+                break;
+            case MemoryEffectKind.Reveal:
+                // Saber: o nome só vem se puder ser ouvido (não com o nome espalhado da Sem-Nome).
+                if (use.Power >= 2f && NameReachable)
+                {
+                    _understanding.RevealName();
+                }
+
+                if (use.Power >= 1f)
+                {
+                    _understanding.RevealFixation();
+                }
+
+                RefreshShadeKnowledge();
+                await ShowLine(T("combate.memoria.efeito.reveal"), LineSeconds);
+                break;
+            case MemoryEffectKind.Hush:
+                _flow.Hush((int)System.MathF.Round(use.Power));
+                await ShowLine(T("combate.memoria.efeito.hush"), LineSeconds);
                 break;
             case MemoryEffectKind.Strike:
                 await Protagonist.PlayAdvance(Shade.Position, () =>
@@ -1081,9 +1208,17 @@ public partial class BattleAttackTest : Node
         _hud.SetGestureActive(true, T("combate.gesto.libertar"));
         await RunDrag();
         GameRoot.Instance.Offerings.Give(_shadeId, kind);
-        if (_story.Offering is { } offering && offering.AcceptsKind == kind)
+        if (_heads is { } heads && kind == heads.Rules.CalmOffering)
         {
-            _understanding.RevealName();
+            await CalmHead(heads);
+        }
+        else if (_story.Offering is { } offering && offering.AcceptsKind == kind)
+        {
+            if (NameReachable)
+            {
+                _understanding.RevealName();
+            }
+
             _understanding.RevealFixation();
             RefreshShadeKnowledge();
             await ShowLine(T(offering.AcceptKey), LineSeconds);
@@ -1095,6 +1230,35 @@ public partial class BattleAttackTest : Node
 
         await Judge(Via.Free);
         _playerAction?.TrySetResult();
+    }
+
+    /// <summary>
+    /// Um guardião de cabeças (Cérbero): a oferenda certa acalma uma cabeça; a luta muda de fase e, com a última calma,
+    /// termina (conta como libertar).
+    /// </summary>
+    private async Task CalmHead(GuardianHeads heads)
+    {
+        heads.Calm();
+        ApplyHeadsArt();
+        if (heads.AllCalm)
+        {
+            _flow.CalmGuardian();
+            await ShowLine(T(heads.Rules.AllCalmKey), LineSeconds);
+            return;
+        }
+
+        GameRoot.Instance.Events.Publish(new BossPhaseChanged(_shadeId, heads.Phase));
+        _flow.ChangeCycle(heads.Cycle);
+        await ShowLine(T(heads.IsLast ? heads.Rules.LastKey : heads.Rules.CalmedKey), LineSeconds);
+    }
+
+    /// <summary>A arte do guardião pelo número de cabeças acordadas (todas, uma a menos...).</summary>
+    private void ApplyHeadsArt()
+    {
+        if (_heads?.Art is { } art && _stage.Enemies[0].Art.Art != art)
+        {
+            _stage.Replace(enemy: true, 0, _stage.Enemies[0].Art with { Art = art });
+        }
     }
 
     /// <summary>Provisão da Bolsa: imediata, sem gesto. As do Além sobem a Marca (GDD 4.8).</summary>
@@ -1117,7 +1281,7 @@ public partial class BattleAttackTest : Node
     {
         _menu.ShowMenu(false);
         _flow.StartWitnessing();
-        await ShowLine(T("combate.presenciar.comeca"), LineSeconds);
+        await ShowLine(T(Witness("combate.presenciar.comeca")), LineSeconds);
         await Judge(Via.Witness);
         _playerAction?.TrySetResult();
     }
@@ -1126,12 +1290,12 @@ public partial class BattleAttackTest : Node
     private async void DoKeepWitnessing()
     {
         _menu.ShowMenu(false);
-        _hud.SetGestureActive(true, T("combate.gesto.presenciar"));
+        _hud.SetGestureActive(true, T(Witness("combate.gesto.presenciar")));
         var grade = Windows.Grade(await RunHold(_witnessHold));
         if (grade == GestureGrade.Failed)
         {
             _flow.StopWitnessing();
-            await ShowLine(T("combate.presenciar.distraiu"), LineSeconds);
+            await ShowLine(T(Witness("combate.presenciar.distraiu")), LineSeconds);
         }
 
         await Judge(Via.Witness);
@@ -1214,6 +1378,12 @@ public partial class BattleAttackTest : Node
         _hud.SetTurn(companion, shadeTurn: false);
         var acts = T($"combate.apoio.{_support.SupportId}.age");
         await ShowLine(_flow.SupportReluctant ? string.Format(T("combate.apoio.relutante"), acts) : acts, SupportSeconds);
+        if (!_readingSaid && _readings.TryGetValue(_support.CompanionId, out var reading))
+        {
+            // A segunda leitura da sombra (GDD 4.10), uma vez por luta, no primeiro apoio.
+            _readingSaid = true;
+            await ShowLine(T(reading), LineSeconds);
+        }
 
         if (_support.Effect == SupportEffect.WidenListen && !_understanding.NameRevealed
             && _listenEntries.FirstOrDefault(e => e.Reveals == ListenReveal.Name) is { } name)
@@ -1253,6 +1423,19 @@ public partial class BattleAttackTest : Node
         var attack = _flow.NextShadeAttack;
         _turnRing.MoveUnder(Shade);
         _hud.SetTurn(null, shadeTurn: true);
+        if (_dishonorToSay && _honor is { } honor)
+        {
+            _dishonorToSay = false;
+            await ShowLine(T(honor.DishonorKey), LineSeconds);
+        }
+
+        if (_flow.HushedTurns > 0)
+        {
+            // O Chamado: ela para para ouvir e não golpeia neste turno.
+            await ShowLine(T("combate.memoria.calada"), LineSeconds);
+            return;
+        }
+
         _hud.SetCaption(T(attack.CaptionKey));
         _hud.SetGestureActive(true);
         await Wait(ShadeTellSeconds);
@@ -1274,6 +1457,12 @@ public partial class BattleAttackTest : Node
         {
             _hud.SetGestureActive(true, T("combate.gesto.esquivar"));
             var (settings, pattern) = GestureData.DodgeFromJson(gesture);
+            if (_heads is { } heads && pattern is SidesPattern sides)
+            {
+                // As cabeças acalmadas não mordem: só os lados das acordadas.
+                pattern = sides with { Sides = heads.Awake };
+            }
+
             // A veste aumenta o quadro da Esquiva (GDD 6.1).
             var box = 1f + items.DodgeBox;
             var grade = windows.Grade(await RunDodge(
@@ -1321,7 +1510,7 @@ public partial class BattleAttackTest : Node
                 await ShowLine(T(key), LineSeconds);
             }
 
-            _hud.SetCaption(T("combate.sombra.vista"));
+            _hud.SetCaption(T(_personification ? "combate.sombra.passou" : "combate.sombra.vista"));
             await Shade.PlayDepart();
         }
         else if (_flow.Outcome is BattleOutcome.Spared or BattleOutcome.Fled or BattleOutcome.Yielded)
@@ -1352,7 +1541,13 @@ public partial class BattleAttackTest : Node
         await Wait(DefeatHoldSeconds);
         if (_encounter is not null)
         {
-            GameRoot.Instance.Encounters.Finish(_encounter.Id);
+            // Fugir ou se deixar vencer não resolve a sombra: ela continua no mapa (03/nov/2026). No tutorial
+            // (derrota sem custo), qualquer fim termina o encontro (PENDÊNCIA 73).
+            if (_encounter.FreeDefeat || _flow.Outcome is not (BattleOutcome.Fled or BattleOutcome.Yielded))
+            {
+                GameRoot.Instance.Encounters.Finish(_encounter.Id);
+            }
+
             await LeaveBattle();
             return;
         }
@@ -1369,7 +1564,16 @@ public partial class BattleAttackTest : Node
         switch (_flow.Outcome)
         {
             case BattleOutcome.Freed: events.Publish(new ShadeFreed(_shadeId)); break;
-            case BattleOutcome.Destroyed: events.Publish(new ShadeDestroyed(_shadeId)); break;
+            case BattleOutcome.Destroyed:
+                events.Publish(new ShadeDestroyed(_shadeId));
+                if (_honor is { } honor && !_dishonored)
+                {
+                    // Vencido com honra: a bênção dele.
+                    GameRoot.Instance.State.Flags.Add(honor.BlessingFlag);
+                    GameRoot.Instance.Journal.Add(honor.BlessingKey);
+                }
+
+                break;
             case BattleOutcome.Witnessed: events.Publish(new ShadeWitnessed(_shadeId)); break;
             case BattleOutcome.Spared: events.Publish(new ShadeSpared(_shadeId)); break;
             case BattleOutcome.Fled: events.Publish(new ShadeFled(_shadeId)); break;
@@ -1406,8 +1610,10 @@ public partial class BattleAttackTest : Node
         await ShowLine(T(ShadeNarration.DefeatClue(_story, _defeats)), LineSeconds);
         if (_encounter is not null)
         {
-            // Encontro com derrota de verdade: volta ao mapa (acordar na Trívia vem com a cena da derrota, PENDÊNCIA 73).
-            await LeaveBattle();
+            // Encontro com derrota de verdade: acorda na última Trívia onde esteve (ou na da região da luta).
+            var trivias = GameRoot.Instance.Trivias;
+            await LeaveBattle(trivias.WakeTrivia
+                ?? trivias.Definitions.Values.FirstOrDefault(t => t.RegionId == _encounter.RegionId)?.Id);
             return;
         }
 
@@ -1466,12 +1672,12 @@ public partial class BattleAttackTest : Node
         await LeaveBattle();
     }
 
-    /// <summary>Volta ao mapa, no lugar de onde veio (o Main recoloca o jogador).</summary>
-    private async Task LeaveBattle()
+    /// <summary>Volta ao mapa, no lugar de onde veio (o Main recoloca o jogador) ou, derrotado, na Trívia.</summary>
+    private async Task LeaveBattle(string? wakeTrivia = null)
     {
         _leaving = true;
         await _hud.Fade(toBlack: true, DefeatFadeSeconds);
-        EncounterTransit.Return(GetTree());
+        EncounterTransit.Return(GetTree(), wakeTrivia);
     }
 
     /// <summary>
@@ -1677,6 +1883,12 @@ public partial class BattleAttackTest : Node
         var missDefense = mode == "licao_falhar";
         // --demo=absorver: sem roteiro (absorve assim que der; use com --firmeza=25).
         var script = vias ? ViasScript() : mode == "absorver" ? new Queue<string[]>()
+            : mode == "acalmar" && _heads is { } heads
+                ? new Queue<string[]>(Enumerable.Repeat(new[] { ApproachId, OfferingId, OfferingPrefix + heads.Rules.CalmOffering }, heads.Rules.Count))
+            // --licao=suportar: aguenta o ciclo inteiro (Presenciar, Suportar diante de uma personificação);
+            // --licao=atacar: só ataca (para passar pelas fases de um chefe).
+            : mode == "suportar" ? new Queue<string[]>(new[] { new[] { ApproachId, WitnessId } })
+            : mode == "atacar" ? new Queue<string[]>()
             : _lesson is not null ? LessonScript() : new Queue<string[]>(new[]
         {
             new[] { ApproachId, ListenId },
@@ -1701,7 +1913,7 @@ public partial class BattleAttackTest : Node
                 // Presenciando, só mantém a atenção; fora disso segue o roteiro, depois absorve, usa o Eco ou ataca.
                 var choices = _flow.IsWitnessing ? new[] { KeepWitnessingId }
                     : script.Count > 0 ? script.Dequeue()
-                    : _menu.IsAvailable(AbsorbId) ? new[] { AbsorbId }
+                    : mode != "atacar" && _menu.IsAvailable(AbsorbId) ? new[] { AbsorbId }
                     : _echoes.HasUsable ? new[] { EchoId, EchoPrefix + _echoes.Echoes[0].Id }
                     : new[] { AttackId };
                 foreach (var choice in choices)

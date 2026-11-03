@@ -131,6 +131,26 @@ public partial class BattleActor : Node3D
         _blob.Visible = castsShadow;
     }
 
+    /// <summary>
+    /// O retângulo da arte na tela, em frações do <paramref name="viewportSize"/>. Projeta os cantos do plano do sprite
+    /// (a caixa local é chata); a caixa já girada no mundo teria profundidade, que a câmera inclinada lê como altura.
+    /// </summary>
+    public Lete.Core.Combat.ScreenRect ScreenBounds(Camera3D camera, Vector2 viewportSize)
+    {
+        var box = _sprite.GetAabb();
+        var min = new Vector2(float.MaxValue, float.MaxValue);
+        var max = new Vector2(float.MinValue, float.MinValue);
+        for (var i = 0; i < 8; i++)
+        {
+            var point = camera.UnprojectPosition(_sprite.GlobalTransform * box.GetEndpoint(i));
+            min = min.Min(point);
+            max = max.Max(point);
+        }
+
+        return new Lete.Core.Combat.ScreenRect(
+            min.X / viewportSize.X, min.Y / viewportSize.Y, (max.X - min.X) / viewportSize.X, (max.Y - min.Y) / viewportSize.Y);
+    }
+
     /// <summary>Ponto no meio do corpo (ex.: 0,55 = um pouco acima da cintura), em coordenadas do mundo.</summary>
     public Vector3 PointAtHeight(float fraction) => ToGlobal(new Vector3(0, _height * fraction, 0));
 
@@ -237,8 +257,8 @@ public partial class BattleActor : Node3D
     public async Task PlayDefeat()
     {
         _breathe?.Kill();
-        // Cai para longe de quem olha: o sprite espelhado (sombra, olhando para a esquerda) tomba para a direita.
-        var direction = _sprite.FlipH ? -1f : 1f;
+        // Cai para longe de quem enfrenta: a sombra (à direita, olhando para a esquerda) tomba para a direita.
+        var direction = IsSpirit ? -1f : 1f;
         var tween = CreateTween();
         tween.TweenProperty(_body, "rotation:z", Mathf.DegToRad(Tuning.FallDegrees) * direction, Tuning.FallSeconds)
             .SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);

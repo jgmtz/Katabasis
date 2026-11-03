@@ -1,0 +1,11 @@
+{
+  "id": "vestibulo_fugitivo",
+  "_rascunho": "Camada das sombras da tabela da Maré (decisão do João, 06/nov/2026: no molde de Tênaro; rascunho, PENDENCIAS 89). Corpo comum com arte; falas e números para revisar.",
+  "shade": "fugitivo",
+  "region": "vestibulo",
+  "battle": "vestibulo_fugitivo",
+  "hecate_key": "encontro.vestibulo_fugitivo.nota",
+  "requires": {
+    "tide_min": 1
+  }
+}

@@ -133,6 +133,12 @@ public sealed class BattleFlow
     /// <summary>Ofício: quanto as janelas da próxima defesa ficam mais largas.</summary>
     public float FocusWidening { get; private set; }
 
+    /// <summary>O Chamado (<see cref="MemoryEffectKind.Hush"/>): quantos turnos dela ainda passam sem golpe.</summary>
+    public int HushedTurns { get; private set; }
+
+    /// <summary>O Chamado: a sombra perde os próximos <paramref name="turns"/> golpes (não soma: vale o maior).</summary>
+    public void Hush(int turns) => HushedTurns = Math.Max(HushedTurns, Math.Max(0, turns));
+
     /// <summary>Presenciando: quantos golpes dela ainda faltam para fechar o ciclo; nulo se não está presenciando.</summary>
     public int? WitnessTurnsLeft { get; private set; }
 
@@ -176,6 +182,12 @@ public sealed class BattleFlow
 
         _pendingOutcome = outcome;
     }
+
+    /// <summary>
+    /// A última cabeça de um guardião se acalmou (<see cref="GuardianHeads"/>): a luta termina como libertar (a fera se
+    /// acalma), quando a ação terminar.
+    /// </summary>
+    public void CalmGuardian() => _pendingOutcome = BattleOutcome.Freed;
 
     /// <summary>A ação do jogador já decidiu o fim da luta (Absorver, Poupar, Fugir, Deixar-se vencer).</summary>
     public bool IsEnding => _pendingOutcome is not null;
@@ -235,11 +247,23 @@ public sealed class BattleFlow
         }
     }
 
-    /// <summary>O golpe da sombra terminou (já com o dano aplicado no Fôlego).</summary>
+    /// <summary>
+    /// O golpe da sombra terminou (já com o dano aplicado no Fôlego). Calada pelo Chamado (<see cref="HushedTurns"/>),
+    /// ela não golpeou: o ciclo não anda (o mesmo golpe vem depois) e, presenciando, o turno não conta.
+    /// </summary>
     public void EndShadeTurn()
     {
         Expect(BattlePhase.ShadeTurn);
-        _shadeTurns++;
+        var hushed = HushedTurns > 0;
+        if (hushed)
+        {
+            HushedTurns--;
+        }
+        else
+        {
+            _shadeTurns++;
+        }
+
         if (Support is { LastsUntilShadeTurnEnds: true })
         {
             SupportActive = false;
@@ -249,7 +273,7 @@ public sealed class BattleFlow
         GuardFraction = 0f;
         ShadeSlowFactor = 1f;
         FocusWidening = 0f;
-        if (WitnessTurnsLeft is { } left)
+        if (WitnessTurnsLeft is { } left && !hushed)
         {
             WitnessTurnsLeft = left - 1;
         }

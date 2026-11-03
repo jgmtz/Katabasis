@@ -20,5 +20,10 @@
   "talk_keys": [
     "companheiro.ismena.conversa.1",
     "companheiro.ismena.conversa.2"
-  ]
+  ],
+  "_heavy": "A fala sobre uma Pesada decidida, na primeira conversa da Trívia depois dela (decisão do João, 03/nov/2026: curta, à maneira do apoio dele). Rascunho, 05/nov/2026 (PENDENCIAS 85).",
+  "heavy_keys": {
+    "face": "companheiro.ismena.pesada.encarou",
+    "leave": "companheiro.ismena.pesada.deixou"
+  }
 }

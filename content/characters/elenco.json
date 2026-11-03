@@ -1,6 +1,6 @@
 {
   "id": "elenco",
-  "_nota": "Registro único do elenco: batalhas, escolha de personagem e telas citam só o id. Alturas provisórias (_tbd). 'front_faces': para que lado a arte de frente olha (left, o padrão, ou right). 'selectable': aparece na escolha pelo reflexo (os dois corpos do protagonista-sombra, 26/out/2026); 'reflection': imagem de frente do reflexo.",
+  "_nota": "Registro único do elenco: batalhas, escolha de personagem e telas citam só o id. Alturas provisórias (_tbd). 'front_faces': para que lado a arte de frente olha (left, o padrão, ou right). 'dialogue_portrait': o busto da caixa de diálogo (128 px, decisão do João, 06/nov/2026). 'back_faces': para que lado olha a de costas (right, o padrão, ou left); na luta, o grupo olha para a direita e as sombras para a esquerda, e quem olha para o outro lado sai espelhado (05/nov/2026). Chefes: o dobro da altura dos humanos (decisão do João, 05/nov/2026; o Cérbero, de quatro patas, 1,6). 'selectable': aparece na escolha pelo reflexo (os dois corpos do protagonista-sombra, 26/out/2026); 'reflection': imagem de frente do reflexo.",
   "cast": [
     {
       "id": "sombra_m",
@@ -46,6 +46,7 @@
       "battle_front": "lia_34",
       "battle_back": "lia_34_costas",
       "portrait": "res://art/sprites/companheiros/lia_sim/parado/lia_parado_frente.png",
+      "dialogue_portrait": "res://art/sprites/retratos/pixel_128/lia_retrato.png",
       "map_folder": "res://art/sprites/companheiros/lia_sim",
       "selectable": false
     },
@@ -62,6 +63,7 @@
       "front_faces": "right",
       "battle_back": "aulo_c",
       "portrait": "res://art/sprites/companheiros/aulo_sim/parado/aulo_parado_frente.png",
+      "dialogue_portrait": "res://art/sprites/retratos/pixel_128/aulo_retrato.png",
       "map_folder": "res://art/sprites/companheiros/aulo_sim",
       "selectable": false
     },
@@ -78,6 +80,7 @@
       "front_faces": "right",
       "battle_back": "ismena_c",
       "portrait": "res://art/sprites/companheiros/ismena_sim/parado/ismena_parado_frente.png",
+      "dialogue_portrait": "res://art/sprites/retratos/pixel_128/ismena_retrato.png",
       "map_folder": "res://art/sprites/companheiros/ismena_sim",
       "selectable": false
     },
@@ -91,7 +94,9 @@
         "value": 1.0
       },
       "battle_front": "dimas_34",
+      "front_faces": "right",
       "portrait": "res://art/sprites/companheiros/dimas_sim/parado/dimas_parado_frente.png",
+      "dialogue_portrait": "res://art/sprites/retratos/pixel_128/dimas_retrato.png",
       "map_folder": "res://art/sprites/companheiros/dimas_sim",
       "selectable": false
     },
@@ -106,7 +111,9 @@
       },
       "battle_front": "septimia_34",
       "battle_back": "septimia_34_costas",
+      "back_faces": "left",
       "portrait": "res://art/sprites/companheiros/septimia_sim/parado/septimia_parado_frente.png",
+      "dialogue_portrait": "res://art/sprites/retratos/pixel_128/septimia_retrato.png",
       "map_folder": "res://art/sprites/companheiros/septimia_sim",
       "selectable": false
     },
@@ -122,6 +129,7 @@
       "battle_front": "calias_34",
       "battle_back": "calias_34_costas",
       "portrait": "res://art/sprites/companheiros/calias_sim/parado/calias_parado_frente.png",
+      "dialogue_portrait": "res://art/sprites/retratos/pixel_128/calias_retrato.png",
       "map_folder": "res://art/sprites/companheiros/calias_sim",
       "selectable": false
     },
@@ -407,6 +415,7 @@
         "value": 1.0
       },
       "battle_front": "desertor_34",
+      "front_faces": "right",
       "map_folder": "res://art/sprites/sombras/desertor",
       "tint": "#8C9BAD",
       "idle_frames": {
@@ -469,6 +478,199 @@
           "pixel_160": "res://art/sprites/sombras/padeiro/batalha_flutuar_160/padeiro_flutuar_"
         }
       },
+      "selectable": false
+    },
+    {
+      "id": "cerbero",
+      "_papel": "Chefe-guardião (HISTORIA 6). Arte de batalha e de mapa provisórias: os originais do João foram pixelizados (art/concept/gemini/chefes/cerbero, 03/nov/2026); f1 com as três cabeças acordadas, f2 com duas, f3 sentado com a última.",
+      "name_key": "shade.cerbero.nome",
+      "kind": "shade",
+      "height": {
+        "_tbd": true,
+        "value": 1.6
+      },
+      "battle_front": "cerbero_f1",
+      "map_folder": "res://art/sprites/sombras/cerbero",
+      "selectable": false
+    },
+    {
+      "id": "caronte",
+      "_papel": "Barqueiro (HISTORIA). Arte de batalha de 03/nov/2026 (art/concept/gemini/sombras); no mapa em 3/4 com a animação parada (05/nov/2026); de costas desde a entrega de 05/nov, 23:34.",
+      "name_key": "shade.caronte.nome",
+      "kind": "shade",
+      "gender": "m",
+      "height": {
+        "_tbd": true,
+        "value": 1.3
+      },
+      "battle_front": "caronte_34",
+      "battle_back": "caronte_34_costas",
+      "map_folder": "res://art/sprites/sombras/caronte",
+      "selectable": false
+    },
+    {
+      "id": "afogado",
+      "_papel": "Capítulo 1 do Pescador (Aqueronte). Arte de 03/nov/2026; no mapa em 3/4 com a animação parada (05/nov/2026).",
+      "name_key": "shade.afogado.nome",
+      "kind": "shade",
+      "gender": "m",
+      "height": {
+        "_tbd": true,
+        "value": 0.7
+      },
+      "battle_front": "afogado_34",
+      "map_folder": "res://art/sprites/sombras/afogado",
+      "selectable": false
+    },
+    {
+      "id": "oleiro",
+      "_papel": "Capítulo 1 do Artesão (Asfódelos). Arte de 03/nov/2026; no mapa em 3/4 com a animação parada (05/nov/2026).",
+      "name_key": "shade.oleiro.nome",
+      "kind": "shade",
+      "gender": "m",
+      "height": {
+        "_tbd": true,
+        "value": 0.9
+      },
+      "battle_front": "oleiro_34",
+      "map_folder": "res://art/sprites/sombras/oleiro",
+      "selectable": false
+    },
+    {
+      "id": "insepultos",
+      "_papel": "Grupo de três sombras (Aqueronte). Arte de 03/nov/2026; no mapa em 3/4 com a animação parada (05/nov/2026).",
+      "name_key": "shade.insepultos.nome",
+      "kind": "shade",
+      "height": {
+        "_tbd": true,
+        "value": 0.8
+      },
+      "battle_front": "insepultos_34",
+      "map_folder": "res://art/sprites/sombras/insepultos",
+      "selectable": false
+    },
+    {
+      "id": "esposa_padeiro",
+      "_papel": "Espera na margem do Aqueronte (PENDENCIAS 80). Aparência proposta em 03/nov/2026 (para aprovar); aprovada pelo João em 05/nov/2026 e ligada no mapa (3/4 com a animação parada).",
+      "name_key": "shade.esposa_padeiro.nome",
+      "kind": "shade",
+      "gender": "f",
+      "height": {
+        "_tbd": true,
+        "value": 0.95
+      },
+      "battle_front": "esposa_padeiro_34",
+      "map_folder": "res://art/sprites/sombras/esposa_padeiro",
+      "selectable": false
+    },
+    {
+      "id": "mercador_planicie",
+      "_papel": "Mercador neutro da Planície (PENDENCIAS 80). Corpo novo, proposta em 03/nov/2026 (para aprovar); aprovada pelo João em 05/nov/2026 e ligada no mapa (3/4 com a animação parada).",
+      "name_key": "shade.mercador_planicie.nome",
+      "kind": "shade",
+      "gender": "m",
+      "height": {
+        "_tbd": true,
+        "value": 1.0
+      },
+      "battle_front": "mercador_planicie_34",
+      "map_folder": "res://art/sprites/sombras/mercador_planicie",
+      "selectable": false
+    },
+    {
+      "id": "campeao",
+      "_papel": "Chefe do Campo dos Guerreiros (Ato II, HISTORIA 6). Arte de 03/nov/2026: batalha em 3 fases (f1 a f3) e mapa 3/4; papel, luta e alturas por definir.",
+      "name_key": "shade.campeao.nome",
+      "kind": "shade",
+      "gender": "m",
+      "height": {
+        "_tbd": true,
+        "value": 2.0
+      },
+      "battle_front": "campeao_f1",
+      "map_folder": "res://art/sprites/sombras/campeao",
+      "selectable": false
+    },
+    {
+      "id": "sonho",
+      "_papel": "Hipno (Ato III, HISTORIA 6). Arte de 03/nov/2026: batalha em 3 fases (f2 dois Hipnos, f3 real mais reflexo a 50% de alfa) e mapa 3/4; papel por definir.",
+      "name_key": "shade.sonho.nome",
+      "kind": "shade",
+      "gender": "m",
+      "height": {
+        "_tbd": true,
+        "value": 2.0
+      },
+      "battle_front": "sonho_f1",
+      "map_folder": "res://art/sprites/sombras/sonho",
+      "selectable": false
+    },
+    {
+      "id": "sem_nome",
+      "_papel": "Chefe do Poço das Sem-Nome (Ato II, HISTORIA 6). Arte de 03/nov/2026: batalha em 3 fases e mapa 3/4; papel por definir.",
+      "name_key": "shade.sem_nome.nome",
+      "kind": "shade",
+      "height": {
+        "_tbd": true,
+        "value": 2.0
+      },
+      "battle_front": "sem_nome_f1",
+      "map_folder": "res://art/sprites/sombras/sem_nome",
+      "selectable": false
+    },
+    {
+      "id": "fome",
+      "_papel": "Chefe do Vestíbulo (Ato I). Arte do João; batalha em 3 fases e mapa 3/4 (03/nov/2026). Decidido: Suportar = Presenciar para quem não tem nome; imune a Libertar.",
+      "name_key": "shade.fome.nome",
+      "kind": "shade",
+      "height": {
+        "_tbd": true,
+        "value": 2.0
+      },
+      "battle_front": "fome_f1",
+      "map_folder": "res://art/sprites/sombras/fome",
+      "selectable": false
+    },
+    {
+      "id": "furias_alecto",
+      "_papel": "Fúria (um encontro de três, decidido 03/nov/2026). Arte de batalha e mapa 3/4; luta por definir.",
+      "name_key": "shade.furias_alecto.nome",
+      "kind": "shade",
+      "gender": "f",
+      "height": {
+        "_tbd": true,
+        "value": 2.0
+      },
+      "battle_front": "furias_alecto",
+      "map_folder": "res://art/sprites/sombras/furias_alecto",
+      "selectable": false
+    },
+    {
+      "id": "furias_megera",
+      "_papel": "Fúria (um encontro de três, decidido 03/nov/2026). Arte de batalha e mapa 3/4; luta por definir.",
+      "name_key": "shade.furias_megera.nome",
+      "kind": "shade",
+      "gender": "f",
+      "height": {
+        "_tbd": true,
+        "value": 2.0
+      },
+      "battle_front": "furias_megera",
+      "map_folder": "res://art/sprites/sombras/furias_megera",
+      "selectable": false
+    },
+    {
+      "id": "furias_tisifone",
+      "_papel": "Fúria (um encontro de três, decidido 03/nov/2026). Arte de batalha e mapa 3/4; luta por definir.",
+      "name_key": "shade.furias_tisifone.nome",
+      "kind": "shade",
+      "gender": "f",
+      "height": {
+        "_tbd": true,
+        "value": 2.0
+      },
+      "battle_front": "furias_tisifone",
+      "map_folder": "res://art/sprites/sombras/furias_tisifone",
       "selectable": false
     }
   ]

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 folha_para_quadros.py
-Pega uma folha de animacao gerada por IA (varios quadros numa grade, fundo liso),
+Pega uma folha de animacao gerada no Gemini (varios quadros numa grade, fundo liso),
 corta cada quadro, alinha pelos pes, aplica UMA paleta para todos e gera:
   - quadros individuais em pixel art (um PNG por quadro)
   - uma folha horizontal (strip) pronta para o Godot
@@ -131,7 +131,7 @@ def salvar_gif(quadros, destino, fps, zoom):
 
 
 def main():
-    p = argparse.ArgumentParser(description="Folha de animacao de IA -> quadros alinhados em pixel art.")
+    p = argparse.ArgumentParser(description="Folha de animacao do Gemini -> quadros alinhados em pixel art.")
     p.add_argument("entrada", help="imagem da folha (png, jpg, webp)")
     p.add_argument("--colunas", type=int, required=True, help="quadros por linha na folha")
     p.add_argument("--linhas", type=int, default=1, help="linhas na folha (padrao: 1)")

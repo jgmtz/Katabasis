@@ -26,8 +26,21 @@ public sealed record Ware(WareKind Kind, string Id, int Price, int Count, IReadO
     public string Key => $"{Kind switch { WareKind.Item => "item", WareKind.Offering => "oferenda", _ => "provisao" }}:{Id}";
 }
 
-/// <summary>Um mercador (<c>content/merchants/&lt;id&gt;.json</c>, GDD 6.4): sombra comerciante com o estoque dela.</summary>
-public sealed record Merchant(string Id, string NameKey, string GreetingKey, IReadOnlyList<Ware> Stock);
+/// <summary>
+/// Um mercador (<c>content/merchants/&lt;id&gt;.json</c>, GDD 6.4): sombra comerciante com o estoque dela.
+/// <paramref name="Greetings"/>: saudações que leem o mundo (o Perfil, uma sombra, uma flag; GDD 2.5: os mercadores leem
+/// o Perfil), na ordem; a primeira cuja condição vale substitui <paramref name="GreetingKey"/>.
+/// </summary>
+public sealed record Merchant(
+    string Id, string NameKey, string GreetingKey, IReadOnlyList<Ware> Stock, IReadOnlyList<MerchantGreeting>? Greetings = null)
+{
+    /// <summary>A saudação de agora: a primeira das condicionais que vale, senão a padrão.</summary>
+    public string GreetingFor(IConditionFacts facts) =>
+        Greetings?.FirstOrDefault(g => ConditionEvaluator.Passes(g.When, facts))?.Key ?? GreetingKey;
+}
+
+/// <summary>Uma saudação condicional de um mercador.</summary>
+public sealed record MerchantGreeting(Condition When, string Key);
 
 /// <summary>Uma entrada como o jogador a vê agora: o preço (mais caro fora do caminho) e quantas restam.</summary>
 public sealed record WareOffer(Ware Ware, int Price, int Remaining, bool OnPath);

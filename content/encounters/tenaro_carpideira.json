@@ -1,0 +1,11 @@
+{
+  "id": "tenaro_carpideira",
+  "_rascunho": "A camada das sombras da tabela da Maré de Tênaro (05/nov/2026, PENDENCIAS 85): com a Maré no degrau 1, uma carpideira vaga na descida. Luta inteira, derrota com custo.",
+  "shade": "carpideira",
+  "region": "tenaro",
+  "battle": "tenaro_carpideira",
+  "hecate_key": "encontro.tenaro_carpideira.nota",
+  "requires": {
+    "tide_min": 1
+  }
+}

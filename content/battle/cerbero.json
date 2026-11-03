@@ -1,0 +1,62 @@
+{
+  "id": "cerbero",
+  "_nota": "Cérbero, na entrada da Planície. Como nas sombras comuns, o primeiro lugar do grupo é o do companheiro escolhido. Luta de chefe (05/nov/2026): enquadramento 'chefe' (faixas de cinema e câmera aberta, content/rules/enquadramento_batalha.json); as posições são para essa câmera. Como nas lutas normais, o grupo fica na frente, embaixo, e a sombra bem mais ao fundo (os pés dela bem acima dos do grupo na tela): é isso que dá a distância (pedido do João, 05/nov/2026).",
+  "framing": "chefe",
+  "layout": {
+    "party": [
+      {
+        "x": -2.46,
+        "y": -2.28
+      },
+      {
+        "x": -1.68,
+        "y": -2.24
+      }
+    ],
+    "enemy": [
+      {
+        "x": 1.08,
+        "y": -0.94
+      }
+    ],
+    "depth_scale": {
+      "_tbd": true,
+      "value": 0.0
+    }
+  },
+  "protagonist": {
+    "id": "sombra_f",
+    "breath": {
+      "_tbd": true,
+      "value": 100
+    },
+    "lucidity": {
+      "_tbd": true,
+      "value": 60
+    }
+  },
+  "shade": "cerbero",
+  "party": [
+    {
+      "id": "aulo",
+      "pose": "back"
+    },
+    {
+      "id": "sombra_f",
+      "pose": "back"
+    }
+  ],
+  "enemy": [
+    {
+      "id": "cerbero",
+      "pose": "front"
+    }
+  ],
+  "styles": [
+    {
+      "id": "pixel_160",
+      "folder": "pixel_160",
+      "filter": "nearest"
+    }
+  ]
+}

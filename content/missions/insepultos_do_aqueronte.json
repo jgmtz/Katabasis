@@ -1,6 +1,6 @@
 {
   "id": "insepultos_do_aqueronte",
-  "_rascunho": "Missão curta de região da fatia (Claude, 31/out/2026, PENDENCIAS 76): ajudar os insepultos do Aqueronte (GDD 2.4, uma das formas de cruzar). A consequência aparece depois, na fala de Caronte.",
+  "_rascunho": "Missão curta de região da fatia (31/out/2026, PENDENCIAS 76): ajudar os insepultos do Aqueronte (GDD 2.4, uma das formas de cruzar). A consequência aparece depois, na fala de Caronte.",
   "type": "region",
   "hook": {
     "any": [

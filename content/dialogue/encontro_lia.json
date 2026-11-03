@@ -1,0 +1,109 @@
+{
+  "id": "encontro_lia",
+  "_rascunho": "03/nov/2026 (PENDENCIAS 80): capítulo 0, o encontro (HISTORIA 5.3), no mercado da Planície (decisão do João: longe dos outros companheiros, numa área de mercado). Reage ao Perfil recente pela aprovação proposta na PENDÊNCIA 41. Se Cérbero foi combatido até o fim, ela comenta a Planície sem guardião (05/nov/2026, PENDENCIAS 85).",
+  "mode": "fixed",
+  "speaker_key": "personagem.lia.nome",
+  "shade": "lia",
+  "start": [
+    "de_novo",
+    "sem_guardiao",
+    "aprova",
+    "reprova",
+    "neutro"
+  ],
+  "nodes": [
+    {
+      "id": "de_novo",
+      "when": {
+        "flag": "conheceu_lia"
+      },
+      "line_key": "dlg.lia.encontro.de_novo"
+    },
+    {
+      "id": "sem_guardiao",
+      "when": {
+        "any": [
+          {
+            "shade_state": {
+              "id": "cerbero",
+              "state": "destroyed"
+            }
+          },
+          {
+            "shade_state": {
+              "id": "cerbero",
+              "state": "absorbed"
+            }
+          }
+        ]
+      },
+      "line_key": "dlg.lia.encontro.sem_guardiao",
+      "next": "apresenta"
+    },
+    {
+      "id": "aprova",
+      "when": {
+        "any": [
+          {
+            "profile": {
+              "top_via": "free"
+            }
+          },
+          {
+            "profile": {
+              "top_via": "witness"
+            }
+          }
+        ]
+      },
+      "line_key": "dlg.lia.encontro.aprova",
+      "next": "apresenta"
+    },
+    {
+      "id": "reprova",
+      "when": {
+        "profile": {
+          "top_via": "absorb"
+        }
+      },
+      "line_key": "dlg.lia.encontro.reprova",
+      "next": "apresenta"
+    },
+    {
+      "id": "neutro",
+      "line_key": "dlg.lia.encontro.neutro",
+      "next": "apresenta"
+    },
+    {
+      "id": "apresenta",
+      "line_key": "dlg.lia.encontro.apresenta",
+      "effects": [
+        {
+          "meet_companion": "lia"
+        },
+        {
+          "flag": "conheceu_lia"
+        },
+        {
+          "journal_key": "diario.lia.encontro"
+        }
+      ],
+      "options": [
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.lia.encontro.pergunta",
+          "next": "resposta"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.lia.encontro.calar",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "resposta",
+      "line_key": "dlg.lia.encontro.resposta"
+    }
+  ]
+}

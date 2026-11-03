@@ -16,7 +16,7 @@ public partial class ShopScreen : ChoiceScreen
         _merchantId = merchantId;
         var merchant = GameRoot.Instance.Merchants.Definitions[merchantId];
         ShowPanel(T(merchant.NameKey));
-        ShowStock(T(merchant.GreetingKey));
+        ShowStock(T(merchant.GreetingFor(GameRoot.Instance.Facts)));
     }
 
     private void ShowStock(string message)

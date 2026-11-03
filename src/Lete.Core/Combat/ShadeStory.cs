@@ -5,9 +5,22 @@ public sealed record ShadeVoice(float BelowFraction, string TextKey);
 
 /// <summary>
 /// Fase nova da sombra (GDD 4.3 e 4.11): ao cair abaixo de <paramref name="AtFraction"/> da Firmeza, o gesto muda
-/// (ciclo novo de golpes), uma legenda anuncia, e às vezes algo se revela (a fixação, no Remador).
+/// (ciclo novo de golpes), uma legenda anuncia, e às vezes algo se revela (a fixação, no Remador). <paramref name="Art"/>:
+/// a arte de batalha da fase (os chefes têm uma por fase, <c>&lt;chefe&gt;_f2</c>, <c>_f3</c>); nula mantém a atual.
 /// </summary>
-public sealed record ShadePhase(float AtFraction, IReadOnlyList<ShadeAttack> Attacks, string CaptionKey, ListenReveal? Reveals);
+public sealed record ShadePhase(
+    float AtFraction, IReadOnlyList<ShadeAttack> Attacks, string CaptionKey, ListenReveal? Reveals, string? Art = null);
+
+/// <summary>
+/// O duelo de honra (o Campeão; decisão do João, 06/nov/2026): usar algo de <paramref name="Forbidden"/> (Memória, Eco,
+/// oferenda, provisão) é desonra, e ele avisa (<paramref name="DishonorKey"/>). Vencido com honra (destruído só com as armas
+/// do duelo), ele dá a bênção: a flag <paramref name="BlessingFlag"/> e a linha do Diário <paramref name="BlessingKey"/>.
+/// </summary>
+public sealed record DuelHonor(IReadOnlyList<string> Forbidden, string DishonorKey, string BlessingFlag, string BlessingKey)
+{
+    /// <summary>A escolha do menu (<c>memoria:...</c>, <c>eco:...</c>...) é uma das proibidas.</summary>
+    public bool IsDishonorable(string actionId) => Forbidden.Any(f => actionId.StartsWith(f + ":", StringComparison.Ordinal));
+}
 
 /// <summary>A oferenda que a sombra reconhece (GDD 5.1): a certa revela nome e fixação; a errada não funciona.</summary>
 public sealed record ShadeOffering(string AcceptsKind, string AcceptKey, string RefuseKey);

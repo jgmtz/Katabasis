@@ -11,8 +11,13 @@ namespace Lete.Game.Combat;
 /// uma linha separadora (como Fugir, que fica fora do grupo, GDD 4.7).
 /// </summary>
 /// <summary>Uma opção do menu. <see cref="Guilt"/>: Culpa de uma Pesada encarada, em terracota (GDD 2.2).</summary>
+/// <summary>
+/// Uma opção do menu. <paramref name="TagKey"/>: marca curta depois do nome (o estágio da Memória: ·, ··, ···);
+/// <paramref name="DescriptionPrefixKey"/>: o que vem antes da descrição (o nome do estágio).
+/// </summary>
 public sealed record MenuEntry(
-    string Id, string LabelKey, string DescriptionKey, bool Available = true, bool SeparatorBefore = false, bool Guilt = false);
+    string Id, string LabelKey, string DescriptionKey, bool Available = true, bool SeparatorBefore = false, bool Guilt = false,
+    string? TagKey = null, string? DescriptionPrefixKey = null);
 
 /// <summary>
 /// Caixa de ações do combate em pixel art (GDD 4.7): moldura de vaso grego, faixa de meandro, fonte pixelada
@@ -40,7 +45,7 @@ public partial class ActionMenu : Control
     /// <summary>Opção confirmada (id) e se ela está disponível.</summary>
     public event Action<string, bool>? ActionChosen;
 
-    /// <summary>A opção selecionada mudou: chave de localização da descrição.</summary>
+    /// <summary>A opção selecionada mudou: o texto da descrição (já traduzido).</summary>
     public event Action<string>? DescriptionChanged;
 
     /// <summary>A caixa mudou de tamanho ou de lugar (para o retrato acompanhar).</summary>
@@ -217,7 +222,8 @@ public partial class ActionMenu : Control
         };
         row.AddChild(cursor);
 
-        var button = new Button { Text = T(entry.LabelKey), Alignment = HorizontalAlignment.Left, FocusMode = FocusModeEnum.All };
+        var label = entry.TagKey is { } tag ? string.Format(T("combate.menu.com_marca"), T(entry.LabelKey), T(tag)) : T(entry.LabelKey);
+        var button = new Button { Text = label, Alignment = HorizontalAlignment.Left, FocusMode = FocusModeEnum.All };
         foreach (var style in new[] { "normal", "hover", "pressed", "focus", "disabled" })
         {
             button.AddThemeStyleboxOverride(style, new StyleBoxEmpty());
@@ -235,7 +241,9 @@ public partial class ActionMenu : Control
         {
             cursor.Modulate = Colors.White;
             _focusId = entry.Id;
-            DescriptionChanged?.Invoke(entry.DescriptionKey);
+            DescriptionChanged?.Invoke(entry.DescriptionPrefixKey is { } prefix
+                ? string.Format(T("combate.menu.descricao_com_prefixo"), T(prefix), T(entry.DescriptionKey))
+                : T(entry.DescriptionKey));
         };
         button.FocusExited += () => cursor.Modulate = Colors.Transparent;
         button.MouseEntered += button.GrabFocus;

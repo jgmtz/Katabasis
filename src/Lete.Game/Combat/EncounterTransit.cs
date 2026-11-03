@@ -21,9 +21,22 @@ public static class EncounterTransit
         tree.CallDeferred(SceneTree.MethodName.ChangeSceneToFile, BattleScene);
     }
 
-    public static void Return(SceneTree tree)
+    /// <summary>Depois de uma derrota de verdade, a Trívia onde o jogador acorda (o mapa lê uma vez só).</summary>
+    public static string? WakeTrivia { get; private set; }
+
+    /// <summary>Volta ao mapa: no lugar de onde veio ou, derrotado, acordando na Trívia <paramref name="wakeTrivia"/>.</summary>
+    public static void Return(SceneTree tree, string? wakeTrivia = null)
     {
         Pending = null;
+        WakeTrivia = wakeTrivia;
         tree.CallDeferred(SceneTree.MethodName.ChangeSceneToFile, MapScene);
+    }
+
+    /// <summary>A Trívia onde acordar, se houver; lida uma vez.</summary>
+    public static string? TakeWakeTrivia()
+    {
+        var trivia = WakeTrivia;
+        WakeTrivia = null;
+        return trivia;
     }
 }

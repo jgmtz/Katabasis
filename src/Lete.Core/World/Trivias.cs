@@ -46,10 +46,14 @@ public sealed class Trivias
             ? intro.DialogueId
             : null;
 
-    /// <summary>Acende a Trívia (a pé). Falso se já estava acesa.</summary>
+    /// <summary>A Trívia onde o jogador acorda depois de uma derrota (GDD 4.9): a última onde esteve.</summary>
+    public string? WakeTrivia => _state.LastTriviaId;
+
+    /// <summary>Acende a Trívia (a pé). Falso se já estava acesa. Também é a última onde o jogador esteve.</summary>
     public bool Light(string triviaId)
     {
         Get(triviaId);
+        _state.LastTriviaId = triviaId;
         if (!_state.LitTrivias.Add(triviaId))
         {
             return false;
@@ -81,6 +85,7 @@ public sealed class Trivias
         }
 
         _tide.Travel();
+        _state.LastTriviaId = toId;
         _events.Publish(new FastTravelUsed(fromId, toId));
     }
 

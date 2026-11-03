@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 pixelizar.py
-Transforma uma imagem de personagem gerada por IA (em fundo liso) em sprites
+Transforma uma imagem de personagem gerada no Gemini (em fundo liso) em sprites
 pixel art de varios tamanhos e gera folhas para comparar os tamanhos.
 
 Requisitos: Python 3.8+ e Pillow   ->   pip install pillow
@@ -209,7 +209,7 @@ def processar(caminho, args, paleta):
 
 
 def main():
-    p = argparse.ArgumentParser(description="Transforma imagens de IA em sprites pixel art.")
+    p = argparse.ArgumentParser(description="Transforma imagens do Gemini em sprites pixel art.")
     p.add_argument("entradas", nargs="+", help="uma ou mais imagens (png, jpg, webp)")
     p.add_argument("--alturas", type=int, nargs="+", default=[32, 48, 64],
                    help="alturas dos sprites em pixels (padrao: 32 48 64)")

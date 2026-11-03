@@ -4,7 +4,7 @@
 
 ## Parte 1: Protagonista-sombra, 4 origens e 6 companheiros (decisões do João, 26/out/2026)
 
-**Substitui** `entregas/2026-10-25_protagonistas_fixos` (6 protagonistas fixos). Volta à ideia do GDD 2.3 (o protagonista não lembra do próprio rosto), com mudanças. Tudo marcado *(proposta)* foi sugerido pelo Claude e o João aceitou na conversa, mas os detalhes ainda podem mudar. O Claude Code **não deve inventar** o que não está aqui: registrar dúvidas em `docs/PENDENCIAS.md`.
+**Substitui** `entregas/2026-10-25_protagonistas_fixos` (6 protagonistas fixos). Volta à ideia do GDD 2.3 (o protagonista não lembra do próprio rosto), com mudanças. Tudo marcado *(proposta)* foi sugerido e o João aceitou na conversa, mas os detalhes ainda podem mudar. **Não inventar** o que não está aqui: registrar dúvidas em `docs/PENDENCIAS.md`.
 
 ### 1. Elenco
 
@@ -37,7 +37,7 @@ Quando o jogador encontra, conversa, liberta ou viaja com **um espírito nomeado
 
 ### 5. Espíritos nomeados: mínimo de 2 por origem
 
-Existentes: **Remador** (Pescador), **Tecelã** e **Padeiro** (Artesão). Faltam 5 *(ideias do Claude, nome e papel a confirmar pelo João)*:
+Existentes: **Remador** (Pescador), **Tecelã** e **Padeiro** (Artesão). Faltam 5 *(ideias, nome e papel a confirmar pelo João)*:
 
 | Origem | Espírito 1 | Espírito 2 (novo) |
 |---|---|---|
@@ -93,7 +93,7 @@ Fim do jogo: retorna ao reflexo (seção 7).
 
 ## Parte 2: Alterações na programação original (29/out/2026)
 
-Este documento lista o que muda em relação ao que está no GDD, na HISTORIA, na ARTE e na ARQUITETURA, depois das decisões do João em 26/out/2026 e da arte do protagonista-sombra já aprovada. Complementa `../2026-10-26_protagonista_sombra_12-50/PROPOSTA_PROTAGONISTA_SOMBRA.md` (decisões e motivos). **Regra para o Claude Code: não inventar.** O que está marcado *(proposta)* foi sugerido pelo Claude e aceito pelo João, mas os detalhes ainda são abertos; o que está em "Pendências" não deve ser decidido sozinho.
+Este documento lista o que muda em relação ao que está no GDD, na HISTORIA, na ARTE e na ARQUITETURA, depois das decisões do João em 26/out/2026 e da arte do protagonista-sombra já aprovada. Complementa `../2026-10-26_protagonista_sombra_12-50/PROPOSTA_PROTAGONISTA_SOMBRA.md` (decisões e motivos). **Regra: não inventar.** O que está marcado *(proposta)* foi proposto e aceito pelo João, mas os detalhes ainda são abertos; o que está em "Pendências" não deve ser decidido sozinho.
 
 ### 1. Antes e depois
 
@@ -201,7 +201,7 @@ O resultado aparece no inventário (após a etapa 3) e na **cena final diante da
 | `simbolos_origem/` | vara de pesca, cesto de oferendas, ombreira de bronze, pote de barro com espátula | Cartas da escolha de origem; selo pequeno no inventário e no Diário |
 | `originais_antes_da_correcao_rosto/` | 4 imagens | Versões do Gemini antes de apagar os traços do rosto masculino |
 
-**Correção feita pelo Claude:** a frente do corpo masculino e as etapas 1, 2 e 3 vieram com olhos, nariz e boca esboçados no rosto. Eles foram apagados por script (rosto liso, como o do corpo feminino e como no perfil e nas costas masculinos). Os originais estão na pasta de originais.
+**Correção feita:** a frente do corpo masculino e as etapas 1, 2 e 3 vieram com olhos, nariz e boca esboçados no rosto. Eles foram apagados por script (rosto liso, como o do corpo feminino e como no perfil e nas costas masculinos). Os originais estão na pasta de originais.
 
 **Arte do protagonista completa** (8 de mapa/batalha, 10 da Marca, 4 símbolos). Ainda faltam, em outra frente: as sombras novas (5 espíritos nomeados e 6 corpos comuns, 4 imagens cada) e a cena da abertura.
 

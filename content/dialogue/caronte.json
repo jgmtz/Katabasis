@@ -1,6 +1,6 @@
 {
   "id": "caronte",
-  "_rascunho": "Proposta do Claude (31/out/2026, PENDENCIAS 75): falas de rascunho; Caronte e os insepultos sem arte (só a voz).",
+  "_rascunho": "Proposta (31/out/2026, PENDENCIAS 75): falas de rascunho; Caronte e os insepultos sem arte (só a voz). \"Prefiro não saber\" (GDD 2.2) e a pergunta sobre a outra pessoa: 03/nov/2026 (PENDENCIAS 83).",
   "mode": "fixed",
   "speaker_key": "personagem.caronte.nome",
   "start": [
@@ -52,7 +52,18 @@
           "journal_key": "diario.caronte.outra_pessoa"
         }
       ],
-      "next": "preco"
+      "options": [
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.caronte.outra",
+          "next": "outra"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.caronte.nao_saber",
+          "next": "nao_saber"
+        }
+      ]
     },
     {
       "id": "preco",
@@ -121,6 +132,21 @@
       "effects": [
         {
           "flag": "ouviu_dos_insepultos"
+        }
+      ]
+    },
+    {
+      "id": "outra",
+      "line_key": "dlg.caronte.outra.resposta",
+      "next": "preco"
+    },
+    {
+      "id": "nao_saber",
+      "line_key": "dlg.caronte.nao_saber.resposta",
+      "next": "preco",
+      "effects": [
+        {
+          "flag": "preferiu_nao_saber"
         }
       ]
     }

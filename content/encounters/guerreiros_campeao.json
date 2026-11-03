@@ -1,0 +1,22 @@
+{
+  "id": "guerreiros_campeao",
+  "_rascunho": "O Campeão na arena do Campo dos Guerreiros (06/nov/2026, PENDENCIAS 89). Duelo de honra; luta inteira.",
+  "shade": "campeao",
+  "region": "guerreiros",
+  "battle": "campeao",
+  "hecate_key": "encontro.guerreiros_campeao.nota",
+  "actions": [
+    "atacar",
+    "memoria",
+    "aproximar",
+    "escutar",
+    "libertar",
+    "oferenda",
+    "presenciar",
+    "ceder",
+    "absorver",
+    "eco",
+    "bolsa",
+    "fugir"
+  ]
+}
