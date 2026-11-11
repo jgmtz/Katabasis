@@ -24,7 +24,7 @@ Plataforma: Windows, com teclado, mouse e controle. Publicação prevista no itc
 | M1, combate | Concluído |
 | M2, sistemas e dados | Concluído |
 | M3, fatia vertical | Em andamento: Cabo Tênaro, o Aqueronte e Asfódelos jogáveis em blocos |
-| M4, expansão | Em andamento: o Vestíbulo e A Fome, os Atos II e III em blocos, os chefes Cérbero, O Campeão, A Sem-Nome e O Sonho |
+| M4, expansão | Em andamento: o Vestíbulo e A Fome, os Atos II, III e IV em blocos, as seis Memórias Pesadas, os chefes Cérbero, O Campeão, A Sem-Nome, O Sonho, As Fúrias e A Sombra do Esquecido, e o final composto |
 | M5, acabamento | A fazer |
 
 Os detalhes estão em [`docs/BACKLOG.md`](docs/BACKLOG.md), e o que falta, em [`docs/FALTANDO.md`](docs/FALTANDO.md).

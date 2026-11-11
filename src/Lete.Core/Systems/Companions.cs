@@ -133,11 +133,19 @@ public sealed class Companions : IDisposable
             .Where(p => !_state.CompanionHeavyComments.Contains(p.Key) && companion.HeavyKeyFor(p.Value) is not null)
             .Select(p => (Id: p.Key, Key: companion.HeavyKeyFor(p.Value)))
             .FirstOrDefault();
+        // Os capítulos (HISTORIA 5.3) entram uma vez, na ordem, quando a Maré chega ao degrau deles.
+        var chapter = (companion.Chapters ?? Array.Empty<CompanionChapter>())
+            .FirstOrDefault(c => c.TideMin <= _tide.Step && !_state.CompanionChapters.Contains($"{companion.Id}:{c.Id}"));
         string line;
         if (heavy.Key is { } heavyKey)
         {
             _state.CompanionHeavyComments.Add(heavy.Id);
             line = heavyKey;
+        }
+        else if (chapter is not null)
+        {
+            _state.CompanionChapters.Add($"{companion.Id}:{chapter.Id}");
+            line = chapter.Key;
         }
         else
         {

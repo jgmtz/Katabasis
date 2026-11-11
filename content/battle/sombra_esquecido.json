@@ -1,0 +1,62 @@
+{
+  "id": "sombra_esquecido",
+  "_nota": "A Sombra do Esquecido, chefe final (decisão do João, 11/nov/2026: ele mesmo, esquecido; HISTORIA 3.1). Termina pelas quatro respostas do final: combater, libertar (só com A Venda encarada, o nome), absorver ou trocar (também só com A Venda encarada). Luta de chefe (faixas de cinema, câmera aberta).",
+  "framing": "chefe",
+  "layout": {
+    "party": [
+      {
+        "x": -2.46,
+        "y": -2.28
+      },
+      {
+        "x": -1.68,
+        "y": -2.24
+      }
+    ],
+    "enemy": [
+      {
+        "x": 1.08,
+        "y": -1.25
+      }
+    ],
+    "depth_scale": {
+      "_tbd": true,
+      "value": 0.0
+    }
+  },
+  "protagonist": {
+    "id": "sombra_f",
+    "breath": {
+      "_tbd": true,
+      "value": 100
+    },
+    "lucidity": {
+      "_tbd": true,
+      "value": 60
+    }
+  },
+  "shade": "sombra_esquecido",
+  "party": [
+    {
+      "id": "aulo",
+      "pose": "back"
+    },
+    {
+      "id": "sombra_f",
+      "pose": "back"
+    }
+  ],
+  "enemy": [
+    {
+      "id": "esquecido_f",
+      "pose": "front"
+    }
+  ],
+  "styles": [
+    {
+      "id": "pixel_160",
+      "folder": "pixel_160",
+      "filter": "nearest"
+    }
+  ]
+}

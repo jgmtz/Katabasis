@@ -1,0 +1,11 @@
+{
+  "id": "elisios_oferente",
+  "_rascunho": "Camada das sombras da tabela da Maré do Ato IV (11/nov/2026, PENDENCIAS 97; no molde de Tênaro, decisão do João de 06/nov/2026). Corpo comum com arte; falas e números para revisar.",
+  "shade": "oferente",
+  "region": "elisios",
+  "battle": "elisios_oferente",
+  "hecate_key": "encontro.elisios_oferente.nota",
+  "requires": {
+    "tide_min": 4
+  }
+}

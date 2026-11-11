@@ -3,5 +3,32 @@
   "_nota": "O Estige (Ato III, HISTORIA 2): o rio dos juramentos; o primeiro é obrigatório para cruzar, e cruzar é o 3º marco da Maré. Blockout (10/nov/2026, PENDENCIAS 92).",
   "name_key": "regiao.estige.nome",
   "scene": "res://src/Lete.Game/Regions/Estige.tscn",
-  "entry": "ChegadaAsfodelos"
+  "entry": "ChegadaAsfodelos",
+  "_mare": "Tabela da Maré do Ato III (11/nov/2026, PENDENCIAS 96; no molde de Tênaro, decisão do João de 06/nov/2026): o mundo (a frase do Diário e os nós do grupo \"mare\"), as sombras (uma comum nova nas regiões do Ato III) e a teimosia das que ficaram. Ato IV (11/nov/2026, PENDENCIAS 97): degrau 5.",
+  "tide": [
+    {
+      "step": 3,
+      "arrival_key": "mare.estige.3",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.35
+      }
+    },
+    {
+      "step": 4,
+      "arrival_key": "mare.estige.4",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.45
+      }
+    },
+    {
+      "step": 5,
+      "arrival_key": "mare.estige.5",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.55
+      }
+    }
+  ]
 }

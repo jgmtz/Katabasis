@@ -116,6 +116,20 @@ Sombras **comuns** referenciam um `base_body` (um dos 6 corpos-base) e um conjun
 
 **Memória, efeito `gaze` (10/nov/2026):** o Olhar (a Culpa de O Olhar): a força tira Firmeza da sombra e Fôlego do protagonista, na mesma medida; sozinho, deixa pelo menos 1 de Fôlego.
 
+**Memória, efeito `price` (11/nov/2026):** o Preço (a Culpa de A Venda): a força devolve Fôlego ao protagonista, e o próximo apoio do companheiro sai relutante (como uma via que ele reprova).
+
+**Memória, efeitos `lie` e `gulp` (11/nov/2026):** a Mentira (a Culpa de A Mentira): a força devolve Lucidez, e a Marca sobe 1. O Gole (a Culpa de O Gole): a força tira Firmeza da sombra, e a Memória de estágio mais alto do protagonista (nunca uma Culpa) fica esquecida até a Trívia.
+
+**Sombra, campo `reading` (11/nov/2026, as Fúrias):** {`per_heavy_left`, `per_oath_broken` (quanto cada Pesada deixada e cada juramento quebrado somam ao peso dos golpes da sombra), `max_multiplier` (o teto), `read_key` (a frase do começo; com nada contra ele, a mesma chave com `.limpo`)}.
+
+**Sombra, campo `exchange` (11/nov/2026, Trocar):** {`requires` (condição que abre a via), `flag` (fica no mundo ao trocar), `description_key`, `closed_key` (a descrição com a via fechada), `text_keys` (a cena curta)}. A via aparece em Aproximar; trocar termina a luta (como Poupar, mais a flag). O encontro precisa ter `trocar` em `actions`.
+
+**Elenco, campo `mirror_of` (11/nov/2026):** o espelho de um corpo do protagonista (a Sombra do Esquecido): na luta, o lugar dele é do espelho do corpo que o jogador escolheu.
+
+**Efeito de conversa `end_game` (11/nov/2026):** `true`; quando a conversa fecha, o final composto começa (os Portões, ficar nos Elísios, beber do Lete).
+
+**Final composto (`content/rules/final.json`, 11/nov/2026):** `debt_shade` (a sombra da dívida), `exchange_flag`, `horn_flag`, `ivory_flag`, `stay_elysium_flag`, `stay_lethe_flag`. As regras ficam em `Lete.Core/Systems/Ending.cs`; os cartões são chaves `final.*`.
+
 ## 3. Lembrança (`content/recollections/<id>.json`)
 
 ```json

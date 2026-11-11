@@ -125,6 +125,7 @@ public static class SaveGame
             ["encontros"] = Array(state.Encounters.OrderBy(e => e, StringComparer.Ordinal)),
             ["atalhos"] = Array(state.OpenShortcuts.OrderBy(s => s, StringComparer.Ordinal)),
             ["pesadas_comentadas"] = Array(state.CompanionHeavyComments.OrderBy(s => s, StringComparer.Ordinal)),
+            ["capitulos_companheiro"] = Array(state.CompanionChapters.OrderBy(s => s, StringComparer.Ordinal)),
             ["companheiros_conhecidos"] = Array(state.MetCompanions.OrderBy(c => c, StringComparer.Ordinal)),
             ["missoes"] = new JsonObject(state.Missions
                 .OrderBy(p => p.Key, StringComparer.Ordinal)
@@ -343,6 +344,7 @@ public static class SaveGame
         state.Encounters.UnionWith(Strings(json, "encontros"));
         state.OpenShortcuts.UnionWith(Strings(json, "atalhos"));
         state.CompanionHeavyComments.UnionWith(Strings(json, "pesadas_comentadas"));
+        state.CompanionChapters.UnionWith(Strings(json, "capitulos_companheiro"));
         state.MetCompanions.UnionWith(Strings(json, "companheiros_conhecidos"));
         if (json["missoes"] is JsonObject missions)
         {

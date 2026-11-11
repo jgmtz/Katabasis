@@ -4,7 +4,7 @@
   "name_key": "regiao.aqueronte.nome",
   "scene": "res://src/Lete.Game/Regions/Aqueronte.tscn",
   "entry": "ChegadaVestibulo",
-  "_mare": "Tabela da Maré (decisão do João, 06/nov/2026: no molde de Tênaro; rascunho, PENDENCIAS 89): o mundo (a frase do Diário e os nós do grupo \"mare\"), as sombras (uma comum nova) e a teimosia das que ficaram sem resolver.",
+  "_mare": "Tabela da Maré (decisão do João, 06/nov/2026: no molde de Tênaro; rascunho, PENDENCIAS 89): o mundo (a frase do Diário e os nós do grupo \"mare\"), as sombras (uma comum nova) e a teimosia das que ficaram sem resolver. Ato III (11/nov/2026, PENDENCIAS 96): degraus novos. Ato IV (11/nov/2026, PENDENCIAS 97): degrau 4.",
   "tide": [
     {
       "step": 1,
@@ -20,6 +20,22 @@
       "stubborn": {
         "_tbd": true,
         "value": 0.25
+      }
+    },
+    {
+      "step": 3,
+      "arrival_key": "mare.aqueronte.3",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.35
+      }
+    },
+    {
+      "step": 4,
+      "arrival_key": "mare.aqueronte.4",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.45
       }
     }
   ]

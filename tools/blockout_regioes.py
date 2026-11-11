@@ -56,6 +56,9 @@ HEADER_EXT = [
     ('Texture2D', 'res://art/sprites/sombras/sem_nome/parado_3q/64px/sem_nome_parado_3q_esq.png', '39_sem_nome'),
     # Ato III (10/nov/2026): o Sonho.
     ('Texture2D', 'res://art/sprites/sombras/sonho/parado_3q/64px/sonho_parado_3q_esq.png', '40_sonho'),
+    # Ato IV (11/nov/2026): as Fúrias e a Sombra do Esquecido (provisória: o protagonista de costas, indo embora).
+    ('Texture2D', 'res://art/sprites/sombras/furias_alecto/parado_3q/64px/furias_alecto_parado_3q_esq.png', '41_furias'),
+    ('Texture2D', 'res://art/sprites/protagonista/sombra_m/parado/sombra_m_parado_costas.png', '42_esquecido'),
 ]
 
 
@@ -758,8 +761,11 @@ e.talkable('Estige', (0, 0, -3), 'estige')
 e.exit('ParaPalacio', (0, 1, -4.8), (3, 2, 0.8), 'palacio', 'ChegadaEstige', path_key='estige',
        blocked='obj.estige.travessia.fechada', milestone='cruzar_estige')
 e.trivia('Trivia', (7, 0, 6), 'trivia_estige')
+# Maré do Ato III (11/nov/2026, PENDENCIAS 96): o rio sobe até a margem; o desertor caminha por ela.
+e.water('MargemMare4', (22, 0.05, 1.6), (0, 0.025, -3.9), tide_min=4)
+e.wanderer('SombraDesertor', (-6, 0, 2), 'estige_desertor', 'desertor', (0, 0, 5))
 e.light('LuzRio', (0, 3, -6), '0.55, 0.6, 0.75, 1', 0.7, 14)
-e.markers({'ChegadaAsfodelos': (0, 0, 10.5), 'ChegadaPalacio': (0, 0, -1), 'Estige': (0, 0, -1.6), 'Trivia': (5.5, 0, 6),
+e.markers({'ChegadaAsfodelos': (0, 0, 10.5), 'ChegadaPalacio': (0, 0, -1), 'Estige': (0, 0, -1.6), 'Trivia': (5.5, 0, 6), 'Desertor': (-6, 0, 2),
            'AtravessarPalacio': (0, 0, -4.8), 'AtravessarAsfodelos': (0, 0, 13.4)}, player=(0, 0, 10.5))
 e.write('Estige.tscn')
 
@@ -778,13 +784,20 @@ pa.column('Romanzeira', (-6, 0, 2), height=1.8, radius=0.6)
 pa.examinable('Roma', (-4.6, 0, 2.5), 'obj.palacio.roma')
 pa.box('PedraAscalafo', (1.6, 0.8, 1.6), (-8, 0.4, 9), 'Mat_parede')
 pa.talkable('Ascalafo', (-6.6, 0, 9), 'ascalafo')
+# A Venda (3ª Pesada; decisão do João, 11/nov/2026): aflora diante do trono, depois da audiência com Hades.
+pa.heavy_place('PesadaVenda', (2, 0, -7.4), 'a_venda')
+# O capítulo 3 das origens (Prova, 11/nov/2026, PENDENCIAS 99): a mesa do pacto, ao lado do estrado.
+pa.box('MesaPacto', (1.8, 0.9, 1), (-3.5, 0.45, -8.5), 'Mat_terracota')
+pa.talkable('Prova', (-3.5, 0, -7.4), 'prova')
 pa.exit('ParaHipno', (11, 1, 0), (0.8, 2, 3), 'hipno', 'ChegadaPalacio', path_key='palacio_descida',
         blocked='obj.palacio.descida.fechada')
 pa.trivia('Trivia', (7, 0, 6), 'trivia_palacio')
+# Maré do Ato III (11/nov/2026, PENDENCIAS 96): o sacristão vaga pelos corredores, acendendo lamparinas.
+pa.wanderer('SombraSacristao', (6, 0, -3), 'palacio_sacristao', 'sacristao', (0, 0, 6))
 pa.light('LuzTronos', (2, 3, -9), '0.85, 0.55, 0.45, 1', 1.0, 12)
 pa.light('LuzJardim', (-6, 3, 5), '0.6, 0.7, 0.55, 1', 0.8, 12)
 pa.markers({'ChegadaEstige': (0, 0, 10.5), 'ChegadaHipno': (9, 0, 0), 'Hades': (0.5, 0, -8), 'Persefone': (3.5, 0, -8),
-            'Ascalafo': (-5.5, 0, 9), 'Trivia': (5.5, 0, 6), 'AtravessarHipno': (11, 0, 0), 'AtravessarEstige': (0, 0, 13.4)},
+            'Ascalafo': (-5.5, 0, 9), 'PesadaVenda': (2, 0, -6.4), 'Sacristao': (6, 0, -3), 'Prova': (-3.5, 0, -6.4), 'Trivia': (5.5, 0, 6), 'AtravessarHipno': (11, 0, 0), 'AtravessarEstige': (0, 0, 13.4)},
            player=(0, 0, 10.5))
 pa.write('Palacio.tscn')
 # A volta do Palácio vai ao Estige, do lado de cá do rio (o marcador ChegadaPalacio de lá).
@@ -804,11 +817,20 @@ h.examinable('Agua', (9, 0, 9), 'obj.hipno.agua', flag='mnemosine_achada')
 h.exit('ParaMnemosine', (11, 1, 9), (0.8, 2, 3), 'mnemosine', 'ChegadaHipno', blocked='obj.hipno.agua.fechada',
        condition={'flag': 'mnemosine_achada'})
 h.trivia('Trivia', (-8, 0, -10), 'trivia_hipno')
+# Ato IV (11/nov/2026, PENDENCIAS 97): depois do Sonho, o caminho segue ao norte, para a bifurcação (4º marco da Maré).
+h.exit('ParaBifurcacao', (9, 1, -12.6), (3, 2, 1), 'bifurcacao', 'ChegadaHipno', blocked='obj.hipno.bifurcacao.fechada',
+       milestone='bifurcacao',
+       condition={'any': [{'shade_state': {'id': 'sonho', 'state': s}} for s in ('destroyed', 'seen', 'absorbed', 'spared')]})
+# Maré do Ato III (11/nov/2026, PENDENCIAS 96): as papoulas sobem; o trombeteiro dorme em pé entre elas.
+for i, (x, z) in enumerate(((-4, -2), (3, 7), (7, -1))):
+    h.box(f'PapoulaMare{i + 1}', (1.2, 0.6, 1.2), (x, 0.3, z), 'Mat_terracota', tide_min=4)
+h.wanderer('SombraTrombeteiro', (4, 0, 4), 'hipno_trombeteiro', 'trombeteiro', (-5, 0, 0))
 h.light('LuzPapoulas', (0, 3, 0), '0.7, 0.55, 0.8, 1', 0.9, 16)
 h.light('LuzSonho', (0, 3, -8), '0.6, 0.65, 0.85, 1', 0.8, 10)
 h.markers({'ChegadaPalacio': (0, 0, 10.5), 'ChegadaMnemosine': (9, 0, 7), 'Hipno': (-5, 0, -4.8), 'Sonho': (0, 0, -9),
-           'Tanato': (6, 0, -5.8), 'PesadaOlhar': (-6, 0, 7), 'Agua': (8, 0, 8), 'Trivia': (-6.5, 0, -10),
-           'AtravessarMnemosine': (11, 0, 9), 'AtravessarPalacio': (0, 0, 13.4)}, player=(0, 0, 10.5))
+           'Tanato': (6, 0, -5.8), 'PesadaOlhar': (-6, 0, 7), 'Trombeteiro': (4, 0, 4), 'Agua': (8, 0, 8), 'Trivia': (-6.5, 0, -10),
+           'AtravessarMnemosine': (11, 0, 9), 'AtravessarPalacio': (0, 0, 13.4),
+           'ChegadaBifurcacao': (9, 0, -10.5), 'AtravessarBifurcacao': (9, 0, -12.6)}, player=(0, 0, 10.5))
 h.write('Hipno.tscn')
 
 # Mnemósine (secreta): duas fontes iguais; a do cipreste branco (a do Lete, à esquerda) e a fria, com os guardiões.
@@ -825,4 +847,79 @@ m.light('LuzFontes', (0, 3, -5), '0.6, 0.75, 0.85, 1', 1.0, 16)
 m.markers({'ChegadaHipno': (0, 0, 10.5), 'FonteLete': (-5, 0, -2.6), 'FonteMnemosine': (5, 0, -1.6), 'Tabuinha': (0, 0, 3.5),
            'AtravessarHipno': (0, 0, 13.4)}, player=(0, 0, 10.5))
 m.write('Mnemosine.tscn')
+# ---- Ato IV (11/nov/2026, PENDENCIAS 97; decisões do João na PENDENCIAS 94; blocos para revisar) ----
+# A bifurcação: à esquerda o Tártaro, à direita os Elísios; o caminho do meio desce ao Vale do Lete, aberto quando os dois
+# lados foram vistos e com a Chave de Memória (5º marco da Maré).
+bi = ato2('Bifurcacao', '0.38, 0.36, 0.4, 1', '0.3, 0.28, 0.32, 1', 0.5, 'ChegadaBifurcacao', 'hipno')
+bi.examinable('Caminhos', (0, 0, -3), 'obj.bifurcacao.caminhos')
+bi.box('MuroFogo', (1, 2.4, 6), (-9.5, 1.2, -6), 'Mat_terracota')
+bi.column('ArvoreClara', (9, 0, -6), height=2.8, radius=0.5)
+bi.exit('ParaTartaro', (-11, 1, 0), (0.8, 2, 3), 'tartaro', 'ChegadaBifurcacao')
+bi.exit('ParaElisios', (11, 1, 0), (0.8, 2, 3), 'elisios', 'ChegadaBifurcacao')
+bi.exit('ParaLete', (0, 1, -12.6), (3, 2, 1), 'vale_lete', 'ChegadaBifurcacao', path_key='vale_do_lete',
+        blocked='obj.bifurcacao.lete.fechado', milestone='vale_do_lete',
+        condition={'all': [{'region_visited': 'tartaro'}, {'region_visited': 'elisios'}]})
+bi.trivia('Trivia', (7, 0, 6), 'trivia_bifurcacao')
+bi.markers({'ChegadaHipno': (0, 0, 10.5), 'ChegadaTartaro': (-9, 0, 0), 'ChegadaElisios': (9, 0, 0), 'ChegadaLete': (0, 0, -10.5),
+            'Caminhos': (0, 0, -1.8), 'Trivia': (5.5, 0, 6), 'AtravessarTartaro': (-11, 0, 0), 'AtravessarElisios': (11, 0, 0),
+            'AtravessarLete': (0, 0, -12.6), 'AtravessarHipno': (0, 0, 13.4)}, player=(0, 0, 10.5))
+bi.write('Bifurcacao.tscn')
+
+# O Tártaro: o Flegetonte (fogo) atravessa o campo; os condenados; no portão de ferro, as Fúrias.
+ta = ato2('Tartaro', '0.5, 0.3, 0.26, 1', '0.4, 0.2, 0.16, 1', 0.3, 'ChegadaTartaro', 'bifurcacao')
+ta.box('Flegetonte', (22, 0.06, 2.4), (0, 0.03, 1), 'Mat_terracota', collide=False)
+ta.box('Portao', (6, 3.5, 0.6), (0, 1.75, -12.6))
+ta.encounter('Furias', (0, 0, -9.5), 'tartaro_furias', texture='41_furias')
+ta.examinable('Sisifo', (-7, 0, -5), 'obj.tartaro.sisifo')
+ta.box('PedraSisifo', (1.4, 1.4, 1.4), (-8, 0.7, -6.5), 'Mat_parede')
+ta.examinable('Tantalo', (7, 0, -5), 'obj.tartaro.tantalo')
+ta.examinable('Danaides', (-7, 0, 6), 'obj.tartaro.danaides')
+ta.wanderer('SombraAncora', (5, 0, 5), 'tartaro_ancora', 'ancora', (-6, 0, 0))
+ta.trivia('Trivia', (7, 0, 8), 'trivia_tartaro')
+ta.light('LuzFogo', (0, 3, 1), '1, 0.45, 0.2, 1', 1.4, 14)
+ta.markers({'ChegadaBifurcacao': (0, 0, 10.5), 'Furias': (0, 0, -8), 'Sisifo': (-7, 0, -4), 'Tantalo': (7, 0, -4),
+            'Danaides': (-7, 0, 7), 'Ancora': (5, 0, 5), 'Trivia': (5.5, 0, 8), 'AtravessarBifurcacao': (0, 0, 13.4)},
+           player=(0, 0, 10.5))
+ta.write('Tartaro.tscn')
+
+# Os Campos Elísios: luz baixa e dourada; Anquises (só a voz) à beira do rio onde as almas bebem para voltar; A Mentira.
+el = ato2('Elisios', '0.6, 0.58, 0.48, 1', '0.5, 0.48, 0.38, 1', 0.8, 'ChegadaElisios', 'bifurcacao')
+for i, (x, z) in enumerate(((-8, -6), (-4, 6), (6, -9), (8, 4), (-8, 9))):
+    el.column(f'Loureiro{i + 1}', (x, 0, z), height=2.6, radius=0.5)
+el.water('RioAlmas', (8, 0.04, 2.4), (4, 0.02, -7))
+el.examinable('Almas', (4, 0, -5), 'obj.elisios.almas')
+el.talkable('Anquises', (-2, 0, -5), 'anquises')
+el.heavy_place('PesadaMentira', (-5, 0, 1), 'a_mentira')
+el.wanderer('SombraOferente', (3, 0, 4), 'elisios_oferente', 'oferente', (-5, 0, 0))
+el.trivia('Trivia', (7, 0, 8), 'trivia_elisios')
+el.markers({'ChegadaBifurcacao': (0, 0, 10.5), 'Anquises': (-2, 0, -3.8), 'Almas': (4, 0, -4), 'PesadaMentira': (-5, 0, 2),
+            'Oferente': (3, 0, 4), 'Trivia': (5.5, 0, 8), 'AtravessarBifurcacao': (0, 0, 13.4)}, player=(0, 0, 10.5))
+el.write('Elisios.tscn')
+
+# O Vale do Lete: o rio do esquecimento; a Cadeira do Esquecimento (O Gole); no fundo, a Sombra do Esquecido; depois
+# dela, os Portões.
+vl = ato2('ValeLete', '0.34, 0.38, 0.44, 1', '0.3, 0.34, 0.4, 1', 0.4, 'ChegadaLete', 'bifurcacao')
+vl.water('Lete', (22, 0.04, 3), (0, 0.02, -4))
+vl.box('Cadeira', (1.2, 1.4, 1.2), (-6, 0.7, 2), 'Mat_parede')
+vl.talkable('CadeiraEsquecimento', (-4.6, 0, 2.5), 'cadeira')
+vl.heavy_place('PesadaGole', (-6, 0, 4), 'o_gole')
+vl.encounter('SombraEsquecido', (0, 0, -9), 'lete_sombra', texture='42_esquecido')
+# O capítulo 4 das origens (Acerto, PENDENCIAS 99): na margem, entre as Sem-Nome, a pessoa que ele traiu.
+vl.talkable('Acerto', (6, 0, -1.5), 'acerto', idle='sem_nome')
+vl.exit('ParaPortoes', (0, 1, -12.6), (3, 2, 1), 'portoes', 'ChegadaLete', blocked='obj.lete.portoes.fechados',
+        condition={'any': [{'flag': 'trocou_lugar'}] + [{'shade_state': {'id': 'sombra_esquecido', 'state': s}}
+                                                         for s in ('destroyed', 'freed', 'absorbed')]})
+vl.trivia('Trivia', (7, 0, 8), 'trivia_lete')
+vl.markers({'ChegadaBifurcacao': (0, 0, 10.5), 'ChegadaPortoes': (0, 0, -10.5), 'Cadeira': (-4.6, 0, 3.6),
+            'PesadaGole': (-6, 0, 5), 'Sombra': (0, 0, -9), 'Acerto': (6, 0, -0.4), 'Trivia': (5.5, 0, 8), 'AtravessarPortoes': (0, 0, -12.6),
+            'AtravessarBifurcacao': (0, 0, 13.4)}, player=(0, 0, 10.5))
+vl.write('ValeLete.tscn')
+
+# Os Portões: dois portões iguais na forma, um de chifre (fosco) e um de marfim (que brilha).
+po = ato2('Portoes', '0.36, 0.36, 0.4, 1', '0.28, 0.28, 0.32, 1', 0.6, 'ChegadaPortoes', 'vale_lete')
+po.box('PortaoChifre', (3, 4, 0.6), (-4, 2, -11), 'Mat_terracota')
+po.box('PortaoMarfim', (3, 4, 0.6), (4, 2, -11), 'Mat_parede')
+po.talkable('Portoes', (0, 0, -8), 'portoes')
+po.markers({'ChegadaLete': (0, 0, 10.5), 'Portoes': (0, 0, -6.8), 'AtravessarLete': (0, 0, 13.4)}, player=(0, 0, 10.5))
+po.write('Portoes.tscn')
 print('ok')

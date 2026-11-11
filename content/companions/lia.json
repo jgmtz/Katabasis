@@ -18,7 +18,7 @@
     "spare": "tolerate"
   },
   "reluctant_key": "companheiro.lia.relutante",
-  "_capitulos": "Versão reduzida (decisão do João, 03/nov/2026): 3 capítulos e a oferta no portão. O capítulo 1 (Vínculo: por que ela está ali) é a segunda conversa da Trívia; os capítulos 2 e 3 entram no M4 (HISTORIA 5.2 e 5.3). Rascunho, 05/nov/2026 (PENDENCIAS 85).",
+  "_capitulos": "Capítulos dos Atos III e IV (HISTORIA 5.3; rascunho, 11/nov/2026, PENDENCIAS 100): conversas de Trívia que entram uma vez, a partir do degrau da Maré.",
   "talk_keys": [
     "companheiro.lia.conversa.1",
     "companheiro.lia.capitulo.1",
@@ -28,5 +28,17 @@
   "heavy_keys": {
     "face": "companheiro.lia.pesada.encarou",
     "leave": "companheiro.lia.pesada.deixou"
-  }
+  },
+  "chapters": [
+    {
+      "id": "vinculo",
+      "tide_min": 3,
+      "key": "companheiro.lia.cap.vinculo"
+    },
+    {
+      "id": "segredo",
+      "tide_min": 4,
+      "key": "companheiro.lia.cap.segredo"
+    }
+  ]
 }

@@ -1,0 +1,22 @@
+{
+  "id": "artesao_acerto",
+  "_rascunho": "Capítulo 4 (Acerto) da cadeia de origem artesao: a pessoa sem nome no Vale do Lete; a escolha vira um cartão do final. Rascunho (11/nov/2026, PENDENCIAS 99), na direção decidida pelo João em 11/nov/2026 (PENDENCIAS 94, item 6) e na tabela da HISTORIA 4.1.",
+  "type": "origin",
+  "hook": {
+    "all": [
+      {
+        "origin": "artesao"
+      },
+      {
+        "region_visited": "vale_lete"
+      }
+    ]
+  },
+  "stages": [
+    {
+      "when": {
+        "flag": "acerto_feito"
+      }
+    }
+  ]
+}

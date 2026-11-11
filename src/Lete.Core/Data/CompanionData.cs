@@ -54,6 +54,10 @@ public static class CompanionData
                         var other => throw new FormatException($"Companheiro '{id}': heavy_keys.{other} (use face ou leave)."),
                     },
                     p => p.Value.GetString() ?? "")
+                : null,
+            root.TryGetProperty("chapters", out var chapters)
+                ? chapters.EnumerateArray().Select(c => new CompanionChapter(
+                    String(c, "id"), (int)TbdNumber.Read(c, "tide_min"), String(c, "key"))).ToList()
                 : null);
         var errors = companion.Validate().ToList();
         return errors.Count == 0 ? companion : throw new FormatException($"Companheiro '{id}': {string.Join(" ", errors)}");

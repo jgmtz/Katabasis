@@ -49,6 +49,9 @@ public partial class ActionMenu : Control
     /// <summary>A opção selecionada mudou: o texto da descrição (já traduzido).</summary>
     public event Action<string>? DescriptionChanged;
 
+    /// <summary>A opção com o cursor mudou (id).</summary>
+    public event Action<string>? FocusChanged;
+
     /// <summary>A caixa mudou de tamanho ou de lugar (para o retrato acompanhar).</summary>
     public event Action? Relaid;
 
@@ -242,6 +245,7 @@ public partial class ActionMenu : Control
         {
             cursor.Modulate = Colors.White;
             _focusId = entry.Id;
+            FocusChanged?.Invoke(entry.Id);
             var description = entry.DescriptionArgKey is { } arg ? string.Format(T(entry.DescriptionKey), T(arg)) : T(entry.DescriptionKey);
             DescriptionChanged?.Invoke(entry.DescriptionPrefixKey is { } prefix
                 ? string.Format(T("combate.menu.descricao_com_prefixo"), T(prefix), description)

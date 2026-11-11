@@ -1,0 +1,26 @@
+{
+  "id": "bifurcacao",
+  "_nota": "A bifurcação (Ato IV): à esquerda o Tártaro, à direita os Elísios; o caminho do meio desce ao Vale do Lete. Blockout (1/nov/2026, PENDENCIAS 97), nas direções decididas pelo João em 11/nov/2026 (PENDENCIAS 94)).",
+  "name_key": "regiao.bifurcacao.nome",
+  "scene": "res://src/Lete.Game/Regions/Bifurcacao.tscn",
+  "entry": "ChegadaHipno",
+  "_mare": "Tabela da Maré do Ato IV (11/nov/2026, PENDENCIAS 97; no molde de Tênaro, decisão do João de 06/nov/2026).",
+  "tide": [
+    {
+      "step": 4,
+      "arrival_key": "mare.bifurcacao.4",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.45
+      }
+    },
+    {
+      "step": 5,
+      "arrival_key": "mare.bifurcacao.5",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.55
+      }
+    }
+  ]
+}

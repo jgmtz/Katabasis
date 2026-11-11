@@ -1,0 +1,26 @@
+{
+  "id": "tartaro",
+  "_nota": "O Tártaro (Ato IV): o Flegetonte, os condenados e, no portão, as Fúrias. Blockout (1/nov/2026, PENDENCIAS 97), nas direções decididas pelo João em 11/nov/2026 (PENDENCIAS 94)).",
+  "name_key": "regiao.tartaro.nome",
+  "scene": "res://src/Lete.Game/Regions/Tartaro.tscn",
+  "entry": "ChegadaBifurcacao",
+  "_mare": "Tabela da Maré do Ato IV (11/nov/2026, PENDENCIAS 97; no molde de Tênaro, decisão do João de 06/nov/2026).",
+  "tide": [
+    {
+      "step": 4,
+      "arrival_key": "mare.tartaro.4",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.45
+      }
+    },
+    {
+      "step": 5,
+      "arrival_key": "mare.tartaro.5",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.55
+      }
+    }
+  ]
+}

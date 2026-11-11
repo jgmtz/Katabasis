@@ -96,8 +96,16 @@ public partial class BattleStage : Node3D
             };
         }
 
+        // O espelho do protagonista (a Sombra do Esquecido, 11/nov/2026): o lugar dela é do corpo que o jogador escolheu.
+        BattleActorArt Mirrored(BattleActorArt enemy) =>
+            state.ProtagonistId is { } self && Cast.TryGetValue(enemy.Id, out var m) && m.MirrorOf is not null && m.MirrorOf != self
+            && Cast.Values.FirstOrDefault(o => o.MirrorOf == self) is { } own
+                ? own.AsActor(back: false)
+                : enemy;
+
         return setup with
         {
+            Enemies = setup.Enemies.Select(Mirrored).ToList(),
             Party = setup.Party.Select(a => Cast.TryGetValue(a.Id, out var m) ? m.Kind switch
             {
                 CastKind.Companion => companion ?? a,

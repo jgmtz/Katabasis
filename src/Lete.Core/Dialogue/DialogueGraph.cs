@@ -122,5 +122,8 @@ public sealed record AcquireItem(string ItemId) : DialogueEffect;
 /// <summary>Bebe da fonte de Mnemósine: toda Lembrança com fonte do tipo <c>mnemosyne</c> a ouve (confirma as incertas e dá as novas).</summary>
 public sealed record DrinkMnemosyne : DialogueEffect;
 
+/// <summary>Termina o jogo: quando a conversa fecha, o final composto começa (os Portões, ficar nos Elísios, beber do Lete).</summary>
+public sealed record EndGame : DialogueEffect;
+
 /// <summary>Uma Memória fica esquecida até a Trívia (beber da fonte errada); a escolha está em <see cref="Combat.MemoryForgetting"/>.</summary>
 public sealed record ForgetMemory : DialogueEffect;

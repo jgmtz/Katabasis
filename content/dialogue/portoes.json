@@ -1,0 +1,448 @@
+{
+  "id": "portoes",
+  "_rascunho": "Os Portões (HISTORIA 3: o de chifre deixa passar os sonhos verdadeiros, o de marfim os falsos; o jogador nunca tem certeza). Escolher um é o fim; quem trocou de lugar só vê ela passar. Rascunho (11/nov/2026, PENDENCIAS 97), nas direções decididas pelo João em 11/nov/2026 (PENDENCIAS 94). A Pergunta do companheiro (capítulo 4, HISTORIA 5.3) vem antes dos portões; com vínculo máximo, ele oferece tomar o lugar dela (5.4): aceitar repete o ato; recusar é a prova de que você mudou (PENDENCIAS 100).",
+  "mode": "fixed",
+  "speaker_key": "personagem.portoes.nome",
+  "start": [
+    "trocou",
+    "pergunta_aulo",
+    "pergunta_ismena",
+    "pergunta_dimas",
+    "pergunta_septimia",
+    "pergunta_calias",
+    "pergunta_lia",
+    "escolha"
+  ],
+  "nodes": [
+    {
+      "id": "trocou",
+      "when": {
+        "flag": "trocou_lugar"
+      },
+      "line_key": "dlg.portoes.trocou",
+      "options": [
+        {
+          "posture": "calar",
+          "text_key": "dlg.portoes.ver_passar",
+          "next": "passou"
+        }
+      ]
+    },
+    {
+      "id": "passou",
+      "line_key": "dlg.portoes.passou",
+      "effects": [
+        {
+          "end_game": true
+        }
+      ]
+    },
+    {
+      "id": "escolha",
+      "line_key": "dlg.portoes.primeira",
+      "options": [
+        {
+          "posture": "escutar",
+          "text_key": "dlg.portoes.chifre",
+          "next": "chifre"
+        },
+        {
+          "posture": "escutar",
+          "text_key": "dlg.portoes.marfim",
+          "next": "marfim"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.portoes.esperar",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "chifre",
+      "line_key": "dlg.portoes.passa_chifre",
+      "effects": [
+        {
+          "flag": "portao_chifre"
+        },
+        {
+          "end_game": true
+        }
+      ]
+    },
+    {
+      "id": "marfim",
+      "line_key": "dlg.portoes.passa_marfim",
+      "effects": [
+        {
+          "flag": "portao_marfim"
+        },
+        {
+          "end_game": true
+        }
+      ]
+    },
+    {
+      "id": "pergunta_aulo",
+      "when": {
+        "all": [
+          {
+            "companion": "aulo"
+          },
+          {
+            "not": {
+              "flag": "pergunta_feita"
+            }
+          }
+        ]
+      },
+      "line_key": "dlg.portoes.pergunta.aulo",
+      "effects": [
+        {
+          "flag": "pergunta_feita"
+        }
+      ],
+      "options": [
+        {
+          "posture": "consolar",
+          "text_key": "dlg.portoes.responder",
+          "next": "oferta_aulo",
+          "requires": {
+            "bond_min": 10
+          }
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.portoes.responder",
+          "next": "escolha",
+          "requires": {
+            "not": {
+              "bond_min": 10
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "oferta_aulo",
+      "line_key": "dlg.portoes.oferta.aulo",
+      "options": [
+        {
+          "posture": "calar",
+          "text_key": "dlg.portoes.oferta.aceitar",
+          "next": "aceitou"
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.portoes.oferta.recusar",
+          "next": "recusou"
+        }
+      ]
+    },
+    {
+      "id": "pergunta_ismena",
+      "when": {
+        "all": [
+          {
+            "companion": "ismena"
+          },
+          {
+            "not": {
+              "flag": "pergunta_feita"
+            }
+          }
+        ]
+      },
+      "line_key": "dlg.portoes.pergunta.ismena",
+      "effects": [
+        {
+          "flag": "pergunta_feita"
+        }
+      ],
+      "options": [
+        {
+          "posture": "consolar",
+          "text_key": "dlg.portoes.responder",
+          "next": "oferta_ismena",
+          "requires": {
+            "bond_min": 10
+          }
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.portoes.responder",
+          "next": "escolha",
+          "requires": {
+            "not": {
+              "bond_min": 10
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "oferta_ismena",
+      "line_key": "dlg.portoes.oferta.ismena",
+      "options": [
+        {
+          "posture": "calar",
+          "text_key": "dlg.portoes.oferta.aceitar",
+          "next": "aceitou"
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.portoes.oferta.recusar",
+          "next": "recusou"
+        }
+      ]
+    },
+    {
+      "id": "pergunta_dimas",
+      "when": {
+        "all": [
+          {
+            "companion": "dimas"
+          },
+          {
+            "not": {
+              "flag": "pergunta_feita"
+            }
+          }
+        ]
+      },
+      "line_key": "dlg.portoes.pergunta.dimas",
+      "effects": [
+        {
+          "flag": "pergunta_feita"
+        }
+      ],
+      "options": [
+        {
+          "posture": "consolar",
+          "text_key": "dlg.portoes.responder",
+          "next": "oferta_dimas",
+          "requires": {
+            "bond_min": 10
+          }
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.portoes.responder",
+          "next": "escolha",
+          "requires": {
+            "not": {
+              "bond_min": 10
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "oferta_dimas",
+      "line_key": "dlg.portoes.oferta.dimas",
+      "options": [
+        {
+          "posture": "calar",
+          "text_key": "dlg.portoes.oferta.aceitar",
+          "next": "aceitou"
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.portoes.oferta.recusar",
+          "next": "recusou"
+        }
+      ]
+    },
+    {
+      "id": "pergunta_septimia",
+      "when": {
+        "all": [
+          {
+            "companion": "septimia"
+          },
+          {
+            "not": {
+              "flag": "pergunta_feita"
+            }
+          }
+        ]
+      },
+      "line_key": "dlg.portoes.pergunta.septimia",
+      "effects": [
+        {
+          "flag": "pergunta_feita"
+        }
+      ],
+      "options": [
+        {
+          "posture": "consolar",
+          "text_key": "dlg.portoes.responder",
+          "next": "oferta_septimia",
+          "requires": {
+            "bond_min": 10
+          }
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.portoes.responder",
+          "next": "escolha",
+          "requires": {
+            "not": {
+              "bond_min": 10
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "oferta_septimia",
+      "line_key": "dlg.portoes.oferta.septimia",
+      "options": [
+        {
+          "posture": "calar",
+          "text_key": "dlg.portoes.oferta.aceitar",
+          "next": "aceitou"
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.portoes.oferta.recusar",
+          "next": "recusou"
+        }
+      ]
+    },
+    {
+      "id": "pergunta_calias",
+      "when": {
+        "all": [
+          {
+            "companion": "calias"
+          },
+          {
+            "not": {
+              "flag": "pergunta_feita"
+            }
+          }
+        ]
+      },
+      "line_key": "dlg.portoes.pergunta.calias",
+      "effects": [
+        {
+          "flag": "pergunta_feita"
+        }
+      ],
+      "options": [
+        {
+          "posture": "consolar",
+          "text_key": "dlg.portoes.responder",
+          "next": "oferta_calias",
+          "requires": {
+            "bond_min": 10
+          }
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.portoes.responder",
+          "next": "escolha",
+          "requires": {
+            "not": {
+              "bond_min": 10
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "oferta_calias",
+      "line_key": "dlg.portoes.oferta.calias",
+      "options": [
+        {
+          "posture": "calar",
+          "text_key": "dlg.portoes.oferta.aceitar",
+          "next": "aceitou"
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.portoes.oferta.recusar",
+          "next": "recusou"
+        }
+      ]
+    },
+    {
+      "id": "pergunta_lia",
+      "when": {
+        "all": [
+          {
+            "companion": "lia"
+          },
+          {
+            "not": {
+              "flag": "pergunta_feita"
+            }
+          }
+        ]
+      },
+      "line_key": "dlg.portoes.pergunta.lia",
+      "effects": [
+        {
+          "flag": "pergunta_feita"
+        }
+      ],
+      "options": [
+        {
+          "posture": "consolar",
+          "text_key": "dlg.portoes.responder",
+          "next": "oferta_lia",
+          "requires": {
+            "bond_min": 10
+          }
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.portoes.responder",
+          "next": "escolha",
+          "requires": {
+            "not": {
+              "bond_min": 10
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "oferta_lia",
+      "line_key": "dlg.portoes.oferta.lia",
+      "options": [
+        {
+          "posture": "calar",
+          "text_key": "dlg.portoes.oferta.aceitar",
+          "next": "aceitou"
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.portoes.oferta.recusar",
+          "next": "recusou"
+        }
+      ]
+    },
+    {
+      "id": "aceitou",
+      "line_key": "dlg.portoes.aceitou",
+      "effects": [
+        {
+          "flag": "aceitou_oferta"
+        }
+      ],
+      "next": "escolha"
+    },
+    {
+      "id": "recusou",
+      "line_key": "dlg.portoes.recusou",
+      "effects": [
+        {
+          "flag": "recusou_oferta"
+        }
+      ],
+      "next": "escolha"
+    }
+  ]
+}

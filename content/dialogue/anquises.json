@@ -1,0 +1,91 @@
+{
+  "id": "anquises",
+  "_rascunho": "Anquises (HISTORIA 7.1: a tentação de ficar), só a voz, à beira do rio onde as almas bebem para voltar à vida. Ficar nos Elísios é um final (decisão do João, 11/nov/2026). Rascunho (11/nov/2026, PENDENCIAS 97), nas direções decididas pelo João em 11/nov/2026 (PENDENCIAS 94).",
+  "mode": "fixed",
+  "speaker_key": "personagem.anquises.nome",
+  "start": [
+    "depois",
+    "primeira"
+  ],
+  "nodes": [
+    {
+      "id": "depois",
+      "when": {
+        "flag": "anquises_falou"
+      },
+      "line_key": "dlg.anquises.depois",
+      "next": "escolha"
+    },
+    {
+      "id": "primeira",
+      "line_key": "dlg.anquises.primeira",
+      "effects": [
+        {
+          "flag": "anquises_falou"
+        },
+        {
+          "journal_key": "diario.anquises"
+        }
+      ],
+      "next": "escolha"
+    },
+    {
+      "id": "escolha",
+      "line_key": "dlg.anquises.pergunta",
+      "options": [
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.anquises.almas",
+          "next": "almas"
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.anquises.ficar",
+          "next": "ficar_certeza"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.anquises.seguir",
+          "next": "seguir"
+        }
+      ]
+    },
+    {
+      "id": "almas",
+      "line_key": "dlg.anquises.sobre_almas",
+      "next": "escolha"
+    },
+    {
+      "id": "ficar_certeza",
+      "line_key": "dlg.anquises.certeza",
+      "options": [
+        {
+          "posture": "consolar",
+          "text_key": "dlg.anquises.ficar.sim",
+          "next": "ficou"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.anquises.ficar.nao",
+          "next": "seguir"
+        }
+      ]
+    },
+    {
+      "id": "ficou",
+      "line_key": "dlg.anquises.ficou",
+      "effects": [
+        {
+          "flag": "ficou_elisios"
+        },
+        {
+          "end_game": true
+        }
+      ]
+    },
+    {
+      "id": "seguir",
+      "line_key": "dlg.anquises.adeus"
+    }
+  ]
+}

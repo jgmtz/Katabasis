@@ -1,0 +1,31 @@
+{
+  "id": "a_mentira",
+  "_rascunho": "A quinta Memória Pesada (HISTORIA 1.2: lá em cima, sabia e continuou como se nada tivesse acontecido; Ato IV, Elísios, a vida tranquila que levou). Aflora nos Elísios, depois de falar com Anquises. A Culpa tem efeito próprio, a Mentira (lie). Rascunho (11/nov/2026, PENDENCIAS 97), nas direções decididas pelo João em 11/nov/2026 (PENDENCIAS 94).",
+  "kind": "family",
+  "scope": "heavy",
+  "order": 5,
+  "gate": {
+    "flag": "anquises_falou"
+  },
+  "title_key": "pesada.a_mentira.titulo",
+  "skill": "culpa_a_mentira",
+  "warning_key": "pesada.a_mentira.aviso",
+  "surface_key": "pesada.a_mentira.aflora",
+  "stages": {
+    "full": {
+      "text_key": "pesada.a_mentira.verdade"
+    }
+  },
+  "leave": {
+    "text_key": "pesada.a_mentira.deixar",
+    "lucidity_max": {
+      "_tbd": true,
+      "value": 10
+    },
+    "protections": 1
+  },
+  "mosaic_position": {
+    "x": 4,
+    "y": 12
+  }
+}

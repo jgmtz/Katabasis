@@ -3,5 +3,24 @@
   "_nota": "O Campo dos Guerreiros (Ato II): armas fincadas e o Campeão, chefe do duelo de honra; Aulo se conhece aqui. Blockout (06/nov/2026, PENDENCIAS 89); abre pelos caminhos da grande Trívia de Asfódelos no segundo degrau da Maré.",
   "name_key": "regiao.guerreiros.nome",
   "scene": "res://src/Lete.Game/Regions/Guerreiros.tscn",
-  "entry": "ChegadaAsfodelos"
+  "entry": "ChegadaAsfodelos",
+  "_mare": "Tabela da Maré do Ato III (11/nov/2026, PENDENCIAS 96; no molde de Tênaro, decisão do João de 06/nov/2026): o mundo (a frase do Diário e os nós do grupo \"mare\"), as sombras (uma comum nova nas regiões do Ato III) e a teimosia das que ficaram. Ato IV (11/nov/2026, PENDENCIAS 97): degrau 4.",
+  "tide": [
+    {
+      "step": 3,
+      "arrival_key": "mare.guerreiros.3",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.35
+      }
+    },
+    {
+      "step": 4,
+      "arrival_key": "mare.guerreiros.4",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.45
+      }
+    }
+  ]
 }

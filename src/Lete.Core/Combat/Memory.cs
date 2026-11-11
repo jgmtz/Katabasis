@@ -40,6 +40,24 @@ public enum MemoryEffectKind
     /// lados: a sombra perde Firmeza e você perde Fôlego, na mesma medida (a força).
     /// </summary>
     Gaze,
+
+    /// <summary>
+    /// O Preço (a Culpa de A Venda, 11/nov/2026): você usa quem está ao seu lado como moeda, como fez com o nome dela;
+    /// recupera Fôlego (a força) e o próximo apoio do companheiro sai relutante.
+    /// </summary>
+    Price,
+
+    /// <summary>
+    /// A Mentira (a Culpa de A Mentira, 11/nov/2026): lá em cima, você seguiu como se nada tivesse acontecido; a Lucidez
+    /// volta (a força), e a Marca sobe 1 (a romã cresce em quem finge).
+    /// </summary>
+    Lie,
+
+    /// <summary>
+    /// O Gole (a Culpa de O Gole, 11/nov/2026): você bebeu do Lete de propósito; a sombra perde Firmeza (a força), e uma
+    /// Memória sua (a de estágio mais alto) fica esquecida até a Trívia.
+    /// </summary>
+    Gulp,
 }
 
 /// <summary>
@@ -158,6 +176,9 @@ public sealed class MemoryBook
         _forgotten.Add(id);
         return new Forgetting(Skills.First(s => s.Id == id), Resisted: false);
     }
+
+    /// <summary>Esquece <paramref name="id"/> agora, sem a proteção da Leveza (O Gole: esquecer de propósito).</summary>
+    public bool ForgetNow(string id) => Skills.Any(s => s.Id == id) && _forgotten.Add(id);
 
     /// <summary>Descanso numa Trívia: nada fica esquecido.</summary>
     public void Rest()

@@ -3,7 +3,7 @@
   "name_key": "regiao.asfodelos",
   "scene": "res://src/Lete.Game/Regions/Asfodelos.tscn",
   "entry": "ChegadaAqueronte",
-  "_mare": "Tabela da Maré (decisão do João, 06/nov/2026: no molde de Tênaro; rascunho, PENDENCIAS 89): o mundo (a frase do Diário e os nós do grupo \"mare\"), as sombras (uma comum nova) e a teimosia das que ficaram sem resolver.",
+  "_mare": "Tabela da Maré (decisão do João, 06/nov/2026: no molde de Tênaro; rascunho, PENDENCIAS 89): o mundo (a frase do Diário e os nós do grupo \"mare\"), as sombras (uma comum nova) e a teimosia das que ficaram sem resolver. Ato III (11/nov/2026, PENDENCIAS 96): degraus novos. Ato IV (11/nov/2026, PENDENCIAS 97): degrau 4. Ato IV (11/nov/2026, PENDENCIAS 97): degrau 5.",
   "tide": [
     {
       "step": 2,
@@ -11,6 +11,30 @@
       "stubborn": {
         "_tbd": true,
         "value": 0.15
+      }
+    },
+    {
+      "step": 3,
+      "arrival_key": "mare.asfodelos.3",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.35
+      }
+    },
+    {
+      "step": 4,
+      "arrival_key": "mare.asfodelos.4",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.45
+      }
+    },
+    {
+      "step": 5,
+      "arrival_key": "mare.asfodelos.5",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.55
       }
     }
   ]

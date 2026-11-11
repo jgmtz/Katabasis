@@ -47,9 +47,15 @@ public static class CastData
                 "left" => false,
                 var other => throw new FormatException($"'back_faces' = '{other}' desconhecido (use left ou right)."),
             },
-            Optional(m, "dialogue_portrait"))).ToList();
+            Optional(m, "dialogue_portrait"),
+            Optional(m, "mirror_of"))).ToList();
 
         var errors = new List<string>();
+        foreach (var m in members.Where(m => m.MirrorOf is not null && members.All(o => o.Id != m.MirrorOf)))
+        {
+            errors.Add($"'{m.Id}' espelha '{m.MirrorOf}', que não está no elenco.");
+        }
+
         foreach (var group in members.GroupBy(m => m.Id).Where(g => g.Count() > 1))
         {
             errors.Add($"'{group.Key}' aparece mais de uma vez no elenco.");

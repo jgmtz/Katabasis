@@ -141,12 +141,28 @@ public class ContentTests
         Assert.All(recollections.Where(r => r.Skill is not null),
             r => Assert.True(skills.Contains(r.Skill!), $"A Lembrança '{r.Id}' dá a Memória '{r.Skill}', que não existe."));
 
+        // Cada Culpa (a Memória de uma Pesada) tem efeito próprio (decisão do João, 03/nov/2026).
+        var allSkills = Directory.GetFiles(Content("memories"), "*.json")
+            .SelectMany(f => MemoryData.FromJson(File.ReadAllText(f)))
+            .ToDictionary(m => m.Id);
+        var culpaEffects = recollections.Where(r => r.Scope == Lete.Core.Recollections.RecollectionScope.Heavy && r.Skill is not null)
+            .Select(r => allSkills[r.Skill!].Effect)
+            .ToList();
+        Assert.Equal(culpaEffects.Count, culpaEffects.Distinct().Count());
+
         // As Pesadas formam uma fila sem buracos (1, 2, 3...).
         Assert.NotEmpty(new HeavyMemories(new WorldState(), new Events.EventBus(), recollections).Queue);
 
         var rules = File.ReadAllText(Content("rules", "mosaico.json"));
         Assert.Empty(RecollectionData.RulesFromJson(rules).Validate());
         Assert.Equal(5, RecollectionData.StoneColorsFromJson(rules).Count);
+    }
+
+    [Fact]
+    public void Ending_RulesLoad_AndTheDebtShadeExists()
+    {
+        var rules = EndingRules.FromJson(File.ReadAllText(Content("rules", "final.json")));
+        Assert.True(File.Exists(Content("shades", rules.DebtShade + ".json")), $"A sombra da dívida '{rules.DebtShade}' não existe.");
     }
 
     [Fact]

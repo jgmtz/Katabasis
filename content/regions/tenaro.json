@@ -4,7 +4,7 @@
   "name_key": "regiao.tenaro.nome",
   "scene": "res://src/Lete.Game/Regions/Tenaro.tscn",
   "entry": "Entrada",
-  "_mare": "Tabela da Maré (05/nov/2026, PENDENCIAS 85; três camadas por degrau, decisão do João de 03/nov): o mundo (a frase do Diário ao chegar e os nós do grupo \"mare\" da cena: o rio e a poça sobem), as sombras (a carpideira, encontro com tide_min 1) e o efeito mecânico (as sombras deixadas sem resolver voltam com mais Firmeza; o último degrau é o piso).",
+  "_mare": "Tabela da Maré (05/nov/2026, PENDENCIAS 85; três camadas por degrau, decisão do João de 03/nov): o mundo (a frase do Diário ao chegar e os nós do grupo \"mare\" da cena: o rio e a poça sobem), as sombras (a carpideira, encontro com tide_min 1) e o efeito mecânico (as sombras deixadas sem resolver voltam com mais Firmeza; o último degrau é o piso). Ato III (11/nov/2026, PENDENCIAS 96): degraus novos. Ato IV (11/nov/2026, PENDENCIAS 97): degrau 4.",
   "tide": [
     {
       "step": 1,
@@ -20,6 +20,22 @@
       "stubborn": {
         "_tbd": true,
         "value": 0.25
+      }
+    },
+    {
+      "step": 3,
+      "arrival_key": "mare.tenaro.3",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.35
+      }
+    },
+    {
+      "step": 4,
+      "arrival_key": "mare.tenaro.4",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.45
       }
     }
   ]

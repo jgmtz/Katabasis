@@ -48,7 +48,8 @@ public sealed record Companion(
     IReadOnlyDictionary<Via, Approval> Approvals,
     string ReluctantKey,
     IReadOnlyList<string> TalkKeys,
-    IReadOnlyDictionary<HeavyMemoryChoice, string>? HeavyKeys = null)
+    IReadOnlyDictionary<HeavyMemoryChoice, string>? HeavyKeys = null,
+    IReadOnlyList<CompanionChapter>? Chapters = null)
 {
     /// <summary>
     /// O que ele diz, na conversa da Trívia, de uma Pesada que o jogador encarou ou deixou (<c>heavy_keys</c>; decisão do
@@ -77,6 +78,12 @@ public sealed record Companion(
         }
     }
 }
+
+/// <summary>
+/// Um capítulo do companheiro (HISTORIA 5.3: Vínculo e Desacordo no Ato III, Segredo no início do Ato IV): uma conversa
+/// de Trívia que entra uma vez, a partir de um degrau da Maré, antes das conversas comuns.
+/// </summary>
+public sealed record CompanionChapter(string Id, int TideMin, string Key);
 
 /// <summary>De onde vem o vínculo (GDD 4.10): partilhar oferendas, lutar juntos, conversar e responder aos comentários.</summary>
 public enum BondSource

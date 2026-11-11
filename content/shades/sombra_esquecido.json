@@ -1,0 +1,371 @@
+{
+  "id": "sombra_esquecido",
+  "_rascunho": "A Sombra do Esquecido, chefe final (decisão do João, 11/nov/2026: ele mesmo, esquecido; HISTORIA 3.1). Termina pelas quatro respostas do final: combater, libertar (só com A Venda encarada, o nome), absorver ou trocar (também só com A Venda encarada). Rascunho (11/nov/2026, PENDENCIAS 97), nas direções decididas pelo João em 11/nov/2026 (PENDENCIAS 94).",
+  "region": "vale_lete",
+  "resolve": {
+    "_tbd": true,
+    "value": 260
+  },
+  "murmur_key": "shade.comum.murmurio",
+  "attacks": [
+    {
+      "kind": "direct",
+      "gesture": "aparo_basico",
+      "caption_key": "shade.sombra_esquecido.gesto.1",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 10
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 22
+        }
+      }
+    },
+    {
+      "kind": "pattern",
+      "gesture": "esquiva_ondas",
+      "caption_key": "shade.sombra_esquecido.gesto.2",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 10
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 22
+        }
+      }
+    },
+    {
+      "kind": "direct",
+      "gesture": "aparo_rapido",
+      "caption_key": "shade.sombra_esquecido.gesto.3",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 11
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 24
+        }
+      }
+    }
+  ],
+  "listen": [
+    {
+      "cycle_step": 0,
+      "reveals": "clue",
+      "text_key": "shade.sombra_esquecido.escuta.pista",
+      "partial_key": "shade.sombra_esquecido.escuta.pista.metade"
+    },
+    {
+      "cycle_step": 1,
+      "reveals": "name",
+      "text_key": "shade.sombra_esquecido.escuta.nome",
+      "partial_key": "shade.sombra_esquecido.escuta.nome.metade"
+    },
+    {
+      "cycle_step": 2,
+      "reveals": "fixation",
+      "text_key": "shade.sombra_esquecido.escuta.fixacao",
+      "partial_key": "shade.sombra_esquecido.escuta.fixacao.metade"
+    }
+  ],
+  "fixation": {
+    "id": "culpa",
+    "options": [
+      {
+        "id": "saudade",
+        "label_key": "shade.comum.fixacao.saudade",
+        "wrong_key": "shade.comum.corrige.saudade"
+      },
+      {
+        "id": "medo",
+        "label_key": "shade.comum.fixacao.medo",
+        "wrong_key": "shade.comum.corrige.medo"
+      },
+      {
+        "id": "fome",
+        "label_key": "shade.comum.fixacao.fome",
+        "wrong_key": "shade.comum.corrige.fome"
+      },
+      {
+        "id": "culpa",
+        "label_key": "shade.comum.fixacao.culpa"
+      }
+    ]
+  },
+  "absorb": {
+    "resolve_fraction_max": {
+      "_tbd": true,
+      "value": 0.3
+    },
+    "weak_fill_factor": {
+      "_tbd": true,
+      "value": 0.6
+    },
+    "mark_gain": {
+      "perfect": {
+        "_tbd": true,
+        "value": 1
+      },
+      "good": {
+        "_tbd": true,
+        "value": 1
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 2
+      }
+    }
+  },
+  "echo": {
+    "id": "eco_sombra_esquecido",
+    "name_key": "shade.sombra_esquecido.eco.nome",
+    "description_key": "shade.sombra_esquecido.eco.descricao",
+    "gesture": "eco_torcer",
+    "resolve_damage": {
+      "perfect": {
+        "_tbd": true,
+        "value": 40
+      },
+      "good": {
+        "_tbd": true,
+        "value": 26
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 10
+      }
+    },
+    "mark_on_use": {
+      "_tbd": true,
+      "value": 1
+    }
+  },
+  "liberation": {
+    "peace": {
+      "_tbd": true,
+      "value": 70
+    },
+    "peace_gain": {
+      "perfect": {
+        "_tbd": true,
+        "value": 50
+      },
+      "good": {
+        "_tbd": true,
+        "value": 35
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 15
+      }
+    },
+    "lucidity_cost": {
+      "_tbd": true,
+      "value": 10
+    },
+    "enraged_damage_multiplier": {
+      "_tbd": true,
+      "value": 1.5
+    },
+    "progress_key": "shade.comum.libertar.progresso",
+    "freed_key": "shade.sombra_esquecido.libertar.parte"
+  },
+  "voices": [
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.5
+      },
+      "text_key": "shade.sombra_esquecido.voz.1"
+    },
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.2
+      },
+      "text_key": "shade.sombra_esquecido.voz.2"
+    }
+  ],
+  "phases": [
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.66
+      },
+      "caption_key": "shade.sombra_esquecido.fase2",
+      "attacks": [
+        {
+          "kind": "pattern",
+          "gesture": "esquiva_redemoinho",
+          "caption_key": "shade.sombra_esquecido.gesto.4",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 12
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 26
+            }
+          }
+        },
+        {
+          "kind": "direct",
+          "gesture": "aparo_rapido",
+          "caption_key": "shade.sombra_esquecido.gesto.5",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 12
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 26
+            }
+          }
+        }
+      ]
+    },
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.33
+      },
+      "caption_key": "shade.sombra_esquecido.fase3",
+      "attacks": [
+        {
+          "kind": "pattern",
+          "gesture": "esquiva_ondas",
+          "caption_key": "shade.sombra_esquecido.gesto.6",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 13
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 28
+            }
+          }
+        },
+        {
+          "kind": "direct",
+          "gesture": "aparo_basico",
+          "caption_key": "shade.sombra_esquecido.gesto.7",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 13
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 28
+            }
+          }
+        },
+        {
+          "kind": "pattern",
+          "gesture": "esquiva_redemoinho",
+          "caption_key": "shade.sombra_esquecido.gesto.4",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 13
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 28
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "story_keys": [
+    "shade.sombra_esquecido.historia.1",
+    "shade.sombra_esquecido.historia.2"
+  ],
+  "flee_clue_key": "shade.sombra_esquecido.fuga",
+  "yield": {
+    "lucidity_cost": {
+      "_tbd": true,
+      "value": 10
+    },
+    "text_keys": [
+      "shade.sombra_esquecido.ceder"
+    ]
+  },
+  "defeat_clue_keys": [
+    "shade.sombra_esquecido.hecate",
+    "shade.sombra_esquecido.hecate.2"
+  ],
+  "spare_key": "shade.sombra_esquecido.poupar",
+  "offering": {
+    "accepts": "agua",
+    "accept_key": "shade.sombra_esquecido.oferenda.aceita",
+    "refuse_key": "shade.sombra_esquecido.oferenda.recusa"
+  },
+  "name_scattered": {
+    "requires": {
+      "heavy_memory": {
+        "id": "a_venda",
+        "state": "face"
+      }
+    },
+    "missing_key": "shade.sombra_esquecido.escuta.sem_nome"
+  },
+  "exchange": {
+    "requires": {
+      "heavy_memory": {
+        "id": "a_venda",
+        "state": "face"
+      }
+    },
+    "flag": "trocou_lugar",
+    "description_key": "combate.acao.trocar.descricao",
+    "closed_key": "combate.acao.trocar.fechado",
+    "text_keys": [
+      "shade.sombra_esquecido.trocar.1",
+      "shade.sombra_esquecido.trocar.2",
+      "shade.sombra_esquecido.trocar.3"
+    ]
+  }
+}

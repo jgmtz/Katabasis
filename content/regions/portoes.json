@@ -1,0 +1,7 @@
+{
+  "id": "portoes",
+  "_nota": "Os Portões (fim do Ato IV): o de chifre e o de marfim; o final composto. Blockout (1/nov/2026, PENDENCIAS 97), nas direções decididas pelo João em 11/nov/2026 (PENDENCIAS 94)).",
+  "name_key": "regiao.portoes.nome",
+  "scene": "res://src/Lete.Game/Regions/Portoes.tscn",
+  "entry": "ChegadaLete"
+}

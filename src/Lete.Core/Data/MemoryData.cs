@@ -38,6 +38,9 @@ public static class MemoryData
         ["hush"] = MemoryEffectKind.Hush,
         ["reveal"] = MemoryEffectKind.Reveal,
         ["gaze"] = MemoryEffectKind.Gaze,
+        ["price"] = MemoryEffectKind.Price,
+        ["lie"] = MemoryEffectKind.Lie,
+        ["gulp"] = MemoryEffectKind.Gulp,
     };
 
     /// <summary>Campo <c>memories</c>: lista de Memórias com Traço, custo e efeito.</summary>

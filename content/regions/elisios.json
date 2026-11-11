@@ -1,0 +1,26 @@
+{
+  "id": "elisios",
+  "_nota": "Os Campos Elísios (Ato IV): Anquises, a tentação de ficar e A Mentira. Blockout (1/nov/2026, PENDENCIAS 97), nas direções decididas pelo João em 11/nov/2026 (PENDENCIAS 94)).",
+  "name_key": "regiao.elisios.nome",
+  "scene": "res://src/Lete.Game/Regions/Elisios.tscn",
+  "entry": "ChegadaBifurcacao",
+  "_mare": "Tabela da Maré do Ato IV (11/nov/2026, PENDENCIAS 97; no molde de Tênaro, decisão do João de 06/nov/2026).",
+  "tide": [
+    {
+      "step": 4,
+      "arrival_key": "mare.elisios.4",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.45
+      }
+    },
+    {
+      "step": 5,
+      "arrival_key": "mare.elisios.5",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.55
+      }
+    }
+  ]
+}

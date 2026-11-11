@@ -20,13 +20,16 @@ public static class BattleActions
     public const string Spare = "poupar";
     public const string Yield = "ceder";
 
+    /// <summary>Trocar: só contra a Sombra do Esquecido (HISTORIA 3).</summary>
+    public const string Exchange = "trocar";
+
     /// <summary>Defesas (vez da sombra): aparar um golpe direto (Anel) e esquivar de um padrão (Esquiva).</summary>
     public const string Parry = "aparar";
     public const string Dodge = "esquivar";
 
     /// <summary>As opções que ficam dentro de Aproximar.</summary>
     public static readonly IReadOnlySet<string> ApproachGroup =
-        new HashSet<string>(StringComparer.Ordinal) { Listen, Free, Offering, Witness, Spare, Yield };
+        new HashSet<string>(StringComparer.Ordinal) { Listen, Free, Offering, Witness, Spare, Yield, Exchange };
 
     /// <summary>Todas as opções do menu (principal e Aproximar).</summary>
     public static readonly IReadOnlySet<string> Menu =

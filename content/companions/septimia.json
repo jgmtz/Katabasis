@@ -25,5 +25,23 @@
   "heavy_keys": {
     "face": "companheiro.septimia.pesada.encarou",
     "leave": "companheiro.septimia.pesada.deixou"
-  }
+  },
+  "_capitulos": "Capítulos dos Atos III e IV (HISTORIA 5.3; rascunho, 11/nov/2026, PENDENCIAS 100): conversas de Trívia que entram uma vez, a partir do degrau da Maré.",
+  "chapters": [
+    {
+      "id": "vinculo",
+      "tide_min": 3,
+      "key": "companheiro.septimia.cap.vinculo"
+    },
+    {
+      "id": "desacordo",
+      "tide_min": 3,
+      "key": "companheiro.septimia.cap.desacordo"
+    },
+    {
+      "id": "segredo",
+      "tide_min": 4,
+      "key": "companheiro.septimia.cap.segredo"
+    }
+  ]
 }

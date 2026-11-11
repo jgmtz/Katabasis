@@ -166,6 +166,29 @@ public class CompanionTests
     }
 
     [Fact]
+    public void TriviaTalk_TellsEachChapterOnce_WhenTheTideReachesIt()
+    {
+        var companions = new Companions(_state, _bus, new Dictionary<string, Companion>
+        {
+            ["aulo"] = Aulo with
+            {
+                Chapters = new[] { new CompanionChapter("vinculo", 2, "cap.vinculo"), new CompanionChapter("segredo", 3, "cap.segredo") },
+            },
+        }, Rules, _tide);
+        companions.Choose("aulo");
+
+        // Degrau 1: ainda nenhum capítulo, só as conversas.
+        Assert.Equal("conversa.1", companions.Talk());
+        _tide.Milestone("dois");
+        Assert.Equal("cap.vinculo", companions.Talk());
+        _tide.Milestone("tres");
+        Assert.Equal("cap.segredo", companions.Talk());
+        _tide.Milestone("quatro");
+        Assert.Equal("conversa.2", companions.Talk());
+        Assert.Equal(new[] { "aulo:segredo", "aulo:vinculo" }, _state.CompanionChapters.Order());
+    }
+
+    [Fact]
     public void Save_KeepsBondAndTalks()
     {
         _companions.Choose("aulo");

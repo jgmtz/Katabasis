@@ -1,0 +1,31 @@
+{
+  "id": "o_gole",
+  "_rascunho": "A sexta Memória Pesada (HISTORIA 1.2: bebeu do Lete de propósito; Ato IV, Vale do Lete, sentado na Cadeira do Esquecimento). Aflora junto da Cadeira, depois de vê-la. A Culpa tem efeito próprio, o Gole (gulp). Rascunho (11/nov/2026, PENDENCIAS 97), nas direções decididas pelo João em 11/nov/2026 (PENDENCIAS 94).",
+  "kind": "mourning",
+  "scope": "heavy",
+  "order": 6,
+  "gate": {
+    "flag": "cadeira_vista"
+  },
+  "title_key": "pesada.o_gole.titulo",
+  "skill": "culpa_o_gole",
+  "warning_key": "pesada.o_gole.aviso",
+  "surface_key": "pesada.o_gole.aflora",
+  "stages": {
+    "full": {
+      "text_key": "pesada.o_gole.verdade"
+    }
+  },
+  "leave": {
+    "text_key": "pesada.o_gole.deixar",
+    "lucidity_max": {
+      "_tbd": true,
+      "value": 10
+    },
+    "protections": 1
+  },
+  "mosaic_position": {
+    "x": 8,
+    "y": 12
+  }
+}

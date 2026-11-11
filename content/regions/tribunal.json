@@ -3,5 +3,24 @@
   "_nota": "O Tribunal (Ato II): a pedra onde as sombras são julgadas (o julgamento do Padeiro, do M2); Septímia se conhece aqui. Blockout (06/nov/2026, PENDENCIAS 89); abre pelos caminhos da grande Trívia de Asfódelos no segundo degrau da Maré.",
   "name_key": "regiao.tribunal.nome",
   "scene": "res://src/Lete.Game/Regions/Tribunal.tscn",
-  "entry": "ChegadaAsfodelos"
+  "entry": "ChegadaAsfodelos",
+  "_mare": "Tabela da Maré do Ato III (11/nov/2026, PENDENCIAS 96; no molde de Tênaro, decisão do João de 06/nov/2026): o mundo (a frase do Diário e os nós do grupo \"mare\"), as sombras (uma comum nova nas regiões do Ato III) e a teimosia das que ficaram. Ato IV (11/nov/2026, PENDENCIAS 97): degrau 4.",
+  "tide": [
+    {
+      "step": 3,
+      "arrival_key": "mare.tribunal.3",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.35
+      }
+    },
+    {
+      "step": 4,
+      "arrival_key": "mare.tribunal.4",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.45
+      }
+    }
+  ]
 }

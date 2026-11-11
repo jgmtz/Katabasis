@@ -1,6 +1,6 @@
 {
   "id": "culpas",
-  "_rascunho": "As Culpas das Memórias Pesadas encaradas (GDD 2.2: muito fortes, custo alto de Lucidez). O Convite herdou o Traço e os números (_tbd) da Culpa de teste 1 (31/out/2026). Efeito próprio (decisão do João, 03/nov/2026: efeito distinto por Culpa; proposta, 05/nov/2026, PENDENCIAS 85): o Chamado, a sombra para para ouvir e perde golpes inteiros (perfeito 2, bom 1, falho 0). O Plano (06/nov/2026, PENDENCIAS 90): efeito próprio, Saber (reveal): você sabia desde o início; revela o nome e a fixação da sombra (perfeito), só a fixação (bom) ou nada (falho). O Olhar (10/nov/2026, PENDENCIAS 92): efeito próprio, o Olhar (gaze): você sustenta o olhar dela no portão; a sombra perde Firmeza e você perde Fôlego, na mesma medida (sozinho, nunca derruba).",
+  "_rascunho": "As Culpas das Memórias Pesadas encaradas (GDD 2.2: muito fortes, custo alto de Lucidez). O Convite herdou o Traço e os números (_tbd) da Culpa de teste 1 (31/out/2026). Efeito próprio (decisão do João, 03/nov/2026: efeito distinto por Culpa; proposta, 05/nov/2026, PENDENCIAS 85): o Chamado, a sombra para para ouvir e perde golpes inteiros (perfeito 2, bom 1, falho 0). O Plano (06/nov/2026, PENDENCIAS 90): efeito próprio, Saber (reveal): você sabia desde o início; revela o nome e a fixação da sombra (perfeito), só a fixação (bom) ou nada (falho). O Olhar (10/nov/2026, PENDENCIAS 92): efeito próprio, o Olhar (gaze): você sustenta o olhar dela no portão; a sombra perde Firmeza e você perde Fôlego, na mesma medida (sozinho, nunca derruba). A Venda (11/nov/2026, PENDENCIAS 94): efeito próprio, o Preço (price): você usa quem está ao seu lado como moeda; recupera Fôlego (a força) e o próximo apoio do companheiro sai relutante. A Mentira (11/nov/2026, PENDENCIAS 97): efeito próprio, a Mentira (lie): a Lucidez volta (a força) e a Marca sobe 1. O Gole (11/nov/2026, PENDENCIAS 97): efeito próprio, o Gole (gulp): a sombra perde Firmeza (a força) e uma Memória sua fica esquecida até a Trívia.",
   "memories": [
     {
       "id": "culpa_o_convite",
@@ -101,6 +101,55 @@
       }
     },
     {
+      "id": "culpa_a_venda",
+      "kind": "feast",
+      "name_key": "memoria.culpa_a_venda.nome",
+      "description_key": "memoria.culpa_a_venda.descricao",
+      "stroke": {
+        "steps": [
+          "right",
+          "right",
+          "left",
+          "down"
+        ],
+        "beat_seconds": {
+          "_tbd": true,
+          "value": 0.5
+        },
+        "zero_score_offset_seconds": {
+          "_tbd": true,
+          "value": 0.2
+        },
+        "lead_in_seconds": {
+          "_tbd": true,
+          "value": 0.9
+        }
+      },
+      "lucidity_cost": {
+        "_tbd": true,
+        "value": 30
+      },
+      "failed_cost_multiplier": {
+        "_tbd": true,
+        "value": 1.5
+      },
+      "effect": "price",
+      "power": {
+        "perfect": {
+          "_tbd": true,
+          "value": 40
+        },
+        "good": {
+          "_tbd": true,
+          "value": 25
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 10
+        }
+      }
+    },
+    {
       "id": "culpa_o_olhar",
       "kind": "mourning",
       "name_key": "memoria.culpa_o_olhar.nome",
@@ -146,6 +195,104 @@
         "failed": {
           "_tbd": true,
           "value": 10
+        }
+      }
+    },
+    {
+      "id": "culpa_a_mentira",
+      "kind": "family",
+      "name_key": "memoria.culpa_a_mentira.nome",
+      "description_key": "memoria.culpa_a_mentira.descricao",
+      "stroke": {
+        "steps": [
+          "down",
+          "left",
+          "down",
+          "right"
+        ],
+        "beat_seconds": {
+          "_tbd": true,
+          "value": 0.5
+        },
+        "zero_score_offset_seconds": {
+          "_tbd": true,
+          "value": 0.2
+        },
+        "lead_in_seconds": {
+          "_tbd": true,
+          "value": 0.9
+        }
+      },
+      "lucidity_cost": {
+        "_tbd": true,
+        "value": 30
+      },
+      "failed_cost_multiplier": {
+        "_tbd": true,
+        "value": 1.5
+      },
+      "effect": "lie",
+      "power": {
+        "perfect": {
+          "_tbd": true,
+          "value": 30
+        },
+        "good": {
+          "_tbd": true,
+          "value": 20
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 10
+        }
+      }
+    },
+    {
+      "id": "culpa_o_gole",
+      "kind": "mourning",
+      "name_key": "memoria.culpa_o_gole.nome",
+      "description_key": "memoria.culpa_o_gole.descricao",
+      "stroke": {
+        "steps": [
+          "up",
+          "up",
+          "down",
+          "down"
+        ],
+        "beat_seconds": {
+          "_tbd": true,
+          "value": 0.5
+        },
+        "zero_score_offset_seconds": {
+          "_tbd": true,
+          "value": 0.2
+        },
+        "lead_in_seconds": {
+          "_tbd": true,
+          "value": 0.9
+        }
+      },
+      "lucidity_cost": {
+        "_tbd": true,
+        "value": 30
+      },
+      "failed_cost_multiplier": {
+        "_tbd": true,
+        "value": 1.5
+      },
+      "effect": "gulp",
+      "power": {
+        "perfect": {
+          "_tbd": true,
+          "value": 60
+        },
+        "good": {
+          "_tbd": true,
+          "value": 40
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 20
         }
       }
     }

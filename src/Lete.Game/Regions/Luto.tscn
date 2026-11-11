@@ -40,6 +40,8 @@
 [ext_resource type="Texture2D" path="res://art/sprites/sombras/campeao/parado_3q/64px/campeao_parado_3q_esq.png" id="38_campeao"]
 [ext_resource type="Texture2D" path="res://art/sprites/sombras/sem_nome/parado_3q/64px/sem_nome_parado_3q_esq.png" id="39_sem_nome"]
 [ext_resource type="Texture2D" path="res://art/sprites/sombras/sonho/parado_3q/64px/sonho_parado_3q_esq.png" id="40_sonho"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/furias_alecto/parado_3q/64px/furias_alecto_parado_3q_esq.png" id="41_furias"]
+[ext_resource type="Texture2D" path="res://art/sprites/protagonista/sombra_m/parado/sombra_m_parado_costas.png" id="42_esquecido"]
 
 [sub_resource type="Environment" id="Environment_regiao"]
 background_mode = 1

@@ -119,6 +119,9 @@ public sealed class WorldState
     /// <summary>Pesadas que o companheiro já comentou na conversa da Trívia (uma vez cada; ver <c>Systems.Companions</c>).</summary>
     public HashSet<string> CompanionHeavyComments { get; } = new(StringComparer.Ordinal);
 
+    /// <summary>Capítulos dos companheiros já contados na Trívia ("companheiro:capítulo").</summary>
+    public HashSet<string> CompanionChapters { get; } = new(StringComparer.Ordinal);
+
     /// <summary>Atalhos físicos já abertos (portões, cordas, escadas; ver <c>Systems.Shortcuts</c>).</summary>
     public HashSet<string> OpenShortcuts { get; } = new(StringComparer.Ordinal);
 

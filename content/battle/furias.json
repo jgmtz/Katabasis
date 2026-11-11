@@ -1,0 +1,62 @@
+{
+  "id": "furias",
+  "_nota": "As Fúrias, chefe do Tártaro (decisão do João, 11/nov/2026: uma luta, três irmãs, uma fase por irmã; leem as Pesadas deixadas e os juramentos quebrados; Libertar pelo nome Eumênides, que só se ouve com mais Pesadas encaradas que deixadas). Luta de chefe (faixas de cinema, câmera aberta).",
+  "framing": "chefe",
+  "layout": {
+    "party": [
+      {
+        "x": -2.46,
+        "y": -2.28
+      },
+      {
+        "x": -1.68,
+        "y": -2.24
+      }
+    ],
+    "enemy": [
+      {
+        "x": 1.08,
+        "y": -1.25
+      }
+    ],
+    "depth_scale": {
+      "_tbd": true,
+      "value": 0.0
+    }
+  },
+  "protagonist": {
+    "id": "sombra_f",
+    "breath": {
+      "_tbd": true,
+      "value": 100
+    },
+    "lucidity": {
+      "_tbd": true,
+      "value": 60
+    }
+  },
+  "shade": "furias",
+  "party": [
+    {
+      "id": "aulo",
+      "pose": "back"
+    },
+    {
+      "id": "sombra_f",
+      "pose": "back"
+    }
+  ],
+  "enemy": [
+    {
+      "id": "furias",
+      "pose": "front"
+    }
+  ],
+  "styles": [
+    {
+      "id": "pixel_160",
+      "folder": "pixel_160",
+      "filter": "nearest"
+    }
+  ]
+}

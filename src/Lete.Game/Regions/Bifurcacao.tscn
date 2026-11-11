@@ -1,0 +1,278 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/Lete.Game/World/CameraRig.cs" id="1_cam"]
+[ext_resource type="PackedScene" path="res://src/Lete.Game/World/Player.tscn" id="2_player"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/Interactable.cs" id="3_inter"]
+[ext_resource type="Texture2D" path="res://art/tiles/piso_pedra.png" id="4_piso"]
+[ext_resource type="Texture2D" path="res://art/tiles/parede_pedra.png" id="5_parede"]
+[ext_resource type="Texture2D" path="res://art/tiles/terracota.png" id="6_terracota"]
+[ext_resource type="Texture2D" path="res://art/tiles/agua_lete.png" id="7_agua"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/RegionExit.cs" id="8_saida"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/TriviaRest.cs" id="9_trivia"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/ShadeEncounter.cs" id="10_encontro"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/MapSprite.cs" id="11_sprite"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/remador/parado/remador_parado_frente.png" id="12_remador"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/OfferingAltar.cs" id="13_altar"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/Talkable.cs" id="14_conversa"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/MerchantStall.cs" id="15_mercador"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/HeavyMemoryPlace.cs" id="18_pesada"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/CompanionSpot.cs" id="19_companheiro"]
+[ext_resource type="Texture2D" path="res://art/sprites/companheiros/dimas_sim/parado/dimas_parado_frente.png" id="20_dimas"]
+[ext_resource type="Texture2D" path="res://art/sprites/companheiros/calias_sim/parado/calias_parado_frente.png" id="21_calias"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/padeiro/parado/padeiro_parado_frente.png" id="16_padeiro"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/mercador/parado/mercador_parado_frente.png" id="17_coveiro"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/WanderingShade.cs" id="22_vagante"]
+[ext_resource type="Texture2D" path="res://art/sprites/companheiros/lia_sim/parado/lia_parado_frente.png" id="23_lia"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/camponesa/parado/camponesa_parado_frente.png" id="24_camponesa"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/cerbero/parado/cerbero_parado_frente.png" id="25_cerbero"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/PhysicalShortcut.cs" id="26_atalho"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/caronte/parado_3q/64px/caronte_parado_3q_esq.png" id="27_caronte"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/insepultos/parado_3q/64px/insepultos_parado_3q_esq.png" id="28_insepultos"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/afogado/parado_3q/64px/afogado_parado_3q_esq.png" id="29_afogado"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/oleiro/parado_3q/64px/oleiro_parado_3q_esq.png" id="30_oleiro"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/esposa_padeiro/parado_3q/64px/esposa_padeiro_parado_3q_esq.png" id="31_esposa"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/mercador_planicie/parado_3q/64px/mercador_planicie_parado_3q_esq.png" id="32_mercador_planicie"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/fome/parado_3q/64px/fome_parado_3q_esq.png" id="33_fome"]
+[ext_resource type="Script" path="res://src/Lete.Game/World/TribunalSeat.cs" id="34_tribunal"]
+[ext_resource type="Texture2D" path="res://art/sprites/companheiros/aulo_sim/parado/aulo_parado_frente.png" id="35_aulo"]
+[ext_resource type="Texture2D" path="res://art/sprites/companheiros/ismena_sim/parado/ismena_parado_frente.png" id="36_ismena"]
+[ext_resource type="Texture2D" path="res://art/sprites/companheiros/septimia_sim/parado/septimia_parado_frente.png" id="37_septimia"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/campeao/parado_3q/64px/campeao_parado_3q_esq.png" id="38_campeao"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/sem_nome/parado_3q/64px/sem_nome_parado_3q_esq.png" id="39_sem_nome"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/sonho/parado_3q/64px/sonho_parado_3q_esq.png" id="40_sonho"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/furias_alecto/parado_3q/64px/furias_alecto_parado_3q_esq.png" id="41_furias"]
+[ext_resource type="Texture2D" path="res://art/sprites/protagonista/sombra_m/parado/sombra_m_parado_costas.png" id="42_esquecido"]
+
+[sub_resource type="Environment" id="Environment_regiao"]
+background_mode = 1
+background_color = Color(0.05, 0.047, 0.06, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.38, 0.36, 0.4, 1)
+ambient_light_energy = 0.55
+fog_enabled = true
+fog_light_color = Color(0.3, 0.28, 0.32, 1)
+fog_light_energy = 0.35
+fog_density = 0.004
+fog_sky_affect = 0.0
+fog_height = 0.4
+fog_height_density = 0.3
+
+[sub_resource type="StandardMaterial3D" id="Mat_piso"]
+albedo_texture = ExtResource("4_piso")
+roughness = 1.0
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="Mat_parede"]
+albedo_texture = ExtResource("5_parede")
+roughness = 1.0
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="Mat_terracota"]
+albedo_texture = ExtResource("6_terracota")
+roughness = 1.0
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="Mat_agua"]
+albedo_texture = ExtResource("7_agua")
+roughness = 1.0
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0
+
+[sub_resource type="SphereShape3D" id="Shape_alcance"]
+radius = 1.4
+
+[sub_resource type="BoxShape3D" id="Shape_box1"]
+size = Vector3(3, 2, 1.2)
+
+[sub_resource type="BoxShape3D" id="Shape_box2"]
+size = Vector3(0.8, 2, 3)
+
+[sub_resource type="BoxShape3D" id="Shape_box3"]
+size = Vector3(3, 2, 1)
+
+[node name="Bifurcacao" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_regiao")
+
+[node name="Moon" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.939693, 0, 0.34202, 0.280166, 0.573576, -0.769751, -0.196175, 0.819152, 0.538986, 0, 10, 0)
+light_color = Color(0.72, 0.8, 0.88, 1)
+light_energy = 0.5
+shadow_enabled = true
+directional_shadow_max_distance = 60.0
+
+[node name="Chao" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(22, 1, 26)
+material = SubResource("Mat_piso")
+
+[node name="Oeste" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 1.75, 0)
+use_collision = true
+size = Vector3(1, 3.5, 27)
+material = SubResource("Mat_parede")
+
+[node name="Leste" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 0.25, 0)
+use_collision = true
+size = Vector3(1, 0.5, 27)
+material = SubResource("Mat_parede")
+
+[node name="Norte" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, -13.5)
+use_collision = true
+size = Vector3(23, 3.5, 1)
+material = SubResource("Mat_parede")
+
+[node name="SulA" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.75, 0.25, 13.5)
+use_collision = true
+size = Vector3(9.5, 0.5, 1)
+material = SubResource("Mat_parede")
+
+[node name="SulB" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.75, 0.25, 13.5)
+use_collision = true
+size = Vector3(9.5, 0.5, 1)
+material = SubResource("Mat_parede")
+
+[node name="Voltar" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 13.4)
+script = ExtResource("8_saida")
+TargetRegion = "hipno"
+TargetEntry = "ChegadaBifurcacao"
+
+[node name="Shape" type="CollisionShape3D" parent="Voltar"]
+shape = SubResource("Shape_box1")
+
+[node name="Caminhos" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+script = ExtResource("3_inter")
+JournalKey = "obj.bifurcacao.caminhos"
+
+[node name="Reach" type="CollisionShape3D" parent="Caminhos"]
+shape = SubResource("Shape_alcance")
+
+[node name="MuroFogo" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.5, 1.2, -6)
+use_collision = true
+size = Vector3(1, 2.4, 6)
+material = SubResource("Mat_terracota")
+
+[node name="ArvoreClara" type="CSGCylinder3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1.4, -6)
+use_collision = true
+radius = 0.5
+height = 2.8
+sides = 8
+material = SubResource("Mat_parede")
+
+[node name="ParaTartaro" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 1, 0)
+script = ExtResource("8_saida")
+TargetRegion = "tartaro"
+TargetEntry = "ChegadaBifurcacao"
+
+[node name="Shape" type="CollisionShape3D" parent="ParaTartaro"]
+shape = SubResource("Shape_box2")
+
+[node name="ParaElisios" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 1, 0)
+script = ExtResource("8_saida")
+TargetRegion = "elisios"
+TargetEntry = "ChegadaBifurcacao"
+
+[node name="Shape" type="CollisionShape3D" parent="ParaElisios"]
+shape = SubResource("Shape_box2")
+
+[node name="ParaLete" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -12.6)
+script = ExtResource("8_saida")
+TargetRegion = "vale_lete"
+TargetEntry = "ChegadaBifurcacao"
+RequiredPathKey = "vale_do_lete"
+RequiredCondition = "{\"all\":[{\"region_visited\":\"tartaro\"},{\"region_visited\":\"elisios\"}]}"
+BlockedKey = "obj.bifurcacao.lete.fechado"
+Milestone = "vale_do_lete"
+
+[node name="Shape" type="CollisionShape3D" parent="ParaLete"]
+shape = SubResource("Shape_box3")
+
+[node name="TriviaColuna" type="CSGCylinder3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.1, 6)
+use_collision = true
+radius = 0.3
+height = 2.2
+sides = 8
+material = SubResource("Mat_parede")
+
+[node name="TriviaChama" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2.6, 6)
+light_color = Color(1, 0.62, 0.3, 1)
+light_energy = 1.6
+omni_range = 7.0
+
+[node name="Trivia" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 6)
+script = ExtResource("9_trivia")
+JournalKey = "obj.trivia.examinar"
+TriviaId = "trivia_bifurcacao"
+
+[node name="Reach" type="CollisionShape3D" parent="Trivia"]
+shape = SubResource("Shape_alcance")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.5)
+
+[node name="CameraRig" type="Node3D" parent="." node_paths=PackedStringArray("Target")]
+script = ExtResource("1_cam")
+Target = NodePath("../Player")
+
+[node name="Pitch" type="Node3D" parent="CameraRig"]
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig/Pitch"]
+projection = 1
+current = true
+size = 10.0
+far = 100.0
+
+[node name="TeleportPoints" type="Node3D" parent="."]
+
+[node name="ChegadaHipno" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.5)
+
+[node name="ChegadaTartaro" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 0)
+
+[node name="ChegadaElisios" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 0)
+
+[node name="ChegadaLete" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10.5)
+
+[node name="Caminhos" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.8)
+
+[node name="Trivia" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 0, 6)
+
+[node name="AtravessarTartaro" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 0)
+
+[node name="AtravessarElisios" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 0)
+
+[node name="AtravessarLete" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12.6)
+
+[node name="AtravessarHipno" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 13.4)

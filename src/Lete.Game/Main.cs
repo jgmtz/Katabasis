@@ -359,6 +359,13 @@ public partial class Main : Node
 
     private void OnDialogueOpenChanged()
     {
+        if (!_dialogueScreen.IsOpen && GameRoot.Instance.EndingPending)
+        {
+            GameRoot.Instance.EndingPending = false;
+            GetTree().ChangeSceneToFile(Lete.Game.Ending.EndingScreen.ScenePath);
+            return;
+        }
+
         if (!_dialogueScreen.IsOpen && _triviaAfterIntro is { } triviaId)
         {
             _triviaAfterIntro = null;
@@ -604,6 +611,12 @@ public partial class Main : Node
             }
         }
 
+        // O companheiro vem antes do teleporte: as conversas abertas com --examine já o leem.
+        if (args.TryGetValue("companheiro", out var companion))
+        {
+            GameRoot.Instance.State.CompanionId = companion;
+        }
+
         if (args.TryGetValue("teleport", out var pointName) &&
             TeleportPoints.FirstOrDefault(p => p.Name == pointName) is { } point)
         {
@@ -633,11 +646,6 @@ public partial class Main : Node
                     _trivia.Press(int.Parse(step));
                 }
             }
-        }
-
-        if (args.TryGetValue("companheiro", out var companion))
-        {
-            GameRoot.Instance.State.CompanionId = companion;
         }
 
         if (args.TryGetValue("despertar", out var shade) && GameRoot.Instance.Dialogues.Graphs.Values
@@ -682,6 +690,13 @@ public partial class Main : Node
                     _heavyScreen.Press(0);
                 }
             }
+        }
+
+        if (args.ContainsKey("final"))
+        {
+            // Conferência: vai direto ao final composto com o mundo como está (as flags acima decidem).
+            GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, Lete.Game.Ending.EndingScreen.ScenePath);
+            return;
         }
 
         if (args.TryGetValue("ui", out var ui))

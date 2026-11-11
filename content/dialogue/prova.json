@@ -1,0 +1,87 @@
+{
+  "id": "prova",
+  "_rascunho": "Capítulo 3 das origens (Prova, Ato III): na mesa do pacto, no Palácio, uma coisa da vida dele prova como a Venda aconteceu. Rascunho (11/nov/2026, PENDENCIAS 99), na direção decidida pelo João em 11/nov/2026 (PENDENCIAS 94, item 6) e na tabela da HISTORIA 4.1.",
+  "mode": "fixed",
+  "speaker_key": "personagem.mesa_pacto.nome",
+  "start": [
+    "vista",
+    "pescador",
+    "sacerdote",
+    "veterano",
+    "artesao",
+    "outra"
+  ],
+  "nodes": [
+    {
+      "id": "vista",
+      "when": {
+        "flag": "prova_encontrada"
+      },
+      "line_key": "dlg.prova.depois"
+    },
+    {
+      "id": "pescador",
+      "when": {
+        "origin": "pescador"
+      },
+      "line_key": "dlg.prova.pescador",
+      "effects": [
+        {
+          "flag": "prova_encontrada"
+        },
+        {
+          "journal_key": "diario.prova.pescador"
+        }
+      ]
+    },
+    {
+      "id": "sacerdote",
+      "when": {
+        "origin": "sacerdote"
+      },
+      "line_key": "dlg.prova.sacerdote",
+      "effects": [
+        {
+          "flag": "prova_encontrada"
+        },
+        {
+          "journal_key": "diario.prova.sacerdote"
+        }
+      ]
+    },
+    {
+      "id": "veterano",
+      "when": {
+        "origin": "veterano"
+      },
+      "line_key": "dlg.prova.veterano",
+      "effects": [
+        {
+          "flag": "prova_encontrada"
+        },
+        {
+          "journal_key": "diario.prova.veterano"
+        }
+      ]
+    },
+    {
+      "id": "artesao",
+      "when": {
+        "origin": "artesao"
+      },
+      "line_key": "dlg.prova.artesao",
+      "effects": [
+        {
+          "flag": "prova_encontrada"
+        },
+        {
+          "journal_key": "diario.prova.artesao"
+        }
+      ]
+    },
+    {
+      "id": "outra",
+      "line_key": "dlg.prova.outra"
+    }
+  ]
+}

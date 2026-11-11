@@ -40,6 +40,8 @@
 [ext_resource type="Texture2D" path="res://art/sprites/sombras/campeao/parado_3q/64px/campeao_parado_3q_esq.png" id="38_campeao"]
 [ext_resource type="Texture2D" path="res://art/sprites/sombras/sem_nome/parado_3q/64px/sem_nome_parado_3q_esq.png" id="39_sem_nome"]
 [ext_resource type="Texture2D" path="res://art/sprites/sombras/sonho/parado_3q/64px/sonho_parado_3q_esq.png" id="40_sonho"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/furias_alecto/parado_3q/64px/furias_alecto_parado_3q_esq.png" id="41_furias"]
+[ext_resource type="Texture2D" path="res://art/sprites/protagonista/sombra_m/parado/sombra_m_parado_costas.png" id="42_esquecido"]
 
 [sub_resource type="Environment" id="Environment_regiao"]
 background_mode = 1
@@ -245,6 +247,28 @@ DialogueId = "ascalafo"
 [node name="Reach" type="CollisionShape3D" parent="Ascalafo"]
 shape = SubResource("Shape_alcance")
 
+[node name="PesadaVenda" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -7.4)
+script = ExtResource("18_pesada")
+MemoryId = "a_venda"
+
+[node name="Reach" type="CollisionShape3D" parent="PesadaVenda"]
+shape = SubResource("Shape_alcance")
+
+[node name="MesaPacto" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0.45, -8.5)
+use_collision = true
+size = Vector3(1.8, 0.9, 1)
+material = SubResource("Mat_terracota")
+
+[node name="Prova" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, -7.4)
+script = ExtResource("14_conversa")
+DialogueId = "prova"
+
+[node name="Reach" type="CollisionShape3D" parent="Prova"]
+shape = SubResource("Shape_alcance")
+
 [node name="ParaHipno" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 1, 0)
 script = ExtResource("8_saida")
@@ -277,6 +301,18 @@ JournalKey = "obj.trivia.examinar"
 TriviaId = "trivia_palacio"
 
 [node name="Reach" type="CollisionShape3D" parent="Trivia"]
+shape = SubResource("Shape_alcance")
+
+[node name="SombraSacristao" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -3)
+script = ExtResource("22_vagante")
+EncounterId = "palacio_sacristao"
+SpriteFolder = "res://art/sprites/sombras/sacristao"
+SpritePrefix = "sacristao"
+WanderOffset = Vector3(0, 0, 6)
+NoticeRadius = 4
+
+[node name="Reach" type="CollisionShape3D" parent="SombraSacristao"]
 shape = SubResource("Shape_alcance")
 
 [node name="LuzTronos" type="OmniLight3D" parent="."]
@@ -322,6 +358,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, -8)
 
 [node name="Ascalafo" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0, 9)
+
+[node name="PesadaVenda" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -6.4)
+
+[node name="Sacristao" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -3)
+
+[node name="Prova" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, -6.4)
 
 [node name="Trivia" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 0, 6)

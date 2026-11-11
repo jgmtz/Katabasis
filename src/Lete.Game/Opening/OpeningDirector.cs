@@ -33,7 +33,7 @@ public partial class OpeningDirector : Node3D
     private const string ReflectionShaderPath = "res://src/Lete.Game/Opening/reflection.gdshader";
 
     /// <summary>Argumentos de conferência do Main: com eles, a abertura passa direto para a exploração.</summary>
-    private static readonly string[] MainArgs = { "teleport", "ui", "shot", "examine", "render", "gender", "frames", "sem-abertura", "carregar" };
+    private static readonly string[] MainArgs = { "teleport", "ui", "shot", "examine", "render", "gender", "frames", "sem-abertura", "carregar", "regiao", "final" };
 
     [ExportGroup("Tempo (segundos)")]
     // TODO decisão: duração da parte sem controle (proposta: 20 a 30 s, pulável).

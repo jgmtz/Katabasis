@@ -118,6 +118,7 @@ public partial class GameRoot : Node
                 case AcquireItem e: _root.Items.Acquire(e.ItemId); break;
                 case DrinkMnemosyne: _root.Mosaic.HearMnemosyne(); break;
                 case ForgetMemory: Forget(); break;
+                case EndGame: _root.EndingPending = true; break;
             }
         }
 
@@ -137,6 +138,9 @@ public partial class GameRoot : Node
         }
     }
     public OriginFragments OriginFragments { get; private set; } = null!;
+
+    /// <summary>Uma conversa pediu o fim do jogo (<see cref="EndGame"/>): ao fechar, o final composto começa.</summary>
+    public bool EndingPending { get; set; }
 
     /// <summary>Respostas do estado atual às condições do conteúdo (<see cref="ConditionEvaluator"/>).</summary>
     public WorldFacts Facts { get; private set; } = null!;

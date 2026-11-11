@@ -1,0 +1,22 @@
+{
+  "id": "lete_sombra",
+  "_rascunho": "A Sombra do Esquecido, chefe final (decisão do João, 11/nov/2026: ele mesmo, esquecido; HISTORIA 3.1). Termina pelas quatro respostas do final: combater, libertar (só com A Venda encarada, o nome), absorver ou trocar (também só com A Venda encarada). Rascunho (11/nov/2026, PENDENCIAS 97), nas direções decididas pelo João em 11/nov/2026 (PENDENCIAS 94).",
+  "shade": "sombra_esquecido",
+  "region": "vale_lete",
+  "battle": "sombra_esquecido",
+  "hecate_key": "encontro.lete_sombra.nota",
+  "actions": [
+    "atacar",
+    "memoria",
+    "aproximar",
+    "escutar",
+    "libertar",
+    "oferenda",
+    "ceder",
+    "absorver",
+    "eco",
+    "bolsa",
+    "fugir",
+    "trocar"
+  ]
+}

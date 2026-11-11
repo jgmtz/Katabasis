@@ -3,5 +3,24 @@
   "_nota": "Mnemósine (Ato III, secreta): duas fontes que se parecem; a certa devolve memória, a do cipreste branco tira. Blockout (10/nov/2026, PENDENCIAS 92).",
   "name_key": "regiao.mnemosine.nome",
   "scene": "res://src/Lete.Game/Regions/Mnemosine.tscn",
-  "entry": "ChegadaHipno"
+  "entry": "ChegadaHipno",
+  "_mare": "Tabela da Maré do Ato III (11/nov/2026, PENDENCIAS 96; no molde de Tênaro, decisão do João de 06/nov/2026): o mundo (a frase do Diário e os nós do grupo \"mare\"), as sombras (uma comum nova nas regiões do Ato III) e a teimosia das que ficaram. Ato IV (11/nov/2026, PENDENCIAS 97): degrau 5.",
+  "tide": [
+    {
+      "step": 4,
+      "arrival_key": "mare.mnemosine.4",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.45
+      }
+    },
+    {
+      "step": 5,
+      "arrival_key": "mare.mnemosine.5",
+      "stubborn": {
+        "_tbd": true,
+        "value": 0.55
+      }
+    }
+  ]
 }

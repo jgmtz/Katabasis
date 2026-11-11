@@ -1,0 +1,371 @@
+{
+  "id": "furias",
+  "_rascunho": "As Fúrias, chefe do Tártaro (decisão do João, 11/nov/2026: uma luta, três irmãs, uma fase por irmã; leem as Pesadas deixadas e os juramentos quebrados; Libertar pelo nome Eumênides, que só se ouve com mais Pesadas encaradas que deixadas). Rascunho (11/nov/2026, PENDENCIAS 97), nas direções decididas pelo João em 11/nov/2026 (PENDENCIAS 94).",
+  "region": "tartaro",
+  "resolve": {
+    "_tbd": true,
+    "value": 240
+  },
+  "murmur_key": "shade.comum.murmurio",
+  "attacks": [
+    {
+      "kind": "direct",
+      "gesture": "aparo_basico",
+      "caption_key": "shade.furias.gesto.1",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 10
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 22
+        }
+      }
+    },
+    {
+      "kind": "pattern",
+      "gesture": "esquiva_ondas",
+      "caption_key": "shade.furias.gesto.2",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 10
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 22
+        }
+      }
+    },
+    {
+      "kind": "direct",
+      "gesture": "aparo_rapido",
+      "caption_key": "shade.furias.gesto.3",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 11
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 24
+        }
+      }
+    }
+  ],
+  "listen": [
+    {
+      "cycle_step": 0,
+      "reveals": "clue",
+      "text_key": "shade.furias.escuta.pista",
+      "partial_key": "shade.furias.escuta.pista.metade"
+    },
+    {
+      "cycle_step": 1,
+      "reveals": "name",
+      "text_key": "shade.furias.escuta.nome",
+      "partial_key": "shade.furias.escuta.nome.metade"
+    },
+    {
+      "cycle_step": 2,
+      "reveals": "fixation",
+      "text_key": "shade.furias.escuta.fixacao",
+      "partial_key": "shade.furias.escuta.fixacao.metade"
+    }
+  ],
+  "fixation": {
+    "id": "culpa",
+    "options": [
+      {
+        "id": "saudade",
+        "label_key": "shade.comum.fixacao.saudade",
+        "wrong_key": "shade.comum.corrige.saudade"
+      },
+      {
+        "id": "medo",
+        "label_key": "shade.comum.fixacao.medo",
+        "wrong_key": "shade.comum.corrige.medo"
+      },
+      {
+        "id": "fome",
+        "label_key": "shade.comum.fixacao.fome",
+        "wrong_key": "shade.comum.corrige.fome"
+      },
+      {
+        "id": "culpa",
+        "label_key": "shade.comum.fixacao.culpa"
+      }
+    ]
+  },
+  "absorb": {
+    "resolve_fraction_max": {
+      "_tbd": true,
+      "value": 0.3
+    },
+    "weak_fill_factor": {
+      "_tbd": true,
+      "value": 0.6
+    },
+    "mark_gain": {
+      "perfect": {
+        "_tbd": true,
+        "value": 1
+      },
+      "good": {
+        "_tbd": true,
+        "value": 1
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 2
+      }
+    }
+  },
+  "echo": {
+    "id": "eco_furias",
+    "name_key": "shade.furias.eco.nome",
+    "description_key": "shade.furias.eco.descricao",
+    "gesture": "eco_torcer",
+    "resolve_damage": {
+      "perfect": {
+        "_tbd": true,
+        "value": 40
+      },
+      "good": {
+        "_tbd": true,
+        "value": 26
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 10
+      }
+    },
+    "mark_on_use": {
+      "_tbd": true,
+      "value": 1
+    }
+  },
+  "liberation": {
+    "peace": {
+      "_tbd": true,
+      "value": 70
+    },
+    "peace_gain": {
+      "perfect": {
+        "_tbd": true,
+        "value": 50
+      },
+      "good": {
+        "_tbd": true,
+        "value": 35
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 15
+      }
+    },
+    "lucidity_cost": {
+      "_tbd": true,
+      "value": 10
+    },
+    "enraged_damage_multiplier": {
+      "_tbd": true,
+      "value": 1.5
+    },
+    "progress_key": "shade.comum.libertar.progresso",
+    "freed_key": "shade.furias.libertar.parte"
+  },
+  "voices": [
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.5
+      },
+      "text_key": "shade.furias.voz.1"
+    },
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.2
+      },
+      "text_key": "shade.furias.voz.2"
+    }
+  ],
+  "phases": [
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.66
+      },
+      "caption_key": "shade.furias.fase2",
+      "art": "furias_megera",
+      "attacks": [
+        {
+          "kind": "pattern",
+          "gesture": "esquiva_redemoinho",
+          "caption_key": "shade.furias.gesto.4",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 12
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 26
+            }
+          }
+        },
+        {
+          "kind": "direct",
+          "gesture": "aparo_rapido",
+          "caption_key": "shade.furias.gesto.5",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 12
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 26
+            }
+          }
+        }
+      ]
+    },
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.33
+      },
+      "caption_key": "shade.furias.fase3",
+      "art": "furias_tisifone",
+      "attacks": [
+        {
+          "kind": "pattern",
+          "gesture": "esquiva_ondas",
+          "caption_key": "shade.furias.gesto.6",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 13
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 28
+            }
+          }
+        },
+        {
+          "kind": "direct",
+          "gesture": "aparo_basico",
+          "caption_key": "shade.furias.gesto.7",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 13
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 28
+            }
+          }
+        },
+        {
+          "kind": "pattern",
+          "gesture": "esquiva_redemoinho",
+          "caption_key": "shade.furias.gesto.4",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 13
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 28
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "story_keys": [
+    "shade.furias.historia.1",
+    "shade.furias.historia.2"
+  ],
+  "flee_clue_key": "shade.furias.fuga",
+  "yield": {
+    "lucidity_cost": {
+      "_tbd": true,
+      "value": 10
+    },
+    "text_keys": [
+      "shade.furias.ceder"
+    ]
+  },
+  "defeat_clue_keys": [
+    "shade.furias.hecate",
+    "shade.furias.hecate.2"
+  ],
+  "spare_key": "shade.furias.poupar",
+  "offering": {
+    "accepts": "mel",
+    "accept_key": "shade.furias.oferenda.aceita",
+    "refuse_key": "shade.furias.oferenda.recusa"
+  },
+  "reading": {
+    "per_heavy_left": {
+      "_tbd": true,
+      "value": 0.1
+    },
+    "per_oath_broken": {
+      "_tbd": true,
+      "value": 0.15
+    },
+    "max_multiplier": {
+      "_tbd": true,
+      "value": 1.6
+    },
+    "read_key": "shade.furias.leitura"
+  },
+  "name_scattered": {
+    "requires": {
+      "profile": {
+        "heavy": "face"
+      }
+    },
+    "missing_key": "shade.furias.escuta.sem_prova"
+  }
+}

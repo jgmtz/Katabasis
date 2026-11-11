@@ -1,0 +1,267 @@
+{
+  "id": "acerto",
+  "_rascunho": "Capítulo 4 das origens (Acerto, Ato IV, HISTORIA 2: encontra a pessoa que traiu, sem nome, entre as Sem-Nome). Cada origem tem duas respostas; uma pede o nome (A Venda encarada) ou um óbolo. A escolha vira um cartão do final. Rascunho (11/nov/2026, PENDENCIAS 99), na direção decidida pelo João em 11/nov/2026 (PENDENCIAS 94, item 6) e na tabela da HISTORIA 4.1.",
+  "mode": "fixed",
+  "speaker_key": "personagem.sem_nome_lete.nome",
+  "start": [
+    "feito",
+    "pescador",
+    "sacerdote",
+    "veterano",
+    "artesao",
+    "outra"
+  ],
+  "nodes": [
+    {
+      "id": "feito",
+      "when": {
+        "flag": "acerto_feito"
+      },
+      "line_key": "dlg.acerto.depois"
+    },
+    {
+      "id": "pescador_rito",
+      "line_key": "dlg.acerto.pescador.rito.feito",
+      "effects": [
+        {
+          "pay_obols": 1
+        },
+        {
+          "flag": "acerto_pescador_rito"
+        },
+        {
+          "flag": "acerto_feito"
+        },
+        {
+          "journal_key": "dlg.acerto.pescador.rito.diario"
+        }
+      ]
+    },
+    {
+      "id": "pescador_sem_rito",
+      "line_key": "dlg.acerto.pescador.sem_rito.feito",
+      "effects": [
+        {
+          "flag": "acerto_pescador_sem_rito"
+        },
+        {
+          "flag": "acerto_feito"
+        },
+        {
+          "journal_key": "dlg.acerto.pescador.sem_rito.diario"
+        }
+      ]
+    },
+    {
+      "id": "pescador",
+      "when": {
+        "origin": "pescador"
+      },
+      "line_key": "dlg.acerto.pescador",
+      "options": [
+        {
+          "posture": "consolar",
+          "text_key": "dlg.acerto.pescador.rito",
+          "next": "pescador_rito",
+          "requires": {
+            "obols_min": 1
+          },
+          "hint_key": "dlg.acerto.pescador.rito.dica",
+          "show_blocked": true
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.acerto.pescador.sem_rito",
+          "next": "pescador_sem_rito"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.acerto.depois_volto",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "sacerdote_nomeou",
+      "line_key": "dlg.acerto.sacerdote.nomear.feito",
+      "effects": [
+        {
+          "flag": "acerto_sacerdote_nomeou"
+        },
+        {
+          "flag": "acerto_feito"
+        },
+        {
+          "journal_key": "dlg.acerto.sacerdote.nomear.diario"
+        }
+      ]
+    },
+    {
+      "id": "sacerdote_rito",
+      "line_key": "dlg.acerto.sacerdote.rito.feito",
+      "effects": [
+        {
+          "flag": "acerto_sacerdote_rito"
+        },
+        {
+          "flag": "acerto_feito"
+        },
+        {
+          "journal_key": "dlg.acerto.sacerdote.rito.diario"
+        }
+      ]
+    },
+    {
+      "id": "sacerdote",
+      "when": {
+        "origin": "sacerdote"
+      },
+      "line_key": "dlg.acerto.sacerdote",
+      "options": [
+        {
+          "posture": "consolar",
+          "text_key": "dlg.acerto.sacerdote.nomear",
+          "next": "sacerdote_nomeou",
+          "requires": {
+            "heavy_memory": {
+              "id": "a_venda",
+              "state": "face"
+            }
+          },
+          "hint_key": "dlg.acerto.sacerdote.nomear.dica",
+          "show_blocked": true
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.acerto.sacerdote.rito",
+          "next": "sacerdote_rito"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.acerto.depois_volto",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "veterano_duelo",
+      "line_key": "dlg.acerto.veterano.duelo.feito",
+      "effects": [
+        {
+          "flag": "acerto_veterano_duelo"
+        },
+        {
+          "flag": "acerto_feito"
+        },
+        {
+          "journal_key": "dlg.acerto.veterano.duelo.diario"
+        }
+      ]
+    },
+    {
+      "id": "veterano_libertou",
+      "line_key": "dlg.acerto.veterano.libertar.feito",
+      "effects": [
+        {
+          "flag": "acerto_veterano_libertou"
+        },
+        {
+          "flag": "acerto_feito"
+        },
+        {
+          "journal_key": "dlg.acerto.veterano.libertar.diario"
+        }
+      ]
+    },
+    {
+      "id": "veterano",
+      "when": {
+        "origin": "veterano"
+      },
+      "line_key": "dlg.acerto.veterano",
+      "options": [
+        {
+          "posture": "consolar",
+          "text_key": "dlg.acerto.veterano.duelo",
+          "next": "veterano_duelo"
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.acerto.veterano.libertar",
+          "next": "veterano_libertou",
+          "requires": {
+            "heavy_memory": {
+              "id": "a_venda",
+              "state": "face"
+            }
+          },
+          "hint_key": "dlg.acerto.veterano.libertar.dica",
+          "show_blocked": true
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.acerto.depois_volto",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "artesao_entregou",
+      "line_key": "dlg.acerto.artesao.entregar.feito",
+      "effects": [
+        {
+          "flag": "acerto_artesao_entregou"
+        },
+        {
+          "flag": "acerto_feito"
+        },
+        {
+          "journal_key": "dlg.acerto.artesao.entregar.diario"
+        }
+      ]
+    },
+    {
+      "id": "artesao_destruiu",
+      "line_key": "dlg.acerto.artesao.destruir.feito",
+      "effects": [
+        {
+          "flag": "acerto_artesao_destruiu"
+        },
+        {
+          "flag": "acerto_feito"
+        },
+        {
+          "journal_key": "dlg.acerto.artesao.destruir.diario"
+        }
+      ]
+    },
+    {
+      "id": "artesao",
+      "when": {
+        "origin": "artesao"
+      },
+      "line_key": "dlg.acerto.artesao",
+      "options": [
+        {
+          "posture": "consolar",
+          "text_key": "dlg.acerto.artesao.entregar",
+          "next": "artesao_entregou"
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.acerto.artesao.destruir",
+          "next": "artesao_destruiu"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.acerto.depois_volto",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "outra",
+      "line_key": "dlg.acerto.outra"
+    }
+  ]
+}

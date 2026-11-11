@@ -27,6 +27,18 @@ public class ForgettingAndMnemosyneTests
     }
 
     [Fact]
+    public void ForgetNow_ForgetsWithoutTheLightness_OnlyKnownSkills()
+    {
+        var book = new MemoryBook(new[] { Skill("colo"), Skill("mesa") }, protections: 2);
+
+        Assert.True(book.ForgetNow("mesa"));
+        Assert.False(book.ForgetNow("mesa"));
+        Assert.False(book.ForgetNow("nao_existe"));
+        Assert.True(book.IsForgotten("mesa"));
+        Assert.Equal(2, book.ProtectionsLeft);
+    }
+
+    [Fact]
     public void ForgettingOutsideBattle_TakesTheHighestStage_NeverTheGuilt()
     {
         var memories = new[]
@@ -77,6 +89,7 @@ public class ForgettingAndMnemosyneTests
     [InlineData("""{ "acquire_item": "roma" }""", typeof(AcquireItem))]
     [InlineData("""{ "drink_mnemosyne": true }""", typeof(DrinkMnemosyne))]
     [InlineData("""{ "forget_memory": true }""", typeof(ForgetMemory))]
+    [InlineData("""{ "end_game": true }""", typeof(EndGame))]
     public void DialogueEffects_OfActThree_Parse(string json, Type expected)
     {
         using var doc = JsonDocument.Parse(json);
@@ -86,6 +99,7 @@ public class ForgettingAndMnemosyneTests
     [Theory]
     [InlineData("""{ "raise_mark": 0 }""")]
     [InlineData("""{ "drink_mnemosyne": false }""")]
+    [InlineData("""{ "end_game": false }""")]
     public void DialogueEffects_OfActThree_RejectBadValues(string json)
     {
         using var doc = JsonDocument.Parse(json);

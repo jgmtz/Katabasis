@@ -133,7 +133,7 @@ public static class DialogueData
     /// Efeito: um objeto de uma chave só (<c>journal_key</c>, <c>flag</c>, <c>origin_fragment</c>, <c>hear</c>,
     /// <c>swear_oath</c>, <c>break_oath</c>, <c>hospitality</c>: true, que precisa de <c>shade</c> no diálogo, e
     /// <c>pay_obols</c>: quantidade, <c>meet_companion</c>: id do companheiro, <c>raise_mark</c>: quantidade,
-    /// <c>acquire_item</c>: id do item, e <c>drink_mnemosyne</c> e <c>forget_memory</c>: true).
+    /// <c>acquire_item</c>: id do item, e <c>drink_mnemosyne</c>, <c>forget_memory</c> e <c>end_game</c>: true).
     /// </summary>
     /// <summary>Um efeito fora de um diálogo (as consequências de uma missão), com o mesmo formato.</summary>
     public static DialogueEffect EffectFromJson(JsonElement e, string at, string? shade = null) => Effect(at, shade, e);
@@ -164,6 +164,9 @@ public static class DialogueData
             "forget_memory" => property.Value.ValueKind == JsonValueKind.True
                 ? new ForgetMemory()
                 : throw new FormatException($"{at}: 'forget_memory' é true."),
+            "end_game" => property.Value.ValueKind == JsonValueKind.True
+                ? new EndGame()
+                : throw new FormatException($"{at}: 'end_game' é true."),
             var other => throw new FormatException($"{at}: efeito '{other}' desconhecido."),
         };
     }

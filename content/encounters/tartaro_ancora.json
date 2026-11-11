@@ -1,0 +1,11 @@
+{
+  "id": "tartaro_ancora",
+  "_rascunho": "Camada das sombras da tabela da Maré do Ato IV (11/nov/2026, PENDENCIAS 97; no molde de Tênaro, decisão do João de 06/nov/2026). Corpo comum com arte; falas e números para revisar.",
+  "shade": "ancora",
+  "region": "tartaro",
+  "battle": "tartaro_ancora",
+  "hecate_key": "encontro.tartaro_ancora.nota",
+  "requires": {
+    "tide_min": 4
+  }
+}

@@ -672,6 +672,52 @@
       "battle_front": "furias_tisifone",
       "map_folder": "res://art/sprites/sombras/furias_tisifone",
       "selectable": false
+    },
+    {
+      "id": "furias",
+      "_papel": "As três Fúrias numa luta só (decisão do João, 11/nov/2026): uma fase por irmã, com a arte de cada uma.",
+      "name_key": "shade.furias.nome",
+      "kind": "shade",
+      "gender": "f",
+      "height": {
+        "_tbd": true,
+        "value": 2.0
+      },
+      "battle_front": "furias_alecto",
+      "map_folder": "res://art/sprites/sombras/furias_alecto",
+      "selectable": false
+    },
+    {
+      "id": "esquecido_m",
+      "_papel": "A Sombra do Esquecido (decisão do João, 11/nov/2026: ele mesmo, esquecido). Provisória: a arte de costas do corpo masculino, escurecida; sem arte própria.",
+      "name_key": "shade.sombra_esquecido.nome",
+      "kind": "shade",
+      "gender": "m",
+      "height": {
+        "_tbd": true,
+        "value": 1.3
+      },
+      "battle_front": "sombra_m_costas",
+      "front_faces": "right",
+      "tint": "#6E7686",
+      "mirror_of": "sombra_m",
+      "selectable": false
+    },
+    {
+      "id": "esquecido_f",
+      "_papel": "A Sombra do Esquecido (decisão do João, 11/nov/2026: ele mesmo, esquecido). Provisória: a arte de costas do corpo feminino, escurecida; sem arte própria.",
+      "name_key": "shade.sombra_esquecido.nome",
+      "kind": "shade",
+      "gender": "f",
+      "height": {
+        "_tbd": true,
+        "value": 1.25
+      },
+      "battle_front": "sombra_f_costas",
+      "front_faces": "right",
+      "tint": "#6E7686",
+      "mirror_of": "sombra_f",
+      "selectable": false
     }
   ]
 }

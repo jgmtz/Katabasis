@@ -1,0 +1,52 @@
+{
+  "id": "final",
+  "_rascunho": "O final composto (HISTORIA 3; decisões do João de 11/nov/2026, PENDENCIAS 94; regras em rascunho, PENDENCIAS 98): a sombra da dívida (a Sombra do Esquecido) e as marcas no mundo que as escolhas deixam (trocar, o portão, ficar). O que ele fez do passado (o capítulo 4 das origens, 11/nov/2026, PENDENCIAS 99): cada escolha do Acerto é um cartão.",
+  "debt_shade": "sombra_esquecido",
+  "exchange_flag": "trocou_lugar",
+  "horn_flag": "portao_chifre",
+  "ivory_flag": "portao_marfim",
+  "stay_elysium_flag": "ficou_elisios",
+  "stay_lethe_flag": "bebeu_lete",
+  "past_cards": [
+    {
+      "flag": "acerto_pescador_rito",
+      "card": "final.acerto_pescador_rito"
+    },
+    {
+      "flag": "acerto_pescador_sem_rito",
+      "card": "final.acerto_pescador_sem_rito"
+    },
+    {
+      "flag": "acerto_sacerdote_nomeou",
+      "card": "final.acerto_sacerdote_nomeou"
+    },
+    {
+      "flag": "acerto_sacerdote_rito",
+      "card": "final.acerto_sacerdote_rito"
+    },
+    {
+      "flag": "acerto_veterano_duelo",
+      "card": "final.acerto_veterano_duelo"
+    },
+    {
+      "flag": "acerto_veterano_libertou",
+      "card": "final.acerto_veterano_libertou"
+    },
+    {
+      "flag": "acerto_artesao_entregou",
+      "card": "final.acerto_artesao_entregou"
+    },
+    {
+      "flag": "acerto_artesao_destruiu",
+      "card": "final.acerto_artesao_destruiu"
+    },
+    {
+      "flag": "aceitou_oferta",
+      "card": "final.oferta.aceitou"
+    },
+    {
+      "flag": "recusou_oferta",
+      "card": "final.oferta.recusou"
+    }
+  ]
+}

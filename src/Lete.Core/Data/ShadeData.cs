@@ -154,6 +154,45 @@ public static class ShadeData
     }
 
     /// <summary>
+    /// Campo opcional <c>reading</c> (as Fúrias, 11/nov/2026): {<c>per_heavy_left</c>, <c>per_oath_broken</c> (quanto cada
+    /// Pesada deixada e cada juramento quebrado somam ao peso dos golpes), <c>max_multiplier</c>, <c>read_key</c> (a frase
+    /// do começo, opcional)}. Nulo sem o campo.
+    /// </summary>
+    public static ShadeReading? ReadingFromJson(string json)
+    {
+        using var doc = JsonDocument.Parse(json);
+        if (!doc.RootElement.TryGetProperty("reading", out var reading))
+        {
+            return null;
+        }
+
+        var rules = new ShadeReading(
+            TbdNumber.Read(reading, "per_heavy_left"),
+            TbdNumber.Read(reading, "per_oath_broken"),
+            TbdNumber.Read(reading, "max_multiplier"),
+            reading.TryGetProperty("read_key", out var key) ? key.GetString() : null);
+        var errors = rules.Validate();
+        return errors.Count == 0 ? rules : throw new FormatException(string.Join(" ", errors));
+    }
+
+    /// <summary>
+    /// Campo opcional <c>exchange</c> (Trocar, 11/nov/2026): {<c>requires</c> (condição), <c>flag</c>,
+    /// <c>description_key</c>, <c>closed_key</c> (a descrição com a via fechada), <c>text_keys</c>}. Nulo sem o campo.
+    /// </summary>
+    public static ShadeExchange? ExchangeFromJson(string json)
+    {
+        using var doc = JsonDocument.Parse(json);
+        return doc.RootElement.TryGetProperty("exchange", out var exchange)
+            ? new ShadeExchange(
+                Conditions.ConditionParser.Parse(Required(exchange, "requires"), "exchange/requires"),
+                String(exchange, "flag"),
+                String(exchange, "description_key"),
+                String(exchange, "closed_key"),
+                Required(exchange, "text_keys").EnumerateArray().Select(t => t.GetString() ?? "").ToList())
+            : null;
+    }
+
+    /// <summary>
     /// Campo opcional <c>companion_readings</c>: a segunda leitura da sombra por cada companheiro (GDD 4.10: ele comenta a
     /// sombra à maneira dele; pode estar certo ou errado), id do companheiro → chave da fala.
     /// </summary>

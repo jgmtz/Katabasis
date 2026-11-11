@@ -1,0 +1,31 @@
+{
+  "id": "a_venda",
+  "_rascunho": "A terceira Memória Pesada (HISTORIA 1.2: entregou o nome dela como pagamento; Ato III, Palácio, onde o pacto foi feito). Decidido (João, 11/nov/2026): aflora diante do trono, depois da audiência com Hades. Rascunho (11/nov/2026, PENDENCIAS 94): a pessoa é a de O Convite, por origem; a Culpa tem efeito próprio, o Preço (price): você recupera Fôlego usando quem está ao seu lado, e o próximo apoio do companheiro sai relutante.",
+  "kind": "feast",
+  "scope": "heavy",
+  "order": 3,
+  "gate": {
+    "flag": "audiencia_hades"
+  },
+  "title_key": "pesada.a_venda.titulo",
+  "skill": "culpa_a_venda",
+  "warning_key": "pesada.a_venda.aviso",
+  "surface_key": "pesada.a_venda.aflora",
+  "stages": {
+    "full": {
+      "text_key": "pesada.a_venda.verdade"
+    }
+  },
+  "leave": {
+    "text_key": "pesada.a_venda.deixar",
+    "lucidity_max": {
+      "_tbd": true,
+      "value": 10
+    },
+    "protections": 1
+  },
+  "mosaic_position": {
+    "x": 0,
+    "y": 12
+  }
+}

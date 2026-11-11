@@ -1,0 +1,11 @@
+{
+  "id": "palacio_sacristao",
+  "_rascunho": "Camada das sombras da tabela da Maré do Ato III (11/nov/2026, PENDENCIAS 96; no molde de Tênaro, decisão do João de 06/nov/2026). Corpo comum com arte; falas e números para revisar.",
+  "shade": "sacristao",
+  "region": "palacio",
+  "battle": "palacio_sacristao",
+  "hecate_key": "encontro.palacio_sacristao.nota",
+  "requires": {
+    "tide_min": 4
+  }
+}

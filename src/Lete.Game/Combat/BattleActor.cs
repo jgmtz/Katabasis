@@ -34,6 +34,18 @@ public partial class BattleActor : Node3D
     private Vector3? _home;
     private MeshInstance3D _blob = null!;
     private bool _castsShadow = true;
+    private Color _artTint = Colors.White;
+
+    /// <summary>Os reflexos do Sonho (da esquerda para a direita; sem sprite é o próprio, o último).</summary>
+    private readonly System.Collections.Generic.List<(Sprite3D? Sprite, ShaderMaterial Material)> _reflections = new();
+
+    /// <summary>Distância entre os reflexos, em vezes a altura da arte.</summary>
+    [Export] public float ReflectionSpacing { get; set; } = 0.55f;
+
+    /// <summary>Opacidade dos reflexos: o que está em foco no menu, os outros e todos sem foco.</summary>
+    [Export] public float ReflectionFocusedAlpha { get; set; } = 1f;
+    [Export] public float ReflectionDimAlpha { get; set; } = 0.35f;
+    [Export] public float ReflectionIdleAlpha { get; set; } = 0.7f;
 
     public BattleAnimTuning Tuning { get; set; } = null!;
 
@@ -121,6 +133,84 @@ public partial class BattleActor : Node3D
         _material.SetShaderParameter(smooth ? "tex_linear" : "tex_nearest", texture);
         _material.SetShaderParameter("smooth_filter", smooth);
         _material.SetShaderParameter("tint", tint);
+        _artTint = tint;
+        HighlightReflection(null);
+    }
+
+    /// <summary>
+    /// Os reflexos do Sonho: <paramref name="count"/> figuras iguais lado a lado, o próprio sprite à direita (a sombra fica
+    /// no lado direito da tela; as cópias vêm para o meio). Elas copiam a
+    /// arte, a animação e os efeitos dele a cada quadro. Zero tira as cópias.
+    /// </summary>
+    public void SetReflections(int count)
+    {
+        foreach (var (sprite, _) in _reflections)
+        {
+            sprite?.QueueFree();
+        }
+
+        _reflections.Clear();
+        for (var i = 0; i < count; i++)
+        {
+            if (i == count - 1)
+            {
+                _reflections.Add((null, _material));
+                continue;
+            }
+
+            var material = new ShaderMaterial { Shader = FlashShader };
+            var sprite = new Sprite3D
+            {
+                Name = $"Reflexo{i + 1}",
+                Billboard = BaseMaterial3D.BillboardModeEnum.Disabled,
+                CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
+                MaterialOverride = material,
+            };
+            _body.AddChild(sprite);
+            _reflections.Add((sprite, material));
+        }
+
+        CopyToReflections();
+        HighlightReflection(null);
+    }
+
+    /// <summary>Acende o reflexo em foco no menu e apaga os outros (nulo: todos iguais, meio apagados).</summary>
+    public void HighlightReflection(int? index)
+    {
+        if (_reflections.Count == 0)
+        {
+            _material.SetShaderParameter("tint", _artTint);
+            return;
+        }
+
+        for (var i = 0; i < _reflections.Count; i++)
+        {
+            var alpha = index is null ? ReflectionIdleAlpha : i == index ? ReflectionFocusedAlpha : ReflectionDimAlpha;
+            _reflections[i].Material.SetShaderParameter("tint", new Color(_artTint, _artTint.A * alpha));
+        }
+    }
+
+    private void CopyToReflections()
+    {
+        var last = _reflections.Count - 1;
+        for (var i = 0; i < _reflections.Count; i++)
+        {
+            var (sprite, material) = _reflections[i];
+            if (sprite is null)
+            {
+                continue;
+            }
+
+            sprite.Position = new Vector3((i - last) * ReflectionSpacing * _height, 0, 0);
+            sprite.Texture = _sprite.Texture;
+            sprite.PixelSize = _sprite.PixelSize;
+            sprite.Offset = _sprite.Offset;
+            sprite.FlipH = _sprite.FlipH;
+            foreach (var param in new[] { "tex_nearest", "tex_linear", "smooth_filter", "flash", "fade", "dissolve" })
+            {
+                material.SetShaderParameter(param, _material.GetShaderParameter(param));
+            }
+        }
     }
 
     /// <summary>A Marca no protagonista (<c>Lete.Core.Presentation.MarkLook</c>): perda de cor e, na faixa alta, sem sombra.</summary>
@@ -170,6 +260,11 @@ public partial class BattleActor : Node3D
 
     public override void _Process(double delta)
     {
+        if (_reflections.Count > 0)
+        {
+            CopyToReflections();
+        }
+
         if (_idleFrames is null)
         {
             return;

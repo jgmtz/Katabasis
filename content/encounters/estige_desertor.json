@@ -1,0 +1,11 @@
+{
+  "id": "estige_desertor",
+  "_rascunho": "Camada das sombras da tabela da Maré do Ato III (11/nov/2026, PENDENCIAS 96; no molde de Tênaro, decisão do João de 06/nov/2026). Corpo comum com arte; falas e números para revisar.",
+  "shade": "desertor",
+  "region": "estige",
+  "battle": "estige_desertor",
+  "hecate_key": "encontro.estige_desertor.nota",
+  "requires": {
+    "tide_min": 3
+  }
+}

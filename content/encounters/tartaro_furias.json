@@ -1,0 +1,22 @@
+{
+  "id": "tartaro_furias",
+  "_rascunho": "As Fúrias, chefe do Tártaro (decisão do João, 11/nov/2026: uma luta, três irmãs, uma fase por irmã; leem as Pesadas deixadas e os juramentos quebrados; Libertar pelo nome Eumênides, que só se ouve com mais Pesadas encaradas que deixadas). Rascunho (11/nov/2026, PENDENCIAS 97), nas direções decididas pelo João em 11/nov/2026 (PENDENCIAS 94).",
+  "shade": "furias",
+  "region": "tartaro",
+  "battle": "furias",
+  "hecate_key": "encontro.tartaro_furias.nota",
+  "actions": [
+    "atacar",
+    "memoria",
+    "aproximar",
+    "escutar",
+    "libertar",
+    "oferenda",
+    "presenciar",
+    "ceder",
+    "absorver",
+    "eco",
+    "bolsa",
+    "fugir"
+  ]
+}

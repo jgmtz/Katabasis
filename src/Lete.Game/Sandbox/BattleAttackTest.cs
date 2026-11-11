@@ -60,6 +60,7 @@ public partial class BattleAttackTest : Node
     private const string StopWitnessingId = "presenciar_parar";
     private const string SpareId = BattleActions.Spare;
     private const string YieldId = BattleActions.Yield;
+    private const string ExchangeId = BattleActions.Exchange;
     private const string OfferingId = BattleActions.Offering;
     private const string BagId = BattleActions.Bag;
     private const string FleeId = BattleActions.Flee;
@@ -104,6 +105,10 @@ public partial class BattleAttackTest : Node
 
     /// <summary>O Sonho (decisão do João, 10/nov/2026): Atacar escolhe um dos reflexos; nulo nas outras lutas.</summary>
     private DreamRules? _dreamRules;
+    private ShadeReading? _reading;
+    private float _readingMultiplier = 1f;
+    private ShadeExchange? _exchange;
+    private IReadOnlyList<Lete.Core.Recollections.CombatMemory> _combatMemories = System.Array.Empty<Lete.Core.Recollections.CombatMemory>();
     private DreamReflections? _dream;
     private bool _dreamMissed;
     private bool _dishonored;
@@ -328,6 +333,8 @@ public partial class BattleAttackTest : Node
         _nameScattered = ShadeData.NameScatteredFromJson(shade);
         _honor = ShadeData.HonorFromJson(shade);
         _dreamRules = ShadeData.ReflectionsFromJson(shade);
+        _reading = ShadeData.ReadingFromJson(shade);
+        _exchange = ShadeData.ExchangeFromJson(shade);
         _headsRules = ShadeData.HeadsFromJson(shade);
         _readings = ShadeData.ReadingsFromJson(shade);
         foreach (var gesture in _story.Phases.SelectMany(p => p.Attacks).Select(a => a.Gesture).Distinct())
@@ -421,6 +428,7 @@ public partial class BattleAttackTest : Node
         _hud.Track(_stage.Camera, Shade);
 
         _menu.DescriptionChanged += text => _hud.SetDescription(text);
+        _menu.FocusChanged += OnMenuFocusChanged;
         _menu.ActionChosen += OnActionChosen;
         _menu.BackRequested += GoBack;
         _menu.Relaid += () => _hud.PlacePortrait(_menu.BoxRect);
@@ -435,12 +443,13 @@ public partial class BattleAttackTest : Node
         if (_encounter is not null)
         {
             // --licao joga a lição; --licao=falhar não apara nem esquiva (para ver a derrota); --licao=suportar e =atacar
-            // aguentam o ciclo ou só atacam; --licao=acalmar dá a
+            // aguentam o ciclo ou só atacam; --licao=trocar troca (a Sombra do Esquecido); --licao=acalmar dá a
             // oferenda que acalma cada cabeça de um guardião (Cérbero).
             if (System.Array.Find(OS.GetCmdlineUserArgs(), a => a.StartsWith("--licao")) is { } lesson)
             {
                 RunDemo(lesson.EndsWith("=falhar") ? "licao_falhar" : lesson.EndsWith("=acalmar") ? "acalmar"
-                    : lesson.EndsWith("=suportar") ? "suportar" : lesson.EndsWith("=atacar") ? "atacar" : "licao");
+                    : lesson.EndsWith("=suportar") ? "suportar" : lesson.EndsWith("=atacar") ? "atacar"
+                    : lesson.EndsWith("=trocar") ? "trocar" : "licao");
             }
 
             // O --shot do mapa sai quando ele voltar; aqui, só com --shot-at.
@@ -589,7 +598,7 @@ public partial class BattleAttackTest : Node
         // As Memórias vêm do Mosaico (GDD 2.1): uma por Lembrança, com a força do estágio, e a Culpa de cada Pesada
         // encarada. As proteções da Leveza voltam a cada luta; o que foi esquecido (numa luta anterior ou na fonte errada)
         // continua esquecido até a Trívia.
-        var combatMemories = GameRoot.Instance.Mosaic.CombatMemories(_allMemories);
+        var combatMemories = _combatMemories = GameRoot.Instance.Mosaic.CombatMemories(_allMemories);
         _guiltIds = combatMemories.Where(m => m.Guilt).Select(m => m.Skill.Id).ToHashSet();
         _memoryStages = combatMemories.Where(m => !m.Guilt).ToDictionary(m => m.Skill.Id, m => m.Stage);
         _memories = new MemoryBook(
@@ -601,6 +610,12 @@ public partial class BattleAttackTest : Node
         RefreshShadeKnowledge();
         RefreshSupport();
         _dream = _dreamRules is null ? null : new DreamReflections(_dreamRules);
+
+        // As Fúrias leem o que ele deixou para trás: Pesadas deixadas e juramentos quebrados pesam nos golpes delas.
+        var world = GameRoot.Instance.State;
+        _readingMultiplier = _reading?.Multiplier(
+            world.HeavyMemories.Values.Count(c => c == Lete.Core.State.HeavyMemoryChoice.Leave),
+            world.Oaths.Values.Count(o => o == Lete.Core.State.OathStatus.Broken)) ?? 1f;
         ArrangeDream();
     }
 
@@ -621,6 +636,20 @@ public partial class BattleAttackTest : Node
             known.Where(r => mosaic.StageOf(r.Id) == RecollectionStage.Full).Select(r => r.TitleKey).ToList(),
             known.Where(r => mosaic.CertaintyOf(r.Id) == RecollectionCertainty.Uncertain).Select(r => r.TitleKey).ToList(),
             new System.Random());
+
+        // As figuras na cena: o Sonho à direita e as cópias à esquerda dele; a ordem da esquerda para a direita é a do menu.
+        Shade.SetReflections(_flow.Resolve.IsBroken ? 0 : _dreamRules!.Count);
+    }
+
+    /// <summary>Com o cursor num reflexo do Sonho, a figura dele acende na cena; fora da página, todos ficam iguais.</summary>
+    private void OnMenuFocusChanged(string id)
+    {
+        if (_dream is null)
+        {
+            return;
+        }
+
+        Shade.HighlightReflection(id.StartsWith(ReflectionPrefix) ? int.Parse(id[ReflectionPrefix.Length..]) : null);
     }
 
     /// <summary>Os reflexos do Sonho: cada um descreve o que segura (a frase com o título da Lembrança).</summary>
@@ -858,7 +887,33 @@ public partial class BattleAttackTest : Node
                 _flow.Lucidity.Current >= _story.YieldLucidityCost ? OathWarning(Via.Yield, "combate.acao.ceder.descricao") : "combate.acao.ceder.sem_lucidez",
                 Available: _flow.Lucidity.Current >= _story.YieldLucidityCost),
             new MenuEntry(BackId, "combate.acao.voltar", "combate.acao.voltar.descricao", SeparatorBefore: true),
-        }.Where(e => Accepts(e.Id))), focus);
+        }.Where(e => Accepts(e.Id)).ToList().WithExchange(ExchangeEntry())), focus);
+    }
+
+    /// <summary>Trocar (só contra a Sombra do Esquecido): aparece quando a sombra tem a via; abre com a condição dela.</summary>
+    private MenuEntry? ExchangeEntry()
+    {
+        if (_exchange is null)
+        {
+            return null;
+        }
+
+        var open = Lete.Core.Conditions.ConditionEvaluator.Passes(_exchange.Requires, GameRoot.Instance.Facts);
+        return new MenuEntry(ExchangeId, "combate.acao.trocar", open ? _exchange.DescriptionKey : _exchange.ClosedKey, Available: open);
+    }
+
+    /// <summary>Trocar: ele toma o lugar dela, como Alceste. A cena curta, a marca no mundo, e a luta acaba.</summary>
+    private async void DoExchange()
+    {
+        _menu.ShowMenu(false);
+        foreach (var key in _exchange!.TextKeys)
+        {
+            await ShowLine(T(key), LineSeconds);
+        }
+
+        GameRoot.Instance.State.Flags.Add(_exchange.Flag);
+        _flow.EndBattle(BattleOutcome.Spared);
+        _playerAction?.TrySetResult();
     }
 
     /// <summary>
@@ -1040,6 +1095,9 @@ public partial class BattleAttackTest : Node
             case SpareId:
                 DoSpare();
                 break;
+            case ExchangeId:
+                DoExchange();
+                break;
             case YieldId:
                 DoYield();
                 break;
@@ -1207,6 +1265,40 @@ public partial class BattleAttackTest : Node
                     return Shade.PlayHit(HitStrength(grade));
                 });
                 await ShowLine(T("combate.memoria.efeito.gaze"), LineSeconds);
+                break;
+            case MemoryEffectKind.Price:
+                // O Preço: o Fôlego volta à custa de quem está ao lado (o próximo apoio sai relutante).
+                _flow.Breath.Restore(use.Power);
+                _hud.SetBreath(_flow.Breath.Fraction);
+                _flow.ReproveAction();
+                await ShowLine(T("combate.memoria.efeito.price"), LineSeconds);
+                break;
+            case MemoryEffectKind.Lie:
+                // A Mentira: a Lucidez volta, e a Marca sobe (a romã cresce em quem finge).
+                _flow.Lucidity.Restore(use.Power);
+                _hud.SetLucidity(_flow.Lucidity.Fraction);
+                GameRoot.Instance.Mark.Add(1);
+                await ShowLine(T("combate.memoria.efeito.lie"), LineSeconds);
+                break;
+            case MemoryEffectKind.Gulp:
+                // O Gole: pesa na sombra, e uma Memória sua (a de estágio mais alto) fica esquecida até a Trívia.
+                await Protagonist.PlayAdvance(Shade.Position, () =>
+                {
+                    _flow.Resolve.Reduce(use.Power);
+                    _hud.SetResolve(_flow.Resolve.Fraction);
+                    return Shade.PlayHit(HitStrength(grade));
+                });
+                var gulped = MemoryForgetting.PickOutsideBattle(_combatMemories, _memories.Forgotten.ToHashSet());
+                if (gulped is not null && _memories.ForgetNow(gulped))
+                {
+                    GameRoot.Instance.State.Vitals.ForgottenMemories.Add(gulped);
+                    await ShowLine(string.Format(T("combate.memoria.efeito.gulp"), T(_memories.Skills.First(s => s.Id == gulped).NameKey)), LineSeconds);
+                }
+                else
+                {
+                    await ShowLine(T("combate.memoria.efeito.gulp.nada"), LineSeconds);
+                }
+
                 break;
             case MemoryEffectKind.Hush:
                 _flow.Hush((int)System.MathF.Round(use.Power));
@@ -1577,7 +1669,7 @@ public partial class BattleAttackTest : Node
     private Task TakeHit(ShadeAttack attack, GestureGrade grade)
     {
         var rage = _flow.Enraged ? _liberationRules.EnragedDamageMultiplier : 1f;
-        _flow.Breath.Reduce(attack.BreathDamage.For(grade) * rage * (1f - _flow.GuardFraction));
+        _flow.Breath.Reduce(attack.BreathDamage.For(grade) * rage * _readingMultiplier * (1f - _flow.GuardFraction));
         _hud.SetBreath(_flow.Breath.Fraction);
         return grade == GestureGrade.Perfect
             ? Task.CompletedTask
@@ -1752,6 +1844,11 @@ public partial class BattleAttackTest : Node
         if (_encounter is not null)
         {
             await ShowLine(T(_encounter.HecateKey), HecateLineSeconds);
+        }
+
+        if (_reading?.ReadKey is { } readKey)
+        {
+            await ShowLine(T(_readingMultiplier > 1f ? readKey : readKey + ".limpo"), LineSeconds);
         }
     }
 
@@ -1992,6 +2089,8 @@ public partial class BattleAttackTest : Node
             // --licao=suportar: aguenta o ciclo inteiro (Presenciar, Suportar diante de uma personificação);
             // --licao=atacar: só ataca (para passar pelas fases de um chefe).
             : mode == "suportar" ? new Queue<string[]>(new[] { new[] { ApproachId, WitnessId } })
+            // --licao=trocar: Trocar (só contra a Sombra do Esquecido, com A Venda encarada).
+            : mode == "trocar" ? new Queue<string[]>(new[] { new[] { ApproachId, ExchangeId } })
             : mode == "atacar" ? new Queue<string[]>()
             : _lesson is not null ? LessonScript() : new Queue<string[]>(new[]
         {
@@ -2195,4 +2294,18 @@ public partial class BattleAttackTest : Node
 
     private SignalAwaiter Wait(float seconds) =>
         ToSignal(GetTree().CreateTimer(seconds), SceneTreeTimer.SignalName.Timeout);
+}
+
+/// <summary>Trocar entra no fim de Aproximar, antes de Voltar.</summary>
+internal static class ExchangeMenuExtensions
+{
+    public static List<MenuEntry> WithExchange(this List<MenuEntry> entries, MenuEntry? exchange)
+    {
+        if (exchange is not null)
+        {
+            entries.Insert(System.Math.Max(0, entries.Count - 1), exchange);
+        }
+
+        return entries;
+    }
 }

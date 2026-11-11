@@ -1,0 +1,26 @@
+{
+  "id": "pescador_prova",
+  "_rascunho": "Capítulo 3 (Prova) da cadeia de origem pescador: a prova na mesa do pacto; fecha ao encarar A Venda. Rascunho (11/nov/2026, PENDENCIAS 99), na direção decidida pelo João em 11/nov/2026 (PENDENCIAS 94, item 6) e na tabela da HISTORIA 4.1.",
+  "type": "origin",
+  "hook": {
+    "all": [
+      {
+        "origin": "pescador"
+      },
+      {
+        "flag": "prova_encontrada"
+      }
+    ]
+  },
+  "stages": [
+    {
+      "when": {
+        "heavy_memory": {
+          "id": "a_venda",
+          "state": "face"
+        }
+      },
+      "journal_key": "diario.prova.pescador.fechada"
+    }
+  ]
+}

@@ -41,7 +41,8 @@ public sealed record CastMember(
     string? Reflection = null,
     string? InventoryFolder = null,
     bool BackFacesRight = true,
-    string? DialoguePortrait = null)
+    string? DialoguePortrait = null,
+    string? MirrorOf = null)
 {
     /// <summary>A arte de batalha para a pose pedida.</summary>
     public string ArtFor(bool back) =>

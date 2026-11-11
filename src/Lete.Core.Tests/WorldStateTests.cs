@@ -127,6 +127,7 @@ public class WorldStateTests
         s.LastTriviaId = "trivia_sala";
         s.OpenShortcuts.Add("corda_tenaro");
         s.CompanionHeavyComments.Add("o_convite");
+        s.CompanionChapters.Add("aulo:vinculo");
         s.Trials["julgamento_padeiro"] = ShadeDestination.Asphodel;
         s.Items.Owned["remo_do_afogado"] = (int)ItemStage.Recognized;
         s.Items.Equipped[EquipSlot.Instrument] = "remo_do_afogado";
