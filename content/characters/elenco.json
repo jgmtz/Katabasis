@@ -689,33 +689,31 @@
     },
     {
       "id": "esquecido_m",
-      "_papel": "A Sombra do Esquecido (decisão do João, 11/nov/2026: ele mesmo, esquecido). Provisória: a arte de costas do corpo masculino, escurecida; sem arte própria.",
+      "_papel": "A Sombra do Esquecido (decisão do João, 11/nov/2026: ele mesmo, esquecido). Arte do Gemini de 11/nov/2026 (KIT_GEMINI_FALTANTE): três fases de frente e o mapa 3/4 com o flutuar.",
       "name_key": "shade.sombra_esquecido.nome",
       "kind": "shade",
       "gender": "m",
       "height": {
         "_tbd": true,
-        "value": 1.3
+        "value": 1.5
       },
-      "battle_front": "sombra_m_costas",
-      "front_faces": "right",
-      "tint": "#6E7686",
+      "battle_front": "esquecido_m_f1",
+      "map_folder": "res://art/sprites/sombras/esquecido_m",
       "mirror_of": "sombra_m",
       "selectable": false
     },
     {
       "id": "esquecido_f",
-      "_papel": "A Sombra do Esquecido (decisão do João, 11/nov/2026: ele mesmo, esquecido). Provisória: a arte de costas do corpo feminino, escurecida; sem arte própria.",
+      "_papel": "A Sombra do Esquecido (decisão do João, 11/nov/2026: ele mesmo, esquecido). Arte do Gemini de 11/nov/2026 (KIT_GEMINI_FALTANTE): três fases de frente e o mapa 3/4 com o flutuar.",
       "name_key": "shade.sombra_esquecido.nome",
       "kind": "shade",
       "gender": "f",
       "height": {
         "_tbd": true,
-        "value": 1.25
+        "value": 1.5
       },
-      "battle_front": "sombra_f_costas",
-      "front_faces": "right",
-      "tint": "#6E7686",
+      "battle_front": "esquecido_f_f1",
+      "map_folder": "res://art/sprites/sombras/esquecido_f",
       "mirror_of": "sombra_f",
       "selectable": false
     }

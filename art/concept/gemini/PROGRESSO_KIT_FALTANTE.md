@@ -1,0 +1,13 @@
+# Progresso da geração do KIT_GEMINI_FALTANTE (11/nov/2026)
+
+Originais salvos como .jpeg (o Gemini baixa em JPEG; nomes seguem o kit, só muda a extensão).
+
+## Feito
+- A (8/8): `chefes/esquecido/esquecido_{m,f}_{f1,f2,f3,flutuar}.jpeg`
+  - `esquecido_f_f1_teal-descartada.jpeg`: primeira tentativa com vestido verde-azulado (fora da referência); refeita em carvão. Descartar.
+  - f3 masculino: pernas ainda aparecem (dissolvendo) em vez de sumir na poça; aceitável.
+- B (3/13): `figuras/tanato.jpeg`, `figuras/ascalafo.jpeg`, `figuras/medo.jpeg` (+ `medo_alt.jpeg`, variação mais escura)
+
+## Pendente (limite diário de imagens do Gemini atingido; reseta às 18:16)
+- B: doenca, guerra, sisifo, tantalo, danaides, acerto_pescador, acerto_sacerdote, acerto_veterano, acerto_artesao, guardioes_mnemosine
+- C: 24 acessórios de origem (itens 22 a 45)

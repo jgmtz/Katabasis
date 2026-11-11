@@ -195,6 +195,7 @@ art/sprites/        (saída do pixelizador, mesma estrutura)
 ```
 
 ## 8. Progresso
+- [~] **Kit da arte que falta (11/nov/2026): `docs/KIT_GEMINI_FALTANTE.md`** (45 imagens necessárias e 10 opcionais, prompts inteiros; 11 prontas, PENDÊNCIA 103). O checklist abaixo é anterior e parte dele já foi feita.
 - [x] Aulo F (realista), Aulo C, Aulo AF (testada em 48/64)
 - [x] Aulo AC (gerado; ciclo de 8 quadros aprovado, preset `tools/ciclos/aulo_costas.json`)
 - [~] Aulo AF: ciclo de 6 quadros inteiros do Gemini, sem corte (`tools/ciclos/aulo_frente.json`, modo `--originais`); aguardando aprovação

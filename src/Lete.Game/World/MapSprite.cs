@@ -20,6 +20,14 @@ public partial class MapSprite : Sprite3D
 
     [Export] public float IdleFps { get; set; } = 4f;
 
+    /// <summary>
+    /// Figura que muda com o corpo do protagonista (a Sombra do Esquecido é ele mesmo, 11/nov/2026): com o corpo
+    /// feminino, usa esta imagem e estes quadros no lugar de <see cref="Sprite3D.Texture"/> e <see cref="IdleFramesPrefix"/>.
+    /// </summary>
+    [Export] public Texture2D? FeminineTexture { get; set; }
+
+    [Export] public string FeminineIdleFramesPrefix { get; set; } = "";
+
     private Texture2D[] _idle = System.Array.Empty<Texture2D>();
     private float _time;
 
@@ -30,6 +38,12 @@ public partial class MapSprite : Sprite3D
         Shaded = true;
         TextureFilter = BaseMaterial3D.TextureFilterEnum.Nearest;
         AlphaCut = AlphaCutMode.Discard;
+        if (GameRoot.Instance?.State.Gender == Lete.Core.State.Gender.Feminine)
+        {
+            Texture = FeminineTexture ?? Texture;
+            IdleFramesPrefix = FeminineIdleFramesPrefix != "" ? FeminineIdleFramesPrefix : IdleFramesPrefix;
+        }
+
         if (IdleFramesPrefix != "")
         {
             _idle = Enumerable.Range(1, IdleFrameCount).Select(i => GD.Load<Texture2D>($"{IdleFramesPrefix}{i:00}.png")).ToArray();

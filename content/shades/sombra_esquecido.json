@@ -211,6 +211,7 @@
         "value": 0.66
       },
       "caption_key": "shade.sombra_esquecido.fase2",
+      "art": "{id}_f2",
       "attacks": [
         {
           "kind": "pattern",
@@ -258,6 +259,7 @@
         "value": 0.33
       },
       "caption_key": "shade.sombra_esquecido.fase3",
+      "art": "{id}_f3",
       "attacks": [
         {
           "kind": "pattern",
@@ -367,5 +369,6 @@
       "shade.sombra_esquecido.trocar.2",
       "shade.sombra_esquecido.trocar.3"
     ]
-  }
+  },
+  "_arte": "Arte das fases (entrega de 11/nov/2026, KIT_GEMINI_FALTANTE): {id} vira o id da sombra na luta (esquecido_m ou esquecido_f, pelo corpo escolhido)."
 }

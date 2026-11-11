@@ -828,8 +828,9 @@ public partial class BattleAttackTest : Node
 
             if (phase.Art is { } art)
             {
-                // Os chefes mudam de arte a cada fase (f1, f2, f3).
-                _stage.Replace(enemy: true, 0, _stage.Enemies[0].Art with { Art = art });
+                // Os chefes mudam de arte a cada fase (f1, f2, f3); {id} é a sombra desta luta (a Sombra do Esquecido
+                // tem uma arte por corpo).
+                _stage.Replace(enemy: true, 0, _stage.Enemies[0].Art with { Art = art.Replace("{id}", _stage.Enemies[0].Art.Id) });
             }
 
             RefreshShadeKnowledge();

@@ -58,7 +58,12 @@ HEADER_EXT = [
     ('Texture2D', 'res://art/sprites/sombras/sonho/parado_3q/64px/sonho_parado_3q_esq.png', '40_sonho'),
     # Ato IV (11/nov/2026): as Fúrias e a Sombra do Esquecido (provisória: o protagonista de costas, indo embora).
     ('Texture2D', 'res://art/sprites/sombras/furias_alecto/parado_3q/64px/furias_alecto_parado_3q_esq.png', '41_furias'),
-    ('Texture2D', 'res://art/sprites/protagonista/sombra_m/parado/sombra_m_parado_costas.png', '42_esquecido'),
+    ('Texture2D', 'res://art/sprites/sombras/esquecido_m/parado_3q/64px/esquecido_m_parado_3q_esq.png', '42_esquecido'),
+    # Entrega de 11/nov/2026 (KIT_GEMINI_FALTANTE): a Sombra do Esquecido nos dois corpos e as figuras da seção B.
+    ('Texture2D', 'res://art/sprites/sombras/esquecido_f/parado_3q/64px/esquecido_f_parado_3q_esq.png', '43_esquecido_f'),
+    ('Texture2D', 'res://art/sprites/sombras/tanato/parado_3q/64px/tanato_parado_3q_esq.png', '44_tanato'),
+    ('Texture2D', 'res://art/sprites/sombras/ascalafo/parado_3q/64px/ascalafo_parado_3q_esq.png', '45_ascalafo'),
+    ('Texture2D', 'res://art/sprites/sombras/medo/parado_3q/64px/medo_parado_3q_esq.png', '46_medo'),
 ]
 
 
@@ -149,7 +154,8 @@ TrialId = "{trial_id}"
 shape = SubResource("Shape_alcance")
 ''')
 
-    def examinable(self, name, pos, key, flag=None):
+    def examinable(self, name, pos, key, flag=None, texture=None):
+        """Coisa para examinar (Interactable); texture: a figura parada em 3/4 (as personificações, 11/nov/2026)."""
         flag_line = f'Flag = "{flag}"\n' if flag else ''
         self.node(f'''[node name="{name}" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {fmt(pos[0])}, {fmt(pos[1])}, {fmt(pos[2])})
@@ -158,7 +164,11 @@ JournalKey = "{key}"
 {flag_line}
 [node name="Reach" type="CollisionShape3D" parent="{name}"]
 shape = SubResource("Shape_alcance")
-''')
+''' + (f'''
+[node name="Sprite" type="Sprite3D" parent="{name}"]
+texture = ExtResource("{texture}")
+script = ExtResource("11_sprite")
+''' if texture else ''))
 
     def spring(self, name, pos, kind, amount, key, taken_key):
         """Fonte de oferenda (OfferingAltar): recolher dá o tipo, a frase vai para o Diário."""
@@ -174,8 +184,17 @@ TakenKey = "{taken_key}"
 shape = SubResource("Shape_alcance")
 ''')
 
-    def encounter(self, name, pos, encounter_id, texture='12_remador'):
-        """Sombra de encontro (ShadeEncounter): chegar perto abre a luta (content/encounters)."""
+    def encounter(self, name, pos, encounter_id, texture='12_remador', idle=None, feminine=None):
+        """Sombra de encontro (ShadeEncounter): chegar perto abre a luta (content/encounters). idle: a pasta da figura
+        com a animação parada de 64 px (6 quadros); feminine: (textura, pasta) da versão do corpo feminino."""
+        extra = ''
+        if idle:
+            extra += (f'IdleFramesPrefix = "res://art/sprites/sombras/{idle}/idle_3q/64px/esq/{idle}_idle_3q_esq_"\n'
+                      'IdleFrameCount = 6\n')
+        if feminine:
+            tex, folder = feminine
+            extra += (f'FeminineTexture = ExtResource("{tex}")\n'
+                      f'FeminineIdleFramesPrefix = "res://art/sprites/sombras/{folder}/idle_3q/64px/esq/{folder}_idle_3q_esq_"\n')
         self.node(f'''[node name="{name}" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {fmt(pos[0])}, {fmt(pos[1])}, {fmt(pos[2])})
 script = ExtResource("10_encontro")
@@ -187,7 +206,7 @@ shape = SubResource("Shape_alcance")
 [node name="Sprite" type="Sprite3D" parent="{name}"]
 texture = ExtResource("{texture}")
 script = ExtResource("11_sprite")
-''')
+{extra}''')
 
     def wanderer(self, name, pos, encounter_id, shade, offset, notice=4.0):
         """Sombra comum que vaga (WanderingShade): anda até pos+offset e volta; nota quem entra no raio, à frente."""
@@ -487,7 +506,7 @@ v.column('Olmo', (-4, 0, 4), height=4.5, radius=1.2)
 v.examinable('OlmoOlhar', (-2.4, 0, 4.6), 'obj.vestibulo.olmo')
 v.examinable('Entrada', (0, 0, 11.5), 'obj.vestibulo.entrada')
 v.column('FormaMedo', (5, 0, 8), height=1.1, radius=0.45)
-v.examinable('Medo', (4, 0, 7.2), 'obj.vestibulo.medo')
+v.examinable('Medo', (4, 0, 7.2), 'obj.vestibulo.medo', texture='46_medo')
 v.box('FormaDoenca', (1.8, 0.4, 0.8), (5, 0.2, 0), 'Mat_parede', collide=True)
 v.examinable('Doenca', (3.6, 0, 0.4), 'obj.vestibulo.doenca')
 v.column('FormaGuerra', (-5, 0, -4), height=2, radius=0.5)
@@ -782,8 +801,8 @@ for i, (x, z) in enumerate(((-8, -2), (-9, 4), (-5, 8))):
     pa.column(f'Cipreste{i + 1}', (x, 0, z), height=3, radius=0.4)
 pa.column('Romanzeira', (-6, 0, 2), height=1.8, radius=0.6)
 pa.examinable('Roma', (-4.6, 0, 2.5), 'obj.palacio.roma')
-pa.box('PedraAscalafo', (1.6, 0.8, 1.6), (-8, 0.4, 9), 'Mat_parede')
-pa.talkable('Ascalafo', (-6.6, 0, 9), 'ascalafo')
+# A pedra já vem desenhada na figura de Ascálafo (11/nov/2026).
+pa.talkable('Ascalafo', (-7.4, 0, 9), 'ascalafo', texture='45_ascalafo')
 # A Venda (3ª Pesada; decisão do João, 11/nov/2026): aflora diante do trono, depois da audiência com Hades.
 pa.heavy_place('PesadaVenda', (2, 0, -7.4), 'a_venda')
 # O capítulo 3 das origens (Prova, 11/nov/2026, PENDENCIAS 99): a mesa do pacto, ao lado do estrado.
@@ -811,7 +830,7 @@ h.examinable('Papoulas', (-2, 0, 4), 'obj.hipno.papoulas')
 h.examinable('Tabuinha', (-9, 0, 0), 'obj.hipno.tabuinha')
 h.talkable('Hipno', (-5, 0, -6), 'hipno')
 h.encounter('Sonho', (0, 0, -9), 'hipno_sonho', texture='40_sonho')
-h.talkable('Tanato', (6, 0, -7), 'tanato')
+h.talkable('Tanato', (6, 0, -7), 'tanato', texture='44_tanato')
 h.heavy_place('PesadaOlhar', (-6, 0, 6), 'o_olhar')
 h.examinable('Agua', (9, 0, 9), 'obj.hipno.agua', flag='mnemosine_achada')
 h.exit('ParaMnemosine', (11, 1, 9), (0.8, 2, 3), 'mnemosine', 'ChegadaHipno', blocked='obj.hipno.agua.fechada',
@@ -903,7 +922,8 @@ vl.water('Lete', (22, 0.04, 3), (0, 0.02, -4))
 vl.box('Cadeira', (1.2, 1.4, 1.2), (-6, 0.7, 2), 'Mat_parede')
 vl.talkable('CadeiraEsquecimento', (-4.6, 0, 2.5), 'cadeira')
 vl.heavy_place('PesadaGole', (-6, 0, 4), 'o_gole')
-vl.encounter('SombraEsquecido', (0, 0, -9), 'lete_sombra', texture='42_esquecido')
+vl.encounter('SombraEsquecido', (0, 0, -9), 'lete_sombra', texture='42_esquecido', idle='esquecido_m',
+             feminine=('43_esquecido_f', 'esquecido_f'))
 # O capítulo 4 das origens (Acerto, PENDENCIAS 99): na margem, entre as Sem-Nome, a pessoa que ele traiu.
 vl.talkable('Acerto', (6, 0, -1.5), 'acerto', idle='sem_nome')
 vl.exit('ParaPortoes', (0, 1, -12.6), (3, 2, 1), 'portoes', 'ChegadaLete', blocked='obj.lete.portoes.fechados',

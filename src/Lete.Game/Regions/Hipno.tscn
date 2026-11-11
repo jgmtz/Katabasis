@@ -41,7 +41,11 @@
 [ext_resource type="Texture2D" path="res://art/sprites/sombras/sem_nome/parado_3q/64px/sem_nome_parado_3q_esq.png" id="39_sem_nome"]
 [ext_resource type="Texture2D" path="res://art/sprites/sombras/sonho/parado_3q/64px/sonho_parado_3q_esq.png" id="40_sonho"]
 [ext_resource type="Texture2D" path="res://art/sprites/sombras/furias_alecto/parado_3q/64px/furias_alecto_parado_3q_esq.png" id="41_furias"]
-[ext_resource type="Texture2D" path="res://art/sprites/protagonista/sombra_m/parado/sombra_m_parado_costas.png" id="42_esquecido"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/esquecido_m/parado_3q/64px/esquecido_m_parado_3q_esq.png" id="42_esquecido"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/esquecido_f/parado_3q/64px/esquecido_f_parado_3q_esq.png" id="43_esquecido_f"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/tanato/parado_3q/64px/tanato_parado_3q_esq.png" id="44_tanato"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/ascalafo/parado_3q/64px/ascalafo_parado_3q_esq.png" id="45_ascalafo"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/medo/parado_3q/64px/medo_parado_3q_esq.png" id="46_medo"]
 
 [sub_resource type="Environment" id="Environment_regiao"]
 background_mode = 1
@@ -245,6 +249,10 @@ DialogueId = "tanato"
 
 [node name="Reach" type="CollisionShape3D" parent="Tanato"]
 shape = SubResource("Shape_alcance")
+
+[node name="Sprite" type="Sprite3D" parent="Tanato"]
+texture = ExtResource("44_tanato")
+script = ExtResource("11_sprite")
 
 [node name="PesadaOlhar" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 6)

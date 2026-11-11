@@ -1,4 +1,41 @@
-# FALTANDO — tudo o que falta, num lugar só (03/nov/2026)
+# FALTANDO — tudo o que falta, num lugar só (atualizado em 11/nov/2026)
+
+Resumo para o João. Os detalhes de cada item estão em `PENDENCIAS.md` (pelo número) e `BACKLOG.md`.
+
+**Onde estamos (11/nov/2026):** M0, M1 e M2 prontos. O jogo é jogável do começo ao fim em blocos (Atos I a IV, os finais). Todas as propostas abertas foram decididas (PENDÊNCIA 101); a estrutura do M4 está aprovada e as falas são rascunho.
+
+## Atualização de 11/nov/2026: o caminho até o jogo pronto
+
+### 1. Fechar o M4 (conteúdo e regras; decisões da 101)
+- [x] Bloco 1: A Venda com qualquer conversa com Hades, Portões sem nome, confirmação ao ficar e beber, golpe até o reflexo, `bond_max`, regra de combate do lugar (PENDÊNCIA 102).
+- [ ] Bloco 2: o capítulo 2 das origens (Peso); a Lia completa, como os outros companheiros; uma fala por par origem × companheiro no Vínculo (24); o cartão do Diário no final; uma Leveza própria por Pesada; a regra C com faixa mista; a tabela da HISTORIA com os espíritos nos Atos III e IV.
+- [ ] Bloco 3: a tela do final sobre a água com o reflexo; a tela de opções (reduzir movimento, alto contraste, tamanho de texto, dificuldade, assistência) e a cartela da Memória; a abertura com o corpo e a carta sorteados; a ambiência de áudio provisória (CC0).
+- [ ] Bloco 4: o ícone provisório (a Tabuinha); a prancha da paleta para aprovar; o acessório de origem no sprite (com a arte da seção C do kit).
+- [ ] Conteúdo para bater o tamanho do jogo (hoje → meta): sombras 23 → 40 a 60; Lembranças 12 → ~45 (mais as Memórias de cada uma); itens 9 → ~65; juramentos 3 → 8 a 10; julgamentos 1 → 4 a 6; missões 12 → 15 a 20; mercadores 2 → um por região (~15).
+- [ ] As regras de combate das outras regiões (só Luto, Tártaro e Elísios têm).
+- [ ] O epílogo depois dos cartões do final.
+- [ ] O Ato IV ainda pede: os condenados do Tártaro que se podem aliviar por um preço (hoje só se examinam), relíquias de heróis e Ecos fortes.
+- [ ] Ao fim do M4: perguntar se apaga `../sobras/`.
+
+### 2. Arte (do João, no Gemini)
+- [ ] `docs/KIT_GEMINI_FALTANTE.md` (11 de 45 prontas e no jogo em 11/nov: a Sombra do Esquecido, Tânato, Ascálafo e o Medo): 45 imagens necessárias (a Sombra do Esquecido em 3 fases nos dois corpos; 13 figuras que hoje são caixas ou só voz; os acessórios de origem) e 10 opcionais.
+- [ ] Depois: as ações de combate (AT) e dano (DX) dos companheiros, ícones dos itens, as pedras do Mosaico, a caixa de diálogo definitiva, as texturas e o cenário de verdade de cada região (hoje são blocos).
+
+### 3. Roteiro
+- [ ] Todas as falas são rascunho: o roteiro de verdade (cenas, Diário, falas das sombras, dos deuses e dos companheiros) e a revisão de tom.
+
+### 4. M5: acabamento
+- [ ] Os mapas de verdade de cada região (layout além do blockout).
+- [ ] Os 3 modos de dificuldade e o balanceamento de todos os números `_tbd`.
+- [ ] O tutorial refinado; acessibilidade (daltonismo, escala de fonte); remapeamento de controles; idiomas.
+- [ ] Áudio completo: trilha por região, efeitos e ambiências; créditos.
+- [ ] Rodada de teste com outras pessoas (sensação dos gestos, clareza das vias, ritmo).
+- [ ] Publicação: capa, página do itch.io, trailer, demo; conferir as regras de arte feita com geradores de imagem; versão pública.
+
+---
+
+## Lista antiga (03/nov/2026, mantida como registro)
+
 
 Resumo para o João. Os detalhes de cada item estão em `PENDENCIAS.md` (pelo número) e `BACKLOG.md`. Marque com `[x]` ou responda por número, como nas outras rodadas.
 
