@@ -1,6 +1,6 @@
 {
   "id": "culpas",
-  "_rascunho": "As Culpas das Memórias Pesadas encaradas (GDD 2.2: muito fortes, custo alto de Lucidez). O Convite herdou o Traço e os números (_tbd) da Culpa de teste 1 (31/out/2026). Efeito próprio (decisão do João, 03/nov/2026: efeito distinto por Culpa; proposta, 05/nov/2026, PENDENCIAS 85): o Chamado, a sombra para para ouvir e perde golpes inteiros (perfeito 2, bom 1, falho 0). O Plano (06/nov/2026, PENDENCIAS 90): efeito próprio, Saber (reveal): você sabia desde o início; revela o nome e a fixação da sombra (perfeito), só a fixação (bom) ou nada (falho).",
+  "_rascunho": "As Culpas das Memórias Pesadas encaradas (GDD 2.2: muito fortes, custo alto de Lucidez). O Convite herdou o Traço e os números (_tbd) da Culpa de teste 1 (31/out/2026). Efeito próprio (decisão do João, 03/nov/2026: efeito distinto por Culpa; proposta, 05/nov/2026, PENDENCIAS 85): o Chamado, a sombra para para ouvir e perde golpes inteiros (perfeito 2, bom 1, falho 0). O Plano (06/nov/2026, PENDENCIAS 90): efeito próprio, Saber (reveal): você sabia desde o início; revela o nome e a fixação da sombra (perfeito), só a fixação (bom) ou nada (falho). O Olhar (10/nov/2026, PENDENCIAS 92): efeito próprio, o Olhar (gaze): você sustenta o olhar dela no portão; a sombra perde Firmeza e você perde Fôlego, na mesma medida (sozinho, nunca derruba).",
   "memories": [
     {
       "id": "culpa_o_convite",
@@ -97,6 +97,55 @@
         "failed": {
           "_tbd": true,
           "value": 0
+        }
+      }
+    },
+    {
+      "id": "culpa_o_olhar",
+      "kind": "mourning",
+      "name_key": "memoria.culpa_o_olhar.nome",
+      "description_key": "memoria.culpa_o_olhar.descricao",
+      "stroke": {
+        "steps": [
+          "up",
+          "down",
+          "up",
+          "down"
+        ],
+        "beat_seconds": {
+          "_tbd": true,
+          "value": 0.5
+        },
+        "zero_score_offset_seconds": {
+          "_tbd": true,
+          "value": 0.2
+        },
+        "lead_in_seconds": {
+          "_tbd": true,
+          "value": 0.9
+        }
+      },
+      "lucidity_cost": {
+        "_tbd": true,
+        "value": 30
+      },
+      "failed_cost_multiplier": {
+        "_tbd": true,
+        "value": 1.5
+      },
+      "effect": "gaze",
+      "power": {
+        "perfect": {
+          "_tbd": true,
+          "value": 30
+        },
+        "good": {
+          "_tbd": true,
+          "value": 20
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 10
         }
       }
     }

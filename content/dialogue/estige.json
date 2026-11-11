@@ -1,0 +1,134 @@
+{
+  "id": "estige",
+  "_rascunho": "Rascunho (10/nov/2026, PENDENCIAS 92), nas direções decididas pelo João em 10/nov/2026 (PENDENCIAS 91). A deusa Estige oferece os três juramentos de rascunho (GDD 7.1); jurar um abre a travessia (o 3º marco da Maré).",
+  "mode": "fixed",
+  "speaker_key": "personagem.estige.nome",
+  "start": [
+    "jurou",
+    "primeira"
+  ],
+  "nodes": [
+    {
+      "id": "jurou",
+      "when": {
+        "path_key": "estige"
+      },
+      "line_key": "dlg.estige.jurou"
+    },
+    {
+      "id": "primeira",
+      "line_key": "dlg.estige.primeira",
+      "next": "escolha"
+    },
+    {
+      "id": "escolha",
+      "line_key": "dlg.estige.escolha",
+      "options": [
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.estige.ver.mao_aberta",
+          "next": "mao_aberta"
+        },
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.estige.ver.do_silencio",
+          "next": "do_silencio"
+        },
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.estige.ver.do_lar",
+          "next": "do_lar"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.estige.depois",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "mao_aberta",
+      "line_key": "dlg.estige.mao_aberta",
+      "options": [
+        {
+          "posture": "escutar",
+          "text_key": "dlg.estige.juro",
+          "next": "jura_mao_aberta"
+        },
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.estige.outro",
+          "next": "escolha"
+        }
+      ]
+    },
+    {
+      "id": "jura_mao_aberta",
+      "line_key": "dlg.estige.jurado",
+      "effects": [
+        {
+          "swear_oath": "mao_aberta"
+        },
+        {
+          "journal_key": "diario.estige.mao_aberta"
+        }
+      ]
+    },
+    {
+      "id": "do_silencio",
+      "line_key": "dlg.estige.do_silencio",
+      "options": [
+        {
+          "posture": "escutar",
+          "text_key": "dlg.estige.juro",
+          "next": "jura_do_silencio"
+        },
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.estige.outro",
+          "next": "escolha"
+        }
+      ]
+    },
+    {
+      "id": "jura_do_silencio",
+      "line_key": "dlg.estige.jurado",
+      "effects": [
+        {
+          "swear_oath": "do_silencio"
+        },
+        {
+          "journal_key": "diario.estige.do_silencio"
+        }
+      ]
+    },
+    {
+      "id": "do_lar",
+      "line_key": "dlg.estige.do_lar",
+      "options": [
+        {
+          "posture": "escutar",
+          "text_key": "dlg.estige.juro",
+          "next": "jura_do_lar"
+        },
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.estige.outro",
+          "next": "escolha"
+        }
+      ]
+    },
+    {
+      "id": "jura_do_lar",
+      "line_key": "dlg.estige.jurado",
+      "effects": [
+        {
+          "swear_oath": "do_lar"
+        },
+        {
+          "journal_key": "diario.estige.do_lar"
+        }
+      ]
+    }
+  ]
+}

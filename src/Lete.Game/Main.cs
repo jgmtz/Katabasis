@@ -494,7 +494,7 @@ public partial class Main : Node
     /// --render=low|direct  --gender=m|f  --teleport=Nome  --examine
     /// --carregar  --ui=journal|mosaic|inventory|debug  --shot=caminho.png  --frames=N
     /// --pesada=encarar,deixar (decide as próximas Pesadas da fila pela cena; a última fica na tela, sem --ui)
-    /// --regiao=tenaro|aqueronte|sala_teste (sem ela, as conferências abrem a sala de teste)
+    /// --regiao=tenaro|aqueronte|sala_teste (sem ela, as conferências abrem a sala de teste)  --jurar=mao_aberta (jura direto)
     /// --companheiro=aulo  --origem=artesao  --despertar=padeiro (oferenda certa)  --conversar=padeiro --escolher=0,1 (botões, em ordem)
     /// --loja=coveiro  --trivia=trivia_sala  --julgamento=julgamento_padeiro  --obolos=N  --apertar=0,1 (botões da tela aberta)
     /// </summary>
@@ -577,6 +577,13 @@ public partial class Main : Node
             {
                 GameRoot.Instance.State.Flags.Add(flag);
             }
+        }
+
+        if (args.TryGetValue("jurar", out var oath))
+        {
+            // Teste: jura direto (ex.: mao_aberta, para cruzar o Estige sem a conversa).
+            GameRoot.Instance.Oaths.Swear(oath);
+            GameRoot.Instance.PathKeys.Refresh();
         }
 
         if (args.TryGetValue("conhecer", out var met))

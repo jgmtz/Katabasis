@@ -271,7 +271,7 @@ Com vínculo alto, a despedida é mais longa e mais difícil e o pedido dele(a) 
 | O Sonho | Hipno e Tânato | Real contra falso | Distinguir o reflexo verdadeiro |
 | As Fúrias | Portão do Tártaro | Culpa e perjúrio | Libertar por provas, combater ou absorver |
 | A Sombra do Esquecido | Vale do Lete | O próprio passado | As quatro respostas do final (3.) |
-| *(opcional)* O Sem-Nome | Poço das Sem-Nome | O mais difícil de libertar; recompensa rara | — |
+| *(opcional)* A Sem-Nome *(mulher: Artemisa; decisão do João, 10/nov/2026)* | Poço das Sem-Nome | A mais difícil de libertar; recompensa rara | Achar os quatro pedaços do nome no Poço antes de Libertar |
 
 **Cérbero em detalhe**
 - Fase 1: as três cabeças atacam por três lados do quadro da Esquiva.

@@ -1,0 +1,25 @@
+{
+  "id": "palacio_descida",
+  "_rascunho": "Rascunho (10/nov/2026, PENDENCIAS 92), nas direções decididas pelo João em 10/nov/2026 (PENDENCIAS 91). A descida do Palácio à morada de Hipno: o favor de passagem de Hades, o caminho do jardim que Perséfone mostra, ou a escada dos jardineiros, que Ascálafo mostra se você calar. Nenhuma fecha o jogo: Perséfone sempre mostra o jardim, a não ser que você tenha delatado; então Hades dá o favor sem pedir nada.",
+  "journal_key": "diario.caminho.palacio_descida",
+  "ways": [
+    {
+      "id": "hades",
+      "condition": {
+        "flag": "favor_passagem_hades"
+      }
+    },
+    {
+      "id": "persefone",
+      "condition": {
+        "flag": "persefone_jardim"
+      }
+    },
+    {
+      "id": "ascalafo",
+      "condition": {
+        "flag": "ascalafo_calou"
+      }
+    }
+  ]
+}

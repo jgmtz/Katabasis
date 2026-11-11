@@ -1,0 +1,7 @@
+{
+  "id": "palacio",
+  "_nota": "O Palácio de Hades e Perséfone (Ato III): a audiência com Hades, Perséfone e a romã, e o dilema de Ascálafo no jardim. Blockout (10/nov/2026, PENDENCIAS 92).",
+  "name_key": "regiao.palacio.nome",
+  "scene": "res://src/Lete.Game/Regions/Palacio.tscn",
+  "entry": "ChegadaEstige"
+}

@@ -356,6 +356,7 @@
     ],
     "dishonor_key": "shade.campeao.desonra",
     "blessing_flag": "bencao_campeao",
-    "blessing_key": "diario.campeao.bencao"
+    "blessing_key": "diario.campeao.bencao",
+    "blessing_item": "exvoto_do_campeao"
   }
 }

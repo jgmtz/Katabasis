@@ -1,0 +1,200 @@
+{
+  "id": "persefone",
+  "_rascunho": "Rascunho (10/nov/2026, PENDENCIAS 92), nas direções decididas pelo João em 10/nov/2026 (PENDENCIAS 91). Perséfone e a romã (HISTORIA 7.1: espelho da Marca). O pacto dá a Romã de Perséfone e sobe a Marca (2; o Sacerdote, por causa da rixa de Deméter, paga 3; números provisórios). Se você calou sobre Ascálafo, ela mostra o caminho do jardim; se delatou, fica fria e não mostra. Sem arte: só a voz.",
+  "mode": "fixed",
+  "speaker_key": "personagem.persefone.nome",
+  "start": [
+    "pacto_feito",
+    "delatada",
+    "sacerdote",
+    "primeira",
+    "perguntas"
+  ],
+  "nodes": [
+    {
+      "id": "pacto_feito",
+      "when": {
+        "flag": "pacto_persefone"
+      },
+      "line_key": "dlg.persefone.pacto_feito",
+      "options": [
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.persefone.jardim",
+          "next": "jardim",
+          "requires": {
+            "not": {
+              "flag": "ascalafo_delatou"
+            }
+          }
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.persefone.sair",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "delatada",
+      "when": {
+        "flag": "ascalafo_delatou"
+      },
+      "line_key": "dlg.persefone.delatada",
+      "options": [
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.persefone.pacto",
+          "next": "pacto_oferta"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.persefone.sair",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "sacerdote",
+      "when": {
+        "all": [
+          {
+            "origin": "sacerdote"
+          },
+          {
+            "not": {
+              "flag": "conheceu_persefone"
+            }
+          }
+        ]
+      },
+      "line_key": "dlg.persefone.sacerdote",
+      "effects": [
+        {
+          "flag": "conheceu_persefone"
+        }
+      ],
+      "next": "perguntas"
+    },
+    {
+      "id": "primeira",
+      "when": {
+        "not": {
+          "flag": "conheceu_persefone"
+        }
+      },
+      "line_key": "dlg.persefone.primeira",
+      "effects": [
+        {
+          "flag": "conheceu_persefone"
+        }
+      ],
+      "next": "perguntas"
+    },
+    {
+      "id": "perguntas",
+      "line_key": "dlg.persefone.perguntas",
+      "options": [
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.persefone.roma",
+          "next": "roma"
+        },
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.persefone.jardim",
+          "next": "jardim"
+        },
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.persefone.pacto",
+          "next": "pacto_oferta"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.persefone.sair",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "roma",
+      "line_key": "dlg.persefone.sobre_roma",
+      "next": "perguntas"
+    },
+    {
+      "id": "jardim",
+      "line_key": "dlg.persefone.mostra_jardim",
+      "effects": [
+        {
+          "flag": "persefone_jardim"
+        }
+      ]
+    },
+    {
+      "id": "pacto_oferta",
+      "line_key": "dlg.persefone.oferta",
+      "options": [
+        {
+          "posture": "escutar",
+          "text_key": "dlg.persefone.aceitar",
+          "next": "pacto",
+          "requires": {
+            "not": {
+              "origin": "sacerdote"
+            }
+          }
+        },
+        {
+          "posture": "escutar",
+          "text_key": "dlg.persefone.aceitar",
+          "next": "pacto_sacerdote",
+          "requires": {
+            "origin": "sacerdote"
+          }
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.persefone.recusar",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "pacto",
+      "line_key": "dlg.persefone.pacto_feito_agora",
+      "effects": [
+        {
+          "raise_mark": 2
+        },
+        {
+          "acquire_item": "roma_de_persefone"
+        },
+        {
+          "flag": "pacto_persefone"
+        },
+        {
+          "journal_key": "diario.persefone.pacto"
+        }
+      ]
+    },
+    {
+      "id": "pacto_sacerdote",
+      "line_key": "dlg.persefone.pacto_sacerdote",
+      "effects": [
+        {
+          "raise_mark": 3
+        },
+        {
+          "acquire_item": "roma_de_persefone"
+        },
+        {
+          "flag": "pacto_persefone"
+        },
+        {
+          "journal_key": "diario.persefone.pacto"
+        }
+      ]
+    }
+  ]
+}

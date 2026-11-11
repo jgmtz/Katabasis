@@ -1,0 +1,19 @@
+{
+  "id": "exvoto_do_campeao",
+  "_rascunho": "A bênção do Campeão (decisão do João, 10/nov/2026, PENDENCIAS 91): vencido com honra, ele dá este ex-voto. O Anel de aparo fica um pouco mais largo. Textos e número para revisar.",
+  "category": "votive",
+  "name_key": "item.exvoto_do_campeao.nome",
+  "story_key": "item.exvoto_do_campeao.historia",
+  "affinity": "feast",
+  "stages": [
+    {
+      "id": "worn",
+      "modifiers": {
+        "parry_window": {
+          "_tbd": true,
+          "value": 0.1
+        }
+      }
+    }
+  ]
+}

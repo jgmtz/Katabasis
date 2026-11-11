@@ -1,0 +1,63 @@
+{
+  "id": "hipno",
+  "_rascunho": "Rascunho (10/nov/2026, PENDENCIAS 92), nas direções decididas pelo João em 10/nov/2026 (PENDENCIAS 91). Hipno (só a voz, entre as papoulas): a pista do Sonho (o reflexo verdadeiro segura o que você lembra inteiro) e a de Mnemósine.",
+  "mode": "fixed",
+  "speaker_key": "personagem.hipno.nome",
+  "start": [
+    "depois",
+    "primeira"
+  ],
+  "nodes": [
+    {
+      "id": "depois",
+      "when": {
+        "flag": "hipno_falou"
+      },
+      "line_key": "dlg.hipno.depois"
+    },
+    {
+      "id": "primeira",
+      "line_key": "dlg.hipno.primeira",
+      "effects": [
+        {
+          "flag": "hipno_falou"
+        }
+      ],
+      "options": [
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.hipno.sonho",
+          "next": "sonho"
+        },
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.hipno.fonte",
+          "next": "fonte"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.hipno.calar",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "sonho",
+      "line_key": "dlg.hipno.sobre_sonho",
+      "effects": [
+        {
+          "journal_key": "diario.hipno.sonho"
+        }
+      ]
+    },
+    {
+      "id": "fonte",
+      "line_key": "dlg.hipno.sobre_fonte",
+      "effects": [
+        {
+          "journal_key": "diario.hipno.fonte"
+        }
+      ]
+    }
+  ]
+}

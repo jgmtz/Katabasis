@@ -25,11 +25,12 @@ public sealed class Healing
         _tideStep = tideStep;
     }
 
-    /// <summary>Descansar numa Trívia: Fôlego e Lucidez cheios.</summary>
+    /// <summary>Descansar numa Trívia: Fôlego e Lucidez cheios, e nada fica esquecido.</summary>
     public void Rest()
     {
         _vitals.BreathSpent = 0f;
         _vitals.LuciditySpent = 0f;
+        _vitals.ForgottenMemories.Clear();
         _events.Publish(new Rested());
     }
 

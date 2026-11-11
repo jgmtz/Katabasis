@@ -200,6 +200,15 @@ public class ContentTests
         Assert.All(items, i => Assert.True(File.Exists(Content("items", i.Id + ".json")), $"Item '{i.Id}' difere do arquivo."));
         Assert.All(sets, s => Assert.All(s.Pieces, p => Assert.Contains(items, i => i.Id == p && i.SetId == s.Id)));
         Assert.All(items.Where(i => i.PathKey is not null), i => Assert.True(File.Exists(Content("path", i.PathKey + ".json"))));
+
+        // A bênção de um duelo de honra é um item que existe.
+        foreach (var file in Directory.GetFiles(Content("shades"), "*.json"))
+        {
+            if (ShadeData.HonorFromJson(File.ReadAllText(file))?.BlessingItem is { } blessing)
+            {
+                Assert.Contains(items, i => i.Id == blessing);
+            }
+        }
     }
 
     [Fact]

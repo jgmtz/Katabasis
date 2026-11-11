@@ -112,3 +112,15 @@ public sealed record PayObols(int Amount) : DialogueEffect;
 
 /// <summary>Conhece um companheiro (o capítulo 0, o encontro).</summary>
 public sealed record MeetCompanion(string CompanionId) : DialogueEffect;
+
+/// <summary>Sobe a Marca (o pacto de Perséfone: custo irreversível, GDD 2.3).</summary>
+public sealed record RaiseMark(int Amount) : DialogueEffect;
+
+/// <summary>Ganha um item (a bênção de um pacto).</summary>
+public sealed record AcquireItem(string ItemId) : DialogueEffect;
+
+/// <summary>Bebe da fonte de Mnemósine: toda Lembrança com fonte do tipo <c>mnemosyne</c> a ouve (confirma as incertas e dá as novas).</summary>
+public sealed record DrinkMnemosyne : DialogueEffect;
+
+/// <summary>Uma Memória fica esquecida até a Trívia (beber da fonte errada); a escolha está em <see cref="Combat.MemoryForgetting"/>.</summary>
+public sealed record ForgetMemory : DialogueEffect;

@@ -1,0 +1,242 @@
+{
+  "id": "hades",
+  "_rascunho": "Rascunho (10/nov/2026, PENDENCIAS 92), nas direções decididas pelo João em 10/nov/2026 (PENDENCIAS 91). A audiência com Hades (HISTORIA 7.1): pedir exige oferecer um nome (o da Sem-Nome, se você juntou os pedaços), uma promessa (sempre possível) ou uma sombra libertada; o favor é informação (a pista de Mnemósine) ou passagem (a descida). Quem delatou Perséfone ganha o favor sem pagar. Sem arte: só a voz.",
+  "mode": "fixed",
+  "speaker_key": "personagem.hades.nome",
+  "start": [
+    "depois",
+    "delatou",
+    "primeira"
+  ],
+  "nodes": [
+    {
+      "id": "depois",
+      "when": {
+        "flag": "audiencia_hades"
+      },
+      "line_key": "dlg.hades.depois"
+    },
+    {
+      "id": "delatou",
+      "when": {
+        "flag": "ascalafo_delatou"
+      },
+      "line_key": "dlg.hades.delatou",
+      "next": "favor"
+    },
+    {
+      "id": "primeira",
+      "line_key": "dlg.hades.primeira",
+      "options": [
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.hades.pedir",
+          "next": "oferecer"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.hades.calar",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "oferecer",
+      "line_key": "dlg.hades.oferecer",
+      "options": [
+        {
+          "posture": "pressionar",
+          "text_key": "dlg.hades.um_nome",
+          "next": "nome",
+          "requires": {
+            "all": [
+              {
+                "flag": "sem_nome_pedaco_1"
+              },
+              {
+                "flag": "sem_nome_pedaco_2"
+              },
+              {
+                "flag": "sem_nome_pedaco_3"
+              },
+              {
+                "flag": "sem_nome_pedaco_4"
+              }
+            ]
+          }
+        },
+        {
+          "posture": "escutar",
+          "text_key": "dlg.hades.uma_promessa",
+          "next": "promessa"
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.hades.uma_sombra",
+          "next": "sombra",
+          "requires": {
+            "any": [
+              {
+                "shade_state": {
+                  "id": "remador",
+                  "state": "freed"
+                }
+              },
+              {
+                "shade_state": {
+                  "id": "sem_nome",
+                  "state": "freed"
+                }
+              },
+              {
+                "shade_state": {
+                  "id": "soldado",
+                  "state": "freed"
+                }
+              },
+              {
+                "shade_state": {
+                  "id": "lavadeira",
+                  "state": "freed"
+                }
+              },
+              {
+                "shade_state": {
+                  "id": "pastor",
+                  "state": "freed"
+                }
+              },
+              {
+                "shade_state": {
+                  "id": "campeao",
+                  "state": "freed"
+                }
+              },
+              {
+                "shade_state": {
+                  "id": "noiva",
+                  "state": "freed"
+                }
+              },
+              {
+                "shade_state": {
+                  "id": "perjuro",
+                  "state": "freed"
+                }
+              },
+              {
+                "shade_state": {
+                  "id": "viuva",
+                  "state": "freed"
+                }
+              },
+              {
+                "shade_state": {
+                  "id": "carpideira",
+                  "state": "freed"
+                }
+              },
+              {
+                "shade_state": {
+                  "id": "camponesa",
+                  "state": "freed"
+                }
+              },
+              {
+                "shade_state": {
+                  "id": "fugitivo",
+                  "state": "freed"
+                }
+              },
+              {
+                "shade_state": {
+                  "id": "afogada",
+                  "state": "freed"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "nome",
+      "line_key": "dlg.hades.nome",
+      "effects": [
+        {
+          "flag": "deu_nome_hades"
+        },
+        {
+          "journal_key": "diario.hades.nome"
+        }
+      ],
+      "next": "favor"
+    },
+    {
+      "id": "promessa",
+      "line_key": "dlg.hades.promessa",
+      "effects": [
+        {
+          "flag": "promessa_hades"
+        },
+        {
+          "journal_key": "diario.hades.promessa"
+        }
+      ],
+      "next": "favor"
+    },
+    {
+      "id": "sombra",
+      "line_key": "dlg.hades.sombra",
+      "effects": [
+        {
+          "flag": "sombra_para_hades"
+        }
+      ],
+      "next": "favor"
+    },
+    {
+      "id": "favor",
+      "line_key": "dlg.hades.favor",
+      "options": [
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.hades.informacao",
+          "next": "informacao"
+        },
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.hades.passagem",
+          "next": "passagem"
+        }
+      ]
+    },
+    {
+      "id": "informacao",
+      "line_key": "dlg.hades.dada_informacao",
+      "effects": [
+        {
+          "flag": "audiencia_hades"
+        },
+        {
+          "flag": "favor_info_hades"
+        },
+        {
+          "journal_key": "diario.hades.informacao"
+        }
+      ]
+    },
+    {
+      "id": "passagem",
+      "line_key": "dlg.hades.dada_passagem",
+      "effects": [
+        {
+          "flag": "audiencia_hades"
+        },
+        {
+          "flag": "favor_passagem_hades"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "id": "mnemosine",
+  "_rascunho": "Rascunho (10/nov/2026, PENDENCIAS 92), nas direções decididas pelo João em 10/nov/2026 (PENDENCIAS 91). A Memória de A água fria (cura, como as de Infância); números herdados do Colo da avó (_tbd).",
+  "memories": [
+    {
+      "id": "agua_fria",
+      "kind": "childhood",
+      "name_key": "memoria.agua_fria.nome",
+      "description_key": "memoria.agua_fria.descricao",
+      "stroke": {
+        "steps": [
+          "down",
+          "down_right",
+          "right"
+        ],
+        "beat_seconds": {
+          "_tbd": true,
+          "value": 0.55
+        },
+        "zero_score_offset_seconds": {
+          "_tbd": true,
+          "value": 0.22
+        },
+        "lead_in_seconds": {
+          "_tbd": true,
+          "value": 0.9
+        }
+      },
+      "lucidity_cost": {
+        "_tbd": true,
+        "value": 12
+      },
+      "failed_cost_multiplier": {
+        "_tbd": true,
+        "value": 1.5
+      },
+      "effect": "heal",
+      "power": {
+        "perfect": {
+          "_tbd": true,
+          "value": 15
+        },
+        "good": {
+          "_tbd": true,
+          "value": 10
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 5
+        }
+      }
+    }
+  ]
+}

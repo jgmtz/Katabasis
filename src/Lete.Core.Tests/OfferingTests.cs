@@ -59,9 +59,11 @@ public class OfferingTests
     {
         _state.Vitals.BreathSpent = 50f;
         _state.Vitals.LuciditySpent = 30f;
+        _state.Vitals.ForgottenMemories.Add("colo");
         _healing.Rest();
 
         Assert.Equal((0f, 0f), (_state.Vitals.BreathSpent, _state.Vitals.LuciditySpent));
+        Assert.Empty(_state.Vitals.ForgottenMemories);
         Assert.Contains(new Rested(), _events);
     }
 

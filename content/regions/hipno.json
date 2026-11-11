@@ -1,0 +1,7 @@
+{
+  "id": "hipno",
+  "_nota": "A morada de Hipno e Tânato (Ato III): papoulas, o Sonho (distinguir o reflexo verdadeiro), O Olhar e Tânato, que não luta. Blockout (10/nov/2026, PENDENCIAS 92).",
+  "name_key": "regiao.hipno.nome",
+  "scene": "res://src/Lete.Game/Regions/Hipno.tscn",
+  "entry": "ChegadaPalacio"
+}

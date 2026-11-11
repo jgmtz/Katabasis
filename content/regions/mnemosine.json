@@ -1,0 +1,7 @@
+{
+  "id": "mnemosine",
+  "_nota": "Mnemósine (Ato III, secreta): duas fontes que se parecem; a certa devolve memória, a do cipreste branco tira. Blockout (10/nov/2026, PENDENCIAS 92).",
+  "name_key": "regiao.mnemosine.nome",
+  "scene": "res://src/Lete.Game/Regions/Mnemosine.tscn",
+  "entry": "ChegadaHipno"
+}

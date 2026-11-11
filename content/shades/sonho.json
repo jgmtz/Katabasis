@@ -1,0 +1,375 @@
+{
+  "id": "sonho",
+  "_rascunho": "O Sonho, chefe da morada de Hipno e Tânato (HISTORIA 6: real contra falso). Decidido (João, 10/nov/2026): a cada arranjo surgem três reflexos do protagonista; só o verdadeiro segura uma Lembrança plena do Mosaico, e uma incerta confunde a pista; golpear um falso refaz o Sonho e gasta Lucidez; acertar o verdadeiro avança a fase. Rascunho (10/nov/2026, PENDENCIAS 92), nas direções decididas pelo João em 10/nov/2026 (PENDENCIAS 91). Personificação (sem nome de pessoa: Libertar fechado, Suportar), três fases com a arte do João, falas e números provisórios.",
+  "kind": "personification",
+  "name_known": true,
+  "region": "hipno",
+  "resolve": {
+    "_tbd": true,
+    "value": 210
+  },
+  "murmur_key": "shade.comum.murmurio",
+  "attacks": [
+    {
+      "kind": "direct",
+      "gesture": "aparo_basico",
+      "caption_key": "shade.sonho.gesto.1",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 10
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 22
+        }
+      }
+    },
+    {
+      "kind": "pattern",
+      "gesture": "esquiva_ondas",
+      "caption_key": "shade.sonho.gesto.2",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 10
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 22
+        }
+      }
+    },
+    {
+      "kind": "direct",
+      "gesture": "aparo_rapido",
+      "caption_key": "shade.sonho.gesto.3",
+      "breath_damage": {
+        "perfect": {
+          "_tbd": true,
+          "value": 0
+        },
+        "good": {
+          "_tbd": true,
+          "value": 11
+        },
+        "failed": {
+          "_tbd": true,
+          "value": 24
+        }
+      }
+    }
+  ],
+  "listen": [
+    {
+      "cycle_step": 0,
+      "reveals": "clue",
+      "text_key": "shade.sonho.escuta.pista",
+      "partial_key": "shade.sonho.escuta.pista.metade"
+    },
+    {
+      "cycle_step": 1,
+      "reveals": "fixation",
+      "text_key": "shade.sonho.escuta.fixacao",
+      "partial_key": "shade.sonho.escuta.fixacao.metade"
+    }
+  ],
+  "fixation": {
+    "id": "fome",
+    "options": [
+      {
+        "id": "saudade",
+        "label_key": "shade.comum.fixacao.saudade",
+        "wrong_key": "shade.comum.corrige.saudade"
+      },
+      {
+        "id": "medo",
+        "label_key": "shade.comum.fixacao.medo",
+        "wrong_key": "shade.comum.corrige.medo"
+      },
+      {
+        "id": "fome",
+        "label_key": "shade.comum.fixacao.fome"
+      },
+      {
+        "id": "culpa",
+        "label_key": "shade.comum.fixacao.culpa",
+        "wrong_key": "shade.comum.corrige.culpa"
+      }
+    ]
+  },
+  "absorb": {
+    "resolve_fraction_max": {
+      "_tbd": true,
+      "value": 0.3
+    },
+    "weak_fill_factor": {
+      "_tbd": true,
+      "value": 0.6
+    },
+    "mark_gain": {
+      "perfect": {
+        "_tbd": true,
+        "value": 1
+      },
+      "good": {
+        "_tbd": true,
+        "value": 1
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 2
+      }
+    }
+  },
+  "echo": {
+    "id": "eco_sonho",
+    "name_key": "shade.sonho.eco.nome",
+    "description_key": "shade.sonho.eco.descricao",
+    "gesture": "eco_torcer",
+    "resolve_damage": {
+      "perfect": {
+        "_tbd": true,
+        "value": 40
+      },
+      "good": {
+        "_tbd": true,
+        "value": 26
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 10
+      }
+    },
+    "mark_on_use": {
+      "_tbd": true,
+      "value": 1
+    }
+  },
+  "liberation": {
+    "peace": {
+      "_tbd": true,
+      "value": 70
+    },
+    "peace_gain": {
+      "perfect": {
+        "_tbd": true,
+        "value": 50
+      },
+      "good": {
+        "_tbd": true,
+        "value": 35
+      },
+      "failed": {
+        "_tbd": true,
+        "value": 15
+      }
+    },
+    "lucidity_cost": {
+      "_tbd": true,
+      "value": 10
+    },
+    "enraged_damage_multiplier": {
+      "_tbd": true,
+      "value": 1.5
+    },
+    "progress_key": "shade.comum.libertar.progresso",
+    "freed_key": "shade.sonho.libertar.parte"
+  },
+  "voices": [
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.5
+      },
+      "text_key": "shade.sonho.voz.1"
+    },
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.2
+      },
+      "text_key": "shade.sonho.voz.2"
+    }
+  ],
+  "phases": [
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.66
+      },
+      "caption_key": "shade.sonho.fase2",
+      "art": "sonho_f2",
+      "attacks": [
+        {
+          "kind": "pattern",
+          "gesture": "esquiva_redemoinho",
+          "caption_key": "shade.sonho.gesto.4",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 12
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 26
+            }
+          }
+        },
+        {
+          "kind": "direct",
+          "gesture": "aparo_rapido",
+          "caption_key": "shade.sonho.gesto.5",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 12
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 26
+            }
+          }
+        }
+      ]
+    },
+    {
+      "resolve_fraction_below": {
+        "_tbd": true,
+        "value": 0.33
+      },
+      "caption_key": "shade.sonho.fase3",
+      "art": "sonho_f3",
+      "attacks": [
+        {
+          "kind": "pattern",
+          "gesture": "esquiva_ondas",
+          "caption_key": "shade.sonho.gesto.6",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 13
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 28
+            }
+          }
+        },
+        {
+          "kind": "direct",
+          "gesture": "aparo_basico",
+          "caption_key": "shade.sonho.gesto.7",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 13
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 28
+            }
+          }
+        },
+        {
+          "kind": "pattern",
+          "gesture": "esquiva_redemoinho",
+          "caption_key": "shade.sonho.gesto.4",
+          "breath_damage": {
+            "perfect": {
+              "_tbd": true,
+              "value": 0
+            },
+            "good": {
+              "_tbd": true,
+              "value": 13
+            },
+            "failed": {
+              "_tbd": true,
+              "value": 28
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "story_keys": [
+    "shade.sonho.historia.1",
+    "shade.sonho.historia.2"
+  ],
+  "flee_clue_key": "shade.sonho.fuga",
+  "yield": {
+    "lucidity_cost": {
+      "_tbd": true,
+      "value": 10
+    },
+    "text_keys": [
+      "shade.sonho.ceder"
+    ]
+  },
+  "defeat_clue_keys": [
+    "shade.sonho.hecate",
+    "shade.sonho.hecate.2"
+  ],
+  "spare_key": "shade.sonho.poupar",
+  "offering": {
+    "accepts": "leite",
+    "accept_key": "shade.sonho.oferenda.aceita",
+    "refuse_key": "shade.sonho.oferenda.recusa"
+  },
+  "companion_readings": {
+    "aulo": "shade.sonho.leitura.aulo",
+    "ismena": "shade.sonho.leitura.ismena",
+    "dimas": "shade.sonho.leitura.dimas",
+    "septimia": "shade.sonho.leitura.septimia",
+    "calias": "shade.sonho.leitura.calias",
+    "lia": "shade.sonho.leitura.lia"
+  },
+  "reflections": {
+    "count": {
+      "_tbd": true,
+      "value": 3
+    },
+    "false_heal": {
+      "_tbd": true,
+      "value": 0.1
+    },
+    "false_lucidity": {
+      "_tbd": true,
+      "value": 10
+    },
+    "false_titles": [
+      "shade.sonho.falso.1",
+      "shade.sonho.falso.2",
+      "shade.sonho.falso.3",
+      "shade.sonho.falso.4",
+      "shade.sonho.falso.5"
+    ],
+    "detail_key": "shade.sonho.reflexo.detalhe",
+    "empty_key": "shade.sonho.reflexo.vazio"
+  }
+}

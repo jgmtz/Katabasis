@@ -33,6 +33,9 @@ public sealed class VitalsState
 
     public float LuciditySpent { get; set; }
 
+    /// <summary>Memórias (ids das habilidades) esquecidas até a próxima Trívia (GDD 4.2): na luta, com a Lucidez zerada, ou ao beber da fonte errada.</summary>
+    public HashSet<string> ForgottenMemories { get; } = new(StringComparer.Ordinal);
+
     /// <summary>Fontes de cura limitadas (Fogo do Lar, hospitalidade) → degrau da Maré em que foram usadas.</summary>
     public Dictionary<string, int> HealUses { get; } = new(StringComparer.Ordinal);
 }

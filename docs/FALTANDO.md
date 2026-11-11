@@ -100,6 +100,7 @@ Cada um espera o item indicado entre parênteses.
 - **M4, expansão, uma região por vez:**
   - Ato I: Vestíbulo com A Fome *(06/nov: feito em blocos, PENDÊNCIA 86; faltam o Medo, a Doença e a Guerra)*;
   - Ato II: Asfódelos completo com o Poço das Sem-Nome, Campos do Luto, Tribunal e Campo dos Guerreiros com O Campeão *(06/nov: em blocos, PENDÊNCIA 89; faltam as sombras do Luto e do Tribunal e a Pesada O Plano)*;
+  - Ato III *(10/nov: em blocos, PENDÊNCIA 92: Estige, Palácio, morada de Hipno e Mnemósine; faltam A Venda, os reflexos do Sonho na cena, a arte e a Maré dessas regiões)*;
   - Ato III: Estige, Palácio, Hipno e Tânato, Mnemósine;
   - Ato IV: Tártaro, Elísios, Vale do Lete, Portões e os finais;
   - as origens e os companheiros restantes;

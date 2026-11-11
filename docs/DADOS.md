@@ -110,6 +110,12 @@ Sombras **comuns** referenciam um `base_body` (um dos 6 corpos-base) e um conjun
 
 ---
 
+**Sombra, os reflexos do Sonho (10/nov/2026):** campo opcional `reflections` {`count`, `false_heal` (fração da Firmeza máxima que um reflexo falso devolve), `false_lucidity`, `false_titles` (chaves dos títulos inventados; pelo menos um por reflexo falso), `detail_key` (a frase do reflexo, com o título em `{0}`), `empty_key` (o verdadeiro sem Lembrança plena)}: Atacar abre a escolha do reflexo (`DreamReflections`). O verdadeiro segura uma Lembrança plena; um falso pode segurar uma incerta.
+
+**Duelo de honra, item da bênção (10/nov/2026):** `honor.blessing_item` (opcional): o item que a bênção dá (o Ex-voto do Campeão).
+
+**Memória, efeito `gaze` (10/nov/2026):** o Olhar (a Culpa de O Olhar): a força tira Firmeza da sombra e Fôlego do protagonista, na mesma medida; sozinho, deixa pelo menos 1 de Fôlego.
+
 ## 3. Lembrança (`content/recollections/<id>.json`)
 
 ```json
@@ -239,6 +245,10 @@ Posturas: `escutar`, `perguntar`, `pressionar`, `consolar`, `calar` (`calar` sem
 
 ---
 
+**Conversa, efeitos do Ato III (10/nov/2026):** `raise_mark`: quantidade (o pacto de Perséfone); `acquire_item`: id; `drink_mnemosyne`: true (as Lembranças que o jogador já tem ouvem a fonte do tipo `mnemosyne`; uma que ele não tem só vem se a primeira fonte dela é Mnemósine); `forget_memory`: true (a Memória de estágio mais alto, sem contar as Culpas, fica esquecida até a Trívia).
+
+**Esquecer até a Trívia (10/nov/2026):** as Memórias esquecidas ficam no save (`vitais.memorias_esquecidas`): esquecidas numa luta, continuam esquecidas nas próximas, até descansar numa Trívia.
+
 ## 6. Região (`content/regions/<id>.json`)
 
 ```json
@@ -262,6 +272,8 @@ Posturas: `escutar`, `perguntar`, `pressionar`, `consolar`, `calar` (`calar` sem
 **Implementado até agora (30/out/2026):** só `content/regions/<id>.json`: `id` (igual ao nome do arquivo), `name_key`, `scene` (`res://...tscn`) e `entry` (nome do marcador de chegada padrão na cena). O teste `RegionContentTests` confere que a cena e o marcador existem e que toda passagem (`RegionExit`: `TargetRegion`, `TargetEntry`) aponta para uma região e um marcador que existem. A Trívia diz a região em `region`. Os outros campos acima (`act`, `areas`, `connections`, `combat_rule`, `tide_table`, névoa, Trívia, mercador, clima) entram com o conteúdo de cada região.
 
 ---
+
+**Passagem com condição (10/nov/2026):** além de `RequiredPathKey`, a passagem (`RegionExit`) aceita `RequiredCondition`, uma condição em JSON como nos dados (o caminho do Estige pede `{"all": [{"region_visited": "luto"}, ...]}`); sem ela, mostra `BlockedKey`. No blockout, `exit(..., condition=...)`.
 
 ## 6.1 Encontro (`content/encounters/<id>.json`) (31/out/2026)
 

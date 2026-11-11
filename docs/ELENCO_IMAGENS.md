@@ -53,7 +53,7 @@ Pedir **opacas** (translucidez entra por shader). Sem vista de costas (no jogo a
 - A definir: as outras ~12 a 17 nomeadas e os **6 corpos-base** das sombras comuns (ver `PENDENCIAS.md`).
 
 ### 3.4 Chefes (6 + 1 opcional) — F + FL + AT (3 fases → 1 AT por fase quando for a hora)
-A Fome · Cérbero (3 cabeças, vista própria) · O Campeão · O Sonho · As Fúrias (Alecto, Megera, Tisífone) · A Sombra do Esquecido · *(opcional)* O Sem-Nome. Chefes são **maiores** (pedir figura maior, 128 a 160 px finais). Descrições em `HISTORIA.md` seção 6.
+A Fome · Cérbero (3 cabeças, vista própria) · O Campeão · O Sonho · As Fúrias (Alecto, Megera, Tisífone) · A Sombra do Esquecido · *(opcional)* A Sem-Nome. Chefes são **maiores** (pedir figura maior, 128 a 160 px finais). Descrições em `HISTORIA.md` seção 6.
 
 ### 3.5 Outros (não são Gemini, ou vêm depois)
 Retratos 64×64 (3–4 expressões por companheiro), ícones dos ~65 itens, UI, texturas de cenário, romã/Marca. Ver `ARTE.md` seção 8.
@@ -171,7 +171,7 @@ No jogo hoje são só voz (conversas sem sprite). Mesmo padrão das sombras: F +
 - **Hécate:** por decisão do João (31/out/2026) ela é **só a chama e a voz** por enquanto; a arte dela fica para depois (três rostos, três tochas, HISTORIA 7).
 
 ### Chefes (descrições a escrever antes de gerar; marcar "bigger than a normal human, imposing")
-Pendente: A Fome, O Campeão, O Sonho, As Fúrias, A Sombra do Esquecido, O Sem-Nome.
+Pendente: A Fome, O Campeão, O Sonho, As Fúrias, A Sombra do Esquecido, A Sem-Nome.
 - **Cérbero:** originais do João em `art/concept/gemini/chefes/cerbero` (f1, f2, f3 e mapa, 03/nov/2026). Há uma versão **provisória** no jogo: `pixelizar.py --alturas 128 --cores 28`, espelhada (olha para o grupo), em `art/sprites/batalha/pixel_160/cerbero_f1..f3.png` (uma por número de cabeças acordadas) e o mapa com `sprite_andar.py --altura 64` em `art/sprites/sombras/cerbero/parado/`. Ver PENDÊNCIA 81. A linha CHARACTER de cada um fica para quando o João pedir o kit dos chefes (usar `HISTORIA.md` seção 6).
 
 ## 6. Depois de gerar (pixelizar)

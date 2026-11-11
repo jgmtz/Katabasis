@@ -19,6 +19,18 @@ public class DuelHonorTests
         Assert.False(honor.IsDishonorable("memoria"));
         Assert.False(honor.IsDishonorable("atacar"));
         Assert.Equal("bencao", honor.BlessingFlag);
+        Assert.Null(honor.BlessingItem);
         Assert.Null(ShadeData.HonorFromJson("{}"));
+    }
+
+    [Fact]
+    public void Honor_ReadsTheBlessingItem()
+    {
+        var honor = ShadeData.HonorFromJson("""
+            { "honor": { "forbidden": [ "eco" ], "dishonor_key": "d", "blessing_flag": "f", "blessing_key": "b",
+                         "blessing_item": "exvoto" } }
+            """)!;
+
+        Assert.Equal("exvoto", honor.BlessingItem);
     }
 }

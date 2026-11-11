@@ -34,6 +34,12 @@ public enum MemoryEffectKind
     /// 1 só a fixação, 0 nada.
     /// </summary>
     Reveal,
+
+    /// <summary>
+    /// O Olhar (a Culpa de O Olhar, 10/nov/2026): você sustenta o olhar que ela lhe deu no portão; o golpe pesa dos dois
+    /// lados: a sombra perde Firmeza e você perde Fôlego, na mesma medida (a força).
+    /// </summary>
+    Gaze,
 }
 
 /// <summary>
@@ -84,10 +90,12 @@ public sealed class MemoryBook
 
     private readonly int _protections;
 
-    public MemoryBook(IReadOnlyList<MemorySkill> skills, int protections = 0)
+    /// <param name="forgotten">Memórias que já chegam esquecidas (esquecidas numa luta anterior ou fora dela, até a Trívia).</param>
+    public MemoryBook(IReadOnlyList<MemorySkill> skills, int protections = 0, IEnumerable<string>? forgotten = null)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(protections);
         Skills = skills;
+        _forgotten.UnionWith((forgotten ?? Enumerable.Empty<string>()).Where(id => skills.Any(s => s.Id == id)));
         _protections = protections;
         ProtectionsLeft = protections;
     }
@@ -163,3 +171,20 @@ public sealed class MemoryBook
 
 /// <summary>A Lucidez zerou: <see cref="Skill"/> foi esquecida, ou quase (a Leveza a segurou).</summary>
 public sealed record Forgetting(MemorySkill Skill, bool Resisted);
+
+/// <summary>Esquecer fora da luta (beber da fonte errada, perto de Mnemósine).</summary>
+public static class MemoryForgetting
+{
+    /// <summary>
+    /// A Memória que se esquece: a de estágio mais alto (a que mais se perde), na ordem do Mosaico; nunca a Culpa de uma
+    /// Pesada, nem uma já esquecida. Nula se não sobra nenhuma.
+    /// </summary>
+    public static string? PickOutsideBattle(IReadOnlyList<Recollections.CombatMemory> memories, IReadOnlySet<string> forgotten) =>
+        memories
+            .Where(m => !m.Guilt && !forgotten.Contains(m.Skill.Id))
+            .Select((m, order) => (m, order))
+            .OrderByDescending(p => p.m.Stage)
+            .ThenBy(p => p.order)
+            .Select(p => p.m.Skill.Id)
+            .FirstOrDefault();
+}

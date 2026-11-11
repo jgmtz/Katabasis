@@ -114,6 +114,25 @@ public partial class GameRoot : Node
                 case OfferHospitality e: _root.Healing.Hospitality(e.ShadeId); break;
                 case PayObols e: _root.State.Inventory.Obols -= Math.Min(e.Amount, _root.State.Inventory.Obols); break;
                 case MeetCompanion e: _root.Companions.Meet(e.CompanionId); break;
+                case RaiseMark e: _root.Mark.Add(e.Amount); break;
+                case AcquireItem e: _root.Items.Acquire(e.ItemId); break;
+                case DrinkMnemosyne: _root.Mosaic.HearMnemosyne(); break;
+                case ForgetMemory: Forget(); break;
+            }
+        }
+
+        /// <summary>A fonte errada: a Memória de estágio mais alto fica esquecida até a Trívia (a frase vai para o Diário).</summary>
+        private void Forget()
+        {
+            const string memoriesDir = "res://content/memories";
+            var skills = Godot.DirAccess.GetFilesAt(memoriesDir)
+                .Where(f => f.EndsWith(".json", StringComparison.Ordinal))
+                .SelectMany(f => Lete.Core.Data.MemoryData.FromJson(Godot.FileAccess.GetFileAsString($"{memoriesDir}/{f}")))
+                .ToList();
+            var forgotten = _root.State.Vitals.ForgottenMemories;
+            if (Lete.Core.Combat.MemoryForgetting.PickOutsideBattle(_root.Mosaic.CombatMemories(skills), forgotten) is { } id)
+            {
+                forgotten.Add(id);
             }
         }
     }

@@ -541,7 +541,7 @@ O protagonista é uma **sombra sem aparência**: corpo de silhueta escura, o ros
 
 ## 11. Escopo e plano de cortes
 
-O jogo é grande para uma pessoa só. Ordem de construção: **fatias verticais** (ver `BACKLOG.md`). **Ordem de cortes, se faltar tempo** (a confirmar): (1) O Sem-Nome opcional, (2) a Barca de Caronte, (3) o modo Tártaro, (4) duas das quatro origens, (5) companheiros do meio (Dimas e Septímia), (6) segunda silhueta de corpo. Sugestão do plano: começar com **duas origens e um companheiro** e acrescentar o resto depois.
+O jogo é grande para uma pessoa só. Ordem de construção: **fatias verticais** (ver `BACKLOG.md`). **Ordem de cortes, se faltar tempo** (a confirmar): (1) A Sem-Nome opcional, (2) a Barca de Caronte, (3) o modo Tártaro, (4) duas das quatro origens, (5) companheiros do meio (Dimas e Septímia), (6) segunda silhueta de corpo. Sugestão do plano: começar com **duas origens e um companheiro** e acrescentar o resto depois.
 
 ---
 

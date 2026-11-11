@@ -1,0 +1,59 @@
+{
+  "id": "fonte_mnemosine",
+  "_rascunho": "Rascunho (10/nov/2026, PENDENCIAS 92), nas direções decididas pelo João em 10/nov/2026 (PENDENCIAS 91). A fonte fria de Mnemósine e os guardiões (a tabuinha órfica): a resposta certa é \"filho/filha da Terra e do Céu estrelado\"; beber confirma as Lembranças que têm fonte em Mnemósine e dá A água fria.",
+  "mode": "fixed",
+  "speaker_key": "personagem.guardioes.nome",
+  "start": [
+    "bebeu",
+    "primeira"
+  ],
+  "nodes": [
+    {
+      "id": "bebeu",
+      "when": {
+        "flag": "bebeu_mnemosine"
+      },
+      "line_key": "dlg.mnemosine.bebeu"
+    },
+    {
+      "id": "primeira",
+      "line_key": "dlg.mnemosine.pergunta",
+      "options": [
+        {
+          "posture": "escutar",
+          "text_key": "dlg.mnemosine.terra",
+          "next": "beber"
+        },
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.mnemosine.ninguem",
+          "next": "recusa"
+        },
+        {
+          "posture": "pressionar",
+          "text_key": "dlg.mnemosine.vivo",
+          "next": "recusa"
+        }
+      ]
+    },
+    {
+      "id": "recusa",
+      "line_key": "dlg.mnemosine.recusa"
+    },
+    {
+      "id": "beber",
+      "line_key": "dlg.mnemosine.bebe",
+      "effects": [
+        {
+          "drink_mnemosyne": true
+        },
+        {
+          "flag": "bebeu_mnemosine"
+        },
+        {
+          "journal_key": "diario.mnemosine"
+        }
+      ]
+    }
+  ]
+}

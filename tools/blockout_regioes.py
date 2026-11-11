@@ -4,7 +4,7 @@ Uso (da raiz do projeto): ../ferramentas/python/Scripts/python.exe tools/blockou
 Escreve src/Lete.Game/Regions/*.tscn do zero: depois de ajustar uma cena no editor do Godot, não rode de novo
 (ou passe o ajuste para cá). Blocos agora, arte depois (decisão do João, 30/out/2026).
 """
-import sys, os
+import sys, os, json
 
 root = sys.argv[1]
 out_dir = os.path.join(root, 'src', 'Lete.Game', 'Regions')
@@ -54,6 +54,8 @@ HEADER_EXT = [
     ('Texture2D', 'res://art/sprites/companheiros/septimia_sim/parado/septimia_parado_frente.png', '37_septimia'),
     ('Texture2D', 'res://art/sprites/sombras/campeao/parado_3q/64px/campeao_parado_3q_esq.png', '38_campeao'),
     ('Texture2D', 'res://art/sprites/sombras/sem_nome/parado_3q/64px/sem_nome_parado_3q_esq.png', '39_sem_nome'),
+    # Ato III (10/nov/2026): o Sonho.
+    ('Texture2D', 'res://art/sprites/sombras/sonho/parado_3q/64px/sonho_parado_3q_esq.png', '40_sonho'),
 ]
 
 
@@ -276,9 +278,12 @@ texture = ExtResource("{texture}")
 script = ExtResource("11_sprite")
 {idle_line}''')
 
-    def exit(self, name, pos, size, region, entry, path_key='', blocked='', milestone=''):
+    def exit(self, name, pos, size, region, entry, path_key='', blocked='', milestone='', condition=None):
+        # condition: a condição em JSON (como nos dados), escrita como texto na cena.
+        cond = json.dumps(condition, separators=(',', ':')).replace('"', '\\"') if condition else ''
         extra = ''.join(f'{k} = "{v}"\n' for k, v in
-                        (('RequiredPathKey', path_key), ('BlockedKey', blocked), ('Milestone', milestone)) if v)
+                        (('RequiredPathKey', path_key), ('RequiredCondition', cond), ('BlockedKey', blocked),
+                         ('Milestone', milestone)) if v)
         self.node(f'''[node name="{name}" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {fmt(pos[0])}, {fmt(pos[1])}, {fmt(pos[2])})
 script = ExtResource("8_saida")
@@ -615,6 +620,11 @@ f.exit('ParaTribunal', (0, 1, -12.6), (2.6, 2, 1), 'tribunal', 'ChegadaAsfodelos
 f.tide(tide_min=2)
 f.exit('ParaGuerreiros', (6, 1, -12.6), (2.6, 2, 1), 'guerreiros', 'ChegadaAsfodelos')
 f.tide(tide_min=2)
+# O caminho do Estige (Ato III; decisão do João, 10/nov/2026): ao norte, a leste dos outros três; abre quando os três
+# caminhos do Ato II foram visitados.
+f.examinable('CaminhoEstige', (12, 0, -12.2), 'obj.asfodelos.caminho_estige')
+f.exit('ParaEstige', (12, 1, -12.6), (2.6, 2, 1), 'estige', 'ChegadaAsfodelos', blocked='obj.asfodelos.caminho_estige.fechado',
+       condition={'all': [{'region_visited': r} for r in ('luto', 'tribunal', 'guerreiros')]})
 # A viúva chega com o segundo degrau da Maré e procura entre as bancas da Rua dos Ofícios.
 f.wanderer('SombraViuva', (-7, 0, -1), 'asfodelos_viuva', 'carpideira', (0, 0, 6))
 # O Poço das Sem-Nome: o poço escuro, as inscrições com os pedaços do nome dela (decisão do João, 06/nov/2026: o nome
@@ -677,12 +687,14 @@ f.markers({
     'AtravessarLuto': (-6, 0, -12.6),
     'AtravessarTribunal': (0, 0, -12.6),
     'AtravessarGuerreiros': (6, 0, -12.6),
+    'SaidaEstige': (12, 0, -10.5),
+    'AtravessarEstige': (12, 0, -12.6),
 }, player=(0, 0, 10))
 f.write('Asfodelos.tscn')
 
 # ---- Ato II: os três caminhos da Trívia de Asfódelos (06/nov/2026, PENDENCIAS 89; blocos para revisar) ----
 # Cada região tem a sua Trívia, o companheiro que se conhece lá (HISTORIA 5.2) e a volta para Asfódelos ao sul.
-def ato2(name, ambient, fog, moon, back):
+def ato2(name, ambient, fog, moon, back, back_region='asfodelos'):
     r = Scene(name, ambient, fog, moon)
     r.box('Chao', (22, 1, 26), (0, -0.5, 0), 'Mat_piso')
     r.box('Oeste', (1, 3.5, 27), (-11.5, 1.75, 0))
@@ -690,7 +702,7 @@ def ato2(name, ambient, fog, moon, back):
     r.box('Norte', (23, 3.5, 1), (0, 1.75, -13.5))
     r.box('SulA', (9.5, 0.5, 1), (-6.75, 0.25, 13.5))
     r.box('SulB', (9.5, 0.5, 1), (6.75, 0.25, 13.5))
-    r.exit('ParaAsfodelos', (0, 1, 13.4), (3, 2, 1.2), 'asfodelos', back)
+    r.exit('ParaAsfodelos' if back_region == 'asfodelos' else 'Voltar', (0, 1, 13.4), (3, 2, 1.2), back_region, back)
     return r
 
 # Campos do Luto: bosque de murtas, os que morreram de amor e de saudade; Ismena se conhece aqui.
@@ -734,4 +746,83 @@ g.trivia('Trivia', (7, 0, 7), 'trivia_guerreiros')
 g.markers({'ChegadaAsfodelos': (0, 0, 10.5), 'Campeao': (0, 0, -8), 'Trivia': (5.5, 0, 7), 'Aulo': (-5.5, 0, 7),
            'AtravessarAsfodelos': (0, 0, 13.4)}, player=(0, 0, 10.5))
 g.write('Guerreiros.tscn')
+
+# ---- Ato III (10/nov/2026, PENDENCIAS 92; blocos para revisar) ----
+# O Estige: chega-se de Asfódelos pelo sul; a deusa (só a voz) à beira do rio oferece os juramentos; jurar abre a
+# travessia, ao norte, que é o 3º marco da Maré e leva ao Palácio.
+e = ato2('Estige', '0.36, 0.36, 0.42, 1', '0.26, 0.26, 0.32, 1', 0.45, 'SaidaEstige')
+e.water('Rio', (22, 0.04, 6), (0, -0.3, -7))
+e.blocker('RioBarreira', (22, 2, 5), (0, 1, -8))
+e.examinable('RioOlhar', (-5, 0, -3), 'obj.estige.rio')
+e.talkable('Estige', (0, 0, -3), 'estige')
+e.exit('ParaPalacio', (0, 1, -4.8), (3, 2, 0.8), 'palacio', 'ChegadaEstige', path_key='estige',
+       blocked='obj.estige.travessia.fechada', milestone='cruzar_estige')
+e.trivia('Trivia', (7, 0, 6), 'trivia_estige')
+e.light('LuzRio', (0, 3, -6), '0.55, 0.6, 0.75, 1', 0.7, 14)
+e.markers({'ChegadaAsfodelos': (0, 0, 10.5), 'ChegadaPalacio': (0, 0, -1), 'Estige': (0, 0, -1.6), 'Trivia': (5.5, 0, 6),
+           'AtravessarPalacio': (0, 0, -4.8), 'AtravessarAsfodelos': (0, 0, 13.4)}, player=(0, 0, 10.5))
+e.write('Estige.tscn')
+
+# O Palácio: os tronos ao norte (Hades, só a voz, e Perséfone), o jardim a oeste (a romãzeira e Ascálafo sob a pedra);
+# a escada para Hipno a leste, que pede o caminho da descida (o favor de Hades, o jardim ou a escada dos jardineiros).
+pa = ato2('Palacio', '0.44, 0.4, 0.42, 1', '0.32, 0.28, 0.3, 1', 0.55, 'ChegadaPalacio', 'estige')
+pa.box('Estrado', (8, 0.6, 3), (2, 0.3, -11), 'Mat_terracota')
+pa.box('TronoHades', (1.4, 2, 1), (0.5, 1, -11.5), 'Mat_parede')
+pa.box('TronoPersefone', (1.4, 1.6, 1), (3.5, 0.8, -11.5), 'Mat_terracota')
+pa.examinable('Tronos', (2, 0, -8.8), 'obj.palacio.trono')
+pa.talkable('Hades', (0.5, 0, -9.2), 'hades')
+pa.talkable('Persefone', (3.5, 0, -9.2), 'persefone')
+for i, (x, z) in enumerate(((-8, -2), (-9, 4), (-5, 8))):
+    pa.column(f'Cipreste{i + 1}', (x, 0, z), height=3, radius=0.4)
+pa.column('Romanzeira', (-6, 0, 2), height=1.8, radius=0.6)
+pa.examinable('Roma', (-4.6, 0, 2.5), 'obj.palacio.roma')
+pa.box('PedraAscalafo', (1.6, 0.8, 1.6), (-8, 0.4, 9), 'Mat_parede')
+pa.talkable('Ascalafo', (-6.6, 0, 9), 'ascalafo')
+pa.exit('ParaHipno', (11, 1, 0), (0.8, 2, 3), 'hipno', 'ChegadaPalacio', path_key='palacio_descida',
+        blocked='obj.palacio.descida.fechada')
+pa.trivia('Trivia', (7, 0, 6), 'trivia_palacio')
+pa.light('LuzTronos', (2, 3, -9), '0.85, 0.55, 0.45, 1', 1.0, 12)
+pa.light('LuzJardim', (-6, 3, 5), '0.6, 0.7, 0.55, 1', 0.8, 12)
+pa.markers({'ChegadaEstige': (0, 0, 10.5), 'ChegadaHipno': (9, 0, 0), 'Hades': (0.5, 0, -8), 'Persefone': (3.5, 0, -8),
+            'Ascalafo': (-5.5, 0, 9), 'Trivia': (5.5, 0, 6), 'AtravessarHipno': (11, 0, 0), 'AtravessarEstige': (0, 0, 13.4)},
+           player=(0, 0, 10.5))
+pa.write('Palacio.tscn')
+# A volta do Palácio vai ao Estige, do lado de cá do rio (o marcador ChegadaPalacio de lá).
+
+# A morada de Hipno: papoulas; Hipno (só a voz), o Sonho no fundo, Tânato (sem luta), O Olhar (4ª Pesada) e, no canto
+# leste, o som de água que leva, escondido, a Mnemósine.
+h = ato2('Hipno', '0.4, 0.36, 0.46, 1', '0.34, 0.3, 0.42, 1', 0.5, 'ChegadaHipno', 'palacio')
+for i, (x, z) in enumerate(((-8, -4), (-3, 6), (5, -3), (8, 3), (-7, 9), (1, 2))):
+    h.column(f'Papoula{i + 1}', (x, 0, z), height=0.8, radius=0.6)
+h.examinable('Papoulas', (-2, 0, 4), 'obj.hipno.papoulas')
+h.examinable('Tabuinha', (-9, 0, 0), 'obj.hipno.tabuinha')
+h.talkable('Hipno', (-5, 0, -6), 'hipno')
+h.encounter('Sonho', (0, 0, -9), 'hipno_sonho', texture='40_sonho')
+h.talkable('Tanato', (6, 0, -7), 'tanato')
+h.heavy_place('PesadaOlhar', (-6, 0, 6), 'o_olhar')
+h.examinable('Agua', (9, 0, 9), 'obj.hipno.agua', flag='mnemosine_achada')
+h.exit('ParaMnemosine', (11, 1, 9), (0.8, 2, 3), 'mnemosine', 'ChegadaHipno', blocked='obj.hipno.agua.fechada',
+       condition={'flag': 'mnemosine_achada'})
+h.trivia('Trivia', (-8, 0, -10), 'trivia_hipno')
+h.light('LuzPapoulas', (0, 3, 0), '0.7, 0.55, 0.8, 1', 0.9, 16)
+h.light('LuzSonho', (0, 3, -8), '0.6, 0.65, 0.85, 1', 0.8, 10)
+h.markers({'ChegadaPalacio': (0, 0, 10.5), 'ChegadaMnemosine': (9, 0, 7), 'Hipno': (-5, 0, -4.8), 'Sonho': (0, 0, -9),
+           'Tanato': (6, 0, -5.8), 'PesadaOlhar': (-6, 0, 7), 'Agua': (8, 0, 8), 'Trivia': (-6.5, 0, -10),
+           'AtravessarMnemosine': (11, 0, 9), 'AtravessarPalacio': (0, 0, 13.4)}, player=(0, 0, 10.5))
+h.write('Hipno.tscn')
+
+# Mnemósine (secreta): duas fontes iguais; a do cipreste branco (a do Lete, à esquerda) e a fria, com os guardiões.
+m = ato2('Mnemosine', '0.42, 0.46, 0.5, 1', '0.36, 0.42, 0.48, 1', 0.5, 'ChegadaMnemosine', 'hipno')
+m.water('FonteEsquerda', (3, 0.04, 3), (-5, 0.02, -6))
+m.column('CipresteBranco', (-7.5, 0, -7), height=3.2, radius=0.4)
+m.talkable('FonteLete', (-5, 0, -4), 'fonte_lete')
+m.water('FonteDireita', (3, 0.04, 3), (5, 0.02, -6))
+m.column('Guardiao1', (3.2, 0, -3.8), height=2, radius=0.3)
+m.column('Guardiao2', (6.8, 0, -3.8), height=2, radius=0.3)
+m.talkable('FonteMnemosine', (5, 0, -3), 'fonte_mnemosine')
+m.examinable('Tabuinha', (0, 0, 2), 'obj.mnemosine.tabuinha')
+m.light('LuzFontes', (0, 3, -5), '0.6, 0.75, 0.85, 1', 1.0, 16)
+m.markers({'ChegadaHipno': (0, 0, 10.5), 'FonteLete': (-5, 0, -2.6), 'FonteMnemosine': (5, 0, -1.6), 'Tabuinha': (0, 0, 3.5),
+           'AtravessarHipno': (0, 0, 13.4)}, player=(0, 0, 10.5))
+m.write('Mnemosine.tscn')
 print('ok')

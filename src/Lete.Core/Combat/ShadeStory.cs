@@ -14,9 +14,11 @@ public sealed record ShadePhase(
 /// <summary>
 /// O duelo de honra (o Campeão; decisão do João, 06/nov/2026): usar algo de <paramref name="Forbidden"/> (Memória, Eco,
 /// oferenda, provisão) é desonra, e ele avisa (<paramref name="DishonorKey"/>). Vencido com honra (destruído só com as armas
-/// do duelo), ele dá a bênção: a flag <paramref name="BlessingFlag"/> e a linha do Diário <paramref name="BlessingKey"/>.
+/// do duelo), ele dá a bênção: a flag <paramref name="BlessingFlag"/>, a linha do Diário <paramref name="BlessingKey"/> e,
+/// se houver, o item <paramref name="BlessingItem"/> (o ex-voto do Campeão; decisão do João, 10/nov/2026).
 /// </summary>
-public sealed record DuelHonor(IReadOnlyList<string> Forbidden, string DishonorKey, string BlessingFlag, string BlessingKey)
+public sealed record DuelHonor(IReadOnlyList<string> Forbidden, string DishonorKey, string BlessingFlag, string BlessingKey,
+    string? BlessingItem = null)
 {
     /// <summary>A escolha do menu (<c>memoria:...</c>, <c>eco:...</c>...) é uma das proibidas.</summary>
     public bool IsDishonorable(string actionId) => Forbidden.Any(f => actionId.StartsWith(f + ":", StringComparison.Ordinal));

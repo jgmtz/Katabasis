@@ -1,0 +1,19 @@
+{
+  "id": "roma_de_persefone",
+  "_rascunho": "Rascunho (10/nov/2026, PENDENCIAS 92), nas direções decididas pelo João em 10/nov/2026 (PENDENCIAS 91). A bênção do pacto de Perséfone: a semente segura a mente (Lucidez máxima maior); o custo é a Marca, no diálogo.",
+  "category": "amulet",
+  "name_key": "item.roma_de_persefone.nome",
+  "story_key": "item.roma_de_persefone.historia",
+  "affinity": "family",
+  "stages": [
+    {
+      "id": "worn",
+      "modifiers": {
+        "lucidity_max": {
+          "_tbd": true,
+          "value": 15
+        }
+      }
+    }
+  ]
+}

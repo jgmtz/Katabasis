@@ -88,6 +88,7 @@ public static class SaveGame
                 ["folego_gasto"] = state.Vitals.BreathSpent,
                 ["lucidez_gasta"] = state.Vitals.LuciditySpent,
                 ["curas"] = Ints(state.Vitals.HealUses),
+                ["memorias_esquecidas"] = Array(state.Vitals.ForgottenMemories.OrderBy(m => m, StringComparer.Ordinal)),
             },
             ["dialogo"] = new JsonObject
             {
@@ -281,6 +282,7 @@ public static class SaveGame
             state.Vitals.BreathSpent = vitals["folego_gasto"]?.GetValue<float>() ?? 0f;
             state.Vitals.LuciditySpent = vitals["lucidez_gasta"]?.GetValue<float>() ?? 0f;
             ReadInts(vitals, "curas", state.Vitals.HealUses);
+            state.Vitals.ForgottenMemories.UnionWith(Strings(vitals, "memorias_esquecidas"));
         }
 
         if (json["dialogo"] is JsonObject dialogue)

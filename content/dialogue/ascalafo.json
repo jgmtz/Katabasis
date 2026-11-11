@@ -1,0 +1,82 @@
+{
+  "id": "ascalafo",
+  "_rascunho": "Rascunho (10/nov/2026, PENDENCIAS 92), nas direções decididas pelo João em 10/nov/2026 (PENDENCIAS 91). O dilema de Ascálafo (HISTORIA 7.1), o jardineiro que contou que Perséfone comeu a romã e ficou preso sob uma pedra. Delatar: Hades dá o favor sem pedir nada, Perséfone fica fria e não mostra o jardim. Calar: ele mostra a escada dos jardineiros. As duas ficam em flags (ascalafo_delatou, ascalafo_calou), que as falas leem; o Perfil ainda não lê esta escolha.",
+  "mode": "fixed",
+  "speaker_key": "personagem.ascalafo.nome",
+  "start": [
+    "decidido",
+    "primeira"
+  ],
+  "nodes": [
+    {
+      "id": "decidido",
+      "when": {
+        "any": [
+          {
+            "flag": "ascalafo_delatou"
+          },
+          {
+            "flag": "ascalafo_calou"
+          }
+        ]
+      },
+      "line_key": "dlg.ascalafo.decidido"
+    },
+    {
+      "id": "primeira",
+      "line_key": "dlg.ascalafo.primeira",
+      "options": [
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.ascalafo.o_que",
+          "next": "segredo"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.ascalafo.ir",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "segredo",
+      "line_key": "dlg.ascalafo.segredo",
+      "options": [
+        {
+          "posture": "pressionar",
+          "text_key": "dlg.ascalafo.delatar",
+          "next": "delatar"
+        },
+        {
+          "posture": "consolar",
+          "text_key": "dlg.ascalafo.calar",
+          "next": "calar"
+        }
+      ]
+    },
+    {
+      "id": "delatar",
+      "line_key": "dlg.ascalafo.delatou",
+      "effects": [
+        {
+          "flag": "ascalafo_delatou"
+        },
+        {
+          "journal_key": "diario.ascalafo.delatou"
+        }
+      ]
+    },
+    {
+      "id": "calar",
+      "line_key": "dlg.ascalafo.calou",
+      "effects": [
+        {
+          "flag": "ascalafo_calou"
+        },
+        {
+          "journal_key": "diario.ascalafo.calou"
+        }
+      ]
+    }
+  ]
+}

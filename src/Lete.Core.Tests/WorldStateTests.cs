@@ -137,6 +137,7 @@ public class WorldStateTests
         s.Vitals.BreathSpent = 12.5f;
         s.Vitals.LuciditySpent = 3f;
         s.Vitals.HealUses["fogo_sala"] = 1;
+        s.Vitals.ForgottenMemories.Add("agua_parada");
         s.Dialogue.Chosen.Add("padeiro/vago_inicio/0");
         s.Dialogue.CommentsSeen.Add("comentario_1");
         s.Dialogue.Awakened.Add("padeiro");

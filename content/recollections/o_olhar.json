@@ -1,0 +1,31 @@
+{
+  "id": "o_olhar",
+  "_rascunho": "A quarta Memória Pesada (HISTORIA 1.2: o que ela fez ou disse ao perceber, no portão; Ato III, nos sonhos de Hipno e Tânato). Decidido (João, 10/nov/2026): aflora na morada de Hipno. Rascunho (10/nov/2026, PENDENCIAS 92), nas direções decididas pelo João em 10/nov/2026 (PENDENCIAS 91). A pessoa é a de O Convite, por origem; a Culpa tem efeito próprio, o Olhar (gaze). A 3ª Pesada, A Venda, ainda não existe: enquanto isso, O Olhar ocupa a 3ª posição da fila (a fila não pula números); quando A Venda entrar, O Olhar passa a 4ª.",
+  "kind": "mourning",
+  "scope": "heavy",
+  "order": 3,
+  "gate": {
+    "tide_min": 3
+  },
+  "title_key": "pesada.o_olhar.titulo",
+  "skill": "culpa_o_olhar",
+  "warning_key": "pesada.o_olhar.aviso",
+  "surface_key": "pesada.o_olhar.aflora",
+  "stages": {
+    "full": {
+      "text_key": "pesada.o_olhar.verdade"
+    }
+  },
+  "leave": {
+    "text_key": "pesada.o_olhar.deixar",
+    "lucidity_max": {
+      "_tbd": true,
+      "value": 10
+    },
+    "protections": 1
+  },
+  "mosaic_position": {
+    "x": 8,
+    "y": 8
+  }
+}

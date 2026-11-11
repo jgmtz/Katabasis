@@ -133,6 +133,29 @@ public sealed class Mosaic : IDisposable
         return Apply(recollection, source);
     }
 
+    /// <summary>
+    /// Bebeu da fonte de Mnemósine (decisão do João, 10/nov/2026: confirma as incertas e dá uma Lembrança nova): as
+    /// Lembranças que o jogador já tem ouvem a fonte do tipo <c>mnemosyne</c>; uma que ele não tem só vem se nasce lá
+    /// (a primeira fonte dela é Mnemósine). Falso se nada mudou.
+    /// </summary>
+    public bool HearMnemosyne()
+    {
+        var changed = false;
+        foreach (var recollection in _recollections.Values.Where(r => r.Scope != RecollectionScope.Heavy))
+        {
+            var known = _state.Recollections.ContainsKey(recollection.Id);
+            foreach (var source in recollection.Sources.Where(s => s.Type == SourceType.Mnemosyne))
+            {
+                if (known || recollection.Sources[0] == source)
+                {
+                    changed |= Apply(recollection, source);
+                }
+            }
+        }
+
+        return changed;
+    }
+
     /// <summary>O ato que leva uma Recordação à Memória plena. Falso se ela ainda não é Recordação ou já é plena.</summary>
     public bool CompleteAct(string recollectionId, string actId)
     {

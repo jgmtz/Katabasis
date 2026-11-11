@@ -9,7 +9,7 @@ public class MemoryTests
     private static readonly StrokePattern Curve = new(
         new[] { StrokeDirection.Right, StrokeDirection.UpRight, StrokeDirection.Up }, 0.5f, 0.2f, 1f);
 
-    private static MemorySkill Skill(string id, MemoryEffectKind effect = MemoryEffectKind.Heal) =>
+    internal static MemorySkill Skill(string id, MemoryEffectKind effect = MemoryEffectKind.Heal) =>
         new(id, RecollectionKind.Childhood, "n", "d", Curve, 12f, 1.5f, effect, new GradeValues(15f, 10f, 5f));
 
     [Fact]

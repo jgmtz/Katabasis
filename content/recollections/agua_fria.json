@@ -1,0 +1,25 @@
+{
+  "id": "agua_fria",
+  "_rascunho": "Rascunho (10/nov/2026, PENDENCIAS 92), nas direções decididas pelo João em 10/nov/2026 (PENDENCIAS 91). A Lembrança que a fonte de Mnemósine devolve (beber dela ouve a fonte do tipo mnemosyne): beber com as mãos em concha numa fonte de aldeia. A segunda fonte (a da aldeia, por um diálogo) e o ato que a torna plena ainda não existem.",
+  "kind": "childhood",
+  "scope": "common",
+  "title_key": "memoria.agua_fria.nome",
+  "skill": "agua_fria",
+  "sources": [
+    {
+      "id": "mnemosine",
+      "type": "mnemosyne"
+    },
+    {
+      "id": "fonte_da_aldeia",
+      "type": "dialogue"
+    }
+  ],
+  "full_by": [
+    "beber_na_aldeia"
+  ],
+  "mosaic_position": {
+    "x": 1,
+    "y": 6
+  }
+}

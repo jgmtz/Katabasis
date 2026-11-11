@@ -1,0 +1,62 @@
+{
+  "id": "fonte_lete",
+  "_rascunho": "Rascunho (10/nov/2026, PENDENCIAS 92), nas direções decididas pelo João em 10/nov/2026 (PENDENCIAS 91). A fonte do cipreste branco (a do Lete): beber deixa a Memória de estágio mais alto esquecida até a Trívia.",
+  "mode": "fixed",
+  "speaker_key": "personagem.fonte.nome",
+  "start": [
+    "bebeu",
+    "primeira"
+  ],
+  "nodes": [
+    {
+      "id": "bebeu",
+      "when": {
+        "flag": "bebeu_fonte_lete"
+      },
+      "line_key": "dlg.fonte_lete.bebeu",
+      "options": [
+        {
+          "posture": "escutar",
+          "text_key": "dlg.fonte.beber",
+          "next": "beber"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.fonte.nao_beber",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "primeira",
+      "line_key": "dlg.fonte_lete.primeira",
+      "options": [
+        {
+          "posture": "escutar",
+          "text_key": "dlg.fonte.beber",
+          "next": "beber"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.fonte.nao_beber",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "beber",
+      "line_key": "dlg.fonte_lete.esquece",
+      "effects": [
+        {
+          "forget_memory": true
+        },
+        {
+          "flag": "bebeu_fonte_lete"
+        },
+        {
+          "journal_key": "diario.fonte_lete"
+        }
+      ]
+    }
+  ]
+}

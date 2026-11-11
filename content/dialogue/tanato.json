@@ -1,0 +1,105 @@
+{
+  "id": "tanato",
+  "_rascunho": "Rascunho (10/nov/2026, PENDENCIAS 92), nas direções decididas pelo João em 10/nov/2026 (PENDENCIAS 91). Tânato (HISTORIA 7.1: aparece numa cena sem luta): só fala depois do Sonho; não veio buscar o protagonista, e sabe de quem ele esqueceu.",
+  "mode": "fixed",
+  "speaker_key": "personagem.tanato.nome",
+  "start": [
+    "depois",
+    "conversa",
+    "antes"
+  ],
+  "nodes": [
+    {
+      "id": "depois",
+      "when": {
+        "flag": "tanato_falou"
+      },
+      "line_key": "dlg.tanato.depois"
+    },
+    {
+      "id": "conversa",
+      "when": {
+        "any": [
+          {
+            "shade_state": {
+              "id": "sonho",
+              "state": "destroyed"
+            }
+          },
+          {
+            "shade_state": {
+              "id": "sonho",
+              "state": "seen"
+            }
+          },
+          {
+            "shade_state": {
+              "id": "sonho",
+              "state": "absorbed"
+            }
+          },
+          {
+            "shade_state": {
+              "id": "sonho",
+              "state": "spared"
+            }
+          }
+        ]
+      },
+      "line_key": "dlg.tanato.primeira",
+      "effects": [
+        {
+          "flag": "tanato_falou"
+        }
+      ],
+      "options": [
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.tanato.veio",
+          "next": "veio"
+        },
+        {
+          "posture": "perguntar",
+          "text_key": "dlg.tanato.quem",
+          "next": "quem"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.tanato.calar",
+          "next": "calado"
+        }
+      ]
+    },
+    {
+      "id": "antes",
+      "line_key": "dlg.tanato.antes"
+    },
+    {
+      "id": "veio",
+      "line_key": "dlg.tanato.nao_veio",
+      "effects": [
+        {
+          "journal_key": "diario.tanato"
+        }
+      ]
+    },
+    {
+      "id": "quem",
+      "line_key": "dlg.tanato.sobre_quem",
+      "effects": [
+        {
+          "journal_key": "diario.tanato"
+        }
+      ]
+    },
+    {
+      "id": "calado",
+      "line_key": "dlg.tanato.silencio",
+      "effects": [
+        {
+          "journal_key": "diario.tanato"
+        }
+      ]
+    }
+  ]
+}

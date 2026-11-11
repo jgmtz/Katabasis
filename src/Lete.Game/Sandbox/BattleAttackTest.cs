@@ -65,6 +65,7 @@ public partial class BattleAttackTest : Node
     private const string FleeId = BattleActions.Flee;
     private const string OfferingPrefix = "oferenda:";
     private const string ProvisionPrefix = "provisao:";
+    private const string ReflectionPrefix = "reflexo:";
 
     /// <summary>Raio e espessura do Anel na tela (1080p); convertidos para o viewport de baixa resolução.</summary>
     [Export] public float RingScreenRadiusPx { get; set; } = 90f;
@@ -100,6 +101,11 @@ public partial class BattleAttackTest : Node
     private bool _nameKnown;
     private bool _personification;
     private DuelHonor? _honor;
+
+    /// <summary>O Sonho (decisão do João, 10/nov/2026): Atacar escolhe um dos reflexos; nulo nas outras lutas.</summary>
+    private DreamRules? _dreamRules;
+    private DreamReflections? _dream;
+    private bool _dreamMissed;
     private bool _dishonored;
     private bool _dishonorToSay;
     private (Lete.Core.Conditions.Condition Requires, string MissingKey)? _nameScattered;
@@ -162,6 +168,7 @@ public partial class BattleAttackTest : Node
         Offering,
         Bag,
         Witness,
+        Dream,
     }
 
     // Os Ecos guardados e o espólio de cada sombra estão no WorldState (ids e quantidades); aqui ficam os objetos da luta.
@@ -320,6 +327,7 @@ public partial class BattleAttackTest : Node
         _personification = ShadeData.PersonificationFromJson(shade);
         _nameScattered = ShadeData.NameScatteredFromJson(shade);
         _honor = ShadeData.HonorFromJson(shade);
+        _dreamRules = ShadeData.ReflectionsFromJson(shade);
         _headsRules = ShadeData.HeadsFromJson(shade);
         _readings = ShadeData.ReadingsFromJson(shade);
         foreach (var gesture in _story.Phases.SelectMany(p => p.Attacks).Select(a => a.Gesture).Distinct())
@@ -579,17 +587,84 @@ public partial class BattleAttackTest : Node
         _mainFocus = AttackId;
         _echoes.NewBattle();
         // As Memórias vêm do Mosaico (GDD 2.1): uma por Lembrança, com a força do estágio, e a Culpa de cada Pesada
-        // encarada. Recomeçar a luta é descansar na Trívia: nada fica esquecido e as proteções da Leveza voltam.
+        // encarada. As proteções da Leveza voltam a cada luta; o que foi esquecido (numa luta anterior ou na fonte errada)
+        // continua esquecido até a Trívia.
         var combatMemories = GameRoot.Instance.Mosaic.CombatMemories(_allMemories);
         _guiltIds = combatMemories.Where(m => m.Guilt).Select(m => m.Skill.Id).ToHashSet();
         _memoryStages = combatMemories.Where(m => !m.Guilt).ToDictionary(m => m.Skill.Id, m => m.Stage);
         _memories = new MemoryBook(
-            combatMemories.Select(m => m.Skill).ToList(), GameRoot.Instance.HeavyMemories.Lightness.Protections);
+            combatMemories.Select(m => m.Skill).ToList(), GameRoot.Instance.HeavyMemories.Lightness.Protections,
+            GameRoot.Instance.State.Vitals.ForgottenMemories);
         GD.Print($"[debug] Memórias: {string.Join(", ", combatMemories.Select(m => m.Guilt ? $"{m.Skill.Id} (Culpa)" : m.Skill.Id))}; " +
             $"Lucidez máxima {_flow.Lucidity.Max}; proteções da Leveza {_memories.ProtectionsLeft}");
         _narration = new ShadeNarration(_story);
         RefreshShadeKnowledge();
         RefreshSupport();
+        _dream = _dreamRules is null ? null : new DreamReflections(_dreamRules);
+        ArrangeDream();
+    }
+
+    /// <summary>
+    /// Novo arranjo dos reflexos do Sonho: o verdadeiro segura uma Lembrança plena do Mosaico, um falso pode segurar uma
+    /// incerta (as Pesadas não entram).
+    /// </summary>
+    private void ArrangeDream()
+    {
+        if (_dream is null)
+        {
+            return;
+        }
+
+        var mosaic = GameRoot.Instance.Mosaic;
+        var known = mosaic.Known.Where(r => r.Scope != RecollectionScope.Heavy).ToList();
+        _dream.Arrange(
+            known.Where(r => mosaic.StageOf(r.Id) == RecollectionStage.Full).Select(r => r.TitleKey).ToList(),
+            known.Where(r => mosaic.CertaintyOf(r.Id) == RecollectionCertainty.Uncertain).Select(r => r.TitleKey).ToList(),
+            new System.Random());
+    }
+
+    /// <summary>Os reflexos do Sonho: cada um descreve o que segura (a frase com o título da Lembrança).</summary>
+    private void ShowDreamPage()
+    {
+        _page = MenuPage.Dream;
+        var entries = _dream!.Current
+            .Select((r, i) => new MenuEntry(
+                ReflectionPrefix + i,
+                $"combate.sonho.reflexo.{i + 1}",
+                r.TitleKey is null ? _dreamRules!.EmptyKey : _dreamRules!.DetailKey,
+                DescriptionArgKey: r.TitleKey))
+            .Append(new MenuEntry(BackId, "combate.acao.voltar", "combate.acao.voltar.descricao", SeparatorBefore: true))
+            .ToList();
+        _menu.ShowPage(entries);
+    }
+
+    /// <summary>
+    /// Golpear um reflexo (o Anel, como Atacar): o verdadeiro leva o Sonho à fase seguinte (na última, ele se desfaz); um
+    /// falso o refaz e gasta Lucidez. Depois os reflexos trocam de lugar.
+    /// </summary>
+    private async void DoStrikeReflection(int index)
+    {
+        _menu.ShowMenu(false);
+        _hud.SetGestureActive(true);
+        var grade = Windows.Grade(await RunRing(_attackRing, Shade, Windows));
+        DreamStrike strike = null!;
+        await Protagonist.PlayAdvance(Shade.Position, () =>
+        {
+            strike = _dream!.Strike(index, _flow.Resolve, _flow.Lucidity, _story.Phases.Select(p => p.AtFraction));
+            _hud.SetResolve(_flow.Resolve.Fraction);
+            _hud.SetLucidity(_flow.Lucidity.Fraction);
+            return Shade.PlayHit(strike.HitTrue ? HitStrength(grade) : HitStrength(GestureGrade.Failed));
+        });
+
+        await ShowLine(T(strike.HitTrue ? "combate.sonho.verdadeiro" : "combate.sonho.falso"), LineSeconds);
+        if (!strike.HitTrue)
+        {
+            await CheckForgetting();
+        }
+
+        ArrangeDream();
+        await Judge(Via.Fight);
+        _playerAction?.TrySetResult();
     }
 
     /// <summary>Conduz a luta passo a passo, como a máquina de turnos manda.</summary>
@@ -727,7 +802,8 @@ public partial class BattleAttackTest : Node
         _page = MenuPage.Main;
         var entries = new List<MenuEntry>
         {
-            new(AttackId, "combate.acao.atacar", OathWarning(Via.Fight, "combate.acao.atacar.descricao")),
+            new(AttackId, "combate.acao.atacar",
+                OathWarning(Via.Fight, _dream is null ? "combate.acao.atacar.descricao" : "combate.sonho.atacar.descricao")),
             new(MemoryId, "combate.acao.memoria", "combate.acao.memoria.descricao",
                 Available: _memories.Skills.Any(s => _memories.CanUse(s.Id, _flow.Lucidity))),
             new(ApproachId, "combate.acao.aproximar", "combate.acao.aproximar.descricao"),
@@ -885,7 +961,7 @@ public partial class BattleAttackTest : Node
             case MenuPage.Fixation:
                 ShowApproachPage(FreeId);
                 break;
-            case MenuPage.Approach or MenuPage.Echo or MenuPage.Memory or MenuPage.Bag:
+            case MenuPage.Approach or MenuPage.Echo or MenuPage.Memory or MenuPage.Bag or MenuPage.Dream:
                 ShowMainPage();
                 break;
             case MenuPage.Offering:
@@ -921,8 +997,14 @@ public partial class BattleAttackTest : Node
 
         switch (id)
         {
+            case AttackId when _dream is not null:
+                ShowDreamPage();
+                break;
             case AttackId:
                 DoAttack();
+                break;
+            case var reflection when reflection.StartsWith(ReflectionPrefix):
+                DoStrikeReflection(int.Parse(reflection[ReflectionPrefix.Length..], System.Globalization.CultureInfo.InvariantCulture));
                 break;
             case ApproachId:
                 ShowApproachPage();
@@ -1114,6 +1196,18 @@ public partial class BattleAttackTest : Node
                 RefreshShadeKnowledge();
                 await ShowLine(T("combate.memoria.efeito.reveal"), LineSeconds);
                 break;
+            case MemoryEffectKind.Gaze:
+                // O Olhar: pesa dos dois lados, na mesma medida; sozinho, nunca derruba o protagonista (deixa 1 de Fôlego).
+                await Protagonist.PlayAdvance(Shade.Position, () =>
+                {
+                    _flow.Resolve.Reduce(use.Power);
+                    _flow.Breath.Reduce(System.MathF.Min(use.Power, System.MathF.Max(0f, _flow.Breath.Current - 1f)));
+                    _hud.SetResolve(_flow.Resolve.Fraction);
+                    _hud.SetBreath(_flow.Breath.Fraction);
+                    return Shade.PlayHit(HitStrength(grade));
+                });
+                await ShowLine(T("combate.memoria.efeito.gaze"), LineSeconds);
+                break;
             case MemoryEffectKind.Hush:
                 _flow.Hush((int)System.MathF.Round(use.Power));
                 await ShowLine(T("combate.memoria.efeito.hush"), LineSeconds);
@@ -1141,6 +1235,12 @@ public partial class BattleAttackTest : Node
     {
         if (_memories.CheckForgetting(_flow.Lucidity) is { } forgetting)
         {
+            if (!forgetting.Resisted)
+            {
+                // Fica esquecida até a Trívia, também nas próximas lutas (GDD 4.2).
+                GameRoot.Instance.State.Vitals.ForgottenMemories.Add(forgetting.Skill.Id);
+            }
+
             var key = forgetting.Resisted ? "combate.memoria.leveza" : "combate.memoria.esqueceu";
             await ShowLine(string.Format(T(key), T(forgetting.Skill.NameKey)), LineSeconds);
         }
@@ -1571,6 +1671,10 @@ public partial class BattleAttackTest : Node
                     // Vencido com honra: a bênção dele.
                     GameRoot.Instance.State.Flags.Add(honor.BlessingFlag);
                     GameRoot.Instance.Journal.Add(honor.BlessingKey);
+                    if (honor.BlessingItem is { } blessingItem)
+                    {
+                        GameRoot.Instance.Items.Acquire(blessingItem);
+                    }
                 }
 
                 break;
@@ -1907,7 +2011,14 @@ public partial class BattleAttackTest : Node
         while (IsInsideTree())
         {
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-            if (_menu.MenuVisible && _flow.Phase == BattlePhase.PlayerTurn)
+            if (_menu.MenuVisible && _flow.Phase == BattlePhase.PlayerTurn && _page == MenuPage.Dream)
+            {
+                await Wait(1f);
+                var wrong = !_dreamMissed && System.Array.Exists(OS.GetCmdlineUserArgs(), a => a == "--sonho=errar");
+                _dreamMissed |= wrong;
+                await Choose(ReflectionPrefix + _dream!.Current.ToList().FindIndex(r => r.IsTrue != wrong));
+            }
+            else if (_menu.MenuVisible && _flow.Phase == BattlePhase.PlayerTurn)
             {
                 await Wait(1f);
                 // Presenciando, só mantém a atenção; fora disso segue o roteiro, depois absorve, usa o Eco ou ataca.

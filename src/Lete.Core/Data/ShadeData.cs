@@ -38,14 +38,15 @@ public static class ShadeData
             : null;
     }
 
-    /// <summary>Campo <c>honor</c> {<c>forbidden</c>, <c>dishonor_key</c>, <c>blessing_flag</c>, <c>blessing_key</c>}: o duelo de honra; nulo sem ele.</summary>
+    /// <summary>Campo <c>honor</c> {<c>forbidden</c>, <c>dishonor_key</c>, <c>blessing_flag</c>, <c>blessing_key</c>, <c>blessing_item</c> opcional}: o duelo de honra; nulo sem ele.</summary>
     public static DuelHonor? HonorFromJson(string json)
     {
         using var doc = JsonDocument.Parse(json);
         return doc.RootElement.TryGetProperty("honor", out var honor)
             ? new DuelHonor(
                 Required(honor, "forbidden").EnumerateArray().Select(f => f.GetString() ?? "").ToList(),
-                String(honor, "dishonor_key"), String(honor, "blessing_flag"), String(honor, "blessing_key"))
+                String(honor, "dishonor_key"), String(honor, "blessing_flag"), String(honor, "blessing_key"),
+                OptionalString(honor, "blessing_item"))
             : null;
     }
 
@@ -125,6 +126,30 @@ public static class ShadeData
             String(heads, "all_calm_key"),
             heads.TryGetProperty("art_by_awake", out var art) ? art.EnumerateArray().Select(a => a.GetString() ?? "").ToList() : new List<string>());
         var errors = rules.Validate(CombatData.ReadAttacks(Required(root, "attacks"))).ToList();
+        return errors.Count == 0 ? rules : throw new FormatException(string.Join(" ", errors));
+    }
+
+    /// <summary>
+    /// Campo opcional <c>reflections</c> (o Sonho, decisão do João de 10/nov/2026): <c>count</c>, <c>false_heal</c>
+    /// (fração da Firmeza máxima), <c>false_lucidity</c>, <c>false_titles</c> (chaves dos títulos inventados),
+    /// <c>detail_key</c> (a frase do reflexo, com o título em <c>{0}</c>) e <c>empty_key</c>. Nulo sem o campo.
+    /// </summary>
+    public static DreamRules? ReflectionsFromJson(string json)
+    {
+        using var doc = JsonDocument.Parse(json);
+        if (!doc.RootElement.TryGetProperty("reflections", out var reflections))
+        {
+            return null;
+        }
+
+        var rules = new DreamRules(
+            (int)TbdNumber.Read(reflections, "count"),
+            TbdNumber.Read(reflections, "false_heal"),
+            TbdNumber.Read(reflections, "false_lucidity"),
+            Required(reflections, "false_titles").EnumerateArray().Select(t => t.GetString() ?? "").ToList(),
+            String(reflections, "detail_key"),
+            String(reflections, "empty_key"));
+        var errors = rules.Validate().ToList();
         return errors.Count == 0 ? rules : throw new FormatException(string.Join(" ", errors));
     }
 

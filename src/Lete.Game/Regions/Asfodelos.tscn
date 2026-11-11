@@ -39,6 +39,7 @@
 [ext_resource type="Texture2D" path="res://art/sprites/companheiros/septimia_sim/parado/septimia_parado_frente.png" id="37_septimia"]
 [ext_resource type="Texture2D" path="res://art/sprites/sombras/campeao/parado_3q/64px/campeao_parado_3q_esq.png" id="38_campeao"]
 [ext_resource type="Texture2D" path="res://art/sprites/sombras/sem_nome/parado_3q/64px/sem_nome_parado_3q_esq.png" id="39_sem_nome"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/sonho/parado_3q/64px/sonho_parado_3q_esq.png" id="40_sonho"]
 
 [sub_resource type="Environment" id="Environment_regiao"]
 background_mode = 1
@@ -462,6 +463,25 @@ TargetEntry = "ChegadaAsfodelos"
 [node name="Shape" type="CollisionShape3D" parent="ParaGuerreiros"]
 shape = SubResource("Shape_box4")
 
+[node name="CaminhoEstige" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -12.2)
+script = ExtResource("3_inter")
+JournalKey = "obj.asfodelos.caminho_estige"
+
+[node name="Reach" type="CollisionShape3D" parent="CaminhoEstige"]
+shape = SubResource("Shape_alcance")
+
+[node name="ParaEstige" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1, -12.6)
+script = ExtResource("8_saida")
+TargetRegion = "estige"
+TargetEntry = "ChegadaAsfodelos"
+RequiredCondition = "{\"all\":[{\"region_visited\":\"luto\"},{\"region_visited\":\"tribunal\"},{\"region_visited\":\"guerreiros\"}]}"
+BlockedKey = "obj.asfodelos.caminho_estige.fechado"
+
+[node name="Shape" type="CollisionShape3D" parent="ParaEstige"]
+shape = SubResource("Shape_box4")
+
 [node name="SombraViuva" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -1)
 script = ExtResource("22_vagante")
@@ -780,3 +800,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12.6)
 
 [node name="AtravessarGuerreiros" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -12.6)
+
+[node name="SaidaEstige" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -10.5)
+
+[node name="AtravessarEstige" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -12.6)

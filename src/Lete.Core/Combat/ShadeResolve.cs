@@ -24,6 +24,17 @@ public sealed class ShadeResolve
 
     public bool IsBroken => Current <= 0f;
 
+    /// <summary>A sombra se refaz (o Sonho, quando o golpe acerta um reflexo falso), até a Firmeza máxima.</summary>
+    public void Restore(float amount)
+    {
+        if (amount < 0f)
+        {
+            throw new ArgumentOutOfRangeException(nameof(amount), "Use um valor positivo para refazer a Firmeza.");
+        }
+
+        Current = Math.Min(Max, Current + amount);
+    }
+
     public void Reduce(float amount)
     {
         if (amount < 0f)

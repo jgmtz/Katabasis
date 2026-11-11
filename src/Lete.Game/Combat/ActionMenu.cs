@@ -14,10 +14,11 @@ namespace Lete.Game.Combat;
 /// <summary>
 /// Uma opção do menu. <paramref name="TagKey"/>: marca curta depois do nome (o estágio da Memória: ·, ··, ···);
 /// <paramref name="DescriptionPrefixKey"/>: o que vem antes da descrição (o nome do estágio).
+/// <paramref name="DescriptionArgKey"/>: o texto que entra no lugar de <c>{0}</c> da descrição (o título que um reflexo do Sonho segura).
 /// </summary>
 public sealed record MenuEntry(
     string Id, string LabelKey, string DescriptionKey, bool Available = true, bool SeparatorBefore = false, bool Guilt = false,
-    string? TagKey = null, string? DescriptionPrefixKey = null);
+    string? TagKey = null, string? DescriptionPrefixKey = null, string? DescriptionArgKey = null);
 
 /// <summary>
 /// Caixa de ações do combate em pixel art (GDD 4.7): moldura de vaso grego, faixa de meandro, fonte pixelada
@@ -241,9 +242,10 @@ public partial class ActionMenu : Control
         {
             cursor.Modulate = Colors.White;
             _focusId = entry.Id;
+            var description = entry.DescriptionArgKey is { } arg ? string.Format(T(entry.DescriptionKey), T(arg)) : T(entry.DescriptionKey);
             DescriptionChanged?.Invoke(entry.DescriptionPrefixKey is { } prefix
-                ? string.Format(T("combate.menu.descricao_com_prefixo"), T(prefix), T(entry.DescriptionKey))
-                : T(entry.DescriptionKey));
+                ? string.Format(T("combate.menu.descricao_com_prefixo"), T(prefix), description)
+                : description);
         };
         button.FocusExited += () => cursor.Modulate = Colors.Transparent;
         button.MouseEntered += button.GrabFocus;

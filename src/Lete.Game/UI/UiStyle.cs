@@ -49,6 +49,13 @@ public static class UiStyle
                 _font.Antialiasing = TextServer.FontAntialiasing.None;
                 _font.Hinting = TextServer.Hinting.None;
                 _font.SubpixelPositioning = TextServer.SubpixelPositioning.Disabled;
+                // Sem ligaduras: a fonte desenha "fi" e "fl" com um glifo errado ("Arme" no lugar de "firme").
+                var textServer = TextServerManager.GetPrimaryInterface();
+                _font.OpentypeFeatureOverrides = new Godot.Collections.Dictionary
+                {
+                    [textServer.NameToTag("liga")] = 0,
+                    [textServer.NameToTag("clig")] = 0,
+                };
             }
 
             return _font;

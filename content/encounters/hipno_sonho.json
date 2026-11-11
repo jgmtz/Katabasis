@@ -1,0 +1,22 @@
+{
+  "id": "hipno_sonho",
+  "_rascunho": "O Sonho entre as papoulas (10/nov/2026, PENDENCIAS 92). Luta inteira, derrota com custo.",
+  "shade": "sonho",
+  "region": "hipno",
+  "battle": "sonho",
+  "hecate_key": "encontro.hipno_sonho.nota",
+  "actions": [
+    "atacar",
+    "memoria",
+    "aproximar",
+    "escutar",
+    "libertar",
+    "oferenda",
+    "presenciar",
+    "ceder",
+    "absorver",
+    "eco",
+    "bolsa",
+    "fugir"
+  ]
+}

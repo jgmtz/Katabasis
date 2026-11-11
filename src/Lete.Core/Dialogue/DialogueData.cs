@@ -132,7 +132,8 @@ public static class DialogueData
     /// <summary>
     /// Efeito: um objeto de uma chave só (<c>journal_key</c>, <c>flag</c>, <c>origin_fragment</c>, <c>hear</c>,
     /// <c>swear_oath</c>, <c>break_oath</c>, <c>hospitality</c>: true, que precisa de <c>shade</c> no diálogo, e
-    /// <c>pay_obols</c>: quantidade, e <c>meet_companion</c>: id do companheiro).
+    /// <c>pay_obols</c>: quantidade, <c>meet_companion</c>: id do companheiro, <c>raise_mark</c>: quantidade,
+    /// <c>acquire_item</c>: id do item, e <c>drink_mnemosyne</c> e <c>forget_memory</c>: true).
     /// </summary>
     /// <summary>Um efeito fora de um diálogo (as consequências de uma missão), com o mesmo formato.</summary>
     public static DialogueEffect EffectFromJson(JsonElement e, string at, string? shade = null) => Effect(at, shade, e);
@@ -153,6 +154,16 @@ public static class DialogueData
                 ? new PayObols(amount)
                 : throw new FormatException($"{at}: 'pay_obols' precisa ser maior que zero."),
             "meet_companion" => new MeetCompanion(property.Value.GetString()!),
+            "raise_mark" => property.Value.GetInt32() is > 0 and var mark
+                ? new RaiseMark(mark)
+                : throw new FormatException($"{at}: 'raise_mark' precisa ser maior que zero."),
+            "acquire_item" => new AcquireItem(property.Value.GetString()!),
+            "drink_mnemosyne" => property.Value.ValueKind == JsonValueKind.True
+                ? new DrinkMnemosyne()
+                : throw new FormatException($"{at}: 'drink_mnemosyne' é true."),
+            "forget_memory" => property.Value.ValueKind == JsonValueKind.True
+                ? new ForgetMemory()
+                : throw new FormatException($"{at}: 'forget_memory' é true."),
             var other => throw new FormatException($"{at}: efeito '{other}' desconhecido."),
         };
     }
