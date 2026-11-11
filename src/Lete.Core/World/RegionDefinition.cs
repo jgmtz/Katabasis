@@ -3,9 +3,11 @@ namespace Lete.Core.World;
 /// <summary>
 /// Uma região do Além (<c>content/regions/&lt;id&gt;.json</c>): o nome, a cena do Godot que a desenha e o ponto de
 /// chegada padrão (um marcador da cena), usado quando ninguém diz por onde o jogador entrou. <paramref name="Tide"/> é a
-/// tabela da Maré da região (GDD 2.6): o que muda a cada degrau, em ordem.
+/// tabela da Maré da região (GDD 2.6): o que muda a cada degrau, em ordem. <paramref name="CombatRule"/> é a regra de
+/// combate da região (HISTORIA 7.1), que vale em todas as lutas dela.
 /// </summary>
-public sealed record RegionDefinition(string Id, string NameKey, string Scene, string Entry, IReadOnlyList<TideLayer>? Tide = null)
+public sealed record RegionDefinition(string Id, string NameKey, string Scene, string Entry, IReadOnlyList<TideLayer>? Tide = null,
+    Combat.RegionCombatRule? CombatRule = null)
 {
     public IReadOnlyList<TideLayer> TideLayers => Tide ?? Array.Empty<TideLayer>();
 

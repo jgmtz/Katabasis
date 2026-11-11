@@ -147,6 +147,12 @@ public sealed record BondMin(int Min) : Predicate
     public override string Name => "bond_min";
 }
 
+/// <summary>O vínculo chegou ao máximo das regras do companheiro (a oferta no portão; 11/nov/2026).</summary>
+public sealed record BondAtMax : Predicate
+{
+    public override string Name => "bond_max";
+}
+
 /// <summary>Pelo menos <see cref="Min"/> óbolos na Bolsa (ex.: pagar Caronte; 31/out/2026).</summary>
 public sealed record ObolsMin(int Min) : Predicate
 {

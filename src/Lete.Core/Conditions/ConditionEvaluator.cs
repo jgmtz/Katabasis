@@ -83,6 +83,7 @@ public static class ConditionEvaluator
         ShadeIs p => f.ShadeIs(p.Shade, p.State),
         CompanionIs p => f.Companion == p.Companion,
         BondMin p => f.Bond >= p.Min,
+        BondAtMax => f.Bond >= f.BondMax,
         ObolsMin p => f.Obols >= p.Min,
         HospitalityReady p => f.CanHost(p.Shade),
         DifficultyIs p => f.Difficulty == p.Mode,

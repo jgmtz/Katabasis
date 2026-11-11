@@ -80,6 +80,9 @@ public partial class BattleAttackTest : Node
     [Export] public float ShadeTellSeconds { get; set; } = 1.2f;
     [Export] public float SupportSeconds { get; set; } = 1.4f;
     [Export] public float LineSeconds { get; set; } = 2.8f;
+
+    /// <summary>Força do piscar das figuras quando o fogo da região fere todos (0 a 1).</summary>
+    [Export] public float RegionTickHitStrength { get; set; } = 0.35f;
     [Export] public float HecateLineSeconds { get; set; } = 4.5f;
     [Export] public float RageLineSeconds { get; set; } = 1.6f;
     [Export] public float DefeatFadeSeconds { get; set; } = 1.2f;
@@ -572,7 +575,13 @@ public partial class BattleAttackTest : Node
             new ShadeResolve(_shadeMaxResolve),
             _shadeAttacks,
             _support,
-            new Liberation(_liberationRules));
+            new Liberation(_liberationRules))
+        {
+            RegionRule = _encounter is not null
+                && GameRoot.Instance.RegionDefinitions.TryGetValue(_encounter.RegionId, out var ruleRegion)
+                    ? ruleRegion.CombatRule
+                    : null,
+        };
         // Teste: -- --folego=N começa a luta com N de Fôlego (para conferir a derrota sem jogar muito).
         if (System.Array.Find(OS.GetCmdlineUserArgs(), x => x.StartsWith("--folego=")) is { } breathArg
             && float.TryParse(breathArg["--folego=".Length..], System.Globalization.CultureInfo.InvariantCulture, out var startBreath))
@@ -675,15 +684,21 @@ public partial class BattleAttackTest : Node
     {
         _menu.ShowMenu(false);
         _hud.SetGestureActive(true);
-        var grade = Windows.Grade(await RunRing(_attackRing, Shade, Windows));
+        var grade = Windows.Grade(await RunRing(SlowedAttackRing, Shade, Windows));
         DreamStrike strike = null!;
-        await Protagonist.PlayAdvance(Shade.Position, () =>
+        // O avanço vai até a figura escolhida (decisão do João, 11/nov/2026, PENDÊNCIA 101).
+        await Protagonist.PlayAdvance(Shade.ReflectionPosition(index), () =>
         {
             strike = _dream!.Strike(index, _flow.Resolve, _flow.Lucidity, _story.Phases.Select(p => p.AtFraction));
             _hud.SetResolve(_flow.Resolve.Fraction);
             _hud.SetLucidity(_flow.Lucidity.Fraction);
             return Shade.PlayHit(strike.HitTrue ? HitStrength(grade) : HitStrength(GestureGrade.Failed));
         });
+
+        if (!strike.HitTrue)
+        {
+            await Shade.VanishReflection(index);
+        }
 
         await ShowLine(T(strike.HitTrue ? "combate.sonho.verdadeiro" : "combate.sonho.falso"), LineSeconds);
         if (!strike.HitTrue)
@@ -722,6 +737,7 @@ public partial class BattleAttackTest : Node
                 case BattlePhase.ShadeTurn:
                     await ShadeTurn();
                     _flow.EndShadeTurn();
+                    ShowRegionTick();
                     break;
                 case BattlePhase.Victory when _lesson is not null:
                     await EndLesson(learned: false);
@@ -1156,7 +1172,7 @@ public partial class BattleAttackTest : Node
     {
         _menu.ShowMenu(false);
         _hud.SetGestureActive(true);
-        var grade = Windows.Grade(await RunRing(_attackRing, Shade, Windows));
+        var grade = Windows.Grade(await RunRing(SlowedAttackRing, Shade, Windows));
 
         // O falho ainda cumpre a ação (GDD 4.4): o golpe acontece, só mais fraco.
         await Protagonist.PlayAdvance(Shade.Position, () =>
@@ -1849,6 +1865,34 @@ public partial class BattleAttackTest : Node
         if (_reading?.ReadKey is { } readKey)
         {
             await ShowLine(T(_readingMultiplier > 1f ? readKey : readKey + ".limpo"), LineSeconds);
+        }
+
+        if (_flow.RegionRule is { } rule)
+        {
+            await ShowLine(T(rule.TextKey), LineSeconds);
+        }
+    }
+
+    /// <summary>O Anel de ataque do jogador, mais lento onde a regra da região (as lágrimas do Luto) deixa tudo lento.</summary>
+    private RingTiming SlowedAttackRing => _attackRing with { ShrinkSeconds = _attackRing.ShrinkSeconds * (_flow.RegionRule?.SlowFactor ?? 1f) };
+
+    /// <summary>
+    /// A regra da região ao fim da rodada (o fogo do Tártaro fere todos; nos Elísios, todo dano cura devagar): as barras
+    /// mostram, e as duas figuras piscam de leve.
+    /// </summary>
+    private void ShowRegionTick()
+    {
+        if (!_flow.LastRegionTick.Changed)
+        {
+            return;
+        }
+
+        _hud.SetBreath(_flow.Breath.Fraction);
+        _hud.SetResolve(_flow.Resolve.Fraction);
+        if (_flow.LastRegionTick.Breath > 0f)
+        {
+            _ = Protagonist.PlayHit(RegionTickHitStrength);
+            _ = Shade.PlayHit(RegionTickHitStrength);
         }
     }
 

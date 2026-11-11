@@ -127,8 +127,23 @@ public sealed class BattleFlow
     /// <summary>Família: fração do próximo golpe da sombra que não chega (0 = nenhuma proteção).</summary>
     public float GuardFraction { get; private set; }
 
-    /// <summary>Luto: o próximo golpe da sombra fica este tanto mais lento (1 = normal).</summary>
-    public float ShadeSlowFactor { get; private set; } = 1f;
+    /// <summary>
+    /// Luto: o próximo golpe da sombra fica este tanto mais lento (1 = normal). A regra da região
+    /// (<see cref="RegionRule"/>, as lágrimas) vale como piso.
+    /// </summary>
+    public float ShadeSlowFactor
+    {
+        get => Math.Max(_memorySlow, RegionRule?.SlowFactor ?? 1f);
+        private set => _memorySlow = value;
+    }
+
+    private float _memorySlow = 1f;
+
+    /// <summary>A regra de combate da região onde a luta acontece (nula: nenhuma).</summary>
+    public RegionCombatRule? RegionRule { get; init; }
+
+    /// <summary>O que a regra da região fez ao fim da última rodada (vazio antes da primeira).</summary>
+    public RegionRuleTick LastRegionTick { get; private set; }
 
     /// <summary>Ofício: quanto as janelas da próxima defesa ficam mais largas.</summary>
     public float FocusWidening { get; private set; }
@@ -156,7 +171,7 @@ public sealed class BattleFlow
                 GuardFraction = Math.Max(GuardFraction, Math.Clamp(power, 0f, 1f));
                 break;
             case MemoryEffectKind.Slow:
-                ShadeSlowFactor = Math.Max(ShadeSlowFactor, Math.Max(1f, power));
+                _memorySlow = Math.Max(_memorySlow, Math.Max(1f, power));
                 break;
             case MemoryEffectKind.Focus:
                 FocusWidening = Math.Max(FocusWidening, Math.Max(0f, power));
@@ -276,6 +291,12 @@ public sealed class BattleFlow
         if (WitnessTurnsLeft is { } left && !hushed)
         {
             WitnessTurnsLeft = left - 1;
+        }
+
+        LastRegionTick = default;
+        if (_pendingOutcome is null && !Breath.IsEmpty && !Resolve.IsBroken && RegionRule is { } rule)
+        {
+            LastRegionTick = rule.EndRound(Breath, Resolve);
         }
 
         if (!Check())

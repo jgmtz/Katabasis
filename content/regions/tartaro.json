@@ -22,5 +22,15 @@
         "value": 0.55
       }
     }
-  ]
+  ],
+  "_regra": "Regra de combate da região (HISTORIA 7.1; decisão do João de 11/nov/2026, PENDENCIAS 101): vale em todas as lutas dela; força _tbd.",
+  "combat_rule": {
+    "id": "flegetonte",
+    "kind": "burn_all",
+    "power": {
+      "_tbd": true,
+      "value": 0.04
+    },
+    "text_key": "regra.flegetonte"
+  }
 }

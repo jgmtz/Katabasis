@@ -47,6 +47,9 @@ public partial class BattleActor : Node3D
     [Export] public float ReflectionDimAlpha { get; set; } = 0.35f;
     [Export] public float ReflectionIdleAlpha { get; set; } = 0.7f;
 
+    /// <summary>Quanto tempo um reflexo falso leva para sumir depois de golpeado, em segundos.</summary>
+    [Export] public float ReflectionVanishSeconds { get; set; } = 0.35f;
+
     public BattleAnimTuning Tuning { get; set; } = null!;
 
     /// <summary>Sombras flutuam em vez de respirar e têm o disco no chão mais fraco que o dos vivos.</summary>
@@ -188,6 +191,31 @@ public partial class BattleActor : Node3D
             var alpha = index is null ? ReflectionIdleAlpha : i == index ? ReflectionFocusedAlpha : ReflectionDimAlpha;
             _reflections[i].Material.SetShaderParameter("tint", new Color(_artTint, _artTint.A * alpha));
         }
+    }
+
+    /// <summary>
+    /// Onde fica o reflexo <paramref name="index"/>, no mesmo espaço de <see cref="Node3D.Position"/> (para o avanço do
+    /// golpe ir até ele); sem reflexos ou com o índice do próprio sprite, a posição dele.
+    /// </summary>
+    public Vector3 ReflectionPosition(int index) =>
+        index >= 0 && index < _reflections.Count && _reflections[index].Sprite is { } sprite && GetParent() is Node3D parent
+            ? parent.ToLocal(sprite.GlobalPosition) with { Y = Position.Y }
+            : Position;
+
+    /// <summary>O reflexo falso golpeado some (o próprio sprite nunca some por aqui).</summary>
+    public async Task VanishReflection(int index)
+    {
+        if (index < 0 || index >= _reflections.Count || _reflections[index].Sprite is null)
+        {
+            return;
+        }
+
+        var material = _reflections[index].Material;
+        var tint = (Color)material.GetShaderParameter("tint");
+        var tween = CreateTween();
+        tween.TweenMethod(Callable.From<float>(a => material.SetShaderParameter("tint", new Color(tint, tint.A * a))),
+            1f, 0f, ReflectionVanishSeconds);
+        await ToSignal(tween, Tween.SignalName.Finished);
     }
 
     private void CopyToReflections()

@@ -22,5 +22,15 @@
         "value": 0.45
       }
     }
-  ]
+  ],
+  "_regra": "Regra de combate da região (HISTORIA 7.1; decisão do João de 11/nov/2026, PENDENCIAS 101): vale em todas as lutas dela; força _tbd.",
+  "combat_rule": {
+    "id": "lagrimas",
+    "kind": "slow_all",
+    "power": {
+      "_tbd": true,
+      "value": 1.3
+    },
+    "text_key": "regra.lagrimas"
+  }
 }

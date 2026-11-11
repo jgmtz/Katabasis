@@ -20,6 +20,9 @@ public interface IConditionFacts
     int Tide { get; }
     int Bond { get; }
 
+    /// <summary>Vínculo máximo das regras do companheiro (a condição <c>bond_max</c>).</summary>
+    int BondMax { get; }
+
     /// <summary>Óbolos na Bolsa.</summary>
     int Obols { get; }
     int FullRecollectionKinds { get; }

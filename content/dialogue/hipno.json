@@ -1,6 +1,6 @@
 {
   "id": "hipno",
-  "_rascunho": "Rascunho (10/nov/2026, PENDENCIAS 92), nas direções decididas pelo João em 10/nov/2026 (PENDENCIAS 91). Hipno (só a voz, entre as papoulas): a pista do Sonho (o reflexo verdadeiro segura o que você lembra inteiro) e a de Mnemósine.",
+  "_rascunho": "Rascunho (10/nov/2026, PENDENCIAS 92), nas direções decididas pelo João em 10/nov/2026 (PENDENCIAS 91). Hipno (só a voz, entre as papoulas): a pista do Sonho (o reflexo verdadeiro segura o que você lembra inteiro) e a de Mnemósine. A pista dos portões (PENDENCIAS 101): os nomes não aparecem nos Portões; só Hipno conta qual é qual.",
   "mode": "fixed",
   "speaker_key": "personagem.hipno.nome",
   "start": [
@@ -35,6 +35,11 @@
           "next": "fonte"
         },
         {
+          "posture": "perguntar",
+          "text_key": "dlg.hipno.portoes",
+          "next": "portoes"
+        },
+        {
           "posture": "calar",
           "text_key": "dlg.hipno.calar",
           "next": "fim"
@@ -56,6 +61,15 @@
       "effects": [
         {
           "journal_key": "diario.hipno.fonte"
+        }
+      ]
+    },
+    {
+      "id": "portoes",
+      "line_key": "dlg.hipno.sobre_portoes",
+      "effects": [
+        {
+          "journal_key": "diario.hipno.portoes"
         }
       ]
     }

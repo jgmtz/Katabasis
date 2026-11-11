@@ -112,7 +112,8 @@ public static class WorldData
 
     /// <summary>
     /// Região: <c>id</c>, <c>name_key</c>, <c>scene</c> (caminho <c>res://</c> da cena), <c>entry</c> (marcador de chegada
-    /// padrão) e, opcional, <c>tide</c>: a tabela da Maré [{<c>step</c>, <c>arrival_key</c>, <c>stubborn</c>}].
+    /// padrão) e, opcionais, <c>tide</c>: a tabela da Maré [{<c>step</c>, <c>arrival_key</c>, <c>stubborn</c>}], e
+    /// <c>combat_rule</c>: {<c>id</c>, <c>kind</c> (slow_all, burn_all, mend_all), <c>power</c>, <c>text_key</c>}.
     /// </summary>
     public static RegionDefinition RegionFromJson(string json)
     {
@@ -123,8 +124,17 @@ public static class WorldData
                 .Select(l => new TideLayer((int)TbdNumber.Read(l, "step"), String(l, "arrival_key"), TbdNumber.Read(l, "stubborn")))
                 .ToList()
             : null;
-        var region = new RegionDefinition(String(root, "id"), String(root, "name_key"), String(root, "scene"), String(root, "entry"), tide);
-        var errors = region.ValidateTide().ToList();
+        var rule = root.TryGetProperty("combat_rule", out var r)
+            ? new Combat.RegionCombatRule(String(r, "id"), String(r, "kind") switch
+                {
+                    "slow_all" => Combat.RegionRuleKind.SlowAll,
+                    "burn_all" => Combat.RegionRuleKind.BurnAll,
+                    "mend_all" => Combat.RegionRuleKind.MendAll,
+                    var other => throw new FormatException($"Regra de combate: tipo '{other}' desconhecido."),
+                }, TbdNumber.Read(r, "power"), String(r, "text_key"))
+            : null;
+        var region = new RegionDefinition(String(root, "id"), String(root, "name_key"), String(root, "scene"), String(root, "entry"), tide, rule);
+        var errors = region.ValidateTide().Concat(rule?.Validate() ?? Enumerable.Empty<string>()).ToList();
         if (!region.Scene.StartsWith("res://", StringComparison.Ordinal) || !region.Scene.EndsWith(".tscn", StringComparison.Ordinal))
         {
             errors.Add($"Região '{region.Id}': 'scene' precisa ser um caminho res://...tscn.");

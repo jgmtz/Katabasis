@@ -18,7 +18,7 @@ public static class ConditionParser
     public static readonly IReadOnlySet<string> PredicateNames = new HashSet<string>(StringComparer.Ordinal)
     {
         "origin", "gender", "recollection", "recollection_kind_full", "recollection_kind_full_count", "heavy_memory", "mark_band", "tide_min",
-        "flag", "path_key", "oath_active", "oath_broken", "offering_shared", "shade_state", "companion", "bond_min",
+        "flag", "path_key", "oath_active", "oath_broken", "offering_shared", "shade_state", "companion", "bond_min", "bond_max",
         "difficulty", "profile", "item_owned", "trivia_lit", "region_visited", "quest_stage", "shade_lucidity", "obols_min",
         "hospitality_ready",
     };
@@ -141,6 +141,7 @@ public static class ConditionParser
             Enum<ShadeState>(Field(value, at, "state"), $"{at}.state")),
         "companion" => new CompanionIs(Id(value, at)),
         "bond_min" => new BondMin(Count(value, at)),
+        "bond_max" => value.ValueKind == JsonValueKind.True ? new BondAtMax() : throw Error(at, "só aceita true (use not para o contrário)."),
         "obols_min" => new ObolsMin(Count(value, at)),
         "hospitality_ready" => new HospitalityReady(Id(value, at)),
         "difficulty" => new DifficultyIs(Id(value, at)),

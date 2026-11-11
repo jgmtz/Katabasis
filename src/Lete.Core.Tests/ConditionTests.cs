@@ -18,6 +18,7 @@ public class ConditionTests
         public MarkBand MarkBand { get; set; }
         public int Tide { get; set; }
         public int Bond { get; set; }
+        public int BondMax { get; set; } = 10;
         public int Obols { get; set; }
         public int FullRecollectionKinds { get; set; }
         public Via? TopVia { get; set; }
@@ -76,6 +77,15 @@ public class ConditionTests
         var facts = new Facts { Origin = "veterano" };
         Assert.True(Eval("""{ "any": [ { "origin": "pescador" }, { "origin": "veterano" } ] }""", facts).Passed);
         Assert.False(Eval("""{ "not": { "origin": "veterano" } }""", facts).Passed);
+    }
+
+    [Fact]
+    public void BondMax_FollowsTheRulesMaximum_AndOnlyAcceptsTrue()
+    {
+        Assert.False(Eval("""{ "bond_max": true }""", new Facts { Bond = 9, BondMax = 10 }).Passed);
+        Assert.True(Eval("""{ "bond_max": true }""", new Facts { Bond = 10, BondMax = 10 }).Passed);
+        Assert.True(Eval("""{ "bond_max": true }""", new Facts { Bond = 8, BondMax = 8 }).Passed);
+        Assert.ThrowsAny<FormatException>(() => ConditionParser.Parse("""{ "bond_max": false }"""));
     }
 
     [Fact]
@@ -238,6 +248,7 @@ public class ConditionTests
             ["shade_state"] = """{ "id": "a", "state": "spared" }""",
             ["companion"] = "\"aulo\"",
             ["bond_min"] = "1",
+            ["bond_max"] = "true",
             ["obols_min"] = "1",
             ["hospitality_ready"] = "\"padeiro\"",
             ["difficulty"] = "\"estige\"",

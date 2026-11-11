@@ -334,7 +334,7 @@ public partial class GameRoot : Node
         OriginFragments = new OriginFragments(State, Events, _origins,
             id => _dialogues.TryGetValue(id, out var graph) ? graph.ShadeId ?? id : id);
         Profile = new Profile(State, Events, _profileRules);
-        Facts = new WorldFacts(State, _markRules, Mosaic, Profile);
+        Facts = new WorldFacts(State, _markRules, Mosaic, Profile) { BondMax = _companionRules.BondMax };
         Oaths = new Oaths(State, Events, _oaths, _oathRules, () => Facts);
         Offerings = new Offerings(State, Events, _offeringRules);
         Healing = new Healing(State, Events, _healingRules, Offerings, () => Tide.Step);

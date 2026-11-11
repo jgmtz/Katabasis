@@ -1,6 +1,6 @@
 {
   "id": "cadeira",
-  "_rascunho": "A Cadeira do Esquecimento (HISTORIA: O Gole aflora aqui; beber do Lete de propósito é um final, Ficar). Rascunho (11/nov/2026, PENDENCIAS 97), nas direções decididas pelo João em 11/nov/2026 (PENDENCIAS 94).",
+  "_rascunho": "A Cadeira do Esquecimento (HISTORIA: O Gole aflora aqui; beber do Lete de propósito é um final, Ficar). Rascunho (11/nov/2026, PENDENCIAS 97), nas direções decididas pelo João em 11/nov/2026 (PENDENCIAS 94). Uma confirmação a mais antes do fim, dentro da história (João, 11/nov/2026, PENDENCIAS 101).",
   "mode": "fixed",
   "speaker_key": "personagem.cadeira.nome",
   "start": [
@@ -49,7 +49,7 @@
         {
           "posture": "escutar",
           "text_key": "dlg.cadeira.beber",
-          "next": "bebeu"
+          "next": "beber_ultimo"
         },
         {
           "posture": "calar",
@@ -73,6 +73,22 @@
     {
       "id": "levantou",
       "line_key": "dlg.cadeira.levantou"
+    },
+    {
+      "id": "beber_ultimo",
+      "line_key": "dlg.cadeira.ultimo",
+      "options": [
+        {
+          "posture": "escutar",
+          "text_key": "dlg.cadeira.ultimo.sim",
+          "next": "bebeu"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.cadeira.ultimo.nao",
+          "next": "levantou"
+        }
+      ]
     }
   ]
 }

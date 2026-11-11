@@ -28,6 +28,7 @@ Usadas em diálogos, revelação de névoa, estoque de mercadores, missões, eve
 - **Implementado (29/out/2026, `Lete.Core/Conditions`):** um predicado é um objeto com **uma chave só** (o nome) e, se for o caso, `"soft": true` (ex.: `{ "flag": "x", "soft": true }`; não vale dentro de `not`). Formatos:
   - texto (id): `origin`, `gender` (`m`/`f`), `flag`, `path_key`, `oath_active`, `oath_broken`, `companion`, `difficulty`, `item_owned`, `trivia_lit`, `region_visited`, `shade_lucidity` (só em diálogo);
   - número inteiro: `tide_min`, `bond_min`, `obols_min` (óbolos na Bolsa; 31/out/2026, para pagar Caronte);
+  - `bond_max: true` (11/nov/2026, PENDENCIAS 101): o vínculo chegou ao máximo das regras do companheiro (`bond_max` de `content/rules/companheiro.json`), sem número escrito na condição; só aceita `true` (o contrário é `not`);
   - `hospitality_ready` (id da sombra; 03/nov/2026): a sombra ainda hospeda neste degrau da Maré (pão ou leito, uma vez por degrau); a opção que hospeda usa o efeito `hospitality`;
   - objeto: `recollection` {`id`, `min_stage`?: fragment/recalled/full, `state`?: certain/uncertain/false}, `recollection_kind_full_count` {`min`}, `heavy_memory` {`id`, `state`: face/leave/pending}, `mark_band` {`min`? e/ou `max`?: low/mid/high}, `offering_shared` {`shade`, `kind`?}, `shade_state` {`id`, `state`: freed/destroyed/spared/seen/absorbed/fled/yielded}, `profile` {`top_via`?: fight/free/absorb/witness/spare/flee/yield e/ou `top_kind`?: tipo de Lembrança; lê o Perfil **recente** e falha quando ele está neutro; e/ou `heavy`?: face/leave, para onde pendem as Pesadas decididas, falha no empate (03/nov/2026)}, `quest_stage` {`id`, `min`: índice em `stages`}.
   - `NearMiss` = a condição falha, mas passaria se um único predicado `soft` que falhou fosse cumprido. O resultado diz qual foi.
@@ -282,6 +283,8 @@ Posturas: `escutar`, `perguntar`, `pressionar`, `consolar`, `calar` (`calar` sem
   "mood": { "accent_color": "#8FB3C9", "music": "mus_luto" }
 }
 ```
+
+**Regra de combate (implementado em 11/nov/2026, PENDENCIAS 101):** `combat_rule` {`id`, `kind`: `slow_all` (tudo `power` vezes mais lento: os golpes dela e o Anel de ataque; piso para o efeito da Memória de Luto), `burn_all` (ao fim de cada rodada, você e a sombra perdem `power` × o máximo da barra, nunca abaixo de 1: o fogo não decide a luta sozinho) ou `mend_all` (ao fim de cada rodada, as duas barras curam `power` × o máximo, sem passar dele), `power` (`_tbd`), `text_key` (dito ao começar a luta)}; vale em todas as lutas de encontros da região (`Lete.Core/Combat/RegionCombatRule.cs`). Hoje: Luto (lágrimas), Tártaro (Flegetonte) e Elísios (paz).
 
 **Implementado até agora (30/out/2026):** só `content/regions/<id>.json`: `id` (igual ao nome do arquivo), `name_key`, `scene` (`res://...tscn`) e `entry` (nome do marcador de chegada padrão na cena). O teste `RegionContentTests` confere que a cena e o marcador existem e que toda passagem (`RegionExit`: `TargetRegion`, `TargetEntry`) aponta para uma região e um marcador que existem. A Trívia diz a região em `region`. Os outros campos acima (`act`, `areas`, `connections`, `combat_rule`, `tide_table`, névoa, Trívia, mercador, clima) entram com o conteúdo de cada região.
 

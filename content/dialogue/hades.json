@@ -22,7 +22,12 @@
         "flag": "ascalafo_delatou"
       },
       "line_key": "dlg.hades.delatou",
-      "next": "favor"
+      "next": "favor",
+      "effects": [
+        {
+          "flag": "falou_hades"
+        }
+      ]
     },
     {
       "id": "primeira",
@@ -37,6 +42,11 @@
           "posture": "calar",
           "text_key": "dlg.hades.calar",
           "next": "fim"
+        }
+      ],
+      "effects": [
+        {
+          "flag": "falou_hades"
         }
       ]
     },

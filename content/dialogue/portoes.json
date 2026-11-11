@@ -108,7 +108,7 @@
           "text_key": "dlg.portoes.responder",
           "next": "oferta_aulo",
           "requires": {
-            "bond_min": 10
+            "bond_max": true
           }
         },
         {
@@ -117,7 +117,7 @@
           "next": "escolha",
           "requires": {
             "not": {
-              "bond_min": 10
+              "bond_max": true
             }
           }
         }
@@ -165,7 +165,7 @@
           "text_key": "dlg.portoes.responder",
           "next": "oferta_ismena",
           "requires": {
-            "bond_min": 10
+            "bond_max": true
           }
         },
         {
@@ -174,7 +174,7 @@
           "next": "escolha",
           "requires": {
             "not": {
-              "bond_min": 10
+              "bond_max": true
             }
           }
         }
@@ -222,7 +222,7 @@
           "text_key": "dlg.portoes.responder",
           "next": "oferta_dimas",
           "requires": {
-            "bond_min": 10
+            "bond_max": true
           }
         },
         {
@@ -231,7 +231,7 @@
           "next": "escolha",
           "requires": {
             "not": {
-              "bond_min": 10
+              "bond_max": true
             }
           }
         }
@@ -279,7 +279,7 @@
           "text_key": "dlg.portoes.responder",
           "next": "oferta_septimia",
           "requires": {
-            "bond_min": 10
+            "bond_max": true
           }
         },
         {
@@ -288,7 +288,7 @@
           "next": "escolha",
           "requires": {
             "not": {
-              "bond_min": 10
+              "bond_max": true
             }
           }
         }
@@ -336,7 +336,7 @@
           "text_key": "dlg.portoes.responder",
           "next": "oferta_calias",
           "requires": {
-            "bond_min": 10
+            "bond_max": true
           }
         },
         {
@@ -345,7 +345,7 @@
           "next": "escolha",
           "requires": {
             "not": {
-              "bond_min": 10
+              "bond_max": true
             }
           }
         }
@@ -393,7 +393,7 @@
           "text_key": "dlg.portoes.responder",
           "next": "oferta_lia",
           "requires": {
-            "bond_min": 10
+            "bond_max": true
           }
         },
         {
@@ -402,7 +402,7 @@
           "next": "escolha",
           "requires": {
             "not": {
-              "bond_min": 10
+              "bond_max": true
             }
           }
         }

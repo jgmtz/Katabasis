@@ -55,6 +55,9 @@ public sealed class WorldFacts : IConditionFacts
 
     public string? Difficulty => _state.Difficulty;
     public int Bond => _state.CompanionBond;
+
+    /// <summary>O máximo das regras do companheiro; quem monta os fatos preenche (sem regras, nunca se alcança).</summary>
+    public int BondMax { get; init; } = int.MaxValue;
     public int Obols => _state.Inventory.Obols;
     public Via? TopVia => _profile.TopVia;
     public RecollectionKind? TopKind => _profile.TopKind;
