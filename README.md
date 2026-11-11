@@ -2,7 +2,7 @@
 
 RPG de exploração e escolhas na mitologia greco-romana. Um vivo desce ao mundo dos mortos e não lembra por quê. Explorar o Além é recuperar memórias, e as escolhas decidem o que ele leva consigo e se consegue sair.
 
-> Em desenvolvimento. Título provisório; o nome interno do projeto é **Lete**.
+> Em desenvolvimento. O nome interno do projeto (pastas, código e documentos) é **Lete**, o rio do esquecimento.
 
 ## O jogo
 
@@ -71,6 +71,10 @@ Conteúdo é dado, não código: as sombras, as falas e as regiões ficam em `co
 - [`docs/DADOS.md`](docs/DADOS.md): formato dos arquivos de conteúdo
 - [`docs/ARTE.md`](docs/ARTE.md): direção de arte e pipeline de sprites
 - [`docs/PENDENCIAS.md`](docs/PENDENCIAS.md): decisões e o que está em aberto
+
+## Sobre a arte
+
+A arte do jogo foi criada com ferramentas de inteligência artificial e pixelizada com os scripts do projeto; alguns chefes partem de desenhos meus. Os textos, a narrativa, o design e o código são meus.
 
 ## Autor
 

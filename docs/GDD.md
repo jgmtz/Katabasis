@@ -1,4 +1,4 @@
-# GDD — Projeto Lete (título provisório)
+# GDD — Katábasis: O Rio do Esquecimento
 
 > Documento de design de jogo, versão 0.1 (23/out/2026).
 > Fonte: decisões tomadas por João Guilherme Matzenbacher.

@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Lete"
+config/name="Katábasis"
 run/main_scene="res://src/Lete.Game/Opening/Opening.tscn"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 
