@@ -22,7 +22,7 @@ Resumo para o João. Os detalhes de cada item estão em `PENDENCIAS.md` (pelo n�
 - [x] O João aprovou o piloto (12/nov).
 - [x] Ato I no visual novo: Tênaro, o Vestíbulo e o Aqueronte (PENDÊNCIA 108).
 - [ ] As outras 13 regiões no visual novo (Atos II a IV).
-- [ ] Regiões vizinhas emendadas, sem tela de carregamento.
+- [x] Regiões vizinhas emendadas, sem tela de carregamento: a névoa fecha e abre na passagem, sem recarregar a cena (PENDÊNCIA 112; as regiões ainda não encostam uma na outra).
 - [ ] Texturas definitivas (seção E do `KIT_GEMINI_FALTANTE.md`, 15 imagens).
 
 ### 2. Arte (do João, no Gemini)

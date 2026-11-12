@@ -56,6 +56,26 @@ public partial class Main : Node
     /// <summary>Onde o jogador aparece ao chegar numa Trívia pela tocha (ao lado dela, não dentro).</summary>
     private static readonly Vector3 TriviaArrivalOffset = new(0f, 0f, 1.5f);
 
+    /// <summary>
+    /// Trocar de região não recarrega a cena (regiões emendadas, PENDENCIAS 105 e 112): a névoa fecha por este tempo,
+    /// a região vizinha entra no lugar da atual e a névoa abre de novo. O jogador, a câmera e as telas são os mesmos.
+    /// </summary>
+    private const float RegionMistSeconds = 0.22f;
+
+    /// <summary>Quantos quadros a região nova tem para se montar antes de a névoa abrir.</summary>
+    private const int RegionSettleFrames = 2;
+
+    /// <summary>A cor da névoa que fecha a passagem.</summary>
+    private static readonly Color RegionMistColor = new(0.05f, 0.06f, 0.08f);
+
+    private static readonly string[] SharedRegionNodes = { "Player", "CameraRig" };
+
+    private ColorRect _regionMist = null!;
+    private bool _changingRegion;
+
+    /// <summary>As cenas das regiões vizinhas, pedidas em segundo plano ao chegar (para a passagem não esperar o disco).</summary>
+    private readonly HashSet<string> _requestedScenes = new();
+
     private SubViewportContainer _container = null!;
     private Node3D _world = null!;
     private Player _player = null!;
@@ -101,6 +121,11 @@ public partial class Main : Node
         }
         _cameraRig = _world.GetNode<CameraRig>("CameraRig");
 
+        _regionMist = new ColorRect { Color = RegionMistColor, MouseFilter = Control.MouseFilterEnum.Ignore };
+        _regionMist.SetAnchorsPreset(Control.LayoutPreset.FullRect);
+        _regionMist.Modulate = Colors.Transparent;
+        AddChild(_regionMist);
+
         _hud = new Hud(_player);
         AddChild(_hud);
         _menu = new GameMenu();
@@ -143,6 +168,7 @@ public partial class Main : Node
         ApplyMarkLook();
 
         ApplyPixelSettings();
+        RequestNeighborScenes();
         _ = RunCommandLineAsync();
     }
 
@@ -305,12 +331,95 @@ public partial class Main : Node
         }
     }
 
-    /// <summary>Passou por uma passagem: recarrega a cena na região de destino (e salva ao chegar).</summary>
-    private void GoToRegion(string regionId, string entry, string? milestone)
+    /// <summary>Passou por uma passagem: a região de destino entra no lugar desta (e salva ao chegar).</summary>
+    private void GoToRegion(string regionId, string entry, string? milestone) =>
+        _ = EnterRegionAsync(new Arrival(regionId, entry, Save: true, Milestone: milestone));
+
+    /// <summary>
+    /// Troca a região sem recarregar a cena: a névoa fecha, a região nova é montada no lugar da atual (com o mesmo
+    /// jogador e a mesma câmera), a chegada acontece como sempre (marcador, marco da Maré, save) e a névoa abre.
+    /// </summary>
+    private async Task EnterRegionAsync(Arrival arrival)
     {
-        _arrival = new Arrival(regionId, entry, Save: true, Milestone: milestone);
-        GetTree().CallDeferred(SceneTree.MethodName.ReloadCurrentScene);
+        if (_changingRegion)
+        {
+            return;
+        }
+
+        if (!GameRoot.Instance.RegionDefinitions.TryGetValue(arrival.Region, out var region))
+        {
+            GD.PushError($"Região '{arrival.Region}' não existe em content/regions.");
+            return;
+        }
+
+        _changingRegion = true;
+        await FadeRegionMistAsync(1f);
+        if (!IsInsideTree())
+        {
+            return;
+        }
+
+        var next = TakeRegionScene(region.Scene).Instantiate<Node3D>();
+        foreach (var name in SharedRegionNodes)
+        {
+            // O jogador e a câmera da cena nova não são usados: os desta sessão seguem viagem.
+            if (next.GetNodeOrNull(name) is { } spare)
+            {
+                next.RemoveChild(spare);
+                spare.Free();
+            }
+        }
+
+        var viewport = _container.GetNode("SubViewport");
+        var old = _world;
+        old.RemoveChild(_cameraRig);
+        old.RemoveChild(_player);
+        viewport.RemoveChild(old);
+        old.QueueFree();
+        next.AddChild(_player);
+        next.AddChild(_cameraRig);
+        _world = next;
+        viewport.AddChild(next);
+        _cameraRig.Camera.MakeCurrent();
+        RegionId = region.Id;
+        _arrival = arrival;
+        PlaceOnArrival(region);
+        ApplyPixelSettings();
+        RequestNeighborScenes();
+        for (var i = 0; i < RegionSettleFrames; i++)
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        }
+
+        await FadeRegionMistAsync(0f);
+        _changingRegion = false;
     }
+
+    private async Task FadeRegionMistAsync(float alpha)
+    {
+        var tween = CreateTween();
+        tween.TweenProperty(_regionMist, "modulate:a", alpha, RegionMistSeconds);
+        await ToSignal(tween, Tween.SignalName.Finished);
+    }
+
+    /// <summary>Pede ao disco, em segundo plano, as cenas das regiões para onde as passagens desta levam.</summary>
+    private void RequestNeighborScenes()
+    {
+        var regions = GameRoot.Instance.RegionDefinitions;
+        foreach (var exit in _world.GetChildren().OfType<RegionExit>())
+        {
+            if (regions.TryGetValue(exit.TargetRegion, out var neighbor) && _requestedScenes.Add(neighbor.Scene))
+            {
+                ResourceLoader.LoadThreadedRequest(neighbor.Scene);
+            }
+        }
+    }
+
+    /// <summary>A cena de uma região: a que já foi pedida em segundo plano ou, sem pedido, lida agora.</summary>
+    private PackedScene TakeRegionScene(string path) =>
+        _requestedScenes.Contains(path) && ResourceLoader.LoadThreadedGet(path) is PackedScene ready
+            ? ready
+            : GD.Load<PackedScene>(path);
 
     /// <summary>Chegou perto de uma sombra de encontro: vai para a luta e, no fim, volta a este lugar (sem salvar).</summary>
     private void GoToBattle(string encounterId, Vector3 returnPosition)
@@ -320,11 +429,7 @@ public partial class Main : Node
     }
 
     /// <summary>Debug: abre outra região na chegada padrão, sem salvar.</summary>
-    public void VisitRegion(string regionId)
-    {
-        _arrival = new Arrival(regionId, null, Save: false);
-        GetTree().CallDeferred(SceneTree.MethodName.ReloadCurrentScene);
-    }
+    public void VisitRegion(string regionId) => _ = EnterRegionAsync(new Arrival(regionId, null, Save: false));
 
     /// <summary>Uma Memória Pesada aflora: o aviso aparece (o jogador ainda pode adiar).</summary>
     public void SurfaceHeavyMemory(string memoryId)
@@ -393,9 +498,8 @@ public partial class Main : Node
     {
         if (GameRoot.Instance.Trivias.Definitions.TryGetValue(triviaId, out var definition) && definition.RegionId != RegionId)
         {
-            // Outra região: a cena recarrega lá (trocar de região salva).
-            _arrival = new Arrival(definition.RegionId, null, Save: true, TriviaId: triviaId);
-            GetTree().CallDeferred(SceneTree.MethodName.ReloadCurrentScene);
+            // Outra região: ela entra no lugar desta (trocar de região salva).
+            _ = EnterRegionAsync(new Arrival(definition.RegionId, null, Save: true, TriviaId: triviaId));
             return;
         }
 

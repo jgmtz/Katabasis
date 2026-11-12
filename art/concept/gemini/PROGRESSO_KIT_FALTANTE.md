@@ -16,3 +16,10 @@ Originais salvos como .jpeg (o Gemini baixa em JPEG; nomes seguem o kit, só mud
 - Seção A: 8/8 concluída.
 - Seção B: 13/13 concluída (tanato, ascalafo, medo, doenca, guerra, sisifo, tantalo, danaides, acerto_pescador, acerto_sacerdote, acerto_veterano, acerto_artesao, guardioes_mnemosine) em `figuras/*.jpeg`.
 - Seção C (itens 22–45, acessórios): em andamento, salvos em `protagonista_sombra/acessorios/`.
+
+- Seção C em 12/nov ~10h BRT: 15/24 (Pescador m+f, Sacerdote m+f, Veterano m). Faltam Veterano f (37-39) e Artesão m/f (40-45). Entrega em `entregas/2026-11-12_kit-faltante-esquecido-figuras-acessorios_10-00`.
+
+## Atualização 12/nov ~10-42 BRT — A+B+C concluídas (45/45)
+- Seção C 24/24: Veterano f (37-39) e Artesão m/f (40-45) gerados. Artesão f frente regerado (1ª versão descartada: `artesao_f_mapa_frente_descartada-fundo-vinho.jpeg`).
+- Entrega completa: `entregas/2026-11-12_kit-faltante-completo-A-B-C_10-42`.
+- Seção D (itens 46-55, opcionais): não feita.
