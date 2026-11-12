@@ -18,11 +18,11 @@
   },
   "leave": {
     "text_key": "pesada.o_olhar.deixar",
-    "lucidity_max": {
+    "_leveza": "Leveza própria (decisão do João, 11/nov/2026, PENDENCIAS 101; rascunho, PENDENCIAS 104): sem o olhar dela na frente, os olhos ficam livres para o golpe: janela do aparo maior.",
+    "parry_window": {
       "_tbd": true,
-      "value": 10
-    },
-    "protections": 1
+      "value": 0.1
+    }
   },
   "mosaic_position": {
     "x": 8,

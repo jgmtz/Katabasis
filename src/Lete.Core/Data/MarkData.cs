@@ -17,7 +17,8 @@ public static class MarkData
             (int)TbdNumber.Read(root, "faced_to_return_face"),
             (int)TbdNumber.Read(root, "perjury"),
             root.GetProperty("offering_mark").EnumerateObject()
-                .ToDictionary(o => o.Name, o => (int)TbdNumber.Read(root.GetProperty("offering_mark"), o.Name)));
+                .ToDictionary(o => o.Name, o => (int)TbdNumber.Read(root.GetProperty("offering_mark"), o.Name)),
+            root.TryGetProperty("faced_for_half_face", out _) ? (int)TbdNumber.Read(root, "faced_for_half_face") : 0);
 
         var errors = rules.Validate().ToList();
         return errors.Count == 0 ? rules : throw new FormatException(string.Join(" ", errors));

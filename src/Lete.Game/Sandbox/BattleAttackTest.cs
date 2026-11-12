@@ -524,7 +524,8 @@ public partial class BattleAttackTest : Node
     /// <summary>O Fôlego que sobrou da luta anterior (GDD 4.8: só volta nas fontes de cura).</summary>
     private Gauge Breath()
     {
-        var gauge = new Gauge(_protagonistStats.Breath + GameRoot.Instance.Items.Modifiers.BreathMax);
+        var gauge = new Gauge(_protagonistStats.Breath + GameRoot.Instance.Items.Modifiers.BreathMax
+            + GameRoot.Instance.HeavyMemories.Lightness.BreathMax);
         gauge.Reduce(System.Math.Min(GameRoot.Instance.State.Vitals.BreathSpent, gauge.Max - 1f));
         return gauge;
     }
@@ -1651,7 +1652,8 @@ public partial class BattleAttackTest : Node
 
         var widening = _flow.SupportPower(SupportEffect.WidenDefense) + _flow.FocusWidening;
         var items = GameRoot.Instance.Items.Modifiers;
-        var windows = Windows.Widened(widening + (attack.Kind == ShadeAttackKind.Direct ? items.ParryWindow : 0f));
+        var lightness = GameRoot.Instance.HeavyMemories.Lightness;
+        var windows = Windows.Widened(widening + (attack.Kind == ShadeAttackKind.Direct ? items.ParryWindow + lightness.ParryWindow : 0f));
         var slow = _flow.ShadeSlowFactor;
         var gesture = _gestures[attack.Gesture];
 
@@ -1673,7 +1675,7 @@ public partial class BattleAttackTest : Node
             }
 
             // A veste aumenta o quadro da Esquiva (GDD 6.1).
-            var box = 1f + items.DodgeBox;
+            var box = 1f + items.DodgeBox + lightness.DodgeBox;
             var grade = windows.Grade(await RunDodge(
                 settings with { BoxWidth = settings.BoxWidth * box, BoxHeight = settings.BoxHeight * box }, pattern.Slowed(slow)));
             await TakeHit(attack, grade);

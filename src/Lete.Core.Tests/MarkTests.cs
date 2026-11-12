@@ -85,6 +85,17 @@ public class MarkTests
         Assert.Equal(expected, _state.FinalFace);
     }
 
+    [Theory]
+    [InlineData(4, FinalFace.Returned)]
+    [InlineData(3, FinalFace.Half)]
+    [InlineData(2, FinalFace.Covered)]
+    public void RuleC_WithTheHalfFace_TheTieIsHalfCovered(int faced, FinalFace expected) =>
+        Assert.Equal(expected, (Rules with { FacedForHalfFace = 3 }).FaceFor(faced));
+
+    [Fact]
+    public void RuleC_HalfFaceMustNeedFewerThanTheReturnedFace() =>
+        Assert.NotEmpty((Rules with { FacedForHalfFace = 4 }).Validate());
+
     [Fact]
     public void HeavyMemory_CannotBeUndone()
     {
@@ -111,7 +122,7 @@ public class MarkTests
         Assert.Equal("f/etapa0.png", MarkArt.ImageFor("f", 0, FinalFace.None));
         Assert.Equal("f/etapa3.png", MarkArt.ImageFor("f", 3, FinalFace.None));
         Assert.Equal("f/rosto_coberto.png", MarkArt.ImageFor("f", 3, FinalFace.Covered));
-        Assert.Equal(6, MarkArt.AllImages("f").Count());
+        Assert.Equal(7, MarkArt.AllImages("f").Count());
     }
 
     [Fact]

@@ -18,11 +18,8 @@
   },
   "leave": {
     "text_key": "pesada.o_plano.deixar",
-    "lucidity_max": {
-      "_tbd": true,
-      "value": 10
-    },
-    "protections": 1
+    "_leveza": "Leveza própria (decisão do João, 11/nov/2026, PENDENCIAS 101; rascunho, PENDENCIAS 104): não saber o plano é não ter o que esquecer: duas proteções contra esquecer.",
+    "protections": 2
   },
   "mosaic_position": {
     "x": 4,

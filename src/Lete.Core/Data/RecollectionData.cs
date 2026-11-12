@@ -92,7 +92,7 @@ public static class RecollectionData
 
     /// <summary>
     /// A parte da Pesada: <c>order</c>, <c>gate</c> (condição, opcional), <c>warning_key</c>, <c>surface_key</c> e
-    /// <c>leave</c> {<c>text_key</c>, <c>lucidity_max</c>, <c>protections</c>}. A verdade é <c>stages.full.text_key</c>
+    /// <c>leave</c> {<c>text_key</c> e a Leveza, todos opcionais: <c>lucidity_max</c>, <c>protections</c>, <c>breath_max</c>, <c>parry_window</c>, <c>dodge_box</c>}. A verdade é <c>stages.full.text_key</c>
     /// e a Culpa é o <c>skill</c> da raiz; os dois são obrigatórios.
     /// </summary>
     private static HeavyMemory HeavyFromJson(string id, JsonElement root, IReadOnlyDictionary<RecollectionStage, string> texts)
@@ -106,8 +106,10 @@ public static class RecollectionData
             ? o.GetInt32()
             : throw new FormatException($"Pesada '{id}': falta 'order' (lugar na fila fixa).");
         var leave = root.TryGetProperty("leave", out var l) ? l : throw new FormatException($"Pesada '{id}': falta 'leave'.");
-        var lightness = new Lightness(TbdNumber.Read(leave, "lucidity_max"), (int)TbdNumber.Read(leave, "protections"));
-        if (order < 1 || lightness.LucidityMax < 0f || lightness.Protections < 0)
+        float Optional(string field) => leave.TryGetProperty(field, out _) ? TbdNumber.Read(leave, field) : 0f;
+        var lightness = new Lightness(Optional("lucidity_max"), (int)Optional("protections"), Optional("breath_max"),
+            Optional("parry_window"), Optional("dodge_box"));
+        if (order < 1 || lightness.IsNegative)
         {
             throw new FormatException($"Pesada '{id}': 'order' começa em 1 e a Leveza não pode ser negativa.");
         }

@@ -85,11 +85,15 @@ public sealed record HeavyMemory(int Order, Condition? Gate, string WarningKey, 
 
 /// <summary>
 /// Leveza (GDD 2.2): Lucidez máxima a mais e proteções contra ser esquecido (ao zerar a Lucidez, gasta uma proteção
-/// em vez de esquecer a Memória; renovam na Trívia; decisão do João, 30/out/2026).
+/// em vez de esquecer a Memória; renovam na Trívia; decisão do João, 30/out/2026). Cada Pesada tem a sua (decisão do
+/// João, 11/nov/2026): também Fôlego máximo, janela do aparo e caixa da Esquiva maiores, nas mesmas unidades dos itens.
 /// </summary>
-public sealed record Lightness(float LucidityMax, int Protections)
+public sealed record Lightness(float LucidityMax, int Protections, float BreathMax = 0f, float ParryWindow = 0f, float DodgeBox = 0f)
 {
     public static readonly Lightness None = new(0f, 0);
 
-    public Lightness Plus(Lightness other) => new(LucidityMax + other.LucidityMax, Protections + other.Protections);
+    public Lightness Plus(Lightness other) => new(LucidityMax + other.LucidityMax, Protections + other.Protections,
+        BreathMax + other.BreathMax, ParryWindow + other.ParryWindow, DodgeBox + other.DodgeBox);
+
+    public bool IsNegative => LucidityMax < 0f || Protections < 0 || BreathMax < 0f || ParryWindow < 0f || DodgeBox < 0f;
 }

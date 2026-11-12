@@ -25,11 +25,11 @@
   },
   "leave": {
     "text_key": "pesada.a_venda.deixar",
-    "lucidity_max": {
+    "_leveza": "Leveza própria (decisão do João, 11/nov/2026, PENDENCIAS 101; rascunho, PENDENCIAS 104): sem a dívida no peito, respira-se melhor: Fôlego máximo a mais.",
+    "breath_max": {
       "_tbd": true,
-      "value": 10
-    },
-    "protections": 1
+      "value": 15
+    }
   },
   "mosaic_position": {
     "x": 0,

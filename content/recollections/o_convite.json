@@ -18,6 +18,7 @@
   },
   "leave": {
     "text_key": "pesada.o_convite.deixar",
+    "_leveza": "Leveza própria (decisão do João, 11/nov/2026, PENDENCIAS 101; rascunho, PENDENCIAS 104): não lembrar quem foi convidado deixa a cabeça mais leve: Lucidez máxima a mais e uma proteção contra esquecer.",
     "lucidity_max": {
       "_tbd": true,
       "value": 10

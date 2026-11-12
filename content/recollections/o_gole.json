@@ -18,11 +18,11 @@
   },
   "leave": {
     "text_key": "pesada.o_gole.deixar",
+    "_leveza": "Leveza própria (decisão do João, 11/nov/2026, PENDENCIAS 101; rascunho, PENDENCIAS 104): o que o Lete levou não pesa mais: muito mais Lucidez máxima.",
     "lucidity_max": {
       "_tbd": true,
-      "value": 10
-    },
-    "protections": 1
+      "value": 15
+    }
   },
   "mosaic_position": {
     "x": 8,

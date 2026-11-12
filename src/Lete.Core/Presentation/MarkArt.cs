@@ -13,6 +13,7 @@ public static class MarkArt
     {
         FinalFace.Returned => $"{folder}/rosto_devolvido.png",
         FinalFace.Covered => $"{folder}/rosto_coberto.png",
+        FinalFace.Half => $"{folder}/rosto_meio.png",
         _ => $"{folder}/etapa{Math.Clamp(stage, 0, MarkTracker.HighStage)}.png",
     };
 
@@ -20,5 +21,6 @@ public static class MarkArt
     public static IEnumerable<string> AllImages(string folder) =>
         Enumerable.Range(0, MarkTracker.HighStage + 1).Select(s => ImageFor(folder, s, FinalFace.None))
             .Append(ImageFor(folder, 0, FinalFace.Returned))
-            .Append(ImageFor(folder, 0, FinalFace.Covered));
+            .Append(ImageFor(folder, 0, FinalFace.Covered))
+            .Append(ImageFor(folder, 0, FinalFace.Half));
 }

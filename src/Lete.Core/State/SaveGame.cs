@@ -183,6 +183,7 @@ public static class SaveGame
                 null => FinalFace.None,
                 "devolvido" => FinalFace.Returned,
                 "coberto" => FinalFace.Covered,
+                "meio" => FinalFace.Half,
                 var other => throw new FormatException($"'rosto_final' = '{other}' desconhecido."),
             },
         };
@@ -372,6 +373,7 @@ public static class SaveGame
     {
         FinalFace.Returned => "devolvido",
         FinalFace.Covered => "coberto",
+        FinalFace.Half => "meio",
         _ => null,
     };
 

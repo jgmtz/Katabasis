@@ -61,13 +61,13 @@ public sealed class MarkTracker : IDisposable
     }
 
     /// <summary>
-    /// Regra C: com pelo menos <see cref="MarkRules.FacedToReturnFace"/> Pesadas encaradas o rosto volta; senão, a
-    /// romã o cobre. Provisório: o meio-termo ainda não existe (PENDÊNCIAS 44). Chamado no fim do jogo.
+    /// Regra C: com pelo menos <see cref="MarkRules.FacedToReturnFace"/> Pesadas encaradas o rosto volta; com pelo menos
+    /// <see cref="MarkRules.FacedForHalfFace"/>, fica meio coberto; senão, a romã o cobre. Chamado no fim do jogo.
     /// </summary>
     public FinalFace SettleFace()
     {
         var faced = _state.HeavyMemories.Values.Count(c => c == HeavyMemoryChoice.Face);
-        _state.FinalFace = faced >= _rules.FacedToReturnFace ? FinalFace.Returned : FinalFace.Covered;
+        _state.FinalFace = _rules.FaceFor(faced);
         _events.Publish(new FinalFaceSettled(_state.FinalFace));
         return _state.FinalFace;
     }
