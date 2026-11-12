@@ -72,6 +72,12 @@
       "effects": [
         {
           "flag": "conheceu_persefone"
+        },
+        {
+          "flag": "peso_encontrado"
+        },
+        {
+          "journal_key": "diario.peso.sacerdote"
         }
       ],
       "next": "perguntas"

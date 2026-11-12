@@ -133,11 +133,11 @@ Size = Vector3({fmt(float(size[0]))}, {fmt(float(size[1]))}, {fmt(float(size[2])
         """Névoa rasteira: uma lâmina de ruído que se arrasta, na altura dada."""
         self.piece(name, 'nevoa', (center[0], height, center[1]), size=(size[0], density, size[1]), tint=tint)
 
-    def river(self, name, center, size, level=-0.25, still=False, tint=None, fire=False):
+    def river(self, name, center, size, level=-0.25, still=False, tint=None, fire=False, edge=None):
         """Água: um rio (com espuma na margem) ou, com still, água parada e rasa (poça, margem alagada); com fire, um
         rio de fogo (o Flegetonte)."""
         self.piece(name, 'agua', (center[0], level, center[1]), size=(size[0], 0, size[1]),
-                   variant=2 if fire else (1 if still else 0), tint=tint)
+                   variant=2 if fire else (1 if still else 0), tint=tint, edge=edge)
 
     def flora(self, name, kind, center, area, count, avoid=(), clump=0.6, seed=None):
         """Campo de flora em cartões (FloraField): kind é a folha (asfodelo, capim); avoid, retângulos do mundo
@@ -1077,13 +1077,15 @@ l.flora('Asfodelos', 'asfodelo', (1, 1), (19, 22), 150, avoid=TRILHAS_LUTO, clum
 l.examinable('Murtas', (-2.5, 0, 5), 'obj.luto.murtas')
 l.examinable('Choro', (5, 0, -5.5), 'obj.luto.choro')
 l.companion('Ismena', (3, 0, 6), 'ismena', '36_ismena')
+# O capítulo 2 das origens (Peso, 12/nov/2026, PENDENCIAS 114): os afogados que acusam o Pescador, entre as murtas.
+l.talkable('PesoAfogados', (8, 0, 8.6), 'peso_pescador', texture='29_afogado', idle='afogado')
 l.wanderer('SombraNoiva', (-3, 0, -4), 'luto_noiva', 'camponesa', (4, 0, 0))
 l.trivia('Trivia', (-6, 0, -10), 'trivia_luto')
 l.light('LuzBosque', (0, 4, 0), '0.5, 0.6, 0.7, 1', 1.6, 16)
 l.light('LuzChoro', (5.5, 3, -5.5), '0.6, 0.7, 0.8, 1', 1.2, 9)
 l.mist('Nevoa', (0, 0), (23, 27), height=0.35, density=0.6, tint='0.2, 0.25, 0.3, 1')
 l.mist('NevoaAlta', (-2, -4), (22, 18), height=1.3, density=0.35, tint='0.2, 0.25, 0.3, 1')
-l.markers({'ChegadaAsfodelos': (0, 0, 10.5), 'Trivia': (-4.5, 0, -10), 'Ismena': (3.5, 0, 7), 'Noiva': (-3, 0, -4),
+l.markers({'ChegadaAsfodelos': (0, 0, 10.5), 'Peso': (6.8, 0, 9), 'Trivia': (-4.5, 0, -10), 'Ismena': (3.5, 0, 7), 'Noiva': (-3, 0, -4),
            'Choro': (5, 0, -4.4), 'AtravessarAsfodelos': (0, 0, 13.4)}, player=(0, 0, 10.5))
 l.write('Luto.tscn')
 
@@ -1111,11 +1113,13 @@ tr.tribunal('Pedra', (0, 0, -6.5), 'julgamento_padeiro')
 tr.heavy_place('PesadaPlano', (2.5, 0, -5), 'o_plano')
 tr.examinable('Juizes', (-3, 0, -7), 'obj.tribunal.juizes')
 tr.companion('Septimia', (-6, 0, 4), 'septimia', '37_septimia')
+# O capítulo 2 das origens (Peso, 12/nov/2026, PENDENCIAS 114): a fila diante dos juízes, que ignoram o Artesão.
+tr.talkable('PesoJuizes', (4.6, 0, -6.8), 'peso_artesao')
 tr.wanderer('SombraPerjuro', (5, 0, 0), 'tribunal_perjuro', 'mercador', (-3, 0, 3))
 tr.trivia('Trivia', (7, 0, 6), 'trivia_tribunal')
 tr.flora('CapimFrestas', 'capim', (2, 6), (18, 13), 110, clump=0.8)
 tr.mist('Nevoa', (0, 0), (23, 27), height=0.3, density=0.45, tint='0.22, 0.22, 0.25, 1')
-tr.markers({'ChegadaAsfodelos': (0, 0, 10.5), 'Pedra': (0, 0, -5.5), 'Trivia': (5.5, 0, 6), 'Septimia': (-5.5, 0, 5), 'Perjuro': (5, 0, 0), 'PesadaPlano': (2.5, 0, -4),
+tr.markers({'ChegadaAsfodelos': (0, 0, 10.5), 'Peso': (4.6, 0, -5.6), 'Pedra': (0, 0, -5.5), 'Trivia': (5.5, 0, 6), 'Septimia': (-5.5, 0, 5), 'Perjuro': (5, 0, 0), 'PesadaPlano': (2.5, 0, -4),
             'AtravessarAsfodelos': (0, 0, 13.4)}, player=(0, 0, 10.5))
 tr.write('Tribunal.tscn')
 
@@ -1147,16 +1151,18 @@ g.light('LuzCampoLeste', (6, 4, 4), '0.75, 0.68, 0.6, 1', 1.2, 12)
 g.examinable('Armas', (-4, 0, 1), 'obj.guerreiros.armas')
 g.encounter('Campeao', (0, 0, -8), 'guerreiros_campeao', texture='38_campeao')
 g.companion('Aulo', (-6, 0, 6), 'aulo', '35_aulo')
+# O capítulo 2 das origens (Peso, 12/nov/2026, PENDENCIAS 114): os mortos que o Veterano fez, entre as lanças.
+g.talkable('PesoMortos', (-8.4, 0, -6.4), 'peso_veterano')
 g.trivia('Trivia', (7, 0, 7), 'trivia_guerreiros')
 g.mist('Nevoa', (0, 0), (23, 27), height=0.3, density=0.45, tint='0.24, 0.22, 0.22, 1')
-g.markers({'ChegadaAsfodelos': (0, 0, 10.5), 'Campeao': (0, 0, -8), 'Trivia': (5.5, 0, 7), 'Aulo': (-5.5, 0, 7),
+g.markers({'ChegadaAsfodelos': (0, 0, 10.5), 'Peso': (-7.2, 0, -6), 'Campeao': (0, 0, -8), 'Trivia': (5.5, 0, 7), 'Aulo': (-5.5, 0, 7),
            'Armas': (-4, 0, 2), 'AtravessarAsfodelos': (0, 0, 13.4)}, player=(0, 0, 10.5))
 g.write('Guerreiros.tscn')
 
 def fonte(scene, nome, centro):
     """Uma fonte rasa: água parada com um anel de pedras baixas em volta."""
     x, z = centro
-    scene.river(f'{nome}Agua', (x, z), (2.7, 2.7), level=0.03, still=True)
+    scene.river(f'{nome}Agua', (x, z), (3.2, 3.2), level=0.03, still=True, edge=0.5)
     for i in range(8):
         ang = math.radians(45 * i + 20)
         scene.piece(f'{nome}Pedra{i + 1}', 'rocha', (x + 1.75 * math.cos(ang), 0, z + 1.75 * math.sin(ang)),
@@ -1221,7 +1227,7 @@ e.write('Estige.tscn')
 pa = regiao_hd('Palacio', '0.52, 0.48, 0.5, 1', '0.3, 0.26, 0.28, 1', 1.1, 'ChegadaPalacio', 'estige', chao='Mat_laje', muros=True)
 pa.ground('Jardim', 'campo', (-7.6, 4.5), (7, 17), edge=2.2)
 pa.piece('Estrado', 'estrado', (2, 0, -11), size=(8.5, 0.6, 3.4))
-pa.piece('TronoHades', 'trono', (0.5, 0.6, -11.7), size=(1.6, 3, 0), tint='0.36, 0.36, 0.42, 1')
+pa.piece('TronoHades', 'trono', (0.5, 0.6, -11.7), size=(1.6, 3, 0), tint='0.16, 0.16, 0.2, 1')
 pa.piece('TronoPersefone', 'trono', (3.5, 0.6, -11.7), size=(1.3, 2.4, 0), tint='0.95, 0.9, 0.84, 1')
 pa.piece('BraseiroTronoO', 'braseiro', (-3, 0, -10.6), size=(0.9, 0, 7))
 pa.piece('BraseiroTronoL', 'braseiro', (7, 0, -10.6), size=(0.9, 0, 7))

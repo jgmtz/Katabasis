@@ -13,6 +13,10 @@ public partial class SceneryPiece : Node3D
     /// <summary>Quanta luz própria tem o rio de fogo (variante 2 da água).</summary>
     private const float FireGlow = 1.6f;
 
+    /// <summary>Quantas lâminas tem o véu de um portal, e a distância entre elas.</summary>
+    private const int VeilLayers = 3;
+    private const float VeilLayerGap = 0.28f;
+
     /// <summary>O tipo da peça (casa, barraca, muro, cipreste...; a lista está em <see cref="Pieces"/>).</summary>
     [Export] public string Kind { get; set; } = "";
 
@@ -47,6 +51,13 @@ public partial class SceneryPiece : Node3D
                 var water = SceneryMaterials.Own("agua");
                 water.SetShaderParameter("ruido", SceneryMaterials.Texture("ruido"));
                 water.SetShaderParameter("tinta", Tint.V);
+                if (Variant != 0)
+                {
+                    // Água rasa sobre o chão (ou o rio de fogo): a borda da lâmina é roída, sem linha reta.
+                    water.SetShaderParameter("tamanho", new Vector2(Size.X, Size.Z));
+                    water.SetShaderParameter("borda", Edge);
+                }
+
                 if (Variant == 1)
                 {
                     // Água parada e rasa (uma poça, a margem alagada): sem a espuma de quem encosta na margem.
@@ -80,13 +91,19 @@ public partial class SceneryPiece : Node3D
                 SetMistColor(veil);
                 veil.SetShaderParameter("densidade", Size.Z > 0f ? Size.Z : 0.9f);
                 veil.SetShaderParameter("em_pe", true);
-                AddChild(new MeshInstance3D
+                for (var layer = 0; layer < VeilLayers; layer++)
                 {
-                    Name = "Veu",
-                    Mesh = new QuadMesh { Size = new Vector2(Size.X, Size.Y) },
-                    MaterialOverride = veil,
-                    CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
-                });
+                    // Lâminas uma atrás da outra: o desenho do ruído muda com a posição, então elas não coincidem.
+                    AddChild(new MeshInstance3D
+                    {
+                        Name = $"Veu{layer + 1}",
+                        Mesh = new QuadMesh { Size = new Vector2(Size.X, Size.Y) },
+                        MaterialOverride = veil,
+                        CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
+                        Position = new Vector3(0, 0, (layer - (VeilLayers - 1) / 2f) * VeilLayerGap),
+                    });
+                }
+
                 break;
             default:
                 if (!Pieces.Knows(Kind))

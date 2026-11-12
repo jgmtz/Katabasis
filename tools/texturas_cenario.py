@@ -222,6 +222,18 @@ def folhagem(rng):
     save('folhagem', ramp(['#0e1412', '#141d19', '#1b2721', '#22322a', '#2b3f33', '#365040'])(tone))
 
 
+def copa(rng):
+    """Copa de árvore de folha miúda (murta, loureiro, romãzeira): mais clara que o cipreste, com folhas soltas."""
+    s = 32
+    tone = fbm(rng, s, 6, 3) * 0.55 + 0.12
+    for _ in range(90):
+        x, y = int(rng.integers(0, s)), int(rng.integers(0, s))
+        tone[y, x] += 0.28
+        tone[(y + 1) % s, x] += 0.14
+        tone[y, (x + 1) % s] -= 0.12
+    save('copa', ramp(['#1c2a22', '#27392d', '#334a39', '#415c45', '#527052', '#668460'])(tone))
+
+
 def pano(rng):
     """Pano de toldo: trama fina com listras; a cor vem da tinta da peça (a textura é clara)."""
     s = 32
@@ -345,7 +357,7 @@ def papoula(rng):
 
 
 TEXTURES = {f.__name__: f for f in (laje, terra, campo, muro, reboco, madeira, telha, pedra, marmore, casca, folhagem,
-                                    pano, palha, ruido, asfodelo, capim, papoula)}
+                                    pano, palha, ruido, asfodelo, capim, papoula, copa)}
 
 if __name__ == '__main__':
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])

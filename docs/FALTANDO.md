@@ -8,7 +8,7 @@ Resumo para o João. Os detalhes de cada item estão em `PENDENCIAS.md` (pelo n�
 
 ### 1. Fechar o M4 (conteúdo e regras; decisões da 101)
 - [x] Bloco 1: A Venda com qualquer conversa com Hades, Portões sem nome, confirmação ao ficar e beber, golpe até o reflexo, `bond_max`, regra de combate do lugar (PENDÊNCIA 102).
-- [ ] Bloco 2: o capítulo 2 das origens (Peso); a Lia completa, como os outros companheiros; uma fala por par origem × companheiro no Vínculo (24); o cartão do Diário no final; uma Leveza própria por Pesada; a regra C com faixa mista; a tabela da HISTORIA com os espíritos nos Atos III e IV.
+- [x] Bloco 2 (PENDÊNCIAS 104 e 114): o capítulo 2 das origens (Peso); a Lia completa, como os outros companheiros; uma fala por par origem × companheiro no Vínculo (24); o cartão do Diário no final; uma Leveza própria por Pesada; a regra C com faixa mista; a tabela da HISTORIA com os espíritos nos Atos III e IV.
 - [ ] Bloco 3: a tela do final sobre a água com o reflexo; a tela de opções (reduzir movimento, alto contraste, tamanho de texto, dificuldade, assistência) e a cartela da Memória; a abertura com o corpo e a carta sorteados; a ambiência de áudio provisória (CC0).
 - [ ] Bloco 4: o ícone provisório (a Tabuinha); a prancha da paleta para aprovar; o acessório de origem no sprite (com a arte da seção C do kit).
 - [ ] Conteúdo para bater o tamanho do jogo (hoje → meta): sombras 23 → 40 a 60; Lembranças 12 → ~45 (mais as Memórias de cada uma); itens 9 → ~65; juramentos 3 → 8 a 10; julgamentos 1 → 4 a 6; missões 12 → 15 a 20; mercadores 2 → um por região (~15).
@@ -21,7 +21,7 @@ Resumo para o João. Os detalhes de cada item estão em `PENDENCIAS.md` (pelo n�
 - [x] Piloto em Asfódelos: peças por código, shaders, texturas provisórias (PENDÊNCIA 106).
 - [x] O João aprovou o piloto (12/nov).
 - [x] Ato I no visual novo: Tênaro, o Vestíbulo e o Aqueronte (PENDÊNCIA 108).
-- [ ] As outras 13 regiões no visual novo (Atos II a IV).
+- [x] As outras 13 regiões no visual novo, Atos II a IV (PENDÊNCIAS 109 a 111) e os pontos fracos (113).
 - [x] Regiões vizinhas emendadas, sem tela de carregamento: a névoa fecha e abre na passagem, sem recarregar a cena (PENDÊNCIA 112; as regiões ainda não encostam uma na outra).
 - [ ] Texturas definitivas (seção E do `KIT_GEMINI_FALTANTE.md`, 15 imagens).
 

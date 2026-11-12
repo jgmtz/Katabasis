@@ -17,6 +17,9 @@ uniform float largura_espuma = 0.35;
 uniform float tinta = 1.0;
 // Acima de zero, a superfície tem luz própria (o Flegetonte, rio de fogo).
 uniform float brasa = 0.0;
+// Borda roída da lâmina (água rasa sobre o chão): tamanho é o lado dela em metros; com borda zero, a lâmina é reta.
+uniform vec2 tamanho = vec2(4.0, 4.0);
+uniform float borda = 0.0;
 
 varying vec3 world;
 
@@ -26,6 +29,14 @@ void vertex() {
 
 void fragment() {
 	vec2 p = floor(world.xz * texel_density) / texel_density;
+	if (borda > 0.0) {
+		vec2 edge = min(UV, 1.0 - UV) * tamanho;
+		float ragged = texture(ruido, p * 0.21).r * 0.7 + texture(ruido, p * 0.63).r * 0.3;
+		if (min(edge.x, edge.y) < ragged * borda) {
+			discard;
+		}
+	}
+
 	float a = texture(ruido, p * 0.07 + corrente * TIME).r;
 	float b = texture(ruido, p * 0.17 - corrente.yx * TIME * 1.7 + vec2(0.37, 0.11)).r;
 	float wave = a * 0.6 + b * 0.4;

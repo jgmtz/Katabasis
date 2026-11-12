@@ -423,7 +423,7 @@ script = ExtResource("47_peca")
 Kind = "trono"
 Seed = 63143
 Size = Vector3(1.6, 3, 0)
-Tint = Color(0.36, 0.36, 0.42, 1)
+Tint = Color(0.16, 0.16, 0.2, 1)
 
 [node name="TronoPersefone" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 3.5, 0.6, -11.7)

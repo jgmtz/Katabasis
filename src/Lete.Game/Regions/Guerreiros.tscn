@@ -674,6 +674,14 @@ shape = SubResource("Shape_alcance")
 texture = ExtResource("35_aulo")
 script = ExtResource("11_sprite")
 
+[node name="PesoMortos" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.4, 0, -6.4)
+script = ExtResource("14_conversa")
+DialogueId = "peso_veterano"
+
+[node name="Reach" type="CollisionShape3D" parent="PesoMortos"]
+shape = SubResource("Shape_alcance")
+
 [node name="TriviaPilar" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 7, 0, 7)
 script = ExtResource("47_peca")
@@ -723,6 +731,9 @@ far = 100.0
 
 [node name="ChegadaAsfodelos" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.5)
+
+[node name="Peso" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.2, 0, -6)
 
 [node name="Campeao" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)

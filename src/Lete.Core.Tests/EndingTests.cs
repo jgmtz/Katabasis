@@ -43,7 +43,7 @@ public class EndingTests
         Assert.Equal(new[]
         {
             "final.divida.free", "final.saida.full", "final.rosto.returned", "final.companheiro.aulo.esquece",
-            "final.tabuinha.nome", "final.fecho",
+            "final.tabuinha.nome", "final.diario.full", "final.fecho",
         }, ending.CardKeys);
     }
 
@@ -54,7 +54,7 @@ public class EndingTests
         Assert.Equal(new[]
         {
             "final.saida.stay_elysium", "final.rosto.covered", "final.companheiro.aulo.lembra", "final.tabuinha.raspada",
-            "final.juramento.quebrado", "final.fecho",
+            "final.diario.stay_elysium", "final.juramento.quebrado", "final.fecho",
         }, ending.CardKeys);
     }
 
@@ -81,7 +81,7 @@ public class EndingTests
     public void Cards_WithoutCompanionOrFace()
     {
         var ending = Endings.Compose(Facts(DebtAnswer.Fight, face: FinalFace.None, companion: null));
-        Assert.Equal(new[] { "final.divida.fight", "final.saida.gaps", "final.companheiro.nenhum", "final.tabuinha.raspada", "final.fecho" },
+        Assert.Equal(new[] { "final.divida.fight", "final.saida.gaps", "final.companheiro.nenhum", "final.tabuinha.raspada", "final.diario.gaps", "final.fecho" },
             ending.CardKeys);
     }
 }

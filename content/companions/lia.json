@@ -18,10 +18,9 @@
     "spare": "tolerate"
   },
   "reluctant_key": "companheiro.lia.relutante",
-  "_capitulos": "Capítulos dos Atos III e IV (HISTORIA 5.3; rascunho, 11/nov/2026, PENDENCIAS 100): conversas de Trívia que entram uma vez, a partir do degrau da Maré.",
+  "_capitulos": "Capítulos dos Atos III e IV (HISTORIA 5.3), iguais aos dos outros companheiros (decisão do João, 11/nov/2026, PENDENCIAS 101; rascunho de 12/nov/2026, PENDENCIAS 114): conversas de Trívia que entram uma vez, a partir do degrau da Maré.",
   "talk_keys": [
     "companheiro.lia.conversa.1",
-    "companheiro.lia.capitulo.1",
     "companheiro.lia.conversa.2"
   ],
   "_heavy": "A fala sobre uma Pesada decidida, na primeira conversa da Trívia depois dela (decisão do João, 03/nov/2026: curta, à maneira do apoio dele). Rascunho, 05/nov/2026 (PENDENCIAS 85).",
@@ -34,6 +33,11 @@
       "id": "vinculo",
       "tide_min": 3,
       "key": "companheiro.lia.cap.vinculo"
+    },
+    {
+      "id": "desacordo",
+      "tide_min": 3,
+      "key": "companheiro.lia.cap.desacordo"
     },
     {
       "id": "segredo",

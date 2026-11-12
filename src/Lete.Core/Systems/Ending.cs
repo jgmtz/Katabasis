@@ -66,8 +66,8 @@ public sealed record Ending(DebtAnswer? Debt, ExitKind Exit, FinalFace Face, IRe
 
 /// <summary>
 /// Compõe o final (HISTORIA 3; regras em rascunho, 11/nov/2026, PENDENCIAS 98): a saída sai da dívida, do portão, da
-/// escolha de ficar e da Marca; os cartões contam, em ordem, a dívida, a saída, o rosto, o companheiro, a Tabuinha, o
-/// juramento quebrado (se houver) e o fecho.
+/// escolha de ficar e da Marca; os cartões contam, em ordem, a dívida, a saída, o rosto, o companheiro, o que ele fez
+/// do passado, a Tabuinha, o Diário, o juramento quebrado (se houver) e o fecho.
 /// </summary>
 public static class Endings
 {
@@ -119,6 +119,8 @@ public static class Endings
             : "final.companheiro.nenhum");
         cards.AddRange(facts.PastCards ?? Array.Empty<string>());
         cards.Add(TabletShowsName(facts) ? "final.tabuinha.nome" : "final.tabuinha.raspada");
+        // O destino do Diário acompanha a saída (PENDENCIAS 11; decisão do João, 11/nov/2026: um cartão no final).
+        cards.Add($"final.diario.{Snake(exit)}");
         if (facts.OathBroken)
         {
             cards.Add("final.juramento.quebrado");

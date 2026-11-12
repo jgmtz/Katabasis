@@ -22,11 +22,12 @@ void vertex() {
 }
 
 void fragment() {
-	vec2 plane = em_pe ? vec2(world.x + world.z, world.y * 1.6) : world.xz;
+	// Em pé, o ruído é esticado na altura e sobe devagar: fios de névoa, e não uma mancha parada.
+	vec2 plane = em_pe ? vec2((world.x + world.z) * 2.2, world.y * 0.55 - TIME * 0.35) : world.xz;
 	vec2 p = floor(plane * texel_density * 0.5) / (texel_density * 0.5);
 	float n = texture(ruido, p * escala + deriva * TIME).r * 0.65
 		+ texture(ruido, p * escala * 2.3 - deriva.yx * TIME * 1.4).r * 0.35;
-	float a = (em_pe ? 0.35 + 0.65 * smoothstep(0.3, 0.75, n) : smoothstep(0.42, 0.85, n)) * densidade;
+	float a = (em_pe ? 0.12 + 0.88 * smoothstep(0.28, 0.72, n) : smoothstep(0.42, 0.85, n)) * densidade;
 
 	float depth = texture(depth_texture, SCREEN_UV).r;
 	vec4 behind = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, depth, 1.0);
@@ -34,7 +35,13 @@ void fragment() {
 	a *= smoothstep(0.0, 0.6, gap);
 
 	vec2 edge = min(UV, 1.0 - UV);
-	a *= smoothstep(0.0, 0.12, min(edge.x, edge.y));
+	if (em_pe) {
+		// A borda do véu é roída pelo próprio ruído e ele é mais ralo em cima do que ao pé.
+		a *= smoothstep(0.0, 0.3, min(edge.x * 1.4, UV.y) + (n - 0.5) * 0.3);
+		a *= mix(0.55, 1.0, UV.y);
+	} else {
+		a *= smoothstep(0.0, 0.12, min(edge.x, edge.y));
+	}
 
 	ALBEDO = cor;
 	ALPHA = floor(a * degraus + 0.5) / degraus * 0.7;

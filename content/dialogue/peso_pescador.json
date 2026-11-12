@@ -1,0 +1,85 @@
+{
+  "id": "peso_pescador",
+  "_rascunho": "Capítulo 2 das origens (Peso, Ato II): a origem cobra um atrito. Rascunho (12/nov/2026, PENDENCIAS 114), na direção decidida pelo João em 11/nov/2026 (PENDENCIAS 101) e na tabela da HISTORIA 4.1.",
+  "mode": "fixed",
+  "speaker_key": "personagem.afogados_luto.nome",
+  "start": [
+    "vista",
+    "pescador",
+    "outra"
+  ],
+  "nodes": [
+    {
+      "id": "vista",
+      "when": {
+        "all": [
+          {
+            "origin": "pescador"
+          },
+          {
+            "flag": "peso_encontrado"
+          }
+        ]
+      },
+      "line_key": "dlg.peso.pescador.depois"
+    },
+    {
+      "id": "pescador_ouvir",
+      "line_key": "dlg.peso.pescador.ouvir.feito",
+      "effects": [
+        {
+          "flag": "peso_pescador_ouvir"
+        },
+        {
+          "flag": "peso_encontrado"
+        },
+        {
+          "journal_key": "dlg.peso.pescador.ouvir.diario"
+        }
+      ]
+    },
+    {
+      "id": "pescador_negar",
+      "line_key": "dlg.peso.pescador.negar.feito",
+      "effects": [
+        {
+          "flag": "peso_pescador_negar"
+        },
+        {
+          "flag": "peso_encontrado"
+        },
+        {
+          "journal_key": "dlg.peso.pescador.negar.diario"
+        }
+      ]
+    },
+    {
+      "id": "pescador",
+      "when": {
+        "origin": "pescador"
+      },
+      "line_key": "dlg.peso.pescador",
+      "options": [
+        {
+          "posture": "escutar",
+          "text_key": "dlg.peso.pescador.ouvir",
+          "next": "pescador_ouvir"
+        },
+        {
+          "posture": "pressionar",
+          "text_key": "dlg.peso.pescador.negar",
+          "next": "pescador_negar"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.peso.depois_volto",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "outra",
+      "line_key": "dlg.peso.pescador.outra"
+    }
+  ]
+}

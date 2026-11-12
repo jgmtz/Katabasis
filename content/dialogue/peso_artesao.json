@@ -1,0 +1,85 @@
+{
+  "id": "peso_artesao",
+  "_rascunho": "Capítulo 2 das origens (Peso, Ato II): a origem cobra um atrito. Rascunho (12/nov/2026, PENDENCIAS 114), na direção decidida pelo João em 11/nov/2026 (PENDENCIAS 101) e na tabela da HISTORIA 4.1.",
+  "mode": "fixed",
+  "speaker_key": "personagem.juizes.nome",
+  "start": [
+    "vista",
+    "artesao",
+    "outra"
+  ],
+  "nodes": [
+    {
+      "id": "vista",
+      "when": {
+        "all": [
+          {
+            "origin": "artesao"
+          },
+          {
+            "flag": "peso_encontrado"
+          }
+        ]
+      },
+      "line_key": "dlg.peso.artesao.depois"
+    },
+    {
+      "id": "artesao_insistir",
+      "line_key": "dlg.peso.artesao.insistir.feito",
+      "effects": [
+        {
+          "flag": "peso_artesao_insistir"
+        },
+        {
+          "flag": "peso_encontrado"
+        },
+        {
+          "journal_key": "dlg.peso.artesao.insistir.diario"
+        }
+      ]
+    },
+    {
+      "id": "artesao_sair",
+      "line_key": "dlg.peso.artesao.sair.feito",
+      "effects": [
+        {
+          "flag": "peso_artesao_sair"
+        },
+        {
+          "flag": "peso_encontrado"
+        },
+        {
+          "journal_key": "dlg.peso.artesao.sair.diario"
+        }
+      ]
+    },
+    {
+      "id": "artesao",
+      "when": {
+        "origin": "artesao"
+      },
+      "line_key": "dlg.peso.artesao",
+      "options": [
+        {
+          "posture": "pressionar",
+          "text_key": "dlg.peso.artesao.insistir",
+          "next": "artesao_insistir"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.peso.artesao.sair",
+          "next": "artesao_sair"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.peso.depois_volto",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "outra",
+      "line_key": "dlg.peso.artesao.outra"
+    }
+  ]
+}

@@ -575,6 +575,14 @@ shape = SubResource("Shape_alcance")
 texture = ExtResource("37_septimia")
 script = ExtResource("11_sprite")
 
+[node name="PesoJuizes" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 0, -6.8)
+script = ExtResource("14_conversa")
+DialogueId = "peso_artesao"
+
+[node name="Reach" type="CollisionShape3D" parent="PesoJuizes"]
+shape = SubResource("Shape_alcance")
+
 [node name="SombraPerjuro" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
 script = ExtResource("22_vagante")
@@ -646,6 +654,9 @@ far = 100.0
 
 [node name="ChegadaAsfodelos" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.5)
+
+[node name="Peso" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 0, -5.6)
 
 [node name="Pedra" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.5)

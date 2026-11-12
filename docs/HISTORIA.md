@@ -171,12 +171,14 @@ O capítulo 4 define "o que ele fez do passado" no final composto.
 
 | Origem | Espírito 1 | Espírito 2 |
 |---|---|---|
-| Pescador | Remador (pronto) | **A Âncora**: marinheira afogada que carrega a âncora *(proposta)* |
-| Sacerdote | **O Sacristão**: cuidava do altar, esqueceu o rito *(proposta)* | **A Oferente**: cuja oferenda nunca chegou *(proposta)* |
-| Veterano | **O Desertor** *(proposta)* | **O Trombeteiro**: tocava a retirada *(proposta)* |
-| Artesão | Tecelã (pronta) | Padeiro (pronto) |
+| Pescador | Remador (Ato I, Cabo Tênaro) | **A Âncora**: marinheira afogada que carrega a âncora (Ato IV, Tártaro) |
+| Sacerdote | **O Sacristão**: cuidava do altar, esqueceu o rito (Ato III, Palácio) | **A Oferente**: cuja oferenda nunca chegou (Ato IV, Elísios) |
+| Veterano | **O Desertor** (Ato III, Estige) | **O Trombeteiro**: tocava a retirada (Ato III, morada de Hipno) |
+| Artesão | Tecelã (pronta) | Padeiro (Ato I, Rua dos Ofícios de Asfódelos) |
 
-Nome e papel dos cinco novos: a confirmar pelo João. Cada um precisa de gesto de ofício em vida, estados *vago/desperto*, fixação e um fragmento de origem.
+**Decidido (João, 11/nov/2026, PENDENCIAS 101):** os cinco espíritos novos ficam como as sombras comuns que a Maré traz nos Atos III e IV, nas regiões acima; libertar cada um dá o fragmento da origem dele. As falas seguem em rascunho.
+
+**Onde o Peso acontece (rascunho de 12/nov/2026, PENDENCIAS 114):** o Pescador, com os afogados dos Campos do Luto; o Veterano, com os mortos do Campo dos Guerreiros; o Artesão, na fila diante dos juízes do Tribunal; o Sacerdote, na primeira conversa com Perséfone, no Palácio (o único fora do Ato II, porque é onde ela está).
 
 | Origem | Eco (Ato I) | Peso (Ato II) | Prova (Ato III) | Acerto (Ato IV) |
 |---|---|---|---|---|
@@ -249,7 +251,9 @@ Pescador: os afogados do Aqueronte pedem um rito de sepultamento que só ele sab
 | 3, Segredo | Início do Ato IV | Revela algo que ecoa o ato do protagonista |
 | 4, A Pergunta | No portão | O pedido final |
 
-**Lia, versão reduzida (decisão do João, 03/nov/2026; capítulos propostos em 05/nov/2026):** o Encontro (0, no mercado da Planície), **1, Vínculo e desacordo** (Ato III: procura uma menina sem rosto a quem deve um retrato; discorda de Absorver, que "apaga o rosto de vez"), **2, Segredo** (Ato IV: a tábua raspada e as duas moedas) e **3, A Pergunta** (no portão). Na fatia, o capítulo 1 é a segunda conversa da Trívia.
+**Lia (decisão do João, 11/nov/2026):** tem os mesmos cinco capítulos dos outros companheiros; a versão reduzida de 03/nov/2026 deixou de valer. O Vínculo conta da menina sem rosto a quem ela deve um retrato; o Desacordo é com Absorver, que "apaga o rosto de vez"; o Segredo é a tábua raspada e as duas moedas; a Pergunta é no portão.
+
+**Uma fala por origem no Vínculo (decisão do João, 11/nov/2026; rascunhos de 12/nov/2026):** no fim do capítulo 1, cada companheiro diz uma frase que muda com a origem do protagonista (24 pares; nos textos, `companheiro.<id>.vinculo.origem.<origem>`). Dá história, nunca poder.
 
 **Rascunhos do que carregam (ponto de partida):** Aulo seguiu um comandante que absorvia os próprios homens para sobreviver e teme virar isso (pede que o protagonista não carregue ninguém ao sair). Ismena decorou nomes de mortos para que ninguém fosse esquecido, e agora é esquecida (pede, em silêncio: "me lembra"; se o protagonista sair, só ele saberá que ela existiu). Dimas viveu de tirar o que não devia e vê a troca como transação (quer pagar a própria dívida).
 

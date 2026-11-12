@@ -1,0 +1,22 @@
+{
+  "id": "artesao_peso",
+  "_rascunho": "Capítulo 2 (Peso) da cadeia de origem artesao: o atrito do Ato II; fecha quando a cobrança acontece. Rascunho (12/nov/2026, PENDENCIAS 114), na direção decidida pelo João em 11/nov/2026 (PENDENCIAS 101) e na tabela da HISTORIA 4.1.",
+  "type": "origin",
+  "hook": {
+    "all": [
+      {
+        "origin": "artesao"
+      },
+      {
+        "region_visited": "tribunal"
+      }
+    ]
+  },
+  "stages": [
+    {
+      "when": {
+        "flag": "peso_encontrado"
+      }
+    }
+  ]
+}

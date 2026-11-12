@@ -1,0 +1,85 @@
+{
+  "id": "peso_veterano",
+  "_rascunho": "Capítulo 2 das origens (Peso, Ato II): a origem cobra um atrito. Rascunho (12/nov/2026, PENDENCIAS 114), na direção decidida pelo João em 11/nov/2026 (PENDENCIAS 101) e na tabela da HISTORIA 4.1.",
+  "mode": "fixed",
+  "speaker_key": "personagem.mortos_campo.nome",
+  "start": [
+    "vista",
+    "veterano",
+    "outra"
+  ],
+  "nodes": [
+    {
+      "id": "vista",
+      "when": {
+        "all": [
+          {
+            "origin": "veterano"
+          },
+          {
+            "flag": "peso_encontrado"
+          }
+        ]
+      },
+      "line_key": "dlg.peso.veterano.depois"
+    },
+    {
+      "id": "veterano_olhar",
+      "line_key": "dlg.peso.veterano.olhar.feito",
+      "effects": [
+        {
+          "flag": "peso_veterano_olhar"
+        },
+        {
+          "flag": "peso_encontrado"
+        },
+        {
+          "journal_key": "dlg.peso.veterano.olhar.diario"
+        }
+      ]
+    },
+    {
+      "id": "veterano_ordens",
+      "line_key": "dlg.peso.veterano.ordens.feito",
+      "effects": [
+        {
+          "flag": "peso_veterano_ordens"
+        },
+        {
+          "flag": "peso_encontrado"
+        },
+        {
+          "journal_key": "dlg.peso.veterano.ordens.diario"
+        }
+      ]
+    },
+    {
+      "id": "veterano",
+      "when": {
+        "origin": "veterano"
+      },
+      "line_key": "dlg.peso.veterano",
+      "options": [
+        {
+          "posture": "escutar",
+          "text_key": "dlg.peso.veterano.olhar",
+          "next": "veterano_olhar"
+        },
+        {
+          "posture": "pressionar",
+          "text_key": "dlg.peso.veterano.ordens",
+          "next": "veterano_ordens"
+        },
+        {
+          "posture": "calar",
+          "text_key": "dlg.peso.depois_volto",
+          "next": "fim"
+        }
+      ]
+    },
+    {
+      "id": "outra",
+      "line_key": "dlg.peso.veterano.outra"
+    }
+  ]
+}

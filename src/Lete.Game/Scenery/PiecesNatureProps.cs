@@ -230,13 +230,13 @@ public static partial class Pieces
                 var length = h * b.Range(0.5f, 0.62f);
                 b.Cyl("casca", Vector3.Zero, 0.16f, 0.09f, length, 5, Shade);
                 var tuft = h * b.Range(0.45f, 0.62f);
-                b.Rock("folhagem", new Vector3(0, length - tuft * 0.3f, 0), new Vector3(tuft, tuft * 0.75f, tuft),
+                b.Rock("copa", new Vector3(0, length - tuft * 0.3f, 0), new Vector3(tuft, tuft * 0.75f, tuft),
                     Mul(p.Tint, b.Range(0.78f, 0.95f)), 3, 6, 0.3f);
             }
         }
 
         var crown = h * 0.78f;
-        b.Rock("folhagem", new Vector3(0, h * 0.48f, 0), new Vector3(crown, h * 0.52f, crown), p.Tint, 4, 7, 0.3f);
+        b.Rock("copa", new Vector3(0, h * 0.48f, 0), new Vector3(crown, h * 0.52f, crown), p.Tint, 4, 7, 0.3f);
         var pale = new Color(0.86f, 0.86f, 0.8f);
         for (var i = 0; i < 9; i++)
         {
@@ -260,7 +260,7 @@ public static partial class Pieces
         }
 
         var crown = h * 0.95f;
-        b.Rock("folhagem", new Vector3(0, h * 0.4f, 0), new Vector3(crown, h * 0.6f, crown), p.Tint, 4, 7, 0.3f);
+        b.Rock("copa", new Vector3(0, h * 0.4f, 0), new Vector3(crown, h * 0.6f, crown), p.Tint, 4, 7, 0.3f);
         var red = new Color(0.78f, 0.09f, 0.1f);
         for (var i = 0; i < 8; i++)
         {
