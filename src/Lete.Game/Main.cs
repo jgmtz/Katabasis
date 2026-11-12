@@ -486,6 +486,9 @@ public partial class Main : Node
         _cameraRig.Camera.Size = density.CameraSize;
         _container.StretchShrink = LowResRender ? density.LowResShrink : 1;
 
+        // As peças do cenário (paisagem HD-2D) leem a mesma densidade por um parâmetro global dos shaders.
+        RenderingServer.GlobalShaderParameterSet("texel_density", density.PixelsPerMeter);
+
         // Superfícies do cenário usam triplanar no espaço do mundo; a escala define texels por metro.
         foreach (var node in GetTree().GetNodesInGroup("pixel_surface"))
         {

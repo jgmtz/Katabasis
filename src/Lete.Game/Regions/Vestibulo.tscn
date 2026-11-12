@@ -46,20 +46,45 @@
 [ext_resource type="Texture2D" path="res://art/sprites/sombras/tanato/parado_3q/64px/tanato_parado_3q_esq.png" id="44_tanato"]
 [ext_resource type="Texture2D" path="res://art/sprites/sombras/ascalafo/parado_3q/64px/ascalafo_parado_3q_esq.png" id="45_ascalafo"]
 [ext_resource type="Texture2D" path="res://art/sprites/sombras/medo/parado_3q/64px/medo_parado_3q_esq.png" id="46_medo"]
+[ext_resource type="Script" path="res://src/Lete.Game/Scenery/SceneryPiece.cs" id="47_peca"]
+[ext_resource type="Script" path="res://src/Lete.Game/Scenery/FloraField.cs" id="48_flora"]
+[ext_resource type="Texture2D" path="res://art/tiles/cenario/terra.png" id="49_terra"]
+[ext_resource type="Texture2D" path="res://art/tiles/cenario/campo.png" id="50_campo"]
+[ext_resource type="Texture2D" path="res://art/tiles/cenario/laje.png" id="51_laje"]
+[ext_resource type="Texture2D" path="res://art/tiles/cenario/pedra.png" id="59_pedra"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/doenca/parado_3q/64px/doenca_parado_3q_esq.png" id="52_doenca"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/guerra/parado_3q/64px/guerra_parado_3q_esq.png" id="53_guerra"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/sisifo/parado_3q/64px/sisifo_parado_3q_esq.png" id="54_sisifo"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/tantalo/parado_3q/64px/tantalo_parado_3q_esq.png" id="55_tantalo"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/danaides/parado_3q/64px/danaides_parado_3q_esq.png" id="56_danaides"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/guardioes_mnemosine/parado_3q/64px/guardioes_mnemosine_parado_3q_esq.png" id="57_guardioes"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/acerto_pescador/parado_3q/64px/acerto_pescador_parado_3q_esq.png" id="58_acerto"]
 
 [sub_resource type="Environment" id="Environment_regiao"]
 background_mode = 1
 background_color = Color(0.05, 0.047, 0.06, 1)
 ambient_light_source = 2
-ambient_light_color = Color(0.4, 0.42, 0.48, 1)
-ambient_light_energy = 0.55
+ambient_light_color = Color(0.4, 0.42, 0.5, 1)
+ambient_light_energy = 0.75
 fog_enabled = true
-fog_light_color = Color(0.33, 0.35, 0.4, 1)
+fog_light_color = Color(0.33, 0.35, 0.42, 1)
 fog_light_energy = 0.35
 fog_density = 0.004
 fog_sky_affect = 0.0
 fog_height = 0.4
 fog_height_density = 0.3
+glow_enabled = true
+glow_intensity = 0.55
+glow_strength = 0.9
+glow_bloom = 0.04
+glow_hdr_threshold = 1.05
+ssao_enabled = true
+ssao_radius = 0.8
+ssao_intensity = 1.6
+tonemap_mode = 2
+adjustment_enabled = true
+adjustment_contrast = 1.08
+adjustment_saturation = 1.08
 
 [sub_resource type="StandardMaterial3D" id="Mat_piso"]
 albedo_texture = ExtResource("4_piso")
@@ -89,10 +114,50 @@ uv1_triplanar = true
 uv1_world_triplanar = true
 texture_filter = 0
 
+[sub_resource type="StandardMaterial3D" id="Mat_terra"]
+albedo_texture = ExtResource("49_terra")
+roughness = 1.0
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="Mat_campo"]
+albedo_texture = ExtResource("50_campo")
+roughness = 1.0
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="Mat_laje"]
+albedo_texture = ExtResource("51_laje")
+roughness = 1.0
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="Mat_pedra"]
+albedo_texture = ExtResource("59_pedra")
+roughness = 1.0
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0
+
 [sub_resource type="SphereShape3D" id="Shape_alcance"]
 radius = 1.4
 
 [sub_resource type="BoxShape3D" id="Shape_box1"]
+size = Vector3(1, 2, 31)
+
+[sub_resource type="BoxShape3D" id="Shape_box2"]
+size = Vector3(6.5, 2, 1)
+
+[sub_resource type="BoxShape3D" id="Shape_box3"]
+size = Vector3(1.8, 1, 0.7)
+
+[sub_resource type="BoxShape3D" id="Shape_box4"]
+size = Vector3(0.8, 2, 0.6)
+
+[sub_resource type="BoxShape3D" id="Shape_box5"]
 size = Vector3(3, 2, 1.2)
 
 [node name="Vestibulo" type="Node3D"]
@@ -103,7 +168,7 @@ environment = SubResource("Environment_regiao")
 [node name="Moon" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.939693, 0, 0.34202, 0.280166, 0.573576, -0.769751, -0.196175, 0.819152, 0.538986, 0, 10, 0)
 light_color = Color(0.72, 0.8, 0.88, 1)
-light_energy = 0.5
+light_energy = 0.9
 shadow_enabled = true
 directional_shadow_max_distance = 60.0
 
@@ -111,63 +176,190 @@ directional_shadow_max_distance = 60.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 use_collision = true
 size = Vector3(16, 1, 31)
-material = SubResource("Mat_piso")
+material = SubResource("Mat_laje")
 
-[node name="Oeste" type="CSGBox3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.5, 2.25, 0)
-use_collision = true
-size = Vector3(1, 4.5, 31)
-material = SubResource("Mat_parede")
+[node name="ChaoFora" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.56, 0)
+use_collision = false
+size = Vector3(90, 1, 90)
+material = SubResource("Mat_terra")
 
-[node name="Leste" type="CSGBox3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.5, 0.25, 0)
-use_collision = true
-size = Vector3(1, 0.5, 31)
-material = SubResource("Mat_parede")
+[node name="TerraOlmo" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -4, 0.014, 4)
+script = ExtResource("47_peca")
+Kind = "chao"
+Seed = 489
+Size = Vector3(7, 0, 7)
+Texture = "terra"
+Edge = 1.8
 
-[node name="SulA" type="CSGBox3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.75, 0.25, 15.5)
-use_collision = true
-size = Vector3(6.5, 0.5, 1)
-material = SubResource("Mat_parede")
+[node name="TerraSul" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 2.5, 0.018, 12)
+script = ExtResource("47_peca")
+Kind = "chao"
+Seed = 7594
+Size = Vector3(9, 0, 5)
+Texture = "terra"
+Edge = 1.6
 
-[node name="SulB" type="CSGBox3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.75, 0.25, 15.5)
-use_collision = true
-size = Vector3(6.5, 0.5, 1)
-material = SubResource("Mat_parede")
+[node name="MuralhaOeste" type="Node3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -8.6, 0, 0)
+script = ExtResource("47_peca")
+Kind = "muro"
+Seed = 29678
+Size = Vector3(31, 4.6, 0.9)
 
-[node name="NorteA" type="CSGBox3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.75, 2.25, -15.5)
-use_collision = true
-size = Vector3(6.5, 4.5, 1)
-material = SubResource("Mat_parede")
+[node name="ParedaoOeste" type="Node3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -12, 0, 0)
+script = ExtResource("47_peca")
+Kind = "penhasco"
+Seed = 38031
+Size = Vector3(34, 11, 3)
 
-[node name="NorteB" type="CSGBox3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.75, 2.25, -15.5)
-use_collision = true
-size = Vector3(6.5, 4.5, 1)
-material = SubResource("Mat_parede")
+[node name="MuralhaNorteO" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -5, 0, -15.6)
+script = ExtResource("47_peca")
+Kind = "muro"
+Seed = 66281
+Size = Vector3(6.4, 4.6, 0.9)
 
-[node name="EstreitoOeste" type="CSGBox3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.75, 1.5, -9)
-use_collision = true
-size = Vector3(6.5, 3, 2)
-material = SubResource("Mat_parede")
+[node name="MuralhaNorteL" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 5, 0, -15.6)
+script = ExtResource("47_peca")
+Kind = "muro"
+Seed = 78131
+Size = Vector3(6.4, 4.6, 0.9)
 
-[node name="EstreitoLeste" type="CSGBox3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.75, 0.5, -9)
-use_collision = true
-size = Vector3(6.5, 1, 2)
-material = SubResource("Mat_parede")
+[node name="PortalAqueronte" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 0, 0, -15.6)
+script = ExtResource("47_peca")
+Kind = "arco"
+Seed = 60538
+Size = Vector3(2.8, 4.4, 1.1)
 
-[node name="Olmo" type="CSGCylinder3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2.25, 4)
-use_collision = true
-radius = 1.2
-height = 4.5
-sides = 8
-material = SubResource("Mat_parede")
+[node name="ParedaoNorte" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 0, 0, -19.5)
+script = ExtResource("47_peca")
+Kind = "penhasco"
+Seed = 32844
+Size = Vector3(22, 12, 3)
+
+[node name="MuroLeste" type="Node3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 8.6, 0, 0)
+script = ExtResource("47_peca")
+Kind = "muro"
+Seed = 49193
+Size = Vector3(31, 0.7, 0.6)
+Variant = 1
+
+[node name="LesteBarreira" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.7, 1, 0)
+
+[node name="Shape" type="CollisionShape3D" parent="LesteBarreira"]
+shape = SubResource("Shape_box1")
+
+[node name="MuroSulO" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -4.9, 0, 15.6)
+script = ExtResource("47_peca")
+Kind = "muro"
+Seed = 85733
+Size = Vector3(6.2, 0.7, 0.6)
+Variant = 1
+
+[node name="MuroSulL" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 4.9, 0, 15.6)
+script = ExtResource("47_peca")
+Kind = "muro"
+Seed = 1823
+Size = Vector3(6.2, 0.7, 0.6)
+Variant = 1
+
+[node name="SulA" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.75, 1, 15.6)
+
+[node name="Shape" type="CollisionShape3D" parent="SulA"]
+shape = SubResource("Shape_box2")
+
+[node name="SulB" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.75, 1, 15.6)
+
+[node name="Shape" type="CollisionShape3D" parent="SulB"]
+shape = SubResource("Shape_box2")
+
+[node name="EstreitoOeste" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -4.9, 0, -9)
+script = ExtResource("47_peca")
+Kind = "muro"
+Seed = 46258
+Size = Vector3(6.4, 3.2, 1.6)
+
+[node name="EstreitoLeste" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 4.9, 0, -9)
+script = ExtResource("47_peca")
+Kind = "muro"
+Seed = 32642
+Size = Vector3(6.4, 1.1, 1.6)
+Variant = 1
+
+[node name="EstreitoBraseiro" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -2.4, 0, -7.4)
+script = ExtResource("47_peca")
+Kind = "braseiro"
+Seed = 26773
+Size = Vector3(0.9, 0, 6)
+
+[node name="Coluna1" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -6.6, 0, 12)
+script = ExtResource("47_peca")
+Kind = "coluna"
+Seed = 72280
+Size = Vector3(0.8, 4, 0)
+
+[node name="Coluna2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -6.6, 0, 8.4)
+script = ExtResource("47_peca")
+Kind = "coluna"
+Seed = 12610
+Size = Vector3(0.8, 4, 0)
+Variant = 1
+
+[node name="Coluna3" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -6.6, 0, -2)
+script = ExtResource("47_peca")
+Kind = "coluna"
+Seed = 15380
+Size = Vector3(0.8, 4, 0)
+
+[node name="Coluna4" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -6.6, 0, -5.6)
+script = ExtResource("47_peca")
+Kind = "coluna"
+Seed = 97047
+Size = Vector3(0.8, 4, 0)
+Variant = 1
+
+[node name="Coluna5" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 6.4, 0, 11)
+script = ExtResource("47_peca")
+Kind = "coluna"
+Seed = 48577
+Size = Vector3(0.8, 4, 0)
+Variant = 1
+
+[node name="Coluna6" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 6.2, 0, -13)
+script = ExtResource("47_peca")
+Kind = "coluna"
+Seed = 84795
+Size = Vector3(0.8, 4, 0)
+Variant = 1
+
+[node name="Olmo" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -4, 0, 4)
+script = ExtResource("47_peca")
+Kind = "olmo"
+Seed = 27935
+Size = Vector3(0, 7.5, 0)
 
 [node name="OlmoOlhar" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 0, 4.6)
@@ -185,14 +377,6 @@ JournalKey = "obj.vestibulo.entrada"
 [node name="Reach" type="CollisionShape3D" parent="Entrada"]
 shape = SubResource("Shape_alcance")
 
-[node name="FormaMedo" type="CSGCylinder3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.55, 8)
-use_collision = true
-radius = 0.45
-height = 1.1
-sides = 8
-material = SubResource("Mat_parede")
-
 [node name="Medo" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 7.2)
 script = ExtResource("3_inter")
@@ -205,35 +389,41 @@ shape = SubResource("Shape_alcance")
 texture = ExtResource("46_medo")
 script = ExtResource("11_sprite")
 
-[node name="FormaDoenca" type="CSGBox3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.2, 0)
-use_collision = true
-size = Vector3(1.8, 0.4, 0.8)
-material = SubResource("Mat_parede")
-
 [node name="Doenca" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6, 0, 0.4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 0, 0.2)
 script = ExtResource("3_inter")
 JournalKey = "obj.vestibulo.doenca"
 
 [node name="Reach" type="CollisionShape3D" parent="Doenca"]
 shape = SubResource("Shape_alcance")
 
-[node name="FormaGuerra" type="CSGCylinder3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, -4)
-use_collision = true
-radius = 0.5
-height = 2
-sides = 8
-material = SubResource("Mat_parede")
+[node name="Sprite" type="Sprite3D" parent="Doenca"]
+texture = ExtResource("52_doenca")
+script = ExtResource("11_sprite")
+
+[node name="DoencaLaje" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 0.5, 0)
+
+[node name="Shape" type="CollisionShape3D" parent="DoencaLaje"]
+shape = SubResource("Shape_box3")
 
 [node name="Guerra" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8, 0, -3.4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.6, 0, -3.8)
 script = ExtResource("3_inter")
 JournalKey = "obj.vestibulo.guerra"
 
 [node name="Reach" type="CollisionShape3D" parent="Guerra"]
 shape = SubResource("Shape_alcance")
+
+[node name="Sprite" type="Sprite3D" parent="Guerra"]
+texture = ExtResource("53_guerra")
+script = ExtResource("11_sprite")
+
+[node name="GuerraCorpo" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.6, 1, -4)
+
+[node name="Shape" type="CollisionShape3D" parent="GuerraCorpo"]
+shape = SubResource("Shape_box4")
 
 [node name="Fome" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -9)
@@ -247,23 +437,37 @@ shape = SubResource("Shape_alcance")
 texture = ExtResource("33_fome")
 script = ExtResource("11_sprite")
 
-[node name="FormaMare1" type="CSGCylinder3D" parent="." groups=["mare", "pixel_surface"]]
-metadata/mare_min = 1
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 0.7, 9)
-use_collision = true
-radius = 0.4
-height = 1.4
-sides = 8
-material = SubResource("Mat_parede")
+[node name="EntulhoSalao1" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 6.4, 0, 4.5)
+script = ExtResource("47_peca")
+Kind = "entulho"
+Seed = 28376
+Size = Vector3(1.6, 0, 2)
 
-[node name="FormaMare2" type="CSGCylinder3D" parent="." groups=["mare", "pixel_surface"]]
+[node name="EntulhoSalao2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -6, 0, -11.5)
+script = ExtResource("47_peca")
+Kind = "entulho"
+Seed = 17282
+Size = Vector3(2, 0, 1.6)
+
+[node name="FormaMare1" type="Node3D" parent="." groups=["mare"]]
+metadata/mare_min = 1
+transform = Transform3D(0.866, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866, -5.5, 0, 9.6)
+script = ExtResource("47_peca")
+Kind = "estela"
+Seed = 22952
+Size = Vector3(0, 1.5, 0)
+Tint = Color(0.6, 0.62, 0.7, 1)
+
+[node name="FormaMare2" type="Node3D" parent="." groups=["mare"]]
 metadata/mare_min = 2
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 0.85, -4.5)
-use_collision = true
-radius = 0.45
-height = 1.7
-sides = 8
-material = SubResource("Mat_parede")
+transform = Transform3D(0.94, 0, -0.342, 0, 1, 0, 0.342, 0, 0.94, 5.5, 0, -4.5)
+script = ExtResource("47_peca")
+Kind = "estela"
+Seed = 81138
+Size = Vector3(0, 1.8, 0)
+Tint = Color(0.6, 0.62, 0.7, 1)
 
 [node name="SombraFugitivo" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4)
@@ -279,9 +483,25 @@ shape = SubResource("Shape_alcance")
 
 [node name="LuzSalao" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 2)
-light_color = Color(0.45, 0.45, 0.55, 1)
-light_energy = 0.8
-omni_range = 16
+light_color = Color(0.45, 0.47, 0.6, 1)
+light_energy = 1.1
+omni_range = 17
+
+[node name="NevoaSalao" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 0, 0.4, 0)
+script = ExtResource("47_peca")
+Kind = "nevoa"
+Seed = 5695
+Size = Vector3(17, 0.75, 32)
+Tint = Color(0.2, 0.22, 0.28, 1)
+
+[node name="NevoaSalaoAlta" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 0, 1.2, 2)
+script = ExtResource("47_peca")
+Kind = "nevoa"
+Seed = 9306
+Size = Vector3(17, 0.4, 26)
+Tint = Color(0.2, 0.22, 0.28, 1)
 
 [node name="ParaTenaro" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 15.4)
@@ -290,7 +510,7 @@ TargetRegion = "tenaro"
 TargetEntry = "SaidaVestibulo"
 
 [node name="Shape" type="CollisionShape3D" parent="ParaTenaro"]
-shape = SubResource("Shape_box1")
+shape = SubResource("Shape_box5")
 
 [node name="ParaAqueronte" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -15.4)
@@ -299,7 +519,7 @@ TargetRegion = "aqueronte"
 TargetEntry = "ChegadaVestibulo"
 
 [node name="Shape" type="CollisionShape3D" parent="ParaAqueronte"]
-shape = SubResource("Shape_box1")
+shape = SubResource("Shape_box5")
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12.5)
@@ -332,6 +552,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -9)
 
 [node name="Fugitivo" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4)
+
+[node name="Medo" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 8.4)
+
+[node name="Guerra" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.4, 0, -2.6)
 
 [node name="AtravessarTenaro" type="Marker3D" parent="TeleportPoints" groups=["teleport_points"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 15.4)

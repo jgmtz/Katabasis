@@ -54,6 +54,15 @@ public partial class GameRoot : Node
     public static string SavePath => UserPath("save/jogo.json");
 
     /// <summary>
+    /// Onde uma sessão de conferência grava (o jogo aberto com argumentos de teste depois de "--"): nunca por cima do
+    /// save de verdade, que só o jogo aberto pela tela de título escreve (12/nov/2026).
+    /// </summary>
+    public static string ConferenceSavePath => UserPath("save/conferencia.json");
+
+    /// <summary>O jogo foi aberto com argumentos de conferência (qualquer um, menos só <c>--titulo</c>).</summary>
+    public static bool IsConference => System.Array.Exists(OS.GetCmdlineUserArgs(), a => a != "--titulo");
+
+    /// <summary>
     /// Arquivo do jogador (save, opções). No jogo exportado, em <c>user://</c> (AppData). Rodando pelo editor do
     /// Godot (desenvolvimento), em <c>.dados_dev/</c> na raiz do projeto, para tudo do kit ficar dentro da pasta dele
     /// (pedido do João, 30/out/2026); o Godot não importa pastas que começam com ponto, e o git as ignora.
@@ -266,8 +275,9 @@ public partial class GameRoot : Node
     public Error Save()
     {
         Saving?.Invoke();
-        DirAccess.MakeDirRecursiveAbsolute(SavePath.GetBaseDir());
-        using var file = FileAccess.Open(SavePath, FileAccess.ModeFlags.Write);
+        var path = IsConference ? ConferenceSavePath : SavePath;
+        DirAccess.MakeDirRecursiveAbsolute(path.GetBaseDir());
+        using var file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
         if (file is null)
         {
             return FileAccess.GetOpenError();

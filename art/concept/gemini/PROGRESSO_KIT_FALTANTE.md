@@ -11,3 +11,8 @@ Originais salvos como .jpeg (o Gemini baixa em JPEG; nomes seguem o kit, só mud
 ## Pendente (limite diário de imagens do Gemini atingido; reseta às 18:16)
 - B: doenca, guerra, sisifo, tantalo, danaides, acerto_pescador, acerto_sacerdote, acerto_veterano, acerto_artesao, guardioes_mnemosine
 - C: 24 acessórios de origem (itens 22 a 45)
+
+## Atualização 12/nov (manhã)
+- Seção A: 8/8 concluída.
+- Seção B: 13/13 concluída (tanato, ascalafo, medo, doenca, guerra, sisifo, tantalo, danaides, acerto_pescador, acerto_sacerdote, acerto_veterano, acerto_artesao, guardioes_mnemosine) em `figuras/*.jpeg`.
+- Seção C (itens 22–45, acessórios): em andamento, salvos em `protagonista_sombra/acessorios/`.

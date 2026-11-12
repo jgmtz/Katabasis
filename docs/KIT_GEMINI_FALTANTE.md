@@ -8,7 +8,7 @@ Regras de sempre (`docs/ELENCO_IMAGENS.md`): fundo magenta liso; se vier com 5 q
 "exactly 6 frames, 3 columns x 2 rows, wide margins"; poucas por dia. Depois de gerar, mande os arquivos (ou um zip em
 `../entregas/`) que eu limpo, pixelizo e ligo no jogo.
 
-**Entregue em 11/nov/2026 e já no jogo:** a seção A inteira e Tânato, Ascálafo e o Medo (itens 1 a 11). O `medo_alt.jpeg` (variação mais escura) ficou guardado como alternativa. **A Doença ainda não foi gerada** (o arquivo que veio com esse nome era uma cópia do `medo_alt`).
+**Entregue em 11/nov/2026 e já no jogo:** a seção A inteira e Tânato, Ascálafo e o Medo (itens 1 a 11). O `medo_alt.jpeg` (variação mais escura) ficou guardado como alternativa. **Em 12/nov/2026 chegou o resto da seção B** (itens 12 a 21, a Doença incluída), também já no jogo. Da seção C chegaram 4 de 24; espero o resto para aplicar os acessórios.
 
 **Ordem sugerida:** A (a Sombra do Esquecido, chefe final) → B (figuras que hoje são caixas) → C (acessórios de origem)
 → D (opcionais).
@@ -141,7 +141,7 @@ CHARACTER: Fear, a personification with no human name: a crouching gray shapeles
 
 POSE: full body from head to feet, centered, 3/4 view turned toward the RIGHT side of the image (the figure faces right), standing idle in the pose described. Empty magenta margin around the whole figure.
 ```
-#### 12. A Doença (Vestíbulo)
+#### 12. A Doença (Vestíbulo) ✅ no jogo (12/nov)
 - **Anexar:** nada
 - **Salvar como:** `art/concept/gemini/figuras/doenca.png`
 ```
@@ -153,7 +153,7 @@ CHARACTER: Disease, a personification with no human name: a thin faceless humano
 
 POSE: full body from head to feet, centered, 3/4 view turned toward the RIGHT side of the image (the figure faces right), standing idle in the pose described. Empty magenta margin around the whole figure.
 ```
-#### 13. A Guerra (Vestíbulo)
+#### 13. A Guerra (Vestíbulo) ✅ no jogo (12/nov)
 - **Anexar:** nada
 - **Salvar como:** `art/concept/gemini/figuras/guerra.png`
 ```
@@ -165,7 +165,7 @@ CHARACTER: War, a personification with no human name: an empty bronze hoplite ar
 
 POSE: full body from head to feet, centered, 3/4 view turned toward the RIGHT side of the image (the figure faces right), standing idle in the pose described. Empty magenta margin around the whole figure.
 ```
-#### 14. Sísifo (Tártaro)
+#### 14. Sísifo (Tártaro) ✅ no jogo (12/nov)
 - **Anexar:** nada
 - **Salvar como:** `art/concept/gemini/figuras/sisifo.png`
 ```
@@ -177,7 +177,7 @@ CHARACTER: Sisyphus, a gaunt muscular old man in a torn loincloth pushing a huge
 
 POSE: full body from head to feet, centered, 3/4 view turned toward the RIGHT side of the image (the figure faces right), standing idle in the pose described. Empty magenta margin around the whole figure.
 ```
-#### 15. Tântalo (Tártaro)
+#### 15. Tântalo (Tártaro) ✅ no jogo (12/nov)
 - **Anexar:** nada
 - **Salvar como:** `art/concept/gemini/figuras/tantalo.png`
 ```
@@ -189,7 +189,7 @@ CHARACTER: Tantalus, a starving gaunt man standing in a small round pool of dark
 
 POSE: full body from head to feet, centered, 3/4 view turned toward the RIGHT side of the image (the figure faces right), standing idle in the pose described. Empty magenta margin around the whole figure.
 ```
-#### 16. As Danaides (Tártaro)
+#### 16. As Danaides (Tártaro) ✅ no jogo (12/nov)
 - **Anexar:** nada
 - **Salvar como:** `art/concept/gemini/figuras/danaides.png`
 ```
@@ -201,7 +201,7 @@ CHARACTER: the Danaids, two women in long pale bone-colored dresses with veils, 
 
 POSE: full body from head to feet, centered, 3/4 view turned toward the RIGHT side of the image (the figure faces right), standing idle in the pose described. Empty magenta margin around the whole figure.
 ```
-#### 17. O parceiro de barco (Acerto do Pescador, Vale do Lete)
+#### 17. O parceiro de barco (Acerto do Pescador, Vale do Lete) ✅ no jogo (12/nov)
 - **Anexar:** nada
 - **Salvar como:** `art/concept/gemini/figuras/acerto_pescador.png`
 ```
@@ -213,7 +213,7 @@ CHARACTER: the nameless shade of a young fisherman, the player's former boat par
 
 POSE: full body from head to feet, centered, 3/4 view turned toward the RIGHT side of the image (the figure faces right), standing idle in the pose described. Empty magenta margin around the whole figure.
 ```
-#### 18. O aprendiz iniciado (Acerto do Sacerdote, Vale do Lete)
+#### 18. O aprendiz iniciado (Acerto do Sacerdote, Vale do Lete) ✅ no jogo (12/nov)
 - **Anexar:** nada
 - **Salvar como:** `art/concept/gemini/figuras/acerto_sacerdote.png`
 ```
@@ -225,7 +225,7 @@ CHARACTER: the nameless shade of a young priest's apprentice. Plain ankle-length
 
 POSE: full body from head to feet, centered, 3/4 view turned toward the RIGHT side of the image (the figure faces right), standing idle in the pose described. Empty magenta margin around the whole figure.
 ```
-#### 19. O camarada de armas (Acerto do Veterano, Vale do Lete)
+#### 19. O camarada de armas (Acerto do Veterano, Vale do Lete) ✅ no jogo (12/nov)
 - **Anexar:** nada
 - **Salvar como:** `art/concept/gemini/figuras/acerto_veterano.png`
 ```
@@ -237,7 +237,7 @@ CHARACTER: the nameless shade of a soldier, the player's comrade in arms. Worn l
 
 POSE: full body from head to feet, centered, 3/4 view turned toward the RIGHT side of the image (the figure faces right), standing idle in the pose described. Empty magenta margin around the whole figure.
 ```
-#### 20. O aprendiz de ofício (Acerto do Artesão, Vale do Lete)
+#### 20. O aprendiz de ofício (Acerto do Artesão, Vale do Lete) ✅ no jogo (12/nov)
 - **Anexar:** nada
 - **Salvar como:** `art/concept/gemini/figuras/acerto_artesao.png`
 ```
@@ -249,7 +249,7 @@ CHARACTER: the nameless shade of a young craftsman apprentice in a clay-stained 
 
 POSE: full body from head to feet, centered, 3/4 view turned toward the RIGHT side of the image (the figure faces right), standing idle in the pose described. Empty magenta margin around the whole figure.
 ```
-#### 21. Os guardiões da fonte fria (Mnemósine)
+#### 21. Os guardiões da fonte fria (Mnemósine) ✅ no jogo (12/nov)
 - **Anexar:** nada
 - **Salvar como:** `art/concept/gemini/figuras/guardioes_mnemosine.png`
 ```
@@ -617,9 +617,161 @@ OBJECT: a huge old elm tree with a thick twisted trunk and wide black leafless b
 ```
 Use the attached image as the exact reference. Create an IDLE sprite sheet of exactly 6 frames in a strict grid of 3 columns and 2 rows, same figure size in every frame, large magenta margin around each figure. The figure hovers and sways very slightly (breathing, drifting wisps at the base, tiny shifts of the arms or props), small differences between frames, loop-friendly. No grid lines, no text.
 ```
+## E. Texturas do cenário (paisagem HD-2D, PENDÊNCIA 105): 15 imagens
+
+O cenário novo é feito de peças 3D montadas por código, cobertas por texturas em pixel art que se repetem. Hoje elas são provisórias, feitas por script (`tools/texturas_cenario.py`, em `art/tiles/cenario/`). Cada imagem daqui substitui uma: salve o original onde a linha diz e eu reduzo para 64 px (ou 32), acerto a emenda e troco no jogo. Não precisa anexar nada. **Peça a imagem quadrada (1:1).** As mais vistas vêm primeiro.
+
+#### E1. Lajes do chão da cidade
+
+- **Anexar:** nada
+- **Salvar como:** `art/concept/gemini/texturas/laje.png`
+
+```
+Seamless tileable pixel art texture for a video game, flat top-down view of the material only (no perspective, no objects, no cast shadows, no light direction). Visible square pixels, hard edges, a limited muted palette of 6 to 8 colors, no anti-aliasing, no blur, no gradients, no dithering. The pattern must repeat perfectly on all four edges (what leaves on the right continues on the left, top continues on the bottom). It fills the whole square image: no border, no frame, no text. Mood: a sober, worn Greco-Roman underworld, dark and desaturated, like painted Greek ceramics left in the dark.
+
+MATERIAL: irregular flagstone paving. Flat stones of different sizes and slightly different gray tones fitted together, dark thin joints between them, a few cracked or chipped stones. Colors: charcoal #25222B joints, cold grays from #3a393d to #66635c.
+```
+#### E2. Terra batida
+
+- **Anexar:** nada
+- **Salvar como:** `art/concept/gemini/texturas/terra.png`
+
+```
+Seamless tileable pixel art texture for a video game, flat top-down view of the material only (no perspective, no objects, no cast shadows, no light direction). Visible square pixels, hard edges, a limited muted palette of 6 to 8 colors, no anti-aliasing, no blur, no gradients, no dithering. The pattern must repeat perfectly on all four edges (what leaves on the right continues on the left, top continues on the bottom). It fills the whole square image: no border, no frame, no text. Mood: a sober, worn Greco-Roman underworld, dark and desaturated, like painted Greek ceramics left in the dark.
+
+MATERIAL: packed dark earth. Soft uneven patches of brown, tiny scattered pebbles, no grass. Colors: dark browns from #1f1a18 to #4c3f34, a few pale pebbles #6a5f52.
+```
+#### E3. Chão do campo de asfódelos
+
+- **Anexar:** nada
+- **Salvar como:** `art/concept/gemini/texturas/campo.png`
+
+```
+Seamless tileable pixel art texture for a video game, flat top-down view of the material only (no perspective, no objects, no cast shadows, no light direction). Visible square pixels, hard edges, a limited muted palette of 6 to 8 colors, no anti-aliasing, no blur, no gradients, no dithering. The pattern must repeat perfectly on all four edges (what leaves on the right continues on the left, top continues on the bottom). It fills the whole square image: no border, no frame, no text. Mood: a sober, worn Greco-Roman underworld, dark and desaturated, like painted Greek ceramics left in the dark.
+
+MATERIAL: dark soil covered with short dry grass. Short vertical blades in small tufts, patches of bare earth between them. Colors: near-black green #191c1a to dull olive #525642, a few pale dry tips #676a50.
+```
+#### E4. Muro de blocos de pedra
+
+- **Anexar:** nada
+- **Salvar como:** `art/concept/gemini/texturas/muro.png`
+
+```
+Seamless tileable pixel art texture for a video game, flat top-down view of the material only (no perspective, no objects, no cast shadows, no light direction). Visible square pixels, hard edges, a limited muted palette of 6 to 8 colors, no anti-aliasing, no blur, no gradients, no dithering. The pattern must repeat perfectly on all four edges (what leaves on the right continues on the left, top continues on the bottom). It fills the whole square image: no border, no frame, no text. Mood: a sober, worn Greco-Roman underworld, dark and desaturated, like painted Greek ceramics left in the dark.
+
+MATERIAL: an old stone block wall seen straight on. Horizontal courses of rectangular blocks of varied lengths, staggered joints, dark mortar lines, worn edges, a few darker stained blocks. Colors: charcoal joints #151419, cold grays from #26252b to #6f6b66.
+```
+#### E5. Reboco de barro das casas
+
+- **Anexar:** nada
+- **Salvar como:** `art/concept/gemini/texturas/reboco.png`
+
+```
+Seamless tileable pixel art texture for a video game, flat top-down view of the material only (no perspective, no objects, no cast shadows, no light direction). Visible square pixels, hard edges, a limited muted palette of 6 to 8 colors, no anti-aliasing, no blur, no gradients, no dithering. The pattern must repeat perfectly on all four edges (what leaves on the right continues on the left, top continues on the bottom). It fills the whole square image: no border, no frame, no text. Mood: a sober, worn Greco-Roman underworld, dark and desaturated, like painted Greek ceramics left in the dark.
+
+MATERIAL: old clay plaster wall seen straight on. Smooth with large soft stains, a few thin dark cracks, slightly dirtier patches. Colors: warm clay browns from #4a3c34 to #94806e, cracks #2a2220.
+```
+#### E6. Tábuas de madeira velha
+
+- **Anexar:** nada
+- **Salvar como:** `art/concept/gemini/texturas/madeira.png`
+
+```
+Seamless tileable pixel art texture for a video game, flat top-down view of the material only (no perspective, no objects, no cast shadows, no light direction). Visible square pixels, hard edges, a limited muted palette of 6 to 8 colors, no anti-aliasing, no blur, no gradients, no dithering. The pattern must repeat perfectly on all four edges (what leaves on the right continues on the left, top continues on the bottom). It fills the whole square image: no border, no frame, no text. Mood: a sober, worn Greco-Roman underworld, dark and desaturated, like painted Greek ceramics left in the dark.
+
+MATERIAL: old dark wooden planks seen straight on. Vertical planks of equal width with dark gaps, visible grain lines, a few knots and nail heads. Colors: dark browns from #1b1512 to #66503d.
+```
+#### E7. Telhado de telhas de barro
+
+- **Anexar:** nada
+- **Salvar como:** `art/concept/gemini/texturas/telha.png`
+
+```
+Seamless tileable pixel art texture for a video game, flat top-down view of the material only (no perspective, no objects, no cast shadows, no light direction). Visible square pixels, hard edges, a limited muted palette of 6 to 8 colors, no anti-aliasing, no blur, no gradients, no dithering. The pattern must repeat perfectly on all four edges (what leaves on the right continues on the left, top continues on the bottom). It fills the whole square image: no border, no frame, no text. Mood: a sober, worn Greco-Roman underworld, dark and desaturated, like painted Greek ceramics left in the dark.
+
+MATERIAL: terracotta roof tiles seen from above. Regular overlapping rows of rounded tiles, each row offset by half a tile, a thin shadow under each row, some darker and some lighter tiles. Colors: burnt terracotta from #4a251c to #ad5f3f, dark gaps #231512.
+```
+#### E8. Rocha bruta dos paredões
+
+- **Anexar:** nada
+- **Salvar como:** `art/concept/gemini/texturas/pedra.png`
+
+```
+Seamless tileable pixel art texture for a video game, flat top-down view of the material only (no perspective, no objects, no cast shadows, no light direction). Visible square pixels, hard edges, a limited muted palette of 6 to 8 colors, no anti-aliasing, no blur, no gradients, no dithering. The pattern must repeat perfectly on all four edges (what leaves on the right continues on the left, top continues on the bottom). It fills the whole square image: no border, no frame, no text. Mood: a sober, worn Greco-Roman underworld, dark and desaturated, like painted Greek ceramics left in the dark.
+
+MATERIAL: raw dark cave rock. Large angular facets with slightly different tones, a few thin cracks and veins, no moss. Colors: near-black #131217 to gray #514e50.
+```
+#### E9. Mármore gasto
+
+- **Anexar:** nada
+- **Salvar como:** `art/concept/gemini/texturas/marmore.png`
+
+```
+Seamless tileable pixel art texture for a video game, flat top-down view of the material only (no perspective, no objects, no cast shadows, no light direction). Visible square pixels, hard edges, a limited muted palette of 6 to 8 colors, no anti-aliasing, no blur, no gradients, no dithering. The pattern must repeat perfectly on all four edges (what leaves on the right continues on the left, top continues on the bottom). It fills the whole square image: no border, no frame, no text. Mood: a sober, worn Greco-Roman underworld, dark and desaturated, like painted Greek ceramics left in the dark.
+
+MATERIAL: old worn pale marble. Soft clouds of tone, a few thin gray veins, small chips and stains. Colors: grays from #5c5a58 to bone #b5afa2.
+```
+#### E10. Casca de árvore
+
+- **Anexar:** nada
+- **Salvar como:** `art/concept/gemini/texturas/casca.png`
+
+```
+Seamless tileable pixel art texture for a video game, flat top-down view of the material only (no perspective, no objects, no cast shadows, no light direction). Visible square pixels, hard edges, a limited muted palette of 6 to 8 colors, no anti-aliasing, no blur, no gradients, no dithering. The pattern must repeat perfectly on all four edges (what leaves on the right continues on the left, top continues on the bottom). It fills the whole square image: no border, no frame, no text. Mood: a sober, worn Greco-Roman underworld, dark and desaturated, like painted Greek ceramics left in the dark.
+
+MATERIAL: dark tree bark seen straight on. Vertical ridges and furrows, rough. Colors: near-black brown #141110 to #463a31.
+```
+#### E11. Folhagem do cipreste
+
+- **Anexar:** nada
+- **Salvar como:** `art/concept/gemini/texturas/folhagem.png`
+
+```
+Seamless tileable pixel art texture for a video game, flat top-down view of the material only (no perspective, no objects, no cast shadows, no light direction). Visible square pixels, hard edges, a limited muted palette of 6 to 8 colors, no anti-aliasing, no blur, no gradients, no dithering. The pattern must repeat perfectly on all four edges (what leaves on the right continues on the left, top continues on the bottom). It fills the whole square image: no border, no frame, no text. Mood: a sober, worn Greco-Roman underworld, dark and desaturated, like painted Greek ceramics left in the dark.
+
+MATERIAL: dense dark cypress foliage. Small overlapping scale-like leaf clusters pointing down, very dark with a few lighter tips. Colors: from #0e1412 to deep green #365040.
+```
+#### E12. Pano do toldo (claro, para tingir)
+
+- **Anexar:** nada
+- **Salvar como:** `art/concept/gemini/texturas/pano.png`
+
+```
+Seamless tileable pixel art texture for a video game, flat top-down view of the material only (no perspective, no objects, no cast shadows, no light direction). Visible square pixels, hard edges, a limited muted palette of 6 to 8 colors, no anti-aliasing, no blur, no gradients, no dithering. The pattern must repeat perfectly on all four edges (what leaves on the right continues on the left, top continues on the bottom). It fills the whole square image: no border, no frame, no text. Mood: a sober, worn Greco-Roman underworld, dark and desaturated, like painted Greek ceramics left in the dark.
+
+MATERIAL: coarse woven awning cloth seen straight on, LIGHT colored because the game tints it. Fine weave texture with vertical stripes: wide light stripes and narrow slightly darker stripes. Colors: only neutral bone and warm grays from #7d766c to #cbc2b2 (no saturated color).
+```
+#### E13. Palha trançada (cestos)
+
+- **Anexar:** nada
+- **Salvar como:** `art/concept/gemini/texturas/palha.png`
+
+```
+Seamless tileable pixel art texture for a video game, flat top-down view of the material only (no perspective, no objects, no cast shadows, no light direction). Visible square pixels, hard edges, a limited muted palette of 6 to 8 colors, no anti-aliasing, no blur, no gradients, no dithering. The pattern must repeat perfectly on all four edges (what leaves on the right continues on the left, top continues on the bottom). It fills the whole square image: no border, no frame, no text. Mood: a sober, worn Greco-Roman underworld, dark and desaturated, like painted Greek ceramics left in the dark.
+
+MATERIAL: woven straw basketwork seen straight on. Regular over-under weave pattern. Colors: dull straw yellows from #453b25 to #a08b53.
+```
+#### E14. Asfódelos (folha de 4 variantes)
+
+- **Anexar:** nada
+- **Salvar como:** `art/concept/gemini/texturas/asfodelo.png`
+
+```
+Pixel art sprite sheet for a video game: exactly 4 different asphodel plants side by side in one row, evenly spaced, each one drawn inside its own equal cell. Each plant: a tall thin dark-green stem, a few narrow leaves at the base, and a spike of small pale star-shaped flowers along the upper half (pale bone white #D9CBB0 petals with a tiny dull gold #C8A24A center). The four plants differ in height and lean. Side view, full plant from the ground to the tip, visible square pixels, hard edges, no anti-aliasing, no glow. Background: one flat solid pure magenta (#FF00FF), nothing else: no ground, no shadow, no text, no grid lines.
+```
+#### E15. Capim seco (folha de 4 variantes)
+
+- **Anexar:** nada
+- **Salvar como:** `art/concept/gemini/texturas/capim.png`
+
+```
+Pixel art sprite sheet for a video game: exactly 4 different small tufts of dry grass side by side in one row, evenly spaced, each one inside its own equal cell. Each tuft: 8 to 12 thin blades of different heights, some leaning, dull olive and dry straw colors (#3a3f31 to #77765a). Side view, visible square pixels, hard edges, no anti-aliasing. Background: one flat solid pure magenta (#FF00FF), nothing else: no ground, no shadow, no text, no grid lines.
+```
+
 ## Contagem
 
 - **Necessárias:** 45 imagens (A: 8, B: 13, C: 24).
+- **Texturas do cenário (E):** 15 imagens; o jogo já roda com as provisórias, estas só deixam o cenário mais bonito.
 - **Opcionais:** 10 blocos (o último vale para cada figura da B, até 13 imagens).
 - No ritmo de 4 a 6 por dia, as necessárias levam de 8 a 11 dias.
 

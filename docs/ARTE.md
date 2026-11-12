@@ -219,3 +219,23 @@ Quando o `--troca` corta as coxas (personagem de frente, pernas coladas), use `t
 
 ### 7.9 Receita completa do personagem (marionete 3D, perfis, 56 px)
 Ver `docs/PIPELINE_PERSONAGEM.md` (feita com o Aulo; vale para todos os personagens de pernas visíveis).
+
+## Paisagem HD-2D: como o cenário é feito (12/nov/2026, PENDÊNCIAS 105 e 106)
+
+Decisão do João: cenário 3D low-poly com texturas em pixel art, luz quente de fogo, névoa e água por shader, e os
+sprites de sempre por cima. Piloto: Asfódelos.
+
+- **Peças por código** (`src/Lete.Game/Scenery/`): `PieceBuilder` monta malhas de faces chapadas (caixa, cilindro,
+  torno, rocha); `Pieces` é o catálogo (casa, barraca, muro, coluna, cipreste...); `SceneryPiece` é o nó da cena, que
+  só guarda tipo, tamanho, variante, semente e tinta. A mesma semente monta sempre a mesma peça.
+- **Texturas** em `art/tiles/cenario/`, 64 ou 32 px, na densidade de pixel dos personagens (parâmetro global
+  `texel_density` dos shaders, definido pelo `Main`), sem filtro. As de hoje saem de `python tools/texturas_cenario.py`
+  (provisórias); as do Gemini entram com o mesmo nome de arquivo (seção E do `KIT_GEMINI_FALTANTE.md`).
+- **Shaders** (mesma pasta): `cenario` (superfície), `chao` (mancha de chão com a borda roída), `agua`, `flora`
+  (cartões ao vento), `nevoa` (rasteira ou véu em pé) e `chama`.
+- **Na cena:** `tools/blockout_regioes.py` ganhou `piece`, `ground`, `mist`, `river` e `flora`; a região com
+  `hd=True` recebe o ambiente novo (brilho, oclusão, contraste).
+- **Composição:** a câmera olha do sudeste para o noroeste. O que é alto (muralha, paredão, casas com a frente para o
+  sul ou o leste) fica ao norte e a oeste; ao sul e a leste, só coisas baixas (rio, cercas, bancas), para não tapar o
+  jogador. A frente de uma peça é o +Z dela; `rot=90` vira a frente para o leste.
+

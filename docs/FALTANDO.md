@@ -17,8 +17,16 @@ Resumo para o João. Os detalhes de cada item estão em `PENDENCIAS.md` (pelo n�
 - [ ] O Ato IV ainda pede: os condenados do Tártaro que se podem aliviar por um preço (hoje só se examinam), relíquias de heróis e Ecos fortes.
 - [ ] Ao fim do M4: perguntar se apaga `../sobras/`.
 
+### 1b. Paisagem HD-2D (decisão da PENDÊNCIA 105)
+- [x] Piloto em Asfódelos: peças por código, shaders, texturas provisórias (PENDÊNCIA 106).
+- [x] O João aprovou o piloto (12/nov).
+- [x] Ato I no visual novo: Tênaro, o Vestíbulo e o Aqueronte (PENDÊNCIA 108).
+- [ ] As outras 13 regiões no visual novo (Atos II a IV).
+- [ ] Regiões vizinhas emendadas, sem tela de carregamento.
+- [ ] Texturas definitivas (seção E do `KIT_GEMINI_FALTANTE.md`, 15 imagens).
+
 ### 2. Arte (do João, no Gemini)
-- [ ] `docs/KIT_GEMINI_FALTANTE.md` (11 de 45 prontas e no jogo em 11/nov: a Sombra do Esquecido, Tânato, Ascálafo e o Medo): 45 imagens necessárias (a Sombra do Esquecido em 3 fases nos dois corpos; 13 figuras que hoje são caixas ou só voz; os acessórios de origem) e 10 opcionais.
+- [ ] `docs/KIT_GEMINI_FALTANTE.md` (21 de 45 prontas e no jogo em 12/nov: as seções A e B inteiras; faltam os acessórios da C): 45 imagens necessárias (a Sombra do Esquecido em 3 fases nos dois corpos; 13 figuras que hoje são caixas ou só voz; os acessórios de origem) e 10 opcionais.
 - [ ] Depois: as ações de combate (AT) e dano (DX) dos companheiros, ícones dos itens, as pedras do Mosaico, a caixa de diálogo definitiva, as texturas e o cenário de verdade de cada região (hoje são blocos).
 
 ### 3. Roteiro

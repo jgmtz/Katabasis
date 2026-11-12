@@ -28,6 +28,12 @@ public partial class MapSprite : Sprite3D
 
     [Export] public string FeminineIdleFramesPrefix { get; set; } = "";
 
+    /// <summary>
+    /// Figura que muda com a origem do protagonista (a pessoa do Acerto, uma por origem, 12/nov/2026): o caminho da
+    /// imagem com <c>{origem}</c> no lugar do id da origem. Sem origem escolhida ou sem o arquivo, vale a textura da cena.
+    /// </summary>
+    [Export] public string OriginTexturePattern { get; set; } = "";
+
     private Texture2D[] _idle = System.Array.Empty<Texture2D>();
     private float _time;
 
@@ -42,6 +48,12 @@ public partial class MapSprite : Sprite3D
         {
             Texture = FeminineTexture ?? Texture;
             IdleFramesPrefix = FeminineIdleFramesPrefix != "" ? FeminineIdleFramesPrefix : IdleFramesPrefix;
+        }
+
+        if (OriginTexturePattern != "" && GameRoot.Instance?.State.OriginId is { } origin
+            && OriginTexturePattern.Replace("{origem}", origin) is var path && ResourceLoader.Exists(path))
+        {
+            Texture = GD.Load<Texture2D>(path);
         }
 
         if (IdleFramesPrefix != "")

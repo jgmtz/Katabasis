@@ -46,13 +46,26 @@
 [ext_resource type="Texture2D" path="res://art/sprites/sombras/tanato/parado_3q/64px/tanato_parado_3q_esq.png" id="44_tanato"]
 [ext_resource type="Texture2D" path="res://art/sprites/sombras/ascalafo/parado_3q/64px/ascalafo_parado_3q_esq.png" id="45_ascalafo"]
 [ext_resource type="Texture2D" path="res://art/sprites/sombras/medo/parado_3q/64px/medo_parado_3q_esq.png" id="46_medo"]
+[ext_resource type="Script" path="res://src/Lete.Game/Scenery/SceneryPiece.cs" id="47_peca"]
+[ext_resource type="Script" path="res://src/Lete.Game/Scenery/FloraField.cs" id="48_flora"]
+[ext_resource type="Texture2D" path="res://art/tiles/cenario/terra.png" id="49_terra"]
+[ext_resource type="Texture2D" path="res://art/tiles/cenario/campo.png" id="50_campo"]
+[ext_resource type="Texture2D" path="res://art/tiles/cenario/laje.png" id="51_laje"]
+[ext_resource type="Texture2D" path="res://art/tiles/cenario/pedra.png" id="59_pedra"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/doenca/parado_3q/64px/doenca_parado_3q_esq.png" id="52_doenca"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/guerra/parado_3q/64px/guerra_parado_3q_esq.png" id="53_guerra"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/sisifo/parado_3q/64px/sisifo_parado_3q_esq.png" id="54_sisifo"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/tantalo/parado_3q/64px/tantalo_parado_3q_esq.png" id="55_tantalo"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/danaides/parado_3q/64px/danaides_parado_3q_esq.png" id="56_danaides"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/guardioes_mnemosine/parado_3q/64px/guardioes_mnemosine_parado_3q_esq.png" id="57_guardioes"]
+[ext_resource type="Texture2D" path="res://art/sprites/sombras/acerto_pescador/parado_3q/64px/acerto_pescador_parado_3q_esq.png" id="58_acerto"]
 
 [sub_resource type="Environment" id="Environment_regiao"]
 background_mode = 1
 background_color = Color(0.05, 0.047, 0.06, 1)
 ambient_light_source = 2
-ambient_light_color = Color(0.6, 0.58, 0.48, 1)
-ambient_light_energy = 0.55
+ambient_light_color = Color(0.74, 0.7, 0.56, 1)
+ambient_light_energy = 0.75
 fog_enabled = true
 fog_light_color = Color(0.5, 0.48, 0.38, 1)
 fog_light_energy = 0.35
@@ -60,6 +73,18 @@ fog_density = 0.004
 fog_sky_affect = 0.0
 fog_height = 0.4
 fog_height_density = 0.3
+glow_enabled = true
+glow_intensity = 0.55
+glow_strength = 0.9
+glow_bloom = 0.04
+glow_hdr_threshold = 1.05
+ssao_enabled = true
+ssao_radius = 0.8
+ssao_intensity = 1.6
+tonemap_mode = 2
+adjustment_enabled = true
+adjustment_contrast = 1.08
+adjustment_saturation = 1.08
 
 [sub_resource type="StandardMaterial3D" id="Mat_piso"]
 albedo_texture = ExtResource("4_piso")
@@ -89,11 +114,54 @@ uv1_triplanar = true
 uv1_world_triplanar = true
 texture_filter = 0
 
+[sub_resource type="StandardMaterial3D" id="Mat_terra"]
+albedo_texture = ExtResource("49_terra")
+roughness = 1.0
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="Mat_campo"]
+albedo_texture = ExtResource("50_campo")
+roughness = 1.0
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="Mat_laje"]
+albedo_texture = ExtResource("51_laje")
+roughness = 1.0
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="Mat_pedra"]
+albedo_texture = ExtResource("59_pedra")
+roughness = 1.0
+uv1_triplanar = true
+uv1_world_triplanar = true
+texture_filter = 0
+
 [sub_resource type="SphereShape3D" id="Shape_alcance"]
 radius = 1.4
 
 [sub_resource type="BoxShape3D" id="Shape_box1"]
+size = Vector3(1, 3.5, 27)
+
+[sub_resource type="BoxShape3D" id="Shape_box2"]
+size = Vector3(23, 3.5, 1)
+
+[sub_resource type="BoxShape3D" id="Shape_box3"]
+size = Vector3(1, 2, 27)
+
+[sub_resource type="BoxShape3D" id="Shape_box4"]
+size = Vector3(9.5, 2, 1)
+
+[sub_resource type="BoxShape3D" id="Shape_box5"]
 size = Vector3(3, 2, 1.2)
+
+[sub_resource type="BoxShape3D" id="Shape_box6"]
+size = Vector3(12, 1, 2.2)
 
 [node name="Elisios" type="Node3D"]
 
@@ -103,7 +171,7 @@ environment = SubResource("Environment_regiao")
 [node name="Moon" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.939693, 0, 0.34202, 0.280166, 0.573576, -0.769751, -0.196175, 0.819152, 0.538986, 0, 10, 0)
 light_color = Color(0.72, 0.8, 0.88, 1)
-light_energy = 0.8
+light_energy = 1.9
 shadow_enabled = true
 directional_shadow_max_distance = 60.0
 
@@ -111,37 +179,204 @@ directional_shadow_max_distance = 60.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 use_collision = true
 size = Vector3(22, 1, 26)
-material = SubResource("Mat_piso")
+material = SubResource("Mat_campo")
 
-[node name="Oeste" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+[node name="ChaoFora" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.56, 0)
+use_collision = false
+size = Vector3(90, 1, 90)
+material = SubResource("Mat_terra")
+
+[node name="ParedaoOeste" type="Node3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -12.8, 0, 0)
+script = ExtResource("47_peca")
+Kind = "penhasco"
+Seed = 59724
+Size = Vector3(32, 10, 3)
+
+[node name="ParedaoNorte" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 0, 0, -14.8)
+script = ExtResource("47_peca")
+Kind = "penhasco"
+Seed = 43279
+Size = Vector3(32, 11, 3)
+
+[node name="Oeste" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 1.75, 0)
-use_collision = true
-size = Vector3(1, 3.5, 27)
-material = SubResource("Mat_parede")
 
-[node name="Leste" type="CSGBox3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 0.25, 0)
-use_collision = true
-size = Vector3(1, 0.5, 27)
-material = SubResource("Mat_parede")
+[node name="Shape" type="CollisionShape3D" parent="Oeste"]
+shape = SubResource("Shape_box1")
 
-[node name="Norte" type="CSGBox3D" parent="." groups=["pixel_surface"]]
+[node name="Norte" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, -13.5)
-use_collision = true
-size = Vector3(23, 3.5, 1)
-material = SubResource("Mat_parede")
 
-[node name="SulA" type="CSGBox3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.75, 0.25, 13.5)
-use_collision = true
-size = Vector3(9.5, 0.5, 1)
-material = SubResource("Mat_parede")
+[node name="Shape" type="CollisionShape3D" parent="Norte"]
+shape = SubResource("Shape_box2")
 
-[node name="SulB" type="CSGBox3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.75, 0.25, 13.5)
-use_collision = true
-size = Vector3(9.5, 0.5, 1)
-material = SubResource("Mat_parede")
+[node name="BordaLeste1" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 11.26, 0, -11.124)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 58643
+Size = Vector3(1.425, 0.76, 1.14)
+
+[node name="BordaLeste2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 11.66, 0, -9.091)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 30377
+Size = Vector3(1.125, 0.6, 0.9)
+
+[node name="BordaLeste3" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 11.26, 0, -6.978)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 28127
+Size = Vector3(1.575, 0.84, 1.26)
+
+[node name="BordaLeste4" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 11.26, 0, -4.705)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 31228
+Size = Vector3(1.275, 0.68, 1.02)
+
+[node name="BordaLeste5" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 11.58, 0, -2.193)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 94154
+Size = Vector3(1.275, 0.68, 1.02)
+
+[node name="BordaLeste6" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 11.26, 0, -0.16)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 61744
+Size = Vector3(1.425, 0.76, 1.14)
+
+[node name="BordaLeste7" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 11.26, 0, 2.353)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 47270
+Size = Vector3(1.275, 0.68, 1.02)
+
+[node name="BordaLeste8" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 11.74, 0, 4.785)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 12663
+Size = Vector3(1.275, 0.68, 1.02)
+
+[node name="BordaLeste9" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 11.66, 0, 6.578)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 59009
+Size = Vector3(1.875, 1, 1.5)
+
+[node name="BordaLeste10" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 11.74, 0, 9.331)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 51504
+Size = Vector3(1.125, 0.6, 0.9)
+
+[node name="BordaLeste11" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 11.42, 0, 11.124)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 66630
+Size = Vector3(1.575, 0.84, 1.26)
+
+[node name="BordaSulO1" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -10.14, 0, 13.5)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 35139
+Size = Vector3(1.575, 0.84, 1.26)
+
+[node name="BordaSulO2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -8.5, 0, 13.42)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 85209
+Size = Vector3(1.575, 0.84, 1.26)
+
+[node name="BordaSulO3" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -6.7, 0, 13.74)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 88879
+Size = Vector3(1.125, 0.6, 0.9)
+
+[node name="BordaSulO4" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -5.14, 0, 13.34)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 20716
+Size = Vector3(1.875, 1, 1.5)
+
+[node name="BordaSulO5" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -3.42, 0, 13.34)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 51770
+Size = Vector3(1.725, 0.92, 1.38)
+
+[node name="BordaSulL1" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 3.02, 0, 13.5)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 5248
+Size = Vector3(1.275, 0.68, 1.02)
+
+[node name="BordaSulL2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 4.74, 0, 13.58)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 93498
+Size = Vector3(1.725, 0.92, 1.38)
+
+[node name="BordaSulL3" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 6.94, 0, 13.26)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 38988
+Size = Vector3(1.125, 0.6, 0.9)
+
+[node name="BordaSulL4" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 8.34, 0, 13.66)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 53551
+Size = Vector3(1.875, 1, 1.5)
+
+[node name="BordaSulL5" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 9.9, 0, 13.34)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 96057
+Size = Vector3(1.725, 0.92, 1.38)
+
+[node name="Leste" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 1, 0)
+
+[node name="Shape" type="CollisionShape3D" parent="Leste"]
+shape = SubResource("Shape_box3")
+
+[node name="SulA" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.75, 1, 13.5)
+
+[node name="Shape" type="CollisionShape3D" parent="SulA"]
+shape = SubResource("Shape_box4")
+
+[node name="SulB" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.75, 1, 13.5)
+
+[node name="Shape" type="CollisionShape3D" parent="SulB"]
+shape = SubResource("Shape_box4")
 
 [node name="Voltar" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 13.4)
@@ -150,53 +385,194 @@ TargetRegion = "bifurcacao"
 TargetEntry = "ChegadaElisios"
 
 [node name="Shape" type="CollisionShape3D" parent="Voltar"]
-shape = SubResource("Shape_box1")
+shape = SubResource("Shape_box5")
 
-[node name="Loureiro1" type="CSGCylinder3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1.3, -6)
-use_collision = true
-radius = 0.5
-height = 2.6
-sides = 8
-material = SubResource("Mat_parede")
+[node name="Trilha" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 0, 0.014, 6)
+script = ExtResource("47_peca")
+Kind = "chao"
+Seed = 87774
+Size = Vector3(3.2, 0, 14)
+Tint = Color(1, 0.96, 0.84, 1)
+Texture = "laje"
+Edge = 1.4
 
-[node name="Loureiro2" type="CSGCylinder3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.3, 6)
-use_collision = true
-radius = 0.5
-height = 2.6
-sides = 8
-material = SubResource("Mat_parede")
+[node name="BeiraRio" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 1, 0.018, -4.4)
+script = ExtResource("47_peca")
+Kind = "chao"
+Seed = 37443
+Size = Vector3(13, 0, 3.4)
+Tint = Color(1, 0.96, 0.84, 1)
+Texture = "laje"
+Edge = 1.6
 
-[node name="Loureiro3" type="CSGCylinder3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.3, -9)
-use_collision = true
-radius = 0.5
-height = 2.6
-sides = 8
-material = SubResource("Mat_parede")
+[node name="Loureiro1" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -8, 0, -6)
+script = ExtResource("47_peca")
+Kind = "murta"
+Seed = 9826
+Size = Vector3(0, 3.6, 0)
 
-[node name="Loureiro4" type="CSGCylinder3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1.3, 4)
-use_collision = true
-radius = 0.5
-height = 2.6
-sides = 8
-material = SubResource("Mat_parede")
+[node name="Loureiro2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -4, 0, 6)
+script = ExtResource("47_peca")
+Kind = "murta"
+Seed = 59320
+Size = Vector3(0, 3, 0)
 
-[node name="Loureiro5" type="CSGCylinder3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1.3, 9)
-use_collision = true
-radius = 0.5
-height = 2.6
-sides = 8
-material = SubResource("Mat_parede")
+[node name="Loureiro3" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 6, 0, -10.6)
+script = ExtResource("47_peca")
+Kind = "murta"
+Seed = 9710
+Size = Vector3(0, 3.6, 0)
 
-[node name="RioAlmas" type="CSGBox3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.02, -7)
-use_collision = false
-size = Vector3(8, 0.04, 2.4)
-material = SubResource("Mat_agua")
+[node name="Loureiro4" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 8, 0, 4)
+script = ExtResource("47_peca")
+Kind = "murta"
+Seed = 32429
+Size = Vector3(0, 2.4, 0)
+
+[node name="Loureiro5" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -8, 0, 9)
+script = ExtResource("47_peca")
+Kind = "murta"
+Seed = 85915
+Size = Vector3(0, 3, 0)
+
+[node name="Loureiro6" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -9.4, 0, 0.6)
+script = ExtResource("47_peca")
+Kind = "murta"
+Seed = 30657
+Size = Vector3(0, 3.4, 0)
+
+[node name="Loureiro7" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -3, 0, -11.4)
+script = ExtResource("47_peca")
+Kind = "murta"
+Seed = 37591
+Size = Vector3(0, 3.6, 0)
+
+[node name="Loureiro8" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 9.6, 0, -3)
+script = ExtResource("47_peca")
+Kind = "murta"
+Seed = 45318
+Size = Vector3(0, 2.4, 0)
+
+[node name="Coluna1" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -6, 0, -11.6)
+script = ExtResource("47_peca")
+Kind = "coluna"
+Seed = 61650
+Size = Vector3(0.8, 4, 0)
+
+[node name="Coluna2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -9.8, 0, -9)
+script = ExtResource("47_peca")
+Kind = "coluna"
+Seed = 80840
+Size = Vector3(0.8, 4, 0)
+
+[node name="Coluna3" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -9.8, 0, 5)
+script = ExtResource("47_peca")
+Kind = "coluna"
+Seed = 77630
+Size = Vector3(0.8, 4, 0)
+
+[node name="RioAlmas" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 5, 0.03, -7)
+script = ExtResource("47_peca")
+Kind = "agua"
+Seed = 10688
+Size = Vector3(13, 0, 2.6)
+Variant = 1
+
+[node name="PedraRio1" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -1.6, 0, -7)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 37732
+Size = Vector3(1.2, 0.4, 0.9)
+Tint = Color(0.95, 0.92, 0.85, 1)
+
+[node name="PedraRio2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 0.6, 0, -8.5)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 85054
+Size = Vector3(1.2, 0.4, 0.9)
+Tint = Color(0.95, 0.92, 0.85, 1)
+
+[node name="PedraRio3" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 4, 0, -8.6)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 30664
+Size = Vector3(1.2, 0.4, 0.9)
+Tint = Color(0.95, 0.92, 0.85, 1)
+
+[node name="PedraRio4" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 8, 0, -8.6)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 14571
+Size = Vector3(1.2, 0.4, 0.9)
+Tint = Color(0.95, 0.92, 0.85, 1)
+
+[node name="PedraRio5" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 1, 0, -5.6)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 63229
+Size = Vector3(1.2, 0.4, 0.9)
+Tint = Color(0.95, 0.92, 0.85, 1)
+
+[node name="PedraRio6" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 5, 0, -5.5)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 5799
+Size = Vector3(1.2, 0.4, 0.9)
+Tint = Color(0.95, 0.92, 0.85, 1)
+
+[node name="PedraRio7" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 9, 0, -5.5)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 59377
+Size = Vector3(1.2, 0.4, 0.9)
+Tint = Color(0.95, 0.92, 0.85, 1)
+
+[node name="RioCorpo" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.5, -7)
+
+[node name="Shape" type="CollisionShape3D" parent="RioCorpo"]
+shape = SubResource("Shape_box6")
+
+[node name="Asfodelos" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+script = ExtResource("48_flora")
+Kind = "asfodelo"
+Area = Vector2(21, 24)
+Count = 520
+Seed = 27721
+Clump = 0.45
+Avoid = Array[Rect2]([Rect2(-1.6, -1, 3.2, 14), Rect2(-5.5, -8.6, 17, 5)])
+
+[node name="Capim" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+script = ExtResource("48_flora")
+Kind = "capim"
+Area = Vector2(21, 24)
+Count = 320
+Seed = 16364
+Clump = 0.6
+Avoid = Array[Rect2]([Rect2(-1.6, -1, 3.2, 14), Rect2(-5.5, -8.6, 17, 5)])
 
 [node name="Almas" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -5)
@@ -234,13 +610,12 @@ NoticeRadius = 4
 [node name="Reach" type="CollisionShape3D" parent="SombraOferente"]
 shape = SubResource("Shape_alcance")
 
-[node name="TriviaColuna" type="CSGCylinder3D" parent="." groups=["pixel_surface"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.1, 8)
-use_collision = true
-radius = 0.3
-height = 2.2
-sides = 8
-material = SubResource("Mat_parede")
+[node name="TriviaPilar" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 7, 0, 8)
+script = ExtResource("47_peca")
+Kind = "hecateia"
+Seed = 62173
+Size = Vector3(0, 0, 0)
 
 [node name="TriviaChama" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2.6, 8)
@@ -256,6 +631,20 @@ TriviaId = "trivia_elisios"
 
 [node name="Reach" type="CollisionShape3D" parent="Trivia"]
 shape = SubResource("Shape_alcance")
+
+[node name="LuzDourada" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+light_color = Color(1, 0.88, 0.6, 1)
+light_energy = 2
+omni_range = 20
+
+[node name="Nevoa" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 0, 0.3, 0)
+script = ExtResource("47_peca")
+Kind = "nevoa"
+Seed = 21333
+Size = Vector3(23, 0.25, 27)
+Tint = Color(0.5, 0.46, 0.34, 1)
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.5)
