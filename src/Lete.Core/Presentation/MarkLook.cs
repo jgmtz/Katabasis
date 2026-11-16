@@ -20,6 +20,12 @@ public sealed record MarkLook(float MidDesaturation, float HighDesaturation)
     /// <summary>Nas faixas altas o protagonista não projeta sombra (e não deixa pegadas, quando elas existirem).</summary>
     public static bool CastsShadow(MarkBand band) => band != MarkBand.High;
 
+    /// <summary>
+    /// Quanto resta da luz própria do protagonista (1 = inteira, 0 = apagada; decisão do João, 16/nov/2026): ela perde
+    /// força na mesma medida em que o corpo perde cor e se apaga na faixa alta, junto com a sombra.
+    /// </summary>
+    public float AuraOf(MarkBand band) => CastsShadow(band) ? 1f - DesaturationOf(band) : 0f;
+
     public IEnumerable<string> Validate()
     {
         if (MidDesaturation < 0f || HighDesaturation > 1f || HighDesaturation < MidDesaturation)

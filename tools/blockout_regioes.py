@@ -86,6 +86,10 @@ def fmt(v):
     return ('%.3f' % v).rstrip('0').rstrip('.') if isinstance(v, float) else str(v)
 
 
+# A cor do sinal das passagens abertas: névoa clara e fria (as fechadas pela Maré, em Asfódelos, têm véu escuro).
+COR_PASSAGEM = '0.62, 0.76, 0.84, 1'
+
+
 class Scene:
     def __init__(self, name, ambient, fog_color, moon_energy, hd=False):
         self.name = name
@@ -158,6 +162,8 @@ Avoid = Array[Rect2]([{rects}])
 
     def node(self, text):
         self.nodes.append(text)
+        # Quantos nós antes do último andam junto com ele pela Maré (o sinal de uma passagem).
+        self._linked = 0
 
     def box(self, name, size, pos, mat='Mat_parede', collide=True, parent='.', tide_min=None):
         # tide_min: o nó só aparece com a Maré nesse degrau ou acima (grupo "mare", lido pelo Main ao carregar a região).
@@ -212,13 +218,14 @@ omni_range = {fmt(rng)}
 
     def tide(self, tide_min=None, tide_max=None):
         """O último nó só aparece (e só funciona, se for uma área) entre esses degraus da Maré (grupo "mare")."""
-        header, rest = self.nodes[-1].split('\n', 1)
-        if 'groups=[' in header:
-            header = header.replace('groups=[', 'groups=["mare", ', 1)
-        else:
-            header = header[:-1] + ' groups=["mare"]]'
-        meta = ''.join(f'metadata/{k} = {v}\n' for k, v in (('mare_min', tide_min), ('mare_max', tide_max)) if v is not None)
-        self.nodes[-1] = header + '\n' + meta + rest
+        for i in range(len(self.nodes) - 1 - getattr(self, '_linked', 0), len(self.nodes)):
+            header, rest = self.nodes[i].split('\n', 1)
+            if 'groups=[' in header:
+                header = header.replace('groups=[', 'groups=["mare", ', 1)
+            else:
+                header = header[:-1] + ' groups=["mare"]]'
+            meta = ''.join(f'metadata/{k} = {v}\n' for k, v in (('mare_min', tide_min), ('mare_max', tide_max)) if v is not None)
+            self.nodes[i] = header + '\n' + meta + rest
 
     def tribunal(self, name, pos, trial_id):
         """A pedra do Tribunal (TribunalSeat): abre o julgamento (content/trials)."""
@@ -388,7 +395,30 @@ texture = ExtResource("{texture}")
 script = ExtResource("11_sprite")
 {idle_line}''')
 
-    def exit(self, name, pos, size, region, entry, path_key='', blocked='', milestone='', condition=None):
+    def exit(self, name, pos, size, region, entry, path_key='', blocked='', milestone='', condition=None, marca=True):
+        """Passagem para outra região. No visual novo, toda passagem tem o mesmo sinal (pedido do João, 13/nov/2026,
+        PENDENCIAS 117): um véu claro de névoa no vão e uma luz fria ao pé dele, para se ver de longe por onde se sai.
+        marca=False tira o sinal (a passagem escondida de Mnemósine; a barca, que tem a lanterna de Caronte)."""
+        sinal = 0
+        if self.hd and marca:
+            x, _, z = pos
+            ao_longo_do_x = size[0] >= size[2]
+            # A câmera olha do sudeste: ao norte e a oeste o véu é alto (fica dentro do arco); ao sul e a leste, baixo.
+            fundo = (z < 0) if ao_longo_do_x else (x < 0)
+            altura = 3.8 if fundo else 2.2
+            largura = size[0] if ao_longo_do_x else size[2]
+            para_fora = -0.2 if fundo else 0.5
+            centro = (x, altura / 2, z + para_fora) if ao_longo_do_x else (x + para_fora, altura / 2, z)
+            dentro = (x, 1.6, z - 2 * para_fora) if ao_longo_do_x else (x - 2 * para_fora, 1.6, z)
+            self.piece(f'{name}Veu', 'veu', centro, rot=0 if ao_longo_do_x else 90, size=(largura, altura, 0.9),
+                       tint=COR_PASSAGEM)
+            self.node(f'''[node name="{name}Luz" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {fmt(dentro[0])}, {fmt(dentro[1])}, {fmt(dentro[2])})
+light_color = Color({COR_PASSAGEM})
+light_energy = 1.8
+omni_range = 5.5
+''')
+            sinal = 2
         # condition: a condição em JSON (como nos dados), escrita como texto na cena.
         cond = json.dumps(condition, separators=(',', ':')).replace('"', '\\"') if condition else ''
         extra = ''.join(f'{k} = "{v}"\n' for k, v in
@@ -403,6 +433,8 @@ TargetEntry = "{entry}"
 [node name="Shape" type="CollisionShape3D" parent="{name}"]
 shape = SubResource("{self.box_shape(size)}")
 ''')
+        # O sinal da passagem aparece e some com ela (tide() vale para os três nós).
+        self._linked = sinal
 
     def trivia(self, name, pos, trivia_id):
         x, _, z = pos
@@ -574,8 +606,13 @@ t.piece('BraseiroCamara', 'braseiro', (6.4, 0, -33), size=(1.3, 0, 9))
 # C: a câmara do rio, com a primeira Trívia e a passagem para o Vestíbulo.
 t.box('ChaoCamara', (18, 1, 16), (0, -0.5, -34.5), 'Mat_pedra')
 t.piece('CamaraOeste', 'penhasco', (-10.7, 0, -34.5), rot=90, size=(17, 8.5, 2.6))
-t.piece('CamaraNorte', 'penhasco', (-2.6, 0, -44.3), size=(15, 8.5, 2.6))
-t.piece('CamaraNorteLeste', 'penhasco', (9.6, 0, -44.2), size=(2.4, 7, 2.2))
+# O paredão para antes do portal (as lascas dele passam do tamanho e entrariam no vão); um trecho de muro fecha a fresta.
+t.piece('CamaraNorte', 'penhasco', (-3.9, 0, -44.3), size=(12.4, 8.5, 2.6))
+t.piece('CamaraNorteMuro', 'muro', (3.4, 0, -43.9), size=(2.2, 4.2, 1.0))
+# A leste do portal só pedras baixas: um paredão ali ficaria entre a câmera e a passagem.
+t.piece('CamaraNorteLeste', 'rocha', (9.4, 0, -43.8), size=(2.6, 1.3, 2))
+t.piece('CamaraNorteLeste2', 'rocha', (8.6, 0, -42.9), size=(1.4, 0.8, 1.2))
+t.blocker('CamaraNorteLesteBarreira', (2.6, 3, 2), (9.4, 1.5, -43.8))
 t.piece('PortalVestibulo', 'arco', (6.5, 0, -43.7), size=(2.6, 3.8, 1.1))
 t.piece('PortalVestibuloTocha', 'tocha', (4.2, 0, -42.6), size=(1.0, 2.1, 6))
 pedras(t, 'CamaraSulO', (-8.6, -26.6), (-3.6, -26.6), 3, 0.7)
@@ -741,7 +778,7 @@ a.wanderer('SombraAfogada', (-5, 0, 1), 'aqueronte_afogada', 'lavadeira', (4, 0,
 a.heavy_place('PesadaConvite', (5.8, 0, -4.2), 'o_convite')
 # A barca: com a chave do Aqueronte (óbolo, insepultos, origem Pescador...), leva a Asfódelos; é o 1º marco da Maré.
 a.exit('SubirNaBarca', (5.8, 1, -6.9), (1.6, 2, 0.8), 'asfodelos', 'ChegadaAqueronte',
-       path_key='aqueronte', blocked='obj.aqueronte.barca.fechada', milestone='aqueronte')
+       path_key='aqueronte', blocked='obj.aqueronte.barca.fechada', milestone='aqueronte', marca=False)
 a.light('LuzMargem', (0, 4, -2), '0.5, 0.56, 0.66, 1', 1.1, 15)
 a.mist('NevoaMargem', (0, 0), (21, 15), height=0.35, density=0.4)
 a.mist('NevoaRio', (0, -16), (60, 18), height=0.05, density=0.8)
@@ -1293,7 +1330,7 @@ h.talkable('Tanato', (6, 0, -7), 'tanato', texture='44_tanato')
 h.heavy_place('PesadaOlhar', (-6, 0, 6), 'o_olhar')
 h.examinable('Agua', (9, 0, 9), 'obj.hipno.agua', flag='mnemosine_achada')
 h.exit('ParaMnemosine', (11, 1, 9), (0.8, 2, 3), 'mnemosine', 'ChegadaHipno', blocked='obj.hipno.agua.fechada',
-       condition={'flag': 'mnemosine_achada'})
+       condition={'flag': 'mnemosine_achada'}, marca=False)
 h.trivia('Trivia', (-8, 0, -10), 'trivia_hipno')
 # Ato IV (11/nov/2026, PENDENCIAS 97): depois do Sonho, o caminho segue ao norte, para a bifurcação (4º marco da Maré).
 h.exit('ParaBifurcacao', (9, 1, -12.6), (3, 2, 1), 'bifurcacao', 'ChegadaHipno', blocked='obj.hipno.bifurcacao.fechada',

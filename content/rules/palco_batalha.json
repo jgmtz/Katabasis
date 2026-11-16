@@ -1,0 +1,116 @@
+{
+  "id": "palco_batalha",
+  "_nota": "Fundo do palco da batalha por região (o lugar do encontro). Rascunho (16/nov/2026, PENDÊNCIA 120), para o João revisar. Cada item é uma peça do cenário (o catálogo de Pieces: coluna, cipreste, rocha...), 'flora' (um campo de folhas: 'folha' asfodelo, capim ou papoula) ou 'agua' (variante 0 rio, 1 água parada e rasa, 2 rio de fogo). x e y são a posição no chão do palco, em alturas de personagem: x para a direita da tela, y para o fundo (o grupo fica em y perto de -1 e a sombra perto de -0,5; o braseiro em x -2, y 0,15, fora do quadro; a tela vai de x -1,5 a 1,5 nas lutas normais). 'tamanho' em metros (0 = o padrão da peça); 'rot' gira a peça em graus a partir da frente virada para a câmera; 'tinta' em hexadecimal.",
+  "padrao": [
+    { "peca": "coluna", "x": -1.4, "y": 0.75, "variante": 1, "semente": 4 },
+    { "peca": "coluna", "x": 1.4, "y": 0.55, "semente": 7 },
+    { "peca": "entulho", "x": 0.2, "y": 1.1, "tamanho": [1.6, 0, 1.2], "semente": 2 },
+    { "peca": "rocha", "x": 1.04, "y": 1.0, "semente": 9 }
+  ],
+  "regioes": {
+    "tenaro": [
+      { "peca": "estalagmite", "x": -1.37, "y": 0.6, "semente": 3 },
+      { "peca": "estalagmite", "x": 1.4, "y": 0.4, "tamanho": [1.4, 2.2, 0], "semente": 8 },
+      { "peca": "rocha", "x": 0.4, "y": 1.15, "tamanho": [1.8, 1.1, 1.4], "semente": 5 },
+      { "peca": "rocha", "x": 1.08, "y": 1.0, "semente": 11 },
+      { "peca": "agua", "variante": 1, "x": -0.6, "y": 0.95, "largura": 2.6, "profundidade": 0.9 }
+    ],
+    "vestibulo": [
+      { "peca": "olmo", "x": -1.44, "y": 1.05, "semente": 6 },
+      { "peca": "arvore_morta", "x": 1.4, "y": 0.6, "semente": 4 },
+      { "peca": "entulho", "x": 0.3, "y": 1.15, "tamanho": [2.0, 0, 1.4], "semente": 3 },
+      { "peca": "rocha", "x": 0.94, "y": 1.05, "semente": 2 },
+      { "peca": "flora", "folha": "capim", "x": 0, "y": 0.9, "largura": 7, "profundidade": 2.5, "quantidade": 80 }
+    ],
+    "aqueronte": [
+      { "peca": "agua", "variante": 0, "x": 0, "y": 1.2, "largura": 9, "profundidade": 1.1 },
+      { "peca": "rocha", "x": -1.33, "y": 0.6, "semente": 4 },
+      { "peca": "rocha", "x": 1.37, "y": 0.5, "tamanho": [1.8, 1.2, 1.4], "semente": 7 },
+      { "peca": "flora", "folha": "capim", "x": 0, "y": 0.6, "largura": 8, "profundidade": 1.2, "quantidade": 90 }
+    ],
+    "asfodelos": [
+      { "peca": "coluna", "x": -1.4, "y": 0.8, "semente": 3 },
+      { "peca": "coluna", "x": 1.37, "y": 0.45, "variante": 1, "semente": 5 },
+      { "peca": "cipreste", "x": 0.9, "y": 1.2, "semente": 2 },
+      { "peca": "estela", "x": -0.4, "y": 1.1, "semente": 8 },
+      { "peca": "flora", "folha": "asfodelo", "x": 0, "y": 0.85, "largura": 8, "profundidade": 2.2, "quantidade": 85 }
+    ],
+    "luto": [
+      { "peca": "cipreste", "x": -1.37, "y": 0.9, "semente": 4 },
+      { "peca": "cipreste", "x": 1.33, "y": 0.7, "semente": 9 },
+      { "peca": "murta", "x": 0.9, "y": 1.2, "semente": 3 },
+      { "peca": "tumulo", "x": -0.5, "y": 1.1, "semente": 6 },
+      { "peca": "estela", "x": 0.2, "y": 1.2, "semente": 2 },
+      { "peca": "flora", "folha": "asfodelo", "x": 0, "y": 0.8, "largura": 8, "profundidade": 2.0, "quantidade": 60 }
+    ],
+    "tribunal": [
+      { "peca": "coluna", "x": -1.4, "y": 0.7, "semente": 2 },
+      { "peca": "coluna", "x": 1.4, "y": 0.5, "semente": 6 },
+      { "peca": "coluna", "x": 0.86, "y": 1.25, "semente": 4 },
+      { "peca": "muro", "variante": 1, "x": -0.2, "y": 1.45, "tamanho": [7, 2.2, 0], "semente": 3 }
+    ],
+    "guerreiros": [
+      { "peca": "arma", "x": -1.33, "y": 0.6, "semente": 2 },
+      { "peca": "arma", "x": 1.33, "y": 0.45, "rot": 20, "semente": 5 },
+      { "peca": "arma", "x": 0.5, "y": 1.15, "rot": -15, "semente": 8 },
+      { "peca": "estela", "x": -0.5, "y": 1.15, "semente": 4 },
+      { "peca": "rocha", "x": 0.94, "y": 1.05, "semente": 7 },
+      { "peca": "flora", "folha": "capim", "x": 0, "y": 0.85, "largura": 8, "profundidade": 2.2, "quantidade": 85 }
+    ],
+    "estige": [
+      { "peca": "agua", "variante": 0, "x": 0, "y": 1.2, "largura": 9, "profundidade": 1.1, "tinta": "#9a9a9a" },
+      { "peca": "rocha", "x": -1.37, "y": 0.6, "tamanho": [1.8, 1.4, 1.4], "semente": 3 },
+      { "peca": "rocha", "x": 1.4, "y": 0.5, "semente": 6 },
+      { "peca": "estalagmite", "x": 1.01, "y": 0.95, "semente": 9 }
+    ],
+    "palacio": [
+      { "peca": "coluna", "x": -1.4, "y": 0.75, "semente": 3 },
+      { "peca": "coluna", "x": 1.4, "y": 0.5, "semente": 7 },
+      { "peca": "coluna", "x": -0.7, "y": 1.35, "semente": 2 },
+      { "peca": "muro", "x": 0.4, "y": 1.5, "tamanho": [8, 2.6, 0], "semente": 5 }
+    ],
+    "hipno": [
+      { "peca": "murta", "x": -1.37, "y": 0.8, "semente": 3 },
+      { "peca": "arvore_morta", "x": 1.37, "y": 0.55, "semente": 6 },
+      { "peca": "rocha", "x": 0.6, "y": 1.15, "semente": 2 },
+      { "peca": "flora", "folha": "papoula", "x": 0, "y": 0.85, "largura": 8, "profundidade": 2.2, "quantidade": 85 }
+    ],
+    "mnemosine": [
+      { "peca": "agua", "variante": 1, "x": 0.1, "y": 1.1, "largura": 4, "profundidade": 1.2 },
+      { "peca": "cipreste", "x": -1.37, "y": 0.85, "semente": 7 },
+      { "peca": "rocha", "x": 1.37, "y": 0.5, "semente": 4 },
+      { "peca": "estela", "x": 0.86, "y": 1.15, "semente": 3 }
+    ],
+    "bifurcacao": [
+      { "peca": "estela", "x": -1.33, "y": 0.6, "semente": 2 },
+      { "peca": "estela", "x": 1.33, "y": 0.45, "semente": 5 },
+      { "peca": "coluna", "x": -0.9, "y": 1.3, "variante": 1, "semente": 6 },
+      { "peca": "entulho", "x": 0.6, "y": 1.15, "tamanho": [1.6, 0, 1.2], "semente": 3 },
+      { "peca": "muro", "x": 0.5, "y": 1.55, "tamanho": [7, 2.0, 0], "semente": 8 }
+    ],
+    "tartaro": [
+      { "peca": "agua", "variante": 2, "x": 0, "y": 1.55, "largura": 9, "profundidade": 1.0 },
+      { "peca": "estalagmite", "x": -1.37, "y": 0.6, "semente": 4 },
+      { "peca": "estalagmite", "x": 1.4, "y": 0.45, "tamanho": [1.4, 2.0, 0], "semente": 7 },
+      { "peca": "entulho", "x": 0.9, "y": 0.95, "tamanho": [1.4, 0, 1.0], "semente": 2 }
+    ],
+    "elisios": [
+      { "peca": "murta", "x": -1.37, "y": 0.85, "semente": 5 },
+      { "peca": "coluna", "x": 1.4, "y": 0.5, "semente": 3 },
+      { "peca": "agua", "variante": 1, "x": 0.3, "y": 1.2, "largura": 4, "profundidade": 0.9 },
+      { "peca": "flora", "folha": "asfodelo", "x": 0, "y": 0.8, "largura": 8, "profundidade": 2.0, "quantidade": 100 }
+    ],
+    "vale_lete": [
+      { "peca": "agua", "variante": 1, "x": 0, "y": 1.15, "largura": 8, "profundidade": 1.0 },
+      { "peca": "arvore_morta", "x": -1.37, "y": 0.75, "semente": 8 },
+      { "peca": "rocha", "x": 1.37, "y": 0.5, "semente": 3 },
+      { "peca": "flora", "folha": "capim", "x": 0, "y": 0.75, "largura": 8, "profundidade": 1.4, "quantidade": 90 }
+    ],
+    "portoes": [
+      { "peca": "coluna", "x": -1.4, "y": 0.7, "semente": 2 },
+      { "peca": "coluna", "x": 1.4, "y": 0.5, "semente": 5 },
+      { "peca": "arco", "x": 0.2, "y": 1.45, "semente": 3 },
+      { "peca": "estela", "x": -0.9, "y": 1.1, "semente": 6 }
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "id": "mapa",
+  "_nota": "Mapa do menu (decisão do João, 13/nov/2026, PENDENCIAS 115): cada lugar tem a miniatura da região e o nome; os vizinhos ainda não visitados aparecem na névoa, sem nome; o resto não aparece. Só a região atual é marcada (uma chama); nenhum marcador de missão. 'x' e 'y' são o centro da miniatura no pergaminho, em pixels da arte (a tela tem 640 x 360). As ligações seguem as passagens das regiões. Posições provisórias, para o João revisar.",
+  "places": [
+    { "region": "tenaro", "x": 62, "y": 310, "image": "res://art/ui/menu/mapa/tenaro.png" },
+    { "region": "vestibulo", "x": 152, "y": 310, "image": "res://art/ui/menu/mapa/vestibulo.png" },
+    { "region": "aqueronte", "x": 242, "y": 310, "image": "res://art/ui/menu/mapa/aqueronte.png" },
+    { "region": "asfodelos", "x": 346, "y": 310, "image": "res://art/ui/menu/mapa/asfodelos.png" },
+    { "region": "luto", "x": 256, "y": 250, "image": "res://art/ui/menu/mapa/luto.png" },
+    { "region": "tribunal", "x": 346, "y": 250, "image": "res://art/ui/menu/mapa/tribunal.png" },
+    { "region": "guerreiros", "x": 436, "y": 250, "image": "res://art/ui/menu/mapa/guerreiros.png" },
+    { "region": "estige", "x": 526, "y": 250, "image": "res://art/ui/menu/mapa/estige.png" },
+    { "region": "palacio", "x": 526, "y": 190, "image": "res://art/ui/menu/mapa/palacio.png" },
+    { "region": "hipno", "x": 436, "y": 190, "image": "res://art/ui/menu/mapa/hipno.png" },
+    { "region": "mnemosine", "x": 346, "y": 190, "image": "res://art/ui/menu/mapa/mnemosine.png" },
+    { "region": "bifurcacao", "x": 436, "y": 130, "image": "res://art/ui/menu/mapa/bifurcacao.png" },
+    { "region": "tartaro", "x": 346, "y": 130, "image": "res://art/ui/menu/mapa/tartaro.png" },
+    { "region": "elisios", "x": 526, "y": 130, "image": "res://art/ui/menu/mapa/elisios.png" },
+    { "region": "vale_lete", "x": 436, "y": 72, "image": "res://art/ui/menu/mapa/vale_lete.png" },
+    { "region": "portoes", "x": 346, "y": 72, "image": "res://art/ui/menu/mapa/portoes.png" }
+  ],
+  "links": [
+    ["tenaro", "vestibulo"],
+    ["vestibulo", "aqueronte"],
+    ["aqueronte", "asfodelos"],
+    ["asfodelos", "luto"],
+    ["asfodelos", "tribunal"],
+    ["asfodelos", "guerreiros"],
+    ["asfodelos", "estige"],
+    ["estige", "palacio"],
+    ["palacio", "hipno"],
+    ["hipno", "mnemosine"],
+    ["hipno", "bifurcacao"],
+    ["bifurcacao", "tartaro"],
+    ["bifurcacao", "elisios"],
+    ["bifurcacao", "vale_lete"],
+    ["vale_lete", "portoes"]
+  ]
+}

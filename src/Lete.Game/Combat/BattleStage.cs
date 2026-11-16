@@ -151,6 +151,11 @@ public partial class BattleStage : Node3D
         var right = new Vector3(basis.X.X, 0, basis.X.Z).Normalized();
         var forward = new Vector3(-basis.Z.X, 0, -basis.Z.Z).Normalized();
 
+        // O palco: chão e cores do lugar do encontro (ou o padrão, nas cenas de teste), névoa e o braseiro.
+        var set = new BattleSet { Name = "Set" };
+        AddChild(set);
+        set.Build(EncounterTransit.Pending is not null ? BattleAmbience.Current : BattleAmbience.Default, right, forward, rig.Rotation.Y, Camera.Size);
+
         BattleActor Spawn(BattleActorArt art, System.Numerics.Vector2 ground, bool spirit)
         {
             var actor = new BattleActor { Name = art.Id, Tuning = Tuning, WorldPerScreenPixel = worldPerScreenPixel, IsSpirit = spirit };
@@ -158,6 +163,7 @@ public partial class BattleStage : Node3D
             actor.Position = right * ground.X + forward * ground.Y;
             actor.FaceCamera(rig.Rotation.Y, Mathf.DegToRad(rig.PitchDegrees));
             actor.SetDepthScale(Setup.Layout.ScaleAt(ground));
+            actor.SetStageLight(set.FirePosition, set.FireColor, set.ActorTint, set.MistColor);
             return actor;
         }
 
@@ -183,6 +189,8 @@ public partial class BattleStage : Node3D
         {
             node.StartIdle();
         }
+
+        UI.SceneVeil.Lift(GetTree());
     }
 
     /// <summary>

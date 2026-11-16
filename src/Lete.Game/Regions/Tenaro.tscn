@@ -158,15 +158,18 @@ size = Vector3(5, 2, 1)
 size = Vector3(1, 2, 24)
 
 [sub_resource type="BoxShape3D" id="Shape_box5"]
-size = Vector3(1, 2, 17)
+size = Vector3(2.6, 3, 2)
 
 [sub_resource type="BoxShape3D" id="Shape_box6"]
-size = Vector3(5.5, 2, 1)
+size = Vector3(1, 2, 17)
 
 [sub_resource type="BoxShape3D" id="Shape_box7"]
-size = Vector3(12, 2, 3)
+size = Vector3(5.5, 2, 1)
 
 [sub_resource type="BoxShape3D" id="Shape_box8"]
+size = Vector3(12, 2, 3)
+
+[sub_resource type="BoxShape3D" id="Shape_box9"]
 size = Vector3(3, 2, 1.2)
 
 [node name="Tenaro" type="Node3D"]
@@ -596,18 +599,38 @@ Seed = 19442
 Size = Vector3(17, 8.5, 2.6)
 
 [node name="CamaraNorte" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -2.6, 0, -44.3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -3.9, 0, -44.3)
 script = ExtResource("47_peca")
 Kind = "penhasco"
 Seed = 96945
-Size = Vector3(15, 8.5, 2.6)
+Size = Vector3(12.4, 8.5, 2.6)
+
+[node name="CamaraNorteMuro" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 3.4, 0, -43.9)
+script = ExtResource("47_peca")
+Kind = "muro"
+Seed = 8847
+Size = Vector3(2.2, 4.2, 1)
 
 [node name="CamaraNorteLeste" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 9.6, 0, -44.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 9.4, 0, -43.8)
 script = ExtResource("47_peca")
-Kind = "penhasco"
+Kind = "rocha"
 Seed = 64043
-Size = Vector3(2.4, 7, 2.2)
+Size = Vector3(2.6, 1.3, 2)
+
+[node name="CamaraNorteLeste2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 8.6, 0, -42.9)
+script = ExtResource("47_peca")
+Kind = "rocha"
+Seed = 85586
+Size = Vector3(1.4, 0.8, 1.2)
+
+[node name="CamaraNorteLesteBarreira" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.4, 1.5, -43.8)
+
+[node name="Shape" type="CollisionShape3D" parent="CamaraNorteLesteBarreira"]
+shape = SubResource("Shape_box5")
 
 [node name="PortalVestibulo" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 6.5, 0, -43.7)
@@ -711,19 +734,19 @@ Size = Vector3(1.725, 0.92, 1.38)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.7, 1, -34.5)
 
 [node name="Shape" type="CollisionShape3D" parent="CamaraLesteBarreira"]
-shape = SubResource("Shape_box5")
+shape = SubResource("Shape_box6")
 
 [node name="CamaraSulA" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.25, 1, -26.6)
 
 [node name="Shape" type="CollisionShape3D" parent="CamaraSulA"]
-shape = SubResource("Shape_box6")
+shape = SubResource("Shape_box7")
 
 [node name="CamaraSulB" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.25, 1, -26.6)
 
 [node name="Shape" type="CollisionShape3D" parent="CamaraSulB"]
-shape = SubResource("Shape_box6")
+shape = SubResource("Shape_box7")
 
 [node name="RioSubterraneo" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -3, 0.02, -38.5)
@@ -737,7 +760,7 @@ Variant = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, -38.5)
 
 [node name="Shape" type="CollisionShape3D" parent="RioBarreira"]
-shape = SubResource("Shape_box7")
+shape = SubResource("Shape_box8")
 
 [node name="TriviaPilar" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -5, 0, -30.5)
@@ -887,6 +910,20 @@ NoticeRadius = 4
 [node name="Reach" type="CollisionShape3D" parent="SombraCarpideira"]
 shape = SubResource("Shape_alcance")
 
+[node name="ParaVestibuloVeu" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 6.5, 1.9, -43.8)
+script = ExtResource("47_peca")
+Kind = "veu"
+Seed = 18353
+Size = Vector3(3, 3.8, 0.9)
+Tint = Color(0.62, 0.76, 0.84, 1)
+
+[node name="ParaVestibuloLuz" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 1.6, -43.2)
+light_color = Color(0.62, 0.76, 0.84, 1)
+light_energy = 1.8
+omni_range = 5.5
+
 [node name="ParaVestibulo" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 1, -43.6)
 script = ExtResource("8_saida")
@@ -894,7 +931,7 @@ TargetRegion = "vestibulo"
 TargetEntry = "ChegadaTenaro"
 
 [node name="Shape" type="CollisionShape3D" parent="ParaVestibulo"]
-shape = SubResource("Shape_box8")
+shape = SubResource("Shape_box9")
 
 [node name="CordaCamara" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -28)

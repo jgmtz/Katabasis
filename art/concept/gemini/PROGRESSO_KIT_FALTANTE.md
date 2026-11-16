@@ -23,3 +23,11 @@ Originais salvos como .jpeg (o Gemini baixa em JPEG; nomes seguem o kit, só mud
 - Seção C 24/24: Veterano f (37-39) e Artesão m/f (40-45) gerados. Artesão f frente regerado (1ª versão descartada: `artesao_f_mapa_frente_descartada-fundo-vinho.jpeg`).
 - Entrega completa: `entregas/2026-11-12_kit-faltante-completo-A-B-C_10-42`.
 - Seção D (itens 46-55, opcionais): não feita.
+
+## Atualização 12/nov ~22-14 BRT — Seção E (texturas) concluída (15/15)
+Entrega em `entregas/2026-11-12_texturas-cenario_22-14`. E1 refeita em pixel art; E14/E15 são folhas 2752x1536 com fundo magenta.
+
+## Atualização 12/nov ~23-42 BRT — Seção D (46 a 54) concluída
+9 imagens em `art/concept/gemini/secao_d/`; entrega em `entregas/2026-11-12_secao-D-sombras-dido-cenario_23-42`. Item 55 (parados animados) não gerado.
+
+## Item 55 (parados flutuar) — 02-24 BRT: 9/13 prontas em entregas/2026-11-13_parados-animados-figuras_02-24. Faltam acerto_sacerdote, acerto_veterano, acerto_artesao, guardioes_mnemosine (limite do Gemini, reset ~05:16 no relógio do navegador).

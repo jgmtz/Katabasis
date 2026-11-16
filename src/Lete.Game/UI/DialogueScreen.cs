@@ -77,9 +77,37 @@ public partial class DialogueScreen : CanvasLayer
         _runner = GameRoot.Instance.Dialogues.Open(dialogueId);
         _speaker.Text = T(_runner.Graph.SpeakerKey);
         ShowPortrait(_runner.Graph.SpeakerKey);
+        var opening = !_panel.Visible;
         _panel.Visible = true;
+        if (opening)
+        {
+            SlideIn();
+        }
+
         OpenChanged?.Invoke();
         ShowNode();
+    }
+
+    /// <summary>Distância (px de tela) e duração da entrada da caixa: ela sobe um pouco enquanto aparece.</summary>
+    private const float SlideInPixels = 14f;
+    private const float SlideInSeconds = 0.2f;
+
+    private Tween? _slide;
+    private float? _restTop;
+
+    /// <summary>A caixa entra subindo e clareando, em vez de surgir de uma vez.</summary>
+    private void SlideIn()
+    {
+        _restTop ??= _panel.OffsetTop;
+        var height = _panel.OffsetBottom - _panel.OffsetTop;
+        _slide?.Kill();
+        _panel.Modulate = new Color(1f, 1f, 1f, 0f);
+        _panel.OffsetTop = _restTop.Value + SlideInPixels;
+        _panel.OffsetBottom = _panel.OffsetTop + height;
+        _slide = CreateTween().SetParallel().SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);
+        _slide.TweenProperty(_panel, "modulate:a", 1f, SlideInSeconds);
+        _slide.TweenProperty(_panel, "offset_top", _restTop.Value, SlideInSeconds);
+        _slide.TweenProperty(_panel, "offset_bottom", _restTop.Value + height, SlideInSeconds);
     }
 
     /// <summary>O busto de quem fala, se o elenco tiver (pelo nome: a <c>speaker_key</c> é a <c>name_key</c> dele).</summary>

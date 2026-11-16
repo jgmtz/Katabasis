@@ -7,6 +7,8 @@ using Lete.Core.Data;
 using Lete.Core.Events;
 using Lete.Core.State;
 using Lete.Game.Combat;
+using Lete.Game.Debug;
+using Lete.Game.Scenery;
 using Lete.Game.UI;
 
 namespace Lete.Game.Opening;
@@ -15,8 +17,8 @@ namespace Lete.Game.Opening;
 /// Cutscene de abertura e começo do jogo (protagonista-sombra, decisão do João de 26/out/2026; ver
 /// <c>docs/PROTAGONISTA_SOMBRA.md</c>): primeira pessoa, acordando e caminhando desorientado até a margem de um rio
 /// escuro; ajoelha e vê o próprio reflexo, sem rosto; escolhe entre os dois corpos pelo reflexo; logo depois escolhe a
-/// origem em 4 cartas (<see cref="OriginCards"/>) e o jogo começa. Tudo em tempo real e com geometria provisória
-/// (margem, rio, juncos), sem vídeo.
+/// origem em 4 cartas (<see cref="OriginCards"/>) e o jogo começa. Tudo em tempo real, sem vídeo, no cenário da margem
+/// do rio (<see cref="ShoreSet"/>), feito com as peças da paisagem.
 /// Pular: qualquer tecla, a partir da segunda vez. Reduzir movimento: <c>reduce_motion_toggle</c> (F3), guardado.
 /// </summary>
 public partial class OpeningDirector : Node3D
@@ -72,10 +74,13 @@ public partial class OpeningDirector : Node3D
     [Export] public float ReflectionBlur { get; set; } = 0.04f;
     [Export] public float ResolvedReflectionBlur { get; set; } = 0.002f;
 
-    [ExportGroup("Luz (provisória: noite de lua, com névoa)")]
+    [ExportGroup("Luz (noite de lua, com névoa)")]
     [Export] public float AmbientEnergy { get; set; } = 0.9f;
-    [Export] public float MoonEnergy { get; set; } = 1.0f;
-    [Export] public float FogDensity { get; set; } = 0.045f;
+    [Export] public float MoonEnergy { get; set; } = 1.2f;
+    [Export] public float FogDensity { get; set; } = 0.03f;
+
+    /// <summary>Pixels de textura por metro do cenário na abertura (a exploração usa cerca de 33).</summary>
+    [Export] public float FirstPersonTexelDensity { get; set; } = 110f;
 
     [ExportGroup("Lugar (metros)")]
     [Export] public Vector3 WalkStart { get; set; } = new(0f, 0f, 9f);
@@ -85,7 +90,6 @@ public partial class OpeningDirector : Node3D
     [Export] public float BankX { get; set; } = -2.4f;
     [Export] public float WaterY { get; set; } = -0.2f;
     [Export] public Vector2 ReflectionSize { get; set; } = new(1.3f, 1.6f);
-    [Export] public int ReedCount { get; set; } = 40;
 
     /// <summary>Faixa sem juncos (metros para cada lado) onde ele se ajoelha.</summary>
     [Export] public float ReedGap { get; set; } = 1.8f;
@@ -162,6 +166,7 @@ public partial class OpeningDirector : Node3D
         BuildEyes();
         BuildCarousel();
         UpdateReflection();
+        SceneShot.Schedule(this);
 
         if (OS.GetCmdlineUserArgs().FirstOrDefault(a => a.StartsWith("--demo")) is { } demo)
         {
@@ -475,73 +480,41 @@ public partial class OpeningDirector : Node3D
     {
         // Decidido (João, 30/out/2026): o rio fica na boca da gruta de Tênaro, antes de entrar; depois da escolha, o jogo
         // começa jogável na entrada da gruta (Main.StartRegion).
-        AddChild(new WorldEnvironment
+        // O cenário é o da paisagem nova (pedido do João, 13/nov/2026, PENDENCIAS 116): as mesmas peças das regiões,
+        // desenhadas em baixa resolução e ampliadas sem filtro, como a exploração.
+        // Em primeira pessoa o chão fica a um palmo dos olhos: as texturas pedem mais pixels por metro que na
+        // exploração (que repõe a densidade dela ao abrir).
+        RenderingServer.GlobalShaderParameterSet("texel_density", FirstPersonTexelDensity);
+        var layer = new CanvasLayer { Layer = 0 };
+        AddChild(layer);
+        var container = new SubViewportContainer
         {
-            Environment = new Environment
-            {
-                BackgroundMode = Environment.BGMode.Color,
-                BackgroundColor = new Color(0.02f, 0.025f, 0.035f),
-                AmbientLightSource = Environment.AmbientSource.Color,
-                AmbientLightColor = new Color(0.35f, 0.42f, 0.5f),
-                AmbientLightEnergy = AmbientEnergy,
-                FogEnabled = true,
-                FogLightColor = new Color(0.12f, 0.16f, 0.19f),
-                FogDensity = FogDensity,
-            },
-        });
-        AddChild(new DirectionalLight3D
+            Stretch = true,
+            StretchShrink = UiStyle.ExplorationScale,
+            TextureFilter = CanvasItem.TextureFilterEnum.Nearest,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+        };
+        container.SetAnchorsPreset(Control.LayoutPreset.FullRect);
+        layer.AddChild(container);
+        var viewport = new SubViewport { HandleInputLocally = false };
+        container.AddChild(viewport);
+        var world = new Node3D { Name = "Margem" };
+        viewport.AddChild(world);
+
+        world.AddChild(new WorldEnvironment { Environment = ShoreSet.MakeEnvironment(AmbientEnergy, FogDensity) });
+        world.AddChild(new DirectionalLight3D
         {
             RotationDegrees = new Vector3(-35f, 60f, 0f),
             LightColor = new Color(0.6f, 0.7f, 0.85f),
             LightEnergy = MoonEnergy,
+            ShadowEnabled = true,
         });
-
-        // Margem (terra escura) e rio, encostados na linha BankX.
-        var bankWidth = 30f;
-        AddChild(new MeshInstance3D
-        {
-            Mesh = new PlaneMesh
-            {
-                Size = new Vector2(bankWidth, 40f),
-                Material = new StandardMaterial3D { AlbedoColor = new Color(0.09f, 0.08f, 0.07f), Roughness = 1f },
-            },
-            Position = new Vector3(BankX + bankWidth / 2f, 0f, 0f),
-        });
-        AddChild(new MeshInstance3D
-        {
-            Mesh = new PlaneMesh
-            {
-                Size = new Vector2(40f, 40f),
-                Material = new ShaderMaterial { Shader = GD.Load<Shader>(WaterShaderPath) },
-            },
-            Position = new Vector3(BankX - 20f, WaterY, 0f),
-        });
-
-        // Juncos na beira, sempre no mesmo lugar (semente fixa).
-        var rng = new RandomNumberGenerator { Seed = 7 };
-        var reedMaterial = new StandardMaterial3D { AlbedoColor = new Color(0.07f, 0.09f, 0.07f), Roughness = 1f };
-        for (var i = 0; i < ReedCount; i++)
-        {
-            var height = rng.RandfRange(0.5f, 1.1f);
-            var z = rng.RandfRange(-8f, 10f);
-            var x = BankX + rng.RandfRange(-0.1f, 0.5f);
-            // Nenhum junco onde ele se ajoelha: a vista para o rio fica livre.
-            if (Mathf.Abs(z - KneelPoint.Z) < ReedGap)
-            {
-                continue;
-            }
-
-            AddChild(new MeshInstance3D
-            {
-                Mesh = new BoxMesh { Size = new Vector3(0.03f, height, 0.03f), Material = reedMaterial },
-                Position = new Vector3(x, height / 2f, z),
-                RotationDegrees = new Vector3(rng.RandfRange(-8f, 8f), 0f, rng.RandfRange(-8f, 8f)),
-            });
-        }
+        // Nenhum junco onde ele se ajoelha: a vista para o rio fica livre.
+        ShoreSet.Build(world, BankX, WaterY, new Vector2(KneelPoint.X, KneelPoint.Z), ReedGap);
 
         // O reflexo: deitado na água, logo à frente de onde ele se ajoelha, de pé para quem olha de cima.
         _reflection = new ShaderMaterial { Shader = GD.Load<Shader>(ReflectionShaderPath) };
-        AddChild(new MeshInstance3D
+        world.AddChild(new MeshInstance3D
         {
             Mesh = new QuadMesh { Size = ReflectionSize, Material = _reflection },
             Position = new Vector3(KneelPoint.X - LookDistance(), WaterY + 0.01f, KneelPoint.Z),
@@ -549,7 +522,7 @@ public partial class OpeningDirector : Node3D
         });
 
         _camera = new Camera3D { Fov = 70f, Current = true };
-        AddChild(_camera);
+        world.AddChild(_camera);
         PoseCamera(0f);
     }
 

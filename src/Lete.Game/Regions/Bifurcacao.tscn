@@ -381,6 +381,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.75, 1, 13.5)
 [node name="Shape" type="CollisionShape3D" parent="SulB"]
 shape = SubResource("Shape_box4")
 
+[node name="VoltarVeu" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 0, 1.1, 13.9)
+script = ExtResource("47_peca")
+Kind = "veu"
+Seed = 16995
+Size = Vector3(3, 2.2, 0.9)
+Tint = Color(0.62, 0.76, 0.84, 1)
+
+[node name="VoltarLuz" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 12.4)
+light_color = Color(0.62, 0.76, 0.84, 1)
+light_energy = 1.8
+omni_range = 5.5
+
 [node name="Voltar" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 13.4)
 script = ExtResource("8_saida")
@@ -554,6 +568,20 @@ light_color = Color(0.6, 0.7, 0.9, 1)
 light_energy = 1.2
 omni_range = 9
 
+[node name="ParaTartaroVeu" type="Node3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -11.2, 1.9, 0)
+script = ExtResource("47_peca")
+Kind = "veu"
+Seed = 39235
+Size = Vector3(3, 3.8, 0.9)
+Tint = Color(0.62, 0.76, 0.84, 1)
+
+[node name="ParaTartaroLuz" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.6, 1.6, 0)
+light_color = Color(0.62, 0.76, 0.84, 1)
+light_energy = 1.8
+omni_range = 5.5
+
 [node name="ParaTartaro" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 1, 0)
 script = ExtResource("8_saida")
@@ -563,6 +591,20 @@ TargetEntry = "ChegadaBifurcacao"
 [node name="Shape" type="CollisionShape3D" parent="ParaTartaro"]
 shape = SubResource("Shape_box6")
 
+[node name="ParaElisiosVeu" type="Node3D" parent="."]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 11.5, 1.1, 0)
+script = ExtResource("47_peca")
+Kind = "veu"
+Seed = 77928
+Size = Vector3(3, 2.2, 0.9)
+Tint = Color(0.62, 0.76, 0.84, 1)
+
+[node name="ParaElisiosLuz" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1.6, 0)
+light_color = Color(0.62, 0.76, 0.84, 1)
+light_energy = 1.8
+omni_range = 5.5
+
 [node name="ParaElisios" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 1, 0)
 script = ExtResource("8_saida")
@@ -571,6 +613,20 @@ TargetEntry = "ChegadaBifurcacao"
 
 [node name="Shape" type="CollisionShape3D" parent="ParaElisios"]
 shape = SubResource("Shape_box6")
+
+[node name="ParaLeteVeu" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 0, 1.9, -12.8)
+script = ExtResource("47_peca")
+Kind = "veu"
+Seed = 44007
+Size = Vector3(3, 3.8, 0.9)
+Tint = Color(0.62, 0.76, 0.84, 1)
+
+[node name="ParaLeteLuz" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, -12.2)
+light_color = Color(0.62, 0.76, 0.84, 1)
+light_energy = 1.8
+omni_range = 5.5
 
 [node name="ParaLete" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -12.6)

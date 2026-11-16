@@ -663,6 +663,20 @@ JournalKey = "obj.asfodelos.planicie"
 [node name="Reach" type="CollisionShape3D" parent="Planicie"]
 shape = SubResource("Shape_alcance")
 
+[node name="ParaAqueronteVeu" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 0, 1.1, 13.5)
+script = ExtResource("47_peca")
+Kind = "veu"
+Seed = 29993
+Size = Vector3(2, 2.2, 0.9)
+Tint = Color(0.62, 0.76, 0.84, 1)
+
+[node name="ParaAqueronteLuz" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 12)
+light_color = Color(0.62, 0.76, 0.84, 1)
+light_energy = 1.8
+omni_range = 5.5
+
 [node name="ParaAqueronte" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 13)
 script = ExtResource("8_saida")
@@ -748,6 +762,22 @@ Seed = 38643
 Size = Vector3(3, 3.8, 0.9)
 Tint = Color(0.26, 0.36, 0.38, 1)
 
+[node name="ParaLutoVeu" type="Node3D" parent="." groups=["mare"]]
+metadata/mare_min = 2
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, -6, 1.9, -12.8)
+script = ExtResource("47_peca")
+Kind = "veu"
+Seed = 68480
+Size = Vector3(2.6, 3.8, 0.9)
+Tint = Color(0.62, 0.76, 0.84, 1)
+
+[node name="ParaLutoLuz" type="OmniLight3D" parent="." groups=["mare"]]
+metadata/mare_min = 2
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.6, -12.2)
+light_color = Color(0.62, 0.76, 0.84, 1)
+light_energy = 1.8
+omni_range = 5.5
+
 [node name="ParaLuto" type="Area3D" parent="." groups=["mare"]]
 metadata/mare_min = 2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, -12.6)
@@ -758,6 +788,22 @@ TargetEntry = "ChegadaAsfodelos"
 [node name="Shape" type="CollisionShape3D" parent="ParaLuto"]
 shape = SubResource("Shape_box7")
 
+[node name="ParaTribunalVeu" type="Node3D" parent="." groups=["mare"]]
+metadata/mare_min = 2
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 0, 1.9, -12.8)
+script = ExtResource("47_peca")
+Kind = "veu"
+Seed = 12411
+Size = Vector3(2.6, 3.8, 0.9)
+Tint = Color(0.62, 0.76, 0.84, 1)
+
+[node name="ParaTribunalLuz" type="OmniLight3D" parent="." groups=["mare"]]
+metadata/mare_min = 2
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, -12.2)
+light_color = Color(0.62, 0.76, 0.84, 1)
+light_energy = 1.8
+omni_range = 5.5
+
 [node name="ParaTribunal" type="Area3D" parent="." groups=["mare"]]
 metadata/mare_min = 2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -12.6)
@@ -767,6 +813,22 @@ TargetEntry = "ChegadaAsfodelos"
 
 [node name="Shape" type="CollisionShape3D" parent="ParaTribunal"]
 shape = SubResource("Shape_box7")
+
+[node name="ParaGuerreirosVeu" type="Node3D" parent="." groups=["mare"]]
+metadata/mare_min = 2
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 6, 1.9, -12.8)
+script = ExtResource("47_peca")
+Kind = "veu"
+Seed = 54920
+Size = Vector3(2.6, 3.8, 0.9)
+Tint = Color(0.62, 0.76, 0.84, 1)
+
+[node name="ParaGuerreirosLuz" type="OmniLight3D" parent="." groups=["mare"]]
+metadata/mare_min = 2
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.6, -12.2)
+light_color = Color(0.62, 0.76, 0.84, 1)
+light_energy = 1.8
+omni_range = 5.5
 
 [node name="ParaGuerreiros" type="Area3D" parent="." groups=["mare"]]
 metadata/mare_min = 2
@@ -785,6 +847,20 @@ JournalKey = "obj.asfodelos.caminho_estige"
 
 [node name="Reach" type="CollisionShape3D" parent="CaminhoEstige"]
 shape = SubResource("Shape_alcance")
+
+[node name="ParaEstigeVeu" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 12, 1.9, -12.8)
+script = ExtResource("47_peca")
+Kind = "veu"
+Seed = 7842
+Size = Vector3(2.6, 3.8, 0.9)
+Tint = Color(0.62, 0.76, 0.84, 1)
+
+[node name="ParaEstigeLuz" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1.6, -12.2)
+light_color = Color(0.62, 0.76, 0.84, 1)
+light_energy = 1.8
+omni_range = 5.5
 
 [node name="ParaEstige" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1, -12.6)

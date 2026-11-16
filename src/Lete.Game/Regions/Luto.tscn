@@ -375,6 +375,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.75, 1, 13.5)
 [node name="Shape" type="CollisionShape3D" parent="SulB"]
 shape = SubResource("Shape_box4")
 
+[node name="ParaAsfodelosVeu" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 0, 1.1, 13.9)
+script = ExtResource("47_peca")
+Kind = "veu"
+Seed = 45311
+Size = Vector3(3, 2.2, 0.9)
+Tint = Color(0.62, 0.76, 0.84, 1)
+
+[node name="ParaAsfodelosLuz" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 12.4)
+light_color = Color(0.62, 0.76, 0.84, 1)
+light_energy = 1.8
+omni_range = 5.5
+
 [node name="ParaAsfodelos" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 13.4)
 script = ExtResource("8_saida")

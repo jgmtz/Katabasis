@@ -239,3 +239,41 @@ sprites de sempre por cima. Piloto: Asfódelos.
   sul ou o leste) fica ao norte e a oeste; ao sul e a leste, só coisas baixas (rio, cercas, bancas), para não tapar o
   jogador. A frente de uma peça é o +Z dela; `rot=90` vira a frente para o leste.
 
+## Personagens dentro do cenário (16/nov/2026, PENDÊNCIA 118)
+
+Decisão do João: os personagens do mapa recebem o mesmo cuidado do cenário, por código, sem mudar os PNGs.
+
+- **`CharacterLook`** (`src/Lete.Game/World/`): entra sozinho em todo sprite de mapa (`MapSprite`, `WalkingCharacter`,
+  `WanderingShade`). Põe o shader `personagem` no sprite e deita no chão a sombra de contato e a sombra projetada.
+- **Shader `personagem`:** volume falso pela silhueta (a luz pega de lado e por trás, em degraus), contorno igualado
+  (`outline_*`), pés escurecidos, respiração de um pixel quando parado, perda de cor da Marca e, com `shade`, a sombra
+  dos mortos (ondula embaixo, se desfaz em pontilhado, flutua).
+- **Shader `sombra_projetada`:** a silhueta do quadro atual deitada para longe da chama mais forte ao alcance; sem
+  chama, cai para a esquerda e um pouco para a frente da tela, onde aparece inteira. Fica acima das lâminas de chão.
+- **Quem é o quê:** o perfil sai da pasta da arte. `art/sprites/sombras/<figura>` é sombra dos mortos, menos as
+  figuras de `CharacterLook.SolidFigures` (deuses, monstros, personificações, castigados); `NoBreath` lista as
+  figuras que não respiram por código (pedra, grupo deitado). Quem tem o parado desenhado em quadros fica só com ele.
+- **Câmera:** no render em baixa resolução anda na grade de pixels; a sobra, menor que um pixel, desloca a imagem
+  (`CameraRig.SubPixelMoved` → `Main.ShiftView`), que tem um pixel de arte de folga em cada lado.
+
+## Palco da batalha (16/nov/2026, PENDÊNCIA 119)
+
+- **`BattleSet`** (`src/Lete.Game/Combat/`): monta o palco com as peças da paisagem (mancha de chão, névoa, braseiro e
+  a luz dele). Na batalha a unidade do mundo é a altura de um personagem; as peças entram reduzidas, e o chão usa
+  80 texels por unidade (metade da densidade da arte de 160 px).
+- **`BattleAmbience`:** o que o palco herda do mapa, lido quando a luta começa: a textura e o brilho da mancha de chão
+  sob o jogador, a luz ambiente e a cor da névoa da região.
+- **Shader `flash`:** além de tinta, piscada e desintegração, recebe do palco `place_tint`, `fire_*` (fio de luz na
+  borda virada para a chama), `mist_*` (névoa nos pés), `breath` e `shade`. A sombra no chão usa o
+  `sombra_projetada` do mapa.
+
+## Luz do protagonista, transições e fundo da luta (16/nov/2026, PENDÊNCIA 120)
+
+- **Luz do protagonista:** `Player` cria uma `OmniLight3D` (`Aura`) morna e fraca, um pouco à frente e acima do corpo. Com a Marca
+  ela perde força e esfria na medida da perda de cor e se apaga na faixa alta (`MarkLook.AuraOf`; decisão do João).
+- **Véu das trocas de cena:** `UI/SceneVeil` fecha a névoa pontilhada (shader `veu_transicao`) antes de trocar entre
+  mapa e luta e a abre quando a cena nova assenta. Vive na raiz da árvore, fora das cenas.
+- **Fundo da luta:** `content/rules/palco_batalha.json`, por região (x e y no chão do palco, em alturas de personagem;
+  tamanho das peças em metros). As peças mais ao fundo escurecem pelo parâmetro por instância `recuo` dos shaders
+  `cenario` e `flora` (1 no mapa). A flora tem `CardScale` para o tamanho dos cartões fora do mapa.
+

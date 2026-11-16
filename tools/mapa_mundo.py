@@ -1,6 +1,6 @@
 """Desenha o mapa esquemático do mundo: as regiões, o que há em cada uma e por onde se passa de uma a outra.
 
-Não é o mapa do jogo (o jogo não tem mapa: o Diário é o único guia); é uma folha de consulta para o desenvolvimento.
+Não é o mapa do jogo (esse é a aba Mapa do menu, em content/rules/mapa.json); é uma folha de consulta para o desenvolvimento.
 As ligações seguem as passagens de tools/blockout_regioes.py.
 
 Uso (de dentro de lete-projeto/): python tools/mapa_mundo.py   (gera docs/MAPA_MUNDO.png)
@@ -86,7 +86,7 @@ def main():
     img = Image.new('RGB', (W, H), FUNDO)
     d = ImageDraw.Draw(img)
     d.text((60, 50), 'Katábasis · mapa das regiões', font=F_TITULO, fill=TINTA)
-    d.multiline_text((62, 116), 'Folha de consulta do desenvolvimento (o jogo não mostra mapa: o Diário é o único guia).\n'
+    d.multiline_text((62, 116), 'Folha de consulta do desenvolvimento (o mapa do jogo é a aba Mapa do menu, que só mostra o que já foi visitado).\n'
                      'Lê-se de baixo para cima: a descida começa em Cabo Tênaro e termina nos Portões.\n'
                      'Toda passagem volta pelo mesmo caminho; em cada região há uma Trívia (descansar, salvar e viajar pela tocha).',
                      font=F_TEXTO, fill=FRACA, spacing=6)

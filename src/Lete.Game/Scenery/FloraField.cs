@@ -21,6 +21,9 @@ public partial class FloraField : Node3D
 
     [Export] public int Count { get; set; } = 400;
 
+    /// <summary>Tamanho dos cartões em relação ao do mapa (o palco da batalha, em alturas de personagem, usa 1/1,7).</summary>
+    [Export] public float CardScale { get; set; } = 1f;
+
     [Export] public int Seed { get; set; }
 
     /// <summary>Quantas variantes a folha tem, lado a lado.</summary>
@@ -39,7 +42,7 @@ public partial class FloraField : Node3D
         var material = SceneryMaterials.Own("flora");
         material.SetShaderParameter("folha", texture);
         material.SetShaderParameter("variantes", (float)Variants);
-        material.SetShaderParameter("tamanho", size);
+        material.SetShaderParameter("tamanho", size * CardScale);
 
         var rng = new Random(Seed);
         var origin = GlobalPosition;

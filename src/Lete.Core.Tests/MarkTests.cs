@@ -137,4 +137,14 @@ public class MarkTests
         Assert.False(MarkLook.CastsShadow(MarkBand.High));
         Assert.NotEmpty(new MarkLook(0.8f, 0.5f).Validate());
     }
+
+    [Fact]
+    public void Look_AuraFadesWithTheColorAndGoesOutWhenHigh()
+    {
+        var look = new MarkLook(MidDesaturation: 0.3f, HighDesaturation: 0.7f);
+
+        Assert.Equal(1f, look.AuraOf(MarkBand.Low));
+        Assert.Equal(0.7f, look.AuraOf(MarkBand.Mid), 3);
+        Assert.Equal(0f, look.AuraOf(MarkBand.High));
+    }
 }

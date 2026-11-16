@@ -35,6 +35,17 @@ public partial class WanderingShade : ShadeEncounter
     private Vector3 _facing = Vector3.Back;
     private ScreenDirection _direction = ScreenDirection.Down;
     private bool _armed;
+    private float _speed;
+
+    /// <summary>Rampa do andar (m/s²), velocidade mínima ao frear e distância em que dá a ponta por alcançada.</summary>
+    private const float Accel = 1.2f;
+    private const float Brake = 0.9f;
+    private const float MinSpeed = 0.12f;
+    private const float ArriveDistance = 0.03f;
+
+    /// <summary>Fração final da pausa em que ela já se vira para o caminho de volta.</summary>
+    private const float TurnAtPauseFraction = 0.45f;
+    private CharacterLook _look = null!;
 
     /// <summary>O encontro da última luta que começou no mapa (a cena recarrega na volta).</summary>
     private static string? _lastFought;
@@ -62,6 +73,7 @@ public partial class WanderingShade : ShadeEncounter
         _sprite.FrameChanged += AlignToGround;
         _sprite.AnimationChanged += AlignToGround;
         _sprite.Play(WalkSpriteSet.IdleAnimation(_direction));
+        _look = CharacterLook.Attach(_sprite);
         base._Ready();
     }
 
@@ -117,26 +129,42 @@ public partial class WanderingShade : ShadeEncounter
 
     private void Wander(float delta)
     {
+        var target = _outward ? _home + WanderOffset : _home;
         if (_pause > 0f)
         {
             _pause -= delta;
+
+            // Na segunda metade da pausa ela já se vira para onde vai, em vez de girar no estalo ao partir.
+            var ahead = target - Position;
+            if (_pause < PauseSeconds * TurnAtPauseFraction && ahead.LengthSquared() > 0.0001f)
+            {
+                _facing = ahead.Normalized();
+            }
+
+            _speed = 0f;
             Play(moving: false);
             return;
         }
 
-        var target = _outward ? _home + WanderOffset : _home;
         var step = target - Position;
-        if (step.Length() <= WalkSpeed * delta)
+        var distance = step.Length();
+        if (distance <= ArriveDistance)
         {
             Position = target;
             _outward = !_outward;
             _pause = PauseSeconds;
+            _speed = 0f;
             Play(moving: false);
             return;
         }
 
-        _facing = step.Normalized();
-        Position += _facing * WalkSpeed * delta;
+        // Parte devagar, anda e freia ao chegar: a velocidade segue uma rampa, não um degrau.
+        var braking = Mathf.Sqrt(2f * Brake * distance);
+        var wanted = Mathf.Min(WalkSpeed, Mathf.Max(braking, MinSpeed));
+        _speed = Mathf.MoveToward(_speed, wanted, (wanted > _speed ? Accel : Brake * 2f) * delta);
+        _facing = step / distance;
+        Position += _facing * Mathf.Min(_speed * delta, distance);
+        _sprite.SpeedScale = Mathf.Clamp(_speed / Mathf.Max(WalkSpeed, 0.001f), 0.45f, 1f);
         Play(moving: true);
     }
 
@@ -152,6 +180,11 @@ public partial class WanderingShade : ShadeEncounter
             _direction = WalkRules.Resolve(screen, _direction);
         }
 
+        _look.Moving = moving;
+        if (!moving)
+        {
+            _sprite.SpeedScale = 1f;
+        }
         var animation = moving ? WalkSpriteSet.WalkAnimation(_direction) : WalkSpriteSet.IdleAnimation(_direction);
         if (_sprite.Animation != animation)
         {

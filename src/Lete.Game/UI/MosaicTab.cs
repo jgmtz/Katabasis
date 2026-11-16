@@ -38,6 +38,11 @@ public partial class MosaicTab : HBoxContainer, IMenuTab
 
     public string ShortcutAction => "mosaic";
 
+    public string BackgroundPath => $"{MenuArt.Folder}/fundo_mosaico.png";
+
+    /// <summary>Dentro da cercadura do piso.</summary>
+    public Rect2I ContentArea => new(40, 64, 560, 262);
+
     public Control View => this;
 
     public override void _Ready()

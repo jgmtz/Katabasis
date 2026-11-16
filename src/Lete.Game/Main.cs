@@ -77,6 +77,9 @@ public partial class Main : Node
     private readonly HashSet<string> _requestedScenes = new();
 
     private SubViewportContainer _container = null!;
+
+    /// <summary>Folga da imagem do mundo além da tela, em pixels da tela (ver <see cref="ShiftView"/>).</summary>
+    private int _viewMargin;
     private Node3D _world = null!;
     private Player _player = null!;
     private CameraRig _cameraRig = null!;
@@ -120,6 +123,7 @@ public partial class Main : Node
             _player.SelectCharacter(chosen);
         }
         _cameraRig = _world.GetNode<CameraRig>("CameraRig");
+        _cameraRig.SubPixelMoved += ShiftView;
 
         _regionMist = new ColorRect { Color = RegionMistColor, MouseFilter = Control.MouseFilterEnum.Ignore };
         _regionMist.SetAnchorsPreset(Control.LayoutPreset.FullRect);
@@ -170,6 +174,7 @@ public partial class Main : Node
         ApplyPixelSettings();
         RequestNeighborScenes();
         _ = RunCommandLineAsync();
+        UI.SceneVeil.Lift(GetTree());
     }
 
     public void SetLowResRender(bool lowRes)
@@ -425,6 +430,9 @@ public partial class Main : Node
     private void GoToBattle(string encounterId, Vector3 returnPosition)
     {
         _arrival = new Arrival(RegionId, null, Save: false, returnPosition);
+        Combat.BattleAmbience.Capture(_world, _player.GlobalPosition, RegionId);
+        // Enquanto o véu fecha, o jogador não anda mais.
+        _player.InputEnabled = false;
         EncounterTransit.Begin(GetTree(), GameRoot.Instance.Encounters.Definitions[encounterId]);
     }
 
@@ -567,6 +575,7 @@ public partial class Main : Node
         _player.SetMarkLook(
             isProtagonist ? root.MarkLook.DesaturationOf(band) : 0f,
             !isProtagonist || MarkLook.CastsShadow(band));
+        _player.SetAura(isProtagonist ? root.MarkLook.AuraOf(band) : 1f);
     }
 
     private void RefreshPlayerInput()
@@ -574,6 +583,16 @@ public partial class Main : Node
         var talking = _dialogueScreen.IsOpen || _shop.IsOpen || _trivia.IsOpen || _trial.IsOpen;
         _hud.SetSuppressed(_menu.IsOpen || _heavyScreen.IsOpen || talking);
         _player.InputEnabled = !_menu.IsOpen && !_debug.IsOpen && !_heavyScreen.IsOpen && !talking;
+    }
+
+    /// <summary>Desloca a imagem do mundo pela sobra da câmera (em pixels do render; y para cima).</summary>
+    private void ShiftView(Vector2 rest)
+    {
+        var shift = new Vector2(-rest.X, rest.Y) * _container.StretchShrink;
+        _container.OffsetLeft = -_viewMargin + shift.X;
+        _container.OffsetRight = _viewMargin + shift.X;
+        _container.OffsetTop = -_viewMargin + shift.Y;
+        _container.OffsetBottom = _viewMargin + shift.Y;
     }
 
     /// <summary>Aplica a mesma densidade de pixel a sprites, texturas do cenário, câmera e viewport.</summary>
@@ -587,8 +606,15 @@ public partial class Main : Node
         {
             sprite.PixelSize = density.PixelSize;
         }
-        _cameraRig.Camera.Size = density.CameraSize;
         _container.StretchShrink = LowResRender ? density.LowResShrink : 1;
+
+        // No render em baixa resolução a câmera anda na grade de pixels e a imagem é deslocada pela sobra (rolagem
+        // lisa sem o cenário tremer). Para o deslocamento não mostrar a borda, a imagem ganha um pixel de arte de
+        // folga em cada lado, e a câmera cresce na mesma proporção (o tamanho na tela não muda).
+        _viewMargin = LowResRender ? density.LowResShrink : 0;
+        _cameraRig.SnapToPixels = LowResRender;
+        _cameraRig.Camera.Size = density.CameraSize * (viewportHeight + 2f * _viewMargin) / viewportHeight;
+        ShiftView(Vector2.Zero);
 
         // As peças do cenário (paisagem HD-2D) leem a mesma densidade por um parâmetro global dos shaders.
         RenderingServer.GlobalShaderParameterSet("texel_density", density.PixelsPerMeter);

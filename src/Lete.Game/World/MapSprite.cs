@@ -67,6 +67,8 @@ public partial class MapSprite : Sprite3D
         {
             Offset = new Vector2(0, texture.GetHeight() / 2f);
         }
+
+        CharacterLook.Attach(this);
     }
 
     public override void _Process(double delta)

@@ -5,23 +5,30 @@ using Godot;
 namespace Lete.Game.UI;
 
 /// <summary>
-/// Menu do jogo com abas (Diário, Mosaico e Inventário; decisão do João, 29/out/2026). Cada aba tem a sua tecla, que é só um
-/// atalho: abre o menu direto nela, ou troca para ela se o menu já estiver aberto, ou fecha se ela já estiver na
-/// frente. Dentro do menu, <c>menu_tab_prev</c>/<c>menu_tab_next</c> (ou o clique no nome) passam de uma aba para
-/// outra, e <c>cancel</c> fecha.
+/// Menu do jogo com abas (Diário, Mosaico, Inventário e Mapa). Cada aba tem a sua tecla, que é só um atalho: abre o
+/// menu direto nela, ou troca para ela se o menu já estiver aberto, ou fecha se ela já estiver na frente. Dentro do
+/// menu, <c>menu_tab_prev</c>/<c>menu_tab_next</c> (ou o clique no nome) passam de uma aba para outra, e
+/// <c>cancel</c> fecha.
+/// Tela cheia (decisão do João, 13/nov/2026, PENDENCIAS 115): cada aba é um objeto do mundo sobre a mesa, desenhado
+/// numa tela de 640×360 pixels da arte e mostrado a 3×; em telas mais estreitas que 16:9, a tela inteira encolhe.
 /// </summary>
 public partial class GameMenu : CanvasLayer
 {
-    /// <summary>Tamanho do painel em 1080p (o conteúdo da maior aba, a silhueta de 160 px a 3×, cabe nele).</summary>
-    [Export] public Vector2 PanelSize { get; set; } = new(1280, 760);
+    /// <summary>A cor do tampo da mesa, que sobra em volta em telas mais altas ou mais largas que 16:9.</summary>
+    private static readonly Color TableColor = new("#171210");
+
+    /// <summary>Distância entre os nomes das abas e margem da faixa de cima, em pixels da arte.</summary>
+    private const int HeaderGap = 14;
+    private const int HeaderMargin = 20;
 
     private readonly List<IMenuTab> _tabs = new();
     private readonly List<Button> _headers = new();
-    private PanelContainer _panel = null!;
-    private Control _content = null!;
+    private Control _root = null!;
+    private Control _stage = null!;
+    private TextureRect _background = null!;
     private Label _hint = null!;
 
-    public bool IsOpen => _panel.Visible;
+    public bool IsOpen => _root.Visible;
 
     public int Current { get; private set; }
 
@@ -33,43 +40,64 @@ public partial class GameMenu : CanvasLayer
         _tabs.Add(new JournalTab());
         _tabs.Add(new MosaicTab());
         _tabs.Add(new InventoryTab());
+        _tabs.Add(new MapTab());
 
-        _panel = UiStyle.MakePanel();
-        _panel.CustomMinimumSize = PanelSize;
-        AddChild(_panel);
-        _panel.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.Center, Control.LayoutPresetMode.KeepSize);
+        _root = new Control { Theme = UiStyle.BuildTheme(UiStyle.ExplorationScale) };
+        _root.SetAnchorsPreset(Control.LayoutPreset.FullRect);
+        AddChild(_root);
+        var table = new ColorRect { Color = TableColor };
+        table.SetAnchorsPreset(Control.LayoutPreset.FullRect);
+        _root.AddChild(table);
 
-        var column = new VBoxContainer();
-        column.AddThemeConstantOverride("separation", 24);
-        _panel.AddChild(column);
+        var size = MenuArt.Px((Vector2)MenuArt.ArtSize);
+        _stage = new Control { Size = size, CustomMinimumSize = size };
+        _root.AddChild(_stage);
+        _background = new TextureRect
+        {
+            TextureFilter = CanvasItem.TextureFilterEnum.Nearest,
+            ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+            StretchMode = TextureRect.StretchModeEnum.Scale,
+            Size = size,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+        };
+        _stage.AddChild(_background);
 
-        var headers = new HBoxContainer();
-        headers.AddThemeConstantOverride("separation", 48);
-        column.AddChild(headers);
+        foreach (var tab in _tabs)
+        {
+            _stage.AddChild(tab.View);
+            tab.View.Position = MenuArt.Px((Vector2)tab.ContentArea.Position);
+            tab.View.Size = MenuArt.Px((Vector2)tab.ContentArea.Size);
+        }
+
+        var headers = new HBoxContainer
+        {
+            Position = MenuArt.Px(new Vector2(HeaderMargin, 0)),
+            Size = MenuArt.Px(new Vector2(MenuArt.ArtSize.X - 2 * HeaderMargin, MenuArt.HeaderHeight)),
+            Alignment = BoxContainer.AlignmentMode.Begin,
+        };
+        headers.AddThemeConstantOverride("separation", MenuArt.Px(HeaderGap));
+        _stage.AddChild(headers);
         for (var i = 0; i < _tabs.Count; i++)
         {
             var index = i;
-            var header = new Button { Flat = true, FocusMode = Control.FocusModeEnum.None };
+            var header = new Button { Flat = true, FocusMode = Control.FocusModeEnum.None, SizeFlagsVertical = Control.SizeFlags.ShrinkCenter };
             header.AddThemeFontSizeOverride("font_size", UiStyle.TitleFontSize);
             header.Pressed += () => Show(index);
             headers.AddChild(header);
             _headers.Add(header);
         }
 
-        _content = new MarginContainer { SizeFlagsVertical = Control.SizeFlags.ExpandFill };
-        column.AddChild(_content);
-        foreach (var tab in _tabs)
-        {
-            tab.View.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
-            _content.AddChild(tab.View);
-        }
-
         _hint = UiStyle.MakeLabel("");
         _hint.HorizontalAlignment = HorizontalAlignment.Right;
+        _hint.VerticalAlignment = VerticalAlignment.Center;
         _hint.AddThemeColorOverride("font_color", UiStyle.Palette.IvoryDim);
-        column.AddChild(_hint);
+        _hint.Position = headers.Position;
+        _hint.Size = headers.Size;
+        _hint.MouseFilter = Control.MouseFilterEnum.Ignore;
+        _stage.AddChild(_hint);
 
-        _panel.Visible = false;
+        _root.Visible = false;
+        _root.Resized += FitStage;
         GameRoot.Instance.StateReplaced += RefreshTexts;
     }
 
@@ -123,7 +151,7 @@ public partial class GameMenu : CanvasLayer
         GetViewport().SetInputAsHandled();
     }
 
-    /// <summary>Abre o menu na aba do atalho pedido (<c>journal</c>, <c>inventory</c>).</summary>
+    /// <summary>Abre o menu na aba do atalho pedido (<c>journal</c>, <c>inventory</c>, <c>map</c>).</summary>
     public void Open(string shortcutAction) => Open(_tabs.FindIndex(t => t.ShortcutAction == shortcutAction));
 
     public void Open(int index)
@@ -139,10 +167,11 @@ public partial class GameMenu : CanvasLayer
     {
         if (open)
         {
+            FitStage();
             RefreshTexts();
         }
 
-        _panel.Visible = open;
+        _root.Visible = open;
         OpenChanged?.Invoke();
     }
 
@@ -161,6 +190,7 @@ public partial class GameMenu : CanvasLayer
     private void Show(int index)
     {
         Current = (index % _tabs.Count + _tabs.Count) % _tabs.Count;
+        _background.Texture = GD.Load<Texture2D>(_tabs[Current].BackgroundPath);
         for (var i = 0; i < _tabs.Count; i++)
         {
             _tabs[i].View.Visible = i == Current;
@@ -172,5 +202,19 @@ public partial class GameMenu : CanvasLayer
         }
 
         _tabs[Current].Refresh();
+    }
+
+    /// <summary>Centraliza a tela do menu e, se a janela for menor que ela em algum lado, encolhe a tela inteira.</summary>
+    private void FitStage()
+    {
+        var available = _root.Size;
+        if (available.X <= 0 || available.Y <= 0)
+        {
+            return;
+        }
+
+        var scale = Mathf.Min(1f, Mathf.Min(available.X / _stage.Size.X, available.Y / _stage.Size.Y));
+        _stage.Scale = new Vector2(scale, scale);
+        _stage.Position = ((available - _stage.Size * scale) / 2f).Floor();
     }
 }

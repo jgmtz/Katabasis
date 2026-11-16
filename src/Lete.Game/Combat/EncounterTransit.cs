@@ -18,7 +18,7 @@ public static class EncounterTransit
     public static void Begin(SceneTree tree, Encounter encounter)
     {
         Pending = encounter;
-        tree.CallDeferred(SceneTree.MethodName.ChangeSceneToFile, BattleScene);
+        UI.SceneVeil.CloseThen(tree, () => tree.ChangeSceneToFile(BattleScene));
     }
 
     /// <summary>Depois de uma derrota de verdade, a Trívia onde o jogador acorda (o mapa lê uma vez só).</summary>
@@ -29,7 +29,7 @@ public static class EncounterTransit
     {
         Pending = null;
         WakeTrivia = wakeTrivia;
-        tree.CallDeferred(SceneTree.MethodName.ChangeSceneToFile, MapScene);
+        UI.SceneVeil.CloseThen(tree, () => tree.ChangeSceneToFile(MapScene));
     }
 
     /// <summary>A Trívia onde acordar, se houver; lida uma vez.</summary>

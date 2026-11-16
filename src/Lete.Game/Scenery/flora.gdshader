@@ -8,6 +8,8 @@ uniform float variantes = 4.0;
 uniform vec2 tamanho = vec2(0.5, 1.2);
 uniform float vento = 0.06;
 uniform float brilho = 1.0;
+// Por campo: quanto ele afunda no escuro do fundo (1 = nada).
+instance uniform float recuo = 1.0;
 
 varying float variante;
 
@@ -29,6 +31,6 @@ void fragment() {
 	if (texel.a < 0.5) {
 		discard;
 	}
-	ALBEDO = texel.rgb * brilho;
+	ALBEDO = (texel.rgb * brilho) * recuo;
 	ROUGHNESS = 1.0;
 }

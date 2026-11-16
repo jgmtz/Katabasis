@@ -16,6 +16,28 @@ public partial class BattleActor : Node3D
     /// <summary>Tamanho da sombra de blob no chão, em unidades do mundo.</summary>
     [Export] public Vector2 BlobSize { get; set; } = new(0.5f, 0.25f);
 
+    private static readonly Shader ShadowShader = GD.Load<Shader>("res://src/Lete.Game/World/sombra_projetada.gdshader");
+
+    /// <summary>Força da luz do braseiro no corpo: um vivo e uma sombra (que a luz quase atravessa).</summary>
+    private const float LivingFireStrength = 1.3f;
+    private const float SpiritFireStrength = 0.55f;
+
+    /// <summary>Até que altura do corpo a névoa do chão sobe (fração da altura da arte).</summary>
+    private const float MistHeight = 0.09f;
+
+    /// <summary>Quanto de sombra dos mortos (barra que ondula e se desfaz) as sombras ganham.</summary>
+    private const float SpiritShade = 0.6f;
+
+    /// <summary>Sombra projetada: comprimento (em alturas), força de um vivo e de uma sombra, altura sobre o chão.</summary>
+    private const float ShadowReach = 0.85f;
+    private const float LivingShadow = 0.6f;
+    private const float SpiritShadow = 0.22f;
+    private const float ShadowLift = 0.008f;
+
+    private Vector3? _firePosition;
+    private MeshInstance3D? _shadow;
+    private ShaderMaterial? _shadowMaterial;
+
     private Node3D _body = null!;
     private Sprite3D _sprite = null!;
     private ShaderMaterial _material = null!;
@@ -234,7 +256,11 @@ public partial class BattleActor : Node3D
             sprite.PixelSize = _sprite.PixelSize;
             sprite.Offset = _sprite.Offset;
             sprite.FlipH = _sprite.FlipH;
-            foreach (var param in new[] { "tex_nearest", "tex_linear", "smooth_filter", "flash", "fade", "dissolve" })
+            foreach (var param in new[]
+                     {
+                         "tex_nearest", "tex_linear", "smooth_filter", "flash", "fade", "dissolve", "place_tint", "fire_color",
+                         "fire_dir", "fire_strength", "mist_color", "mist_height", "shade", "phase",
+                     })
             {
                 material.SetShaderParameter(param, _material.GetShaderParameter(param));
             }
@@ -286,8 +312,71 @@ public partial class BattleActor : Node3D
         ShowIdleFrame(0);
     }
 
+    /// <summary>
+    /// A luz do palco (<see cref="BattleSet"/>): onde está a chama, a cor dela, a tinta do lugar e a névoa nos pés.
+    /// Liga também a sombra projetada no chão, para longe da chama.
+    /// </summary>
+    public void SetStageLight(Vector3 firePosition, Color fireColor, Color placeTint, Color mistColor)
+    {
+        _firePosition = firePosition;
+        _material.SetShaderParameter("fire_color", fireColor);
+        _material.SetShaderParameter("fire_strength", IsSpirit ? SpiritFireStrength : LivingFireStrength);
+        _material.SetShaderParameter("place_tint", placeTint);
+        _material.SetShaderParameter("mist_color", mistColor);
+        _material.SetShaderParameter("mist_height", MistHeight);
+        _material.SetShaderParameter("shade", IsSpirit ? SpiritShade : 0f);
+        _material.SetShaderParameter("phase", (float)(GD.Randi() % 628) / 100f);
+
+        _shadowMaterial = new ShaderMaterial { Shader = ShadowShader, RenderPriority = -1 };
+        _shadowMaterial.SetShaderParameter("lift", ShadowLift);
+        AddChild(_shadow = new MeshInstance3D
+        {
+            Name = "Shadow",
+            Mesh = new QuadMesh { Size = Vector2.One },
+            MaterialOverride = _shadowMaterial,
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
+            CustomAabb = new Aabb(new Vector3(-8, -1, -8), new Vector3(16, 2, 16)),
+        });
+    }
+
+    /// <summary>Um parâmetro do shader do corpo, ou o padrão enquanto ninguém o definiu.</summary>
+    private float Param(string name, float fallback) =>
+        _material.GetShaderParameter(name) is { VariantType: Variant.Type.Float } value ? value.AsSingle() : fallback;
+
+    /// <summary>A sombra no chão acompanha o quadro, o avanço do golpe e o sumiço do disco.</summary>
+    private void UpdateStageShadow()
+    {
+        if (_shadow is null || _shadowMaterial is null || _firePosition is not { } fire || _sprite.Texture is not { } texture)
+        {
+            return;
+        }
+
+        var away = GlobalPosition - fire;
+        away.Y = 0f;
+        var along = away.LengthSquared() > 0.0001f ? away.Normalized() : Vector3.Back;
+        var across = new Vector3(-along.Z, 0f, along.X);
+        if (across.Dot(GlobalBasis.X) < 0f)
+        {
+            across = -across;
+        }
+
+        var width = texture.GetWidth() * _sprite.PixelSize * _depthScale;
+        var gone = Param("dissolve", 0f) > 0f ? 0f : Param("fade", 1f);
+        _shadow.Visible = _castsShadow && _blob.Visible;
+        _shadowMaterial.SetShaderParameter("sprite_texture", texture);
+        _shadowMaterial.SetShaderParameter("reach", along * _height * _depthScale * ShadowReach);
+        _shadowMaterial.SetShaderParameter("width", across * width);
+        _shadowMaterial.SetShaderParameter("flip", _sprite.FlipH ? 1f : 0f);
+        _shadowMaterial.SetShaderParameter("strength", (IsSpirit ? SpiritShadow : LivingShadow) * gone * (1f - _blob.Transparency));
+
+        // A luz no corpo vem do lado da tela em que a chama está.
+        var toFire = fire - GlobalPosition;
+        _material.SetShaderParameter("fire_dir", new Vector2(toFire.Dot(GlobalBasis.X), 0.35f).Normalized());
+    }
+
     public override void _Process(double delta)
     {
+        UpdateStageShadow();
         if (_reflections.Count > 0)
         {
             CopyToReflections();
@@ -326,6 +415,13 @@ public partial class BattleActor : Node3D
             : Tuning.BreathePixels * WorldPerScreenPixel / Scale.Y;
         if (IsSpirit && _idleFrames is not null)
         {
+            return;
+        }
+
+        if (!IsSpirit && _firePosition is not null)
+        {
+            // No palco, o vivo respira pelo peito (um pixel da arte), sem o corpo inteiro subir e descer.
+            _material.SetShaderParameter("breath", 1f);
             return;
         }
 

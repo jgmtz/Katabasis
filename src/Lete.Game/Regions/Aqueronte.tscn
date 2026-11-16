@@ -540,6 +540,20 @@ Kind = "nevoa"
 Seed = 92449
 Size = Vector3(60, 0.5, 14)
 
+[node name="ParaVestibuloVeu" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, -0, 0, 1, 0, 1.1, 8.4)
+script = ExtResource("47_peca")
+Kind = "veu"
+Seed = 67326
+Size = Vector3(3, 2.2, 0.9)
+Tint = Color(0.62, 0.76, 0.84, 1)
+
+[node name="ParaVestibuloLuz" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 6.9)
+light_color = Color(0.62, 0.76, 0.84, 1)
+light_energy = 1.8
+omni_range = 5.5
+
 [node name="ParaVestibulo" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 7.9)
 script = ExtResource("8_saida")

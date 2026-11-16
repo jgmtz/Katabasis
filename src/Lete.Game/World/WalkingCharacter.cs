@@ -20,15 +20,17 @@ public partial class WalkingCharacter : CharacterBody3D
     /// </summary>
     [Export] public float RunMultiplier { get; set; } = 1.75f;
 
-    [Export] public WalkSpriteSet[] Characters { get; set; } = System.Array.Empty<WalkSpriteSet>();
+    /// <summary>Quanto tempo leva para chegar à velocidade cheia e para parar (segundos): dá peso ao andar.</summary>
+    [Export] public float StartSeconds { get; set; } = 0.14f;
+    [Export] public float StopSeconds { get; set; } = 0.11f;
 
-    private static readonly Shader MarkedShader = GD.Load<Shader>("res://src/Lete.Game/World/marked_sprite.gdshader");
+    [Export] public WalkSpriteSet[] Characters { get; set; } = System.Array.Empty<WalkSpriteSet>();
 
     private List<SpriteFrames> _frames = new();
     private AnimatedSprite3D _sprite = null!;
     private int _current;
     private ScreenDirection _direction = ScreenDirection.Down;
-    private ShaderMaterial? _marked;
+    private CharacterLook _look = null!;
     private Node3D? _groundShadow;
 
     /// <summary>Prefixo do conjunto de sprites mostrado agora (ex.: "sombra_f").</summary>
@@ -53,6 +55,7 @@ public partial class WalkingCharacter : CharacterBody3D
         _frames = Characters.Select(c => c.BuildFrames()).ToList();
         _sprite.FrameChanged += AlignToPixelGrid;
         _sprite.AnimationChanged += AlignToPixelGrid;
+        _look = CharacterLook.Attach(_sprite);
         ShowCharacter(0);
     }
 
@@ -64,14 +67,24 @@ public partial class WalkingCharacter : CharacterBody3D
         var input = WalkRules.LimitLength(new System.Numerics.Vector2(raw.X, raw.Y));
 
         var speedScale = InputEnabled && Input.IsActionPressed("run") ? RunMultiplier : 1f;
-        Velocity = ScreenToWorld(new Vector2(input.X, input.Y)) * MoveSpeed * speedScale;
+        var full = MoveSpeed * speedScale;
+        var wanted = ScreenToWorld(new Vector2(input.X, input.Y)) * full;
+        var moving = input != System.Numerics.Vector2.Zero;
+
+        // Sai do lugar e para em rampa curta, em vez de num estalo.
+        var ramp = full / Mathf.Max(moving ? StartSeconds : StopSeconds, 0.001f);
+        Velocity = Velocity.MoveToward(wanted, ramp * (float)delta);
         MoveAndSlide();
 
         _direction = WalkRules.Resolve(input, _direction);
-        var animation = input == System.Numerics.Vector2.Zero
-            ? WalkSpriteSet.IdleAnimation(_direction)
-            : WalkSpriteSet.WalkAnimation(_direction);
-        _sprite.SpeedScale = speedScale;
+        var animation = moving
+            ? WalkSpriteSet.WalkAnimation(_direction)
+            : WalkSpriteSet.IdleAnimation(_direction);
+        _look.Moving = moving;
+
+        // Os pés acompanham o chão: o ciclo anda na proporção da velocidade de verdade.
+        var pace = new Vector2(Velocity.X, Velocity.Z).Length() / Mathf.Max(MoveSpeed, 0.001f);
+        _sprite.SpeedScale = moving ? Mathf.Clamp(pace, 0.55f, speedScale) : 1f;
         if (_sprite.Animation != animation)
         {
             _sprite.Play(animation);
@@ -98,24 +111,15 @@ public partial class WalkingCharacter : CharacterBody3D
 
     /// <summary>
     /// A Marca no sprite (<c>Lete.Core.Presentation.MarkLook</c>): com perda de cor, o sprite passa para o shader
-    /// <c>marked_sprite</c>; sem ela, volta ao material padrão. Sem sombra, some o disco no chão.
+    /// <c>personagem</c> tira a cor na medida da faixa. Sem sombra, somem o disco e a sombra projetada no chão.
     /// </summary>
     public void SetMarkLook(float desaturation, bool castsShadow)
     {
-        if (desaturation > 0f)
-        {
-            _marked ??= new ShaderMaterial { Shader = MarkedShader };
-            _marked.SetShaderParameter("desaturation", desaturation);
-            _sprite.MaterialOverride = _marked;
-        }
-        else
-        {
-            _sprite.MaterialOverride = null;
-        }
-
+        _look.SetMark(desaturation, castsShadow);
+        // O disco antigo da cena deu lugar à sombra de contato do acabamento (a mesma para todos os personagens).
         if (_groundShadow is not null)
         {
-            _groundShadow.Visible = castsShadow;
+            _groundShadow.Visible = false;
         }
 
         AlignToPixelGrid();
@@ -166,9 +170,6 @@ public partial class WalkingCharacter : CharacterBody3D
         }
 
         _sprite.Offset = new Vector2(texture.GetWidth() % 2 / 2f, texture.GetHeight() / 2f);
-
-        // O shader da Marca não recebe a textura do quadro sozinho (o material próprio do sprite é que recebe).
-        _marked?.SetShaderParameter("sprite_texture", texture);
     }
 
     /// <summary>Converte a entrada da tela (y para baixo) numa direção no chão, segundo a câmera atual.</summary>

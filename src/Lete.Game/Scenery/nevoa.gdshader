@@ -32,7 +32,10 @@ void fragment() {
 	float depth = texture(depth_texture, SCREEN_UV).r;
 	vec4 behind = INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2.0 - 1.0, depth, 1.0);
 	float gap = VERTEX.z - behind.z / behind.w;
-	a *= smoothstep(0.0, 0.6, gap);
+	// A névoa do chão some perto do que ela corta; o véu em pé não (ele fica dentro de um arco, encostado na pedra).
+	if (!em_pe) {
+		a *= smoothstep(0.0, 0.6, gap);
+	}
 
 	vec2 edge = min(UV, 1.0 - UV);
 	if (em_pe) {

@@ -11,6 +11,8 @@ uniform sampler2D albedo : source_color, filter_nearest, repeat_enable;
 uniform bool mundo = false;
 uniform float escurecer_base = 0.0;
 uniform float brilho = 1.0;
+// Por peça: quanto ela afunda no escuro do fundo (1 = nada; o palco da batalha usa menos que 1 no fundo).
+instance uniform float recuo = 1.0;
 
 varying vec3 pos;
 varying vec3 nrm;
@@ -29,6 +31,6 @@ void fragment() {
 	vec2 size = vec2(textureSize(albedo, 0));
 	vec3 color = texture(albedo, uv * texel_density / size * vec2(1.0, -1.0)).rgb;
 	float base = 1.0 - escurecer_base * (1.0 - smoothstep(0.0, 0.9, altura));
-	ALBEDO = color * COLOR.rgb * base * brilho;
+	ALBEDO = color * COLOR.rgb * base * brilho * recuo;
 	ROUGHNESS = 1.0;
 }
